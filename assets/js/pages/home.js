@@ -135,8 +135,11 @@
       return `
       ${ui.head(T('업무판', 'Dashboard') + ' · ' + S.dateLabel(S.today()) + ' · ' + L(siteInfo.name),
         T('안전관리자 업무판', 'SHE manager dashboard'),
-        T('법정 주기 업무의 기한, 회사가 공개한 안전 KPI, 6대 직무별 할 일을 한 화면에서 확인합니다. 상단에서 사업장(공통·이천·청주)과 언어를 바꿀 수 있습니다.',
-          'Statutory deadlines, the company’s published safety KPIs and tasks across the six SHE functions on one screen. Switch site (all, Icheon, Cheongju) and language at the top.'))}
+        document.documentElement.classList.contains('m')
+          ? T('법정 주기 업무의 기한, 회사가 공개한 안전 KPI, 6대 직무별 할 일을 한 화면에서 확인합니다. 사업장(공통·이천·청주)과 언어는 ‘전체 메뉴’ 맨 위에서 바꿉니다.',
+            'Statutory deadlines, the company’s published safety KPIs and tasks across the six SHE functions on one screen. Switch site (all, Icheon, Cheongju) and language at the top of the menu.')
+          : T('법정 주기 업무의 기한, 회사가 공개한 안전 KPI, 6대 직무별 할 일을 한 화면에서 확인합니다. 상단에서 사업장(공통·이천·청주)과 언어를 바꿀 수 있습니다.',
+            'Statutory deadlines, the company’s published safety KPIs and tasks across the six SHE functions on one screen. Switch site (all, Icheon, Cheongju) and language at the top.'))}
       ${(() => {
         if (S.state.indexing || !S.userKeys().length) return '';
         const ago = S.backup ? S.backup.lastAgo() : null;

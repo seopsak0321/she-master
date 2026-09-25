@@ -3,7 +3,7 @@
    - 화면(index.html)은 네트워크 우선 → 실패하면 캐시. 버전 번호가 붙은 자산은 캐시 우선.
    - Google Fonts는 받아 둔 것을 먼저 쓰고 뒤에서 갱신한다(오프라인이면 시스템 글꼴).
    index.html의 ?v= 번호를 올릴 때 VERSION도 같은 번호로 올린다(이전 캐시 정리용). */
-const VERSION = 'v33';
+const VERSION = 'v38';
 const CACHE = 'she-master-' + VERSION;
 const FONTS = 'she-master-fonts';
 const CORE = ['./', './manifest.webmanifest', './assets/icons/icon.svg', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
@@ -40,7 +40,8 @@ self.addEventListener('fetch', (event) => {
   if (url.origin === self.location.origin) {
     if (req.mode === 'navigate') {
       if (!isShell(url)) return;   /* README 등 다른 파일은 그대로 네트워크 */
-      event.respondWith(fetch(req).then((res) => {
+      /* 브라우저 HTTP 캐시에 남은 옛 화면을 쓰지 않도록 서버에 항상 재확인(no-cache) — 바뀐 게 없으면 304로 가볍게 끝난다 */
+      event.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then((res) => {
         if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put('./index.html', copy)); }
         return res;
       }).catch(() => caches.match('./index.html')));

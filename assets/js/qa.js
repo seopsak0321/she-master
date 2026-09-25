@@ -52,7 +52,8 @@
       const f = document.createElement('iframe');
       f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
       f.style.cssText = `position:fixed;left:-20000px;top:0;width:${w}px;height:900px;border:0;visibility:hidden`;
-      f.src = location.pathname.replace(/[^/]*$/, '') + 'index.html?qa=1#home';
+      /* 매번 다른 주소로 열어 브라우저 캐시의 옛 버전이 아닌 현재 파일을 점검한다 */
+      f.src = location.pathname.replace(/[^/]*$/, '') + 'index.html?qa=1&t=' + Date.now() + '#home';
       const to = setTimeout(() => reject(new Error('timeout')), 20000);
       f.addEventListener('load', () => {
         clearTimeout(to);

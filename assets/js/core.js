@@ -18,6 +18,24 @@
 
   S.state = { lang: S.load('lang', 'ko'), site: S.load('site', 'common'), route: 'home', sub: '' };
 
+  /* ---------- 모바일 버전 ----------
+     휴대폰(화면 가로 760px 이하, 또는 터치 화면의 짧은 변 500px 이하)으로 열면 <html class="m">이 붙어 모바일 전용 배치가 된다.
+     PC 배치는 그대로이고, 휴대폰에서 ‘PC 버전으로 보기’를 고르면 가로 1200px 기준의 PC 화면을 보여 준다(설정 ‘view’). */
+  const DEVICE_VP = 'width=device-width, initial-scale=1, viewport-fit=cover';
+  S.VIEW_Q = window.matchMedia('(max-width: 760px)');
+  S.isPhone = () => S.VIEW_Q.matches || (window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) <= 500);
+  S.viewPref = () => (S.QA_FRAME ? 'auto' : S.load('view', 'auto'));
+  S.viewMode = () => { const p = S.viewPref(); return p === 'pc' ? 'pc' : p === 'm' ? 'm' : (S.isPhone() ? 'm' : 'pc'); };
+  S.applyView = function () {
+    const m = S.viewMode() === 'm';
+    document.documentElement.classList.toggle('m', m);
+    const vp = document.querySelector('meta[name="viewport"]');
+    const want = S.viewPref() === 'pc' && S.isPhone() ? 'width=1200' : DEVICE_VP;
+    if (vp && vp.getAttribute('content') !== want) vp.setAttribute('content', want);
+    return m;
+  };
+  S.applyView();
+
   /* ---------- i18n ---------- */
   S.T = (ko, en) => (S.state.lang === 'en' ? en : ko);
   S.L = (o) => {
@@ -129,7 +147,7 @@
   };
 
   /* which saved keys are the user's own work (as opposed to screen preferences) — used by backup and the dashboard reminder */
-  S.PREF_KEYS = /^(lang|site|theme|tab\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
+  S.PREF_KEYS = /^(lang|site|theme|view|tab\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
   S.storedKeys = function () {
     const out = [];
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(S.NS)) out.push(k.slice(S.NS.length)); } } catch (e) { /* storage blocked */ }
@@ -191,21 +209,78 @@
     labels.forEach(([id, ko, en]) => { const el = document.getElementById(id); if (el) el.setAttribute('aria-label', S.T(ko, en)); });
     /* 만든 사람 이름 — 누르면 약력 서랍이 열린다 (페이지 이동 없음) */
     const who = () => `<button type="button" class="author-link" data-profile aria-haspopup="dialog" title="${S.T('약력 보기', 'View profile')}">${S.L(S.AUTHOR)}</button>`;
-    document.getElementById('notice').innerHTML = S.T(
-      `<b>개인 포트폴리오</b>(제작 ${who()}) · SK하이닉스 공식 시스템이 아닙니다. 회사 정보는 공개자료(지속가능경영보고서·뉴스룸)만 사용했고, 수치 기준은 법령 원문으로 확인했습니다. <b>예시</b> 표시는 가상 데이터입니다.`,
-      `<b>Personal portfolio</b> (by ${who()}) · not an official SK hynix system. Company facts come only from public sources (sustainability reports, newsroom); thresholds were checked against the original statutes. Items marked <b>Example</b> are fictional.`);
+    const mobile = document.documentElement.classList.contains('m');
+    /* 휴대폰에서 PC 버전·모바일 버전을 오가는 링크 (넓은 화면의 PC에서는 보이지 않는다) */
+    const viewLink = () => (!S.isPhone() ? '' : mobile
+      ? `<button type="button" class="view-link" data-view="pc">${S.T('PC 버전으로 보기', 'View PC version')}</button>`
+      : `<button type="button" class="view-link" data-view="m">${S.T('모바일 버전으로 보기', 'View mobile version')}</button>`);
+    document.getElementById('notice').innerHTML = mobile
+      ? S.T(`<b>개인 포트폴리오</b>(제작 ${who()}) · SK하이닉스 공식 시스템 아님 · <b>예시</b>는 가상 데이터`,
+        `<b>Personal portfolio</b> (by ${who()}) · not an official SK hynix system · <b>Example</b> = fictional`)
+      : S.T(
+        `<b>개인 포트폴리오</b>(제작 ${who()}) · SK하이닉스 공식 시스템이 아닙니다. 회사 정보는 공개자료(지속가능경영보고서·뉴스룸)만 사용했고, 수치 기준은 법령 원문으로 확인했습니다. <b>예시</b> 표시는 가상 데이터입니다.`,
+        `<b>Personal portfolio</b> (by ${who()}) · not an official SK hynix system. Company facts come only from public sources (sustainability reports, newsroom); thresholds were checked against the original statutes. Items marked <b>Example</b> are fictional.`) + (S.isPhone() ? ` ${viewLink()}` : '');
     const sites = [['common', S.T('공통', 'All')], ['icheon', S.T('이천', 'Icheon')], ['cheongju', S.T('청주', 'Cheongju')]];
-    document.getElementById('siteSeg').innerHTML = sites.map(([id, l]) => `<button type="button" data-site="${id}" aria-pressed="${S.state.site === id}">${l}</button>`).join('');
+    const siteBtns = sites.map(([id, l]) => `<button type="button" data-site="${id}" aria-pressed="${S.state.site === id}">${l}</button>`).join('');
+    document.getElementById('siteSeg').innerHTML = siteBtns;
     document.getElementById('siteSeg').setAttribute('aria-label', S.T('사업장', 'Site'));
     document.querySelectorAll('#langSeg button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === S.state.lang)));
-    document.getElementById('sidenav').innerHTML = S.NAV.map((grp) => `<div class="nav-group"><h4>${S.L(grp.g)}</h4>${grp.items.map(([id, l]) =>
+    /* 모바일에서는 사업장·언어·테마를 메뉴 맨 위로 옮긴다 (PC 화면에서는 숨김) */
+    const prefs = `<div class="m-prefs" aria-label="${S.T('화면 설정', 'Display settings')}">
+      <div class="seg" role="group" aria-label="${S.T('사업장', 'Site')}">${siteBtns}</div>
+      <div class="row" style="gap:8px"><div class="seg" role="group" aria-label="${S.T('언어', 'Language')}">${['ko', 'en'].map((l) => `<button type="button" data-lang="${l}" aria-pressed="${S.state.lang === l}">${l.toUpperCase()}</button>`).join('')}</div>
+      <button type="button" class="btn ghost sm" data-theme-toggle>${S.T('밝게·어둡게', 'Light / dark')}</button></div>
+      ${S.isPhone() ? `<div>${viewLink()}</div>` : ''}</div>`;
+    document.getElementById('sidenav').innerHTML = prefs + S.NAV.map((grp) => `<div class="nav-group"><h4>${S.L(grp.g)}</h4>${grp.items.map(([id, l]) =>
       `<a href="#${id}" data-route="${id}" ${S.state.route === id ? 'aria-current="page"' : ''}>${S.L(l)}</a>`).join('')}</div>`).join('');
+    /* 모바일 아래 탭 막대 — 현장에서 자주 여는 네 곳과 전체 메뉴 */
+    let bar = document.getElementById('mTabbar');
+    if (!bar) { bar = document.createElement('nav'); bar.id = 'mTabbar'; bar.className = 'm-tabbar'; document.body.appendChild(bar); }
+    const ICON = {
+      home: '<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>',
+      measure: '<path d="M5 19V9M10 19V5M15 19v-7M20 19v-4"/>',
+      sop: '<path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/>',
+      ptw: '<path d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h3"/>',
+      menu: '<path d="M4 7h16M4 12h16M4 17h16"/>'
+    };
+    const icon = (k) => `<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">${ICON[k]}</svg>`;
+    const tab = (r, ko, en) => `<a href="#${r}" ${S.state.route === r ? 'aria-current="page"' : ''}>${icon(r)}<span>${S.T(ko, en)}</span></a>`;
+    bar.setAttribute('aria-label', S.T('주요 메뉴', 'Main shortcuts'));
+    bar.innerHTML = tab('home', '업무판', 'Home') + tab('measure', '수치 판정', 'Checks') + tab('sop', 'SOP', 'SOPs') + tab('ptw', '작업허가', 'Permits')
+      + `<button type="button" data-open-menu aria-controls="sidenav">${icon('menu')}<span>${S.T('전체 메뉴', 'Menu')}</span></button>`;
     document.getElementById('footer').innerHTML = S.T(
       `<div class="credit"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span><b>© 2026 ${who()}</b> · 이 포털은 ${who()}가 직접 기획하고 자료를 조사해 디자인·개발한 개인 포트폴리오입니다. <span class="xs muted">(이름을 누르면 약력이 열립니다)</span></span></div>
        <div>법령·동향 기준일 ${S.LAW_ASOF} · 실제 업무 적용 전 최신 법령과 사내 기준을 반드시 확인하세요. <a href="#sources">출처·검증 방법 보기</a> · <a href="#sources/lawcheck">법령 변경 점검</a> · <a href="#guide">이용 가이드</a></div>`,
       `<div class="credit"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span><b>© 2026 ${who()}</b> · A personal portfolio planned, researched, designed and built by ${who()}. <span class="xs muted">(click the name for a short profile)</span></span></div>
-       <div>Law and news as of ${S.LAW_ASOF} · always confirm current law and company rules before real use. <a href="#sources">See sources & method</a> · <a href="#sources/lawcheck">Law-change check</a> · <a href="#guide">User guide</a></div>`);
+       <div>Law and news as of ${S.LAW_ASOF} · always confirm current law and company rules before real use. <a href="#sources">See sources & method</a> · <a href="#sources/lawcheck">Law-change check</a> · <a href="#guide">User guide</a></div>`)
+      + (S.isPhone() ? `<div class="view-row">${viewLink()}</div>` : '');
   };
+
+  /* 모바일에서 머리글이 있는 표는 한 줄씩 카드로 보여 준다 — 칸마다 머리글을 data-label로 붙여 두고 CSS(html.m)가 배치를 바꾼다.
+     입력 표(table.edit)·인쇄 양식·머리글 없는 표는 그대로 두고 가로로 넘겨 본다 */
+  S.after.push(() => {
+    const mobile = document.documentElement.classList.contains('m');
+    document.querySelectorAll('#view table.data').forEach((t) => {
+      if (t.closest('.doc') || t.classList.contains('edit') || t.dataset.cards === 'no') return;
+      const heads = [...t.querySelectorAll('thead th')].map((th) => th.textContent.trim());
+      if (!heads.length) return;
+      t.classList.add('cards');
+      t.querySelectorAll('tbody tr').forEach((tr) => {
+        let i = 0;
+        [...tr.children].forEach((cell) => {
+          const span = Number(cell.getAttribute('colspan')) || 1;
+          if (!cell.hasAttribute('data-label')) cell.setAttribute('data-label', span >= heads.length ? '' : (heads[i] || ''));
+          /* 모바일에서만: 칸 내용을 하나로 묶어 ‘머리글 | 내용’ 두 칸 배치가 깨지지 않게 한다 (입력칸의 이벤트는 그대로 따라간다) */
+          if (mobile && !(cell.firstElementChild && cell.firstElementChild.classList.contains('cv') && cell.childNodes.length === 1)) {
+            const box = document.createElement('div'); box.className = 'cv';
+            while (cell.firstChild) box.appendChild(cell.firstChild);
+            cell.appendChild(box);
+          }
+          i += span;
+        });
+      });
+    });
+  });
 
   S.render = function () {
     let raw = (location.hash || '#home').slice(1);
