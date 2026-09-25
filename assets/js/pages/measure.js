@@ -109,6 +109,10 @@
             ${main ? `<div class="big">${S.fmt(main.ratio * 100, 0)}% <span class="small muted">${T('of', 'of')} ${main.k}</span></div>${gauge(main.ratio)}` : ''}
             ${res.length ? checksTable(res, c.unit) : `<p class="small muted">${T('측정값을 하나 이상 입력하세요', 'Enter at least one measurement')}</p>`}
             ${c.icsc ? `<div class="callout warn small"><b>ICSC</b>${S.cite('icsc')} — ${L(c.icsc)}</div>` : ''}
+            ${lv === 'warn' || lv === 'bad' ? `<div class="stack" style="gap:6px"><b class="small">${T('다음 단계', 'Next steps')}</b><div class="row">
+              <a class="btn ghost sm" href="#ppe" data-to-ppe>${T('이 농도로 호흡보호구 선정', 'Pick a respirator for this level')} →</a>
+              <a class="btn ghost sm" href="#measure/wem">${T('측정·검진 주기 판정', 'Monitoring & health-check cycle')} →</a>
+              <a class="btn ghost sm" href="#risk">${T('위험성평가에 반영', 'Add to the risk assessment')} →</a></div></div>` : ''}
             <p class="xs muted">${T('50%·IDLH 10% 관리선은 법적 기준이 아닌 포털의 참고선입니다(미국 OSHA 개별 물질 기준의 조치수준 개념 참고). 법적 판정은 작업환경측정 결과로 합니다.', 'The 50 % and 10 %-of-IDLH lines are portal reference lines, not legal limits (inspired by OSHA action levels). Legal findings rest on formal workplace measurement.')}</p>
           </div></div>`;
       },
@@ -121,6 +125,9 @@
         root.querySelectorAll('[data-seg-del]').forEach((b) => b.addEventListener('click', () => { st.segs.splice(Number(b.dataset.segDel), 1); upd(); }));
         root.querySelector('#seg-add').addEventListener('click', () => { st.segs.push(['', '']); upd(); });
         root.querySelector('#seg-use').addEventListener('click', () => { const v = st.segs.reduce((a, [cv, h]) => a + (num(cv) || 0) * (num(h) || 0), 0) / 8; st.twa = String(Math.round(v * 10000) / 10000); upd(); });
+        /* 다음 단계 — 입력한 값 가운데 가장 높은 농도로 호흡보호구 선정을 채운다 */
+        const tp = root.querySelector('[data-to-ppe]');
+        if (tp) tp.addEventListener('click', () => { const hi = Math.max(...['twa', 'stel', 'peak'].map((k) => num(st[k]) || 0)); S.save('ppe', { id: st.id, conc: String(hi), o2: '20.9', unknown: false }); });
       },
       basis: ['moelOel', 'nioshIdlh', 'icsc']
     },
@@ -156,6 +163,7 @@
                 <td>${r.usL ? ui.pill(r.usL, r.us) : `<span class="small muted">${r.us}</span>`}</td></tr>`).join('')}
             </tbody></table></div>
             ${krBad ? `<div class="callout bad small">${T('적정공기가 아니면 환기하거나, 환기가 곤란하면 공기호흡기·송기마스크를 지급·착용해야 합니다 (제619조의2③, 제620조).', 'If the air is not acceptable, ventilate — or, if that is impossible, issue and wear SCBA or airline respirators (Arts. 619-2(3), 620).')}</div>` : ''}
+            <div class="row"><a class="btn ghost sm" href="#sop/confined">${T('밀폐공간 SOP', 'Confined-space SOP')} →</a><a class="btn ghost sm" href="#ptw/new/confined">${T('밀폐공간 작업허가서 작성', 'Start a confined-space permit')} →</a></div>
           </div></div>`;
       },
       mount(root) {
@@ -416,6 +424,48 @@
       basis: ['lawStd', 'nioshNpg', 'moelOel']
     },
 
+    /* 5단계 — 국소배기장치 후드 제어풍속 (안전보건규칙 제429조·별표13, 원문 확인 2026-09-25) */
+    lev: {
+      label: () => T('국소배기 제어풍속', 'Local exhaust capture velocity'),
+      render() {
+        const st = S.load('m.lev', { state: 'gas', hood: 'side', v: '0.42' });
+        const LEV = { gas: { enc: 0.4, side: 0.5, down: 0.5, up: 1.0 }, part: { enc: 0.7, side: 1.0, down: 1.0, up: 1.2 } };
+        const HOODS = [['enc', T('포위식 포위형', 'Enclosing hood')], ['side', T('외부식 측방흡인형', 'External, side draft')], ['down', T('외부식 하방흡인형', 'External, downdraft')], ['up', T('외부식 상방흡인형', 'External, canopy (updraft)')]];
+        const lim = (LEV[st.state] || LEV.gas)[st.hood] || 0.5;
+        const v = num(st.v);
+        const lv = v == null ? 'info' : v >= lim ? 'ok' : 'bad';
+        const where = st.hood === 'enc' ? T('후드 개구면에서의 풍속', 'Velocity at the hood face') : T('물질을 빨아들이려는 범위에서 후드 개구면으로부터 가장 먼 작업위치의 풍속', 'Velocity at the working point farthest from the hood face within the capture zone');
+        return `<div class="grid g2">
+          <div class="panel stack">
+            <div class="form-grid">
+              <div class="field"><label for="lev-state">${T('물질이 빨려 들어갈 때의 상태', 'State when drawn into the hood')}</label><select id="lev-state">
+                <option value="gas" ${st.state === 'gas' ? 'selected' : ''}>${T('가스 상태 (가스·증기)', 'Gas (gas or vapour)')}</option>
+                <option value="part" ${st.state === 'part' ? 'selected' : ''}>${T('입자 상태 (흄·분진·미스트)', 'Particulate (fume, dust, mist)')}</option></select></div>
+              <div class="field"><label for="lev-hood">${T('후드 형식', 'Hood type')}</label><select id="lev-hood">${HOODS.map(([k, l]) => `<option value="${k}" ${k === st.hood ? 'selected' : ''}>${l} (${S.fmt((LEV[st.state] || LEV.gas)[k], 1)} m/s)</option>`).join('')}</select></div>
+              <div class="field"><label for="lev-v">${T('측정 풍속 (m/s)', 'Measured velocity (m/s)')}</label><input type="number" step="any" min="0" id="lev-v" value="${S.esc(st.v)}"></div>
+            </div>
+            <p class="small"><b>${T('측정 위치', 'Where to measure')}</b> — ${where}. ${T('국소배기장치의 모든 후드를 연 상태에서 잽니다.', 'Measure with every hood of the system open.')}</p>
+          </div>
+          <div class="result" aria-live="polite">
+            <div class="row" style="justify-content:space-between"><span class="lbl">${T('판정', 'Verdict')}</span>${ui.pill(lv, v == null ? T('값을 입력하세요', 'Enter a value') : v >= lim ? T('제어풍속 충족', 'Meets the capture velocity') : T(`제어풍속 미달 (${S.fmt(lim - v, 2)} m/s 부족)`, `Below the capture velocity (${S.fmt(lim - v, 2)} m/s short)`))}</div>
+            <div class="big">${v == null ? '–' : S.fmt(v, 2)} m/s <span class="small muted">/ ${T('기준', 'min')} ${S.fmt(lim, 1)} m/s</span></div>
+            ${v != null && v < lim ? `<div class="callout warn small">${T('후드 개구면 가까이 작업위치를 옮기거나 덕트 막힘·접속부 누설·배풍기 성능을 확인하세요. 국소배기장치(이동식 제외)는 안전검사대상기계이며 세부 종류는 고용노동부 고시로 정합니다.', 'Move the work closer to the hood face, or check the ducts for blockage, joint leaks and fan performance. Fixed local exhaust systems are machines subject to statutory safety inspection; the detailed scope is set by MOEL notice.')}${S.cite('lawDecree')} <a href="#home/cycles">${T('안전검사 주기', 'Inspection cycle')} →</a></div>` : ''}
+            <div class="table-wrap"><table class="data" data-cards="no"><thead><tr><th>${T('후드 형식', 'Hood type')}</th><th class="n">${T('가스 상태', 'Gas')}</th><th class="n">${T('입자 상태', 'Particulate')}</th></tr></thead><tbody>
+              ${HOODS.map(([k, l]) => `<tr ${k === st.hood ? 'class="sel"' : ''}><td class="small">${l}</td><td class="n">${S.fmt(LEV.gas[k], 1)}</td><td class="n">${S.fmt(LEV.part[k], 1)}</td></tr>`).join('')}
+            </tbody></table></div>
+            <p class="xs muted">${T('안전보건규칙 제429조·별표13 — 관리대상 유해물질 관련 국소배기장치 후드의 제어풍속입니다(단위 m/s). 허가대상 유해물질·분진 등 다른 장이 적용되는 작업은 해당 조문을 확인하세요.', 'Standards Rules Art. 429 and Annex 13 — capture velocities for local exhaust hoods handling controlled hazardous substances (m/s). For work under other chapters, such as licensed substances or dust, check those articles.')}${S.cite('lawStd')}</p>
+          </div></div>`;
+      },
+      mount(root) {
+        const st = S.load('m.lev', { state: 'gas', hood: 'side', v: '0.42' });
+        const upd = () => { S.save('m.lev', st); S.refresh(); };
+        root.querySelector('#lev-state').addEventListener('change', (e) => { st.state = e.target.value; upd(); });
+        root.querySelector('#lev-hood').addEventListener('change', (e) => { st.hood = e.target.value; upd(); });
+        root.querySelector('#lev-v').addEventListener('change', (e) => { st.v = e.target.value; upd(); });
+      },
+      basis: ['lawStd']
+    },
+
     /* 2단계 — 작업환경측정 주기(시행규칙 제190조, 고시 제4·5조)와 특수건강진단 주기 단축(제202조②) */
     wem: {
       label: () => T('측정·검진 주기', 'Monitoring & health-check cycles'),
@@ -496,7 +546,8 @@
       const tool = TOOLS[cur] || TOOLS.chem;
       return `
       ${ui.head(T('판정 도구', 'Tools'), T('수치 판정 센터', 'Measurement check'),
-        T('현장에서 측정한 값을 넣으면 국내 법령·고시와 국제 기준에 대조해 기준 이내인지 초과인지 판정합니다. 모든 기준값은 원문으로 확인했고 출처를 붙였습니다.', 'Enter field readings to compare them with Korean statutes and notices and international references. Every limit was checked against the original and is cited.'))}
+        T('현장 측정값이 법정 기준 이내인지 바로 판정합니다.', 'Check at once whether a field reading is within the legal limit.'),
+        T('국내 법령·고시와 국제 기준에 대조합니다. 모든 기준값은 원문으로 확인했고 출처를 붙였습니다.', 'Readings are compared with Korean statutes and notices and international references. Every limit was checked against the original and is cited.'))}
       ${ui.tabs('measure', Object.keys(TOOLS).map((id) => ({ id, label: TOOLS[id].label() })), cur)}
       ${tool.render()}
       <p class="xs muted">${T('근거', 'Basis')}: ${S.cite(tool.basis)} · ${T('입력값은 이 브라우저에만 저장됩니다.', 'Inputs are saved in this browser only.')}</p>`;

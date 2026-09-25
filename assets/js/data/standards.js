@@ -314,3 +314,36 @@ SHE.TRAINING = [
     { who: { ko: '보건관리자·보건관리전문기관 종사자', en: 'Health managers and health-agency staff' }, h: { ko: '신규 34시간 이상 · 보수 24시간 이상', en: 'Initial ≥ 34 h · refresher ≥ 24 h' } },
     { who: { ko: '안전보건관리담당자', en: 'Safety & health officer (small sites)' }, h: { ko: '보수 8시간 이상', en: 'Refresher ≥ 8 h' } } ] }
 ];
+
+/* 위험물안전관리법 시행령 [별표1] 위험물 및 지정수량 (개정 2024.4.30, 원문 PDF 확인 2026-09-25, src: lawDgDecree)
+   반도체 사업장에서 다룰 수 있는 제3류(자연발화성·금수성)·제4류(인화성 액체)·제6류(산화성 액체)만 싣는다. u: 지정수량 단위 */
+SHE.DG_CLASS = {
+  3: { ko: '제3류 자연발화성·금수성 물질', en: 'Class 3 — pyrophoric and water-reactive' },
+  4: { ko: '제4류 인화성 액체', en: 'Class 4 — flammable liquids' },
+  6: { ko: '제6류 산화성 액체', en: 'Class 6 — oxidising liquids' }
+};
+SHE.DG_ITEMS = [
+  { id: 'k4sp', cls: 4, q: 50, u: 'L', ko: '특수인화물', en: 'Special flammables', d: { ko: '이황화탄소·다이에틸에터, 발화점 100°C 이하 또는 인화점 -20°C 이하이고 끓는점 40°C 이하', en: 'Carbon disulfide, diethyl ether; autoignition ≤ 100 °C, or flash point ≤ -20 °C with boiling point ≤ 40 °C' } },
+  { id: 'k41n', cls: 4, q: 200, u: 'L', ko: '제1석유류 (비수용성)', en: 'Class 1 petroleum (not water-soluble)', d: { ko: '인화점 21°C 미만 (별표1 예시: 아세톤·휘발유), 비수용성', en: 'Flash point < 21 °C (Annex examples: acetone, gasoline), not water-soluble' } },
+  { id: 'k41w', cls: 4, q: 400, u: 'L', ko: '제1석유류 (수용성)', en: 'Class 1 petroleum (water-soluble)', d: { ko: '인화점 21°C 미만 (별표1 예시: 아세톤·휘발유), 수용성', en: 'Flash point < 21 °C (Annex examples: acetone, gasoline), water-soluble' } },
+  { id: 'k4al', cls: 4, q: 400, u: 'L', ko: '알코올류', en: 'Alcohols', d: { ko: '탄소 1~3개 포화1가 알코올(변성알코올 포함). 함량 60중량% 미만 수용액 등은 제외', en: 'Saturated monohydric alcohols with 1–3 carbons (incl. denatured); aqueous solutions under 60 wt% etc. excluded' } },
+  { id: 'k42n', cls: 4, q: 1000, u: 'L', ko: '제2석유류 (비수용성)', en: 'Class 2 petroleum (not water-soluble)', d: { ko: '인화점 21°C 이상 70°C 미만 (별표1 예시: 등유·경유), 비수용성', en: 'Flash point 21–70 °C (Annex examples: kerosene, diesel), not water-soluble' } },
+  { id: 'k42w', cls: 4, q: 2000, u: 'L', ko: '제2석유류 (수용성)', en: 'Class 2 petroleum (water-soluble)', d: { ko: '인화점 21°C 이상 70°C 미만, 수용성', en: 'Flash point 21–70 °C, water-soluble' } },
+  { id: 'k43n', cls: 4, q: 2000, u: 'L', ko: '제3석유류 (비수용성)', en: 'Class 3 petroleum (not water-soluble)', d: { ko: '인화점 70°C 이상 200°C 미만 (별표1 예시: 중유·크레오소트유), 비수용성', en: 'Flash point 70–200 °C (Annex examples: heavy oil, creosote), not water-soluble' } },
+  { id: 'k43w', cls: 4, q: 4000, u: 'L', ko: '제3석유류 (수용성)', en: 'Class 3 petroleum (water-soluble)', d: { ko: '인화점 70°C 이상 200°C 미만, 수용성', en: 'Flash point 70–200 °C, water-soluble' } },
+  { id: 'k44', cls: 4, q: 6000, u: 'L', ko: '제4석유류', en: 'Class 4 petroleum', d: { ko: '인화점 200°C 이상 250°C 미만 (별표1 예시: 기어유·실린더유)', en: 'Flash point 200–250 °C (Annex examples: gear oil, cylinder oil)' } },
+  { id: 'k4oil', cls: 4, q: 10000, u: 'L', ko: '동식물유류', en: 'Animal and vegetable oils', d: { ko: '인화점 250°C 미만', en: 'Flash point < 250 °C' } },
+  { id: 'k3k', cls: 3, q: 10, u: 'kg', ko: '칼륨', en: 'Potassium' },
+  { id: 'k3na', cls: 3, q: 10, u: 'kg', ko: '나트륨', en: 'Sodium' },
+  { id: 'k3aa', cls: 3, q: 10, u: 'kg', ko: '알킬알루미늄', en: 'Alkylaluminium compounds', d: { ko: '예: 트라이메틸알루미늄(증착 전구체)', en: 'e.g. trimethylaluminium (deposition precursor)' } },
+  { id: 'k3li', cls: 3, q: 10, u: 'kg', ko: '알킬리튬', en: 'Alkyllithium compounds' },
+  { id: 'k3p', cls: 3, q: 20, u: 'kg', ko: '황린', en: 'White phosphorus' },
+  { id: 'k3am', cls: 3, q: 50, u: 'kg', ko: '알칼리금속(칼륨·나트륨 제외)·알칼리토금속', en: 'Alkali metals (other than K, Na) and alkaline-earth metals' },
+  { id: 'k3om', cls: 3, q: 50, u: 'kg', ko: '유기금속화합물(알킬알루미늄·알킬리튬 제외)', en: 'Organometallic compounds (other than alkylaluminium and alkyllithium)' },
+  { id: 'k3mh', cls: 3, q: 300, u: 'kg', ko: '금속의 수소화물', en: 'Metal hydrides' },
+  { id: 'k3mp', cls: 3, q: 300, u: 'kg', ko: '금속의 인화물', en: 'Metal phosphides' },
+  { id: 'k3cc', cls: 3, q: 300, u: 'kg', ko: '칼슘 또는 알루미늄의 탄화물', en: 'Calcium or aluminium carbides' },
+  { id: 'k6pc', cls: 6, q: 300, u: 'kg', ko: '과염소산', en: 'Perchloric acid' },
+  { id: 'k6hp', cls: 6, q: 300, u: 'kg', ko: '과산화수소 (농도 36중량% 이상만)', en: 'Hydrogen peroxide (only ≥ 36 wt%)' },
+  { id: 'k6na', cls: 6, q: 300, u: 'kg', ko: '질산 (비중 1.49 이상만)', en: 'Nitric acid (only specific gravity ≥ 1.49)' }
+];

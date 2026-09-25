@@ -47,13 +47,13 @@
   }
 
   /* ---------- 검사용 화면 ---------- */
-  function openFrame(w) {
+  function openFrame(w, fz) {
     return new Promise((resolve, reject) => {
       const f = document.createElement('iframe');
       f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
       f.style.cssText = `position:fixed;left:-20000px;top:0;width:${w}px;height:900px;border:0;visibility:hidden`;
       /* 매번 다른 주소로 열어 브라우저 캐시의 옛 버전이 아닌 현재 파일을 점검한다 */
-      f.src = location.pathname.replace(/[^/]*$/, '') + 'index.html?qa=1&t=' + Date.now() + '#home';
+      f.src = location.pathname.replace(/[^/]*$/, '') + 'index.html?qa=1&t=' + Date.now() + (fz && fz !== 1 ? '&fz=' + fz : '') + '#home';
       const to = setTimeout(() => reject(new Error('timeout')), 20000);
       f.addEventListener('load', () => {
         clearTimeout(to);
@@ -97,7 +97,10 @@
       }
       const de = D.documentElement, CW = de.clientWidth;
       if (de.scrollWidth > CW + 1) {
-        const off = [...view.querySelectorAll('*')].find((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.right > CW + 1 && !el.closest('.table-wrap, .tabs'); });
+        /* 가로 스크롤이 의도된 곳(표·탭·목차·분류 칩)은 빼고, 본문 밖 고정 요소(아래 탭 막대 등)도 본다 */
+        /* 표를 휴대폰 카드로 바꾸면 .table-wrap도 스크롤되지 않으므로, 실제로 가로 스크롤되는 조상이 있을 때만 뺀다 */
+        const scrolls = (el) => { for (let p = el.parentElement; p && p !== D.body; p = p.parentElement) { const ox = W.getComputedStyle(p).overflowX; if (ox === 'auto' || ox === 'scroll' || ox === 'hidden') return true; } return false; };
+        const off = [...D.body.querySelectorAll('*')].find((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.right > CW + 1 && !el.closest('#sidenav, .drawer') && !scrolls(el); });
         add('bad', T('가로 넘침', 'Horizontal overflow'), where, `${de.scrollWidth}px > ${CW}px` + (off ? ` · ${off.tagName.toLowerCase()}.${String(off.className).split(' ')[0]} “${(off.textContent || '').trim().slice(0, 30)}”` : ''));
       }
       flushErr(where);
@@ -126,6 +129,10 @@
           D.querySelectorAll('#view a[href^="#"]').forEach((a) => links.push(a.getAttribute('href').slice(1)));
         }
         tabs.forEach(([k]) => F.drop('tab.' + k));
+        /* 지금 화면과 같은 주소로 가는 링크는 눌러도 아무 일이 없다 — 연결할 곳을 정해야 한다 */
+        const dec = (x) => { try { return decodeURIComponent(x); } catch (e) { return x; } };
+        /* (#페이지/섹션 링크는 같은 주소라도 해당 섹션으로 다시 스크롤하므로 제외) */
+        [...new Set(links.filter((x) => dec(x) === dec(h) && !x.includes('/')))].forEach((x) => add('bad', T('눌러도 변화 없는 링크', 'Link to the same screen'), `${lang} · #${h}`, `#${x}`));
         links.forEach((x) => { if (!x || SKIP.test(x)) return; const why = checkLink(F, x); if (why && !bad.has(x)) { bad.add(x); add('bad', T('깨진 내부 링크', 'Broken internal link'), `${lang} · #${h}`, `#${x} — ${why}`); } if (!seen.has(x)) queue.push(x); });
         if (n % 20 === 0) { prog(`${w}px · ${lang} · ${seen.size}`); await tick(); }
       }
@@ -142,13 +149,18 @@
     const t0 = performance.now();
     prog(T('데이터 참조 점검', 'Checking data references'));
     integrity(add);
-    for (const w of opts.widths) {
-      prog(`${w}px ${T('화면 준비', 'loading')}`);
-      let f;
-      try { f = await openFrame(w); } catch (e) { add('bad', T('검사용 화면을 열지 못함', 'Could not open the test frame'), w + 'px', e.message); continue; }
-      try { await sweepFrame(f, w, opts, add, prog); } catch (e) { add('bad', T('점검 중단', 'Run aborted'), w + 'px', e.message); }
-      f.remove();
-      await tick();
+    /* 글자 크기(fzs)마다 — 기본 100%, 선택하면 가장 큰 130%에서도 넘침을 본다 */
+    for (const fz of (opts.fzs && opts.fzs.length ? opts.fzs : [1])) {
+      const tag = fz === 1 ? '' : ` · ${T('글자', 'text')} ${Math.round(fz * 100)}%`;
+      const addF = fz === 1 ? add : (sev, type, where, detail) => add(sev, type, where + tag, detail);
+      for (const w of opts.widths) {
+        prog(`${w}px${tag} ${T('화면 준비', 'loading')}`);
+        let f;
+        try { f = await openFrame(w, fz); } catch (e) { addF('bad', T('검사용 화면을 열지 못함', 'Could not open the test frame'), w + 'px', e.message); continue; }
+        try { await sweepFrame(f, w, fz === 1 ? opts : Object.assign({}, opts, { sites: false }), addF, (m) => prog(m + tag)); } catch (e) { addF('bad', T('점검 중단', 'Run aborted'), w + 'px', e.message); }
+        f.remove();
+        await tick();
+      }
     }
     /* 검사용 이름공간 정리 */
     try { Object.keys(localStorage).filter((k) => k.startsWith('sheqa.')).forEach((k) => localStorage.removeItem(k)); } catch (e) { /* storage blocked */ }
@@ -171,18 +183,20 @@
   S.pages.qa = {
     render() {
       return `${ui.head(T('포털 관리', 'Maintenance'), T('포털 자체 점검', 'Portal self-check'),
-        T('수정할 때마다 전 페이지를 자동으로 열어 보며 오류를 찾는 회귀 점검입니다. 숨긴 검사용 화면에서 실행하므로 입력해 둔 데이터는 바뀌지 않습니다.', 'A regression check that opens every page after each change and looks for problems. It runs in a hidden test frame, so your saved data is not touched.'))}
+        T('수정할 때마다 전 페이지를 자동으로 열어 오류를 찾습니다.', 'Opens every page after each change and looks for problems.'),
+        T('숨긴 검사용 화면에서 실행하므로 입력해 둔 데이터는 바뀌지 않습니다.', 'It runs in a hidden test frame, so your saved data is not touched.'))}
       <section class="panel stack">${ui.title(T('점검 항목', 'What it checks'))}
         <ul class="facts small">${[T('모든 메뉴·하위 화면·탭·인쇄 양식을 한국어·영어로 렌더링 — 스크립트 오류와 빈 화면', 'Renders every page, sub-page, tab and print doc in Korean and English — script errors and empty pages'),
           T('영문 화면에 남은 한글 (한·영 병기 카드와 사람 이름 제외)', 'Korean text left on English pages (bilingual cards and personal names excepted)'),
           T('화면 폭 1024·375·320px에서 가로 넘침 (표·탭처럼 가로 스크롤이 의도된 곳 제외)', 'Horizontal overflow at 1024, 375 and 320 px (intended scrollers such as tables and tabs excepted)'),
-          T('깨진 내부 링크, 없는 앵커, 없는 인쇄 양식', 'Broken internal links, missing anchors, missing print docs'),
+          T('깨진 내부 링크, 없는 앵커, 없는 인쇄 양식, 눌러도 변화 없는(같은 화면으로 가는) 링크', 'Broken internal links, missing anchors, missing print docs, links that lead back to the same screen'),
           T('데이터 참조 — 출처 id·SOP id·물질 id·KOSHA 번호·경로, 중복 id, 동향 날짜 순서, 출처 URL·확인일 형식', 'Data references — source, SOP and substance ids, KOSHA codes, routes, duplicate ids, news order, source URL and date format'),
           T('사업장 3곳(공통·이천·청주) 전환 시 각 메뉴 화면', 'Every menu page for all three sites')].map((x) => `<li>${x}</li>`).join('')}</ul>
         <div class="row" style="gap:14px">
           ${WIDTHS.map((w) => `<label class="check"><input type="checkbox" data-qw="${w}" checked> ${w}px</label>`).join('')}
           <label class="check"><input type="checkbox" data-ql="ko" checked> KO</label><label class="check"><input type="checkbox" data-ql="en" checked> EN</label>
           <label class="check"><input type="checkbox" id="qa-sites" checked> ${T('사업장 3곳', 'All three sites')}</label>
+          <label class="check"><input type="checkbox" id="qa-fz"> ${T('글자 130%에서도 (시간 2배)', 'Also at 130 % text (twice as long)')}</label>
         </div>
         <div class="row"><button class="btn" type="button" id="qa-run" ${running ? 'disabled' : ''}>${T('점검 시작', 'Run check')}</button><span class="small muted" id="qa-prog" aria-live="polite">${running ? T('점검 중…', 'Running…') : ''}</span></div>
         ${/^https?:$/.test(location.protocol) ? '' : `<div class="callout warn small">${T('파일로 연 화면에서는 브라우저 보안 정책 때문에 검사용 화면을 읽을 수 없습니다. 폴더에서 “python -m http.server”로 띄운 뒤 http://localhost 주소로 열어 실행하세요.', 'Browsers block reading the test frame when the portal is opened as a file. Serve the folder (e.g. “python -m http.server”) and open it via http://localhost.')}</div>`}
@@ -199,7 +213,7 @@
         if (!widths.length || !langs.length) { S.toast(T('화면 폭과 언어를 하나 이상 고르세요', 'Pick at least one width and language')); return; }
         running = true; e.target.disabled = true;
         const pg = root.querySelector('#qa-prog');
-        try { last = await run({ widths, langs, sites: root.querySelector('#qa-sites').checked }, (m) => { if (pg.isConnected) pg.textContent = T('점검 중… ', 'Running… ') + m; }); }
+        try { last = await run({ widths, langs, sites: root.querySelector('#qa-sites').checked, fzs: root.querySelector('#qa-fz').checked ? [1, 1.3] : [1] }, (m) => { if (pg.isConnected) pg.textContent = T('점검 중… ', 'Running… ') + m; }); }
         finally { running = false; }
         if (S.state.route === 'qa') { S.refresh(); const r = document.getElementById('anchor-result'); if (r) r.scrollIntoView({ block: 'start' }); }
       });

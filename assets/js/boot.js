@@ -6,6 +6,18 @@
   if (theme) document.documentElement.setAttribute('data-theme', theme);
 
   document.addEventListener('click', (e) => {
+    /* 지금 주소와 같은 링크(예: 이미 #home/cycles인데 다시 누름)는 주소가 바뀌지 않아 아무 일이 없다 — 해당 섹션으로 다시 이동한다 */
+    const same = e.target.closest('a[href^="#"]');
+    if (same && !e.defaultPrevented && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      const dec = (x) => { try { return decodeURIComponent(x); } catch (err) { return x; } };
+      if (dec(same.getAttribute('href')) === dec(location.hash || '#home')) {
+        e.preventDefault();
+        if (S.state.sub) S.render();   /* 주소의 하위 경로로 탭을 다시 맞춘다(예: 다른 탭을 보다가 #psm/tq를 다시 누름) */
+        const t = S.state.sub && document.getElementById('anchor-' + S.state.sub);
+        if (t) S.reveal(t); else window.scrollTo(0, 0);
+        return;
+      }
+    }
     const lang = e.target.closest('[data-lang]');
     if (lang) { S.state.lang = lang.dataset.lang; S.save('lang', S.state.lang); S.refresh(); return; }
 
@@ -25,6 +37,18 @@
     if (view) {
       S.save('view', view.dataset.view === 'pc' ? 'pc' : 'auto');
       S.applyView(); S.refresh(); window.scrollTo(0, 0);
+      return;
+    }
+
+    /* 글자 크기 — 가−·가+로 한 단계씩, 가운데 %를 누르면 기본(100%) */
+    const fzb = e.target.closest('[data-fz]');
+    if (fzb) {
+      const i = S.FZ.indexOf(S.fz()), act = fzb.dataset.fz;
+      const next = act === 'reset' ? 1 : S.FZ[Math.max(0, Math.min(S.FZ.length - 1, i + (act === 'up' ? 1 : -1)))];
+      S.save('fz', next); S.applyFz(); S.refresh();
+      const again = document.querySelector(`#${fzb.closest('#sidenav') ? 'sidenav' : 'fzCtl'} [data-fz="${act}"]`);
+      if (again && !again.disabled) again.focus();
+      S.toast(S.T(`글자 크기 ${Math.round(next * 1000) / 10}%`, `Text size ${Math.round(next * 1000) / 10}%`));
       return;
     }
 
@@ -55,14 +79,14 @@
     S.render();
     const sub = S.state.sub;
     const target = sub && document.getElementById('anchor-' + sub);
-    if (target) target.scrollIntoView({ block: 'start' }); else window.scrollTo(0, 0);
+    if (target) S.reveal(target); else window.scrollTo(0, 0);
     document.getElementById('view').focus({ preventScroll: true });
   });
 
   S.render();
   const sub = S.state.sub;
   const target = sub && document.getElementById('anchor-' + sub);
-  if (target) target.scrollIntoView({ block: 'start' });
+  if (target) S.reveal(target);
 
   /* 화면 폭이 바뀌어 PC·모바일 배치가 달라지면 다시 그린다 (창 크기 조절, 기기 회전) */
   const relayout = () => { const was = document.documentElement.classList.contains('m'); if (S.applyView() !== was) S.refresh(); };

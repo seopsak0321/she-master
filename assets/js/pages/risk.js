@@ -256,7 +256,8 @@
       const cols = def.cols();
       return `
       ${ui.head(T('판정 도구', 'Tools'), T('위험성평가 워크벤치', 'Risk assessment workbench'),
-        T('고용노동부 「사업장 위험성평가에 관한 지침」 제7조의 기법과 공정안전보고서용 기법(시행규칙 제50조)을 직접 실행합니다. 결과는 이 브라우저에 저장되고 CSV로 내보낼 수 있습니다.', 'Runs the methods listed in Art. 7 of MOEL’s workplace risk-assessment guideline and the PSM techniques in Rule Art. 50. Results stay in this browser and export to CSV.'))}
+        T('고용노동부 지침과 PSM의 위험성평가 기법을 직접 실행합니다.', 'Run the risk-assessment methods of MOEL’s guideline and of PSM directly.'),
+        T('「사업장 위험성평가에 관한 지침」 제7조의 기법과 공정안전보고서용 기법(시행규칙 제50조)을 제공합니다. 결과는 이 브라우저에 저장되고 CSV로 내보낼 수 있습니다.', 'Covers the methods listed in Art. 7 of MOEL’s workplace risk-assessment guideline and the PSM techniques in Rule Art. 50. Results stay in this browser and export to CSV.'))}
       <section class="panel stack">
         <div class="form-grid">
           <div class="field"><label for="meta-name">${T('평가명', 'Assessment')}</label><input type="text" id="meta-name" value="${S.esc(meta.name)}"></div>

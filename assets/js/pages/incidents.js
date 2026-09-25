@@ -68,8 +68,13 @@
     return `<ol class="proc" aria-label="${T('재발방지 절차', 'Recurrence-prevention steps')}">${steps.map((s, i) => `<li><span class="no">${i + 1}</span>${s}</li>`).join('')}</ol>`;
   }
 
+  /* 사례의 출처 구분 — 목록 분류 칩에 쓴다 */
+  const originOf = (c) => (c.user ? 'mine' : /^gov-/.test(c.id) ? 'gov' : c.peer ? 'peer' : 'sk');
+  const ORIGIN = { sk: { ko: 'SK하이닉스', en: 'SK hynix' }, peer: { ko: '업계 사례', en: 'Industry' }, gov: { ko: '정부 보고서', en: 'Government reports' }, mine: { ko: '내 사례', en: 'My cases' } };
+  const bothText = (o) => (o == null ? '' : typeof o === 'string' ? o : [].concat(o.ko || '', o.en || '').join(' '));
   function caseCard(c, active) {
-    return `<a class="sop-card case-card" href="#cases/${c.id}" ${active ? 'aria-current="true"' : ''} style="text-decoration:none">
+    return `<a class="sop-card case-card" href="#cases/${c.id}" ${active ? 'aria-current="true"' : ''} style="text-decoration:none"
+      data-li="${S.esc([c.id, bothText(c.t), bothText(c.impact), bothText(c.peer), c.date].join(' '))}" data-f-ty="${(c.types || []).join(' ')}" data-f-o="${originOf(c)}">
       <div class="row" style="justify-content:space-between"><span class="num small">${S.esc(L(c.dateLabel) || c.date)}</span><span class="chip">${S.esc(placeOf(c))}</span></div>
       <h3>${S.esc(L(c.t))}</h3>
       <span class="small muted">${S.esc(L(c.impact))}</span>
@@ -183,7 +188,7 @@
     return `
     <section class="panel stack" id="case-detail">
       <div class="row" style="justify-content:space-between">
-        <div class="stack" style="gap:4px"><span class="eyebrow">${S.esc(L(c.dateLabel) || c.date)} · ${S.esc(placeOf(c))}</span><h2 style="font-size:22px">${S.esc(L(c.t))}</h2><span class="small">${S.esc(L(c.impact))}</span></div>
+        <div class="stack" style="gap:4px"><span class="eyebrow">${S.esc(L(c.dateLabel) || c.date)} · ${S.esc(placeOf(c))}</span><h2 style="font-size:calc(22px * var(--fz))">${S.esc(L(c.t))}</h2><span class="small">${S.esc(L(c.impact))}</span></div>
         <div class="row">${typeChips(c)}</div>
       </div>
       <div class="row small"><span class="tag-off">${T('공식', 'Official')}</span> ${T('정부·법원 등 공식 확인', 'Confirmed by government or court')} <span class="tag-an">${T('분석', 'Analysis')}</span> ${T('공개정보 기반 포털 분석(가설)', 'Portal analysis from public information (hypothesis)')}</div>
@@ -209,7 +214,7 @@
     ${actionsPanel(c)}
     ${lateralVerify(c)}
     <section class="panel stack">${ui.title(T('교훈과 연결', 'Lesson and links'))}
-      ${L(c.lesson) ? `<p style="font-size:17px;font-weight:600;line-height:1.5">“${S.esc(L(c.lesson))}”</p>` : ''}
+      ${L(c.lesson) ? `<p style="font-size:calc(17px * var(--fz));font-weight:600;line-height:1.5">“${S.esc(L(c.lesson))}”</p>` : ''}
       <div class="row">${(c.sops || []).map((id) => { const s = S.SOPS.find((x) => x.id === id); return s ? `<a class="chip" href="#sop/${id}">SOP · ${L(s.t)}</a>` : ''; }).join('')}
         <button class="btn ghost sm" type="button" id="to-ra">${T('위험성평가(빈도·강도법)로 보내기', 'Send to risk assessment (frequency–severity)')}</button>${S.printLink('case/' + c.id, T('재발방지 보고서 인쇄', 'Print the recurrence report'))}</div>
     </section>
@@ -230,22 +235,40 @@
     render(sub) {
       const site = S.state.site;
       const { list, cur } = pick(sub);
+      /* #cases/timeline · #cases/selfcheck · #cases/<사례 id> → 해당 탭 (탭 클릭에 의한 재렌더 때는 선택 유지) */
+      if (!S.state.refreshing && sub) {
+        const t = sub === 'timeline' ? 'timeline' : sub === 'selfcheck' ? 'selfcheck' : findCase(sub) ? 'cases' : null;
+        if (t) S.save('tab.casev', t);
+        if (t === 'cases') S.save('lb.cases', {});   /* 찾아온 사례가 필터에 가려지지 않게 */
+      }
+      const view = S.tab('casev', 'cases');
       const tl = S.TIMELINE.filter((x) => site === 'common' || x.site === site || x.site === 'common');
       const ck = S.load('moelck', {});
       const ckCount = (s, v) => S.MOEL_FINDINGS.filter((f) => ((ck[f.id] || {})[s] || '') === v).length;
+      const tyN = {}, oN = {};
+      list.forEach((c) => { (c.types || []).forEach((t) => { tyN[t] = (tyN[t] || 0) + 1; }); const o = originOf(c); oN[o] = (oN[o] || 0) + 1; });
       return `
       ${ui.head(T('사고 학습', 'Learning from incidents'), T('사고사례 분석·재발방지', 'Incident analysis & recurrence prevention'),
+        T('실제 사고를 공식 자료로 확인하고, 원인 분석부터 재발방지까지 사례별로 연습합니다.', 'Real incidents checked against official records, worked through from cause analysis to recurrence prevention.'),
         T('SK하이닉스에서 실제로 일어난 사고를 공식 자료와 보도로 확인하고, 원인을 분석해 위험을 없애거나 무시 가능한 수준까지 낮추는 재발방지 과정을 사례별로 연습합니다. 공식 확인과 포털 분석(가설)을 구분해 표시합니다. 반도체 업계에서 정부가 공식 조사 결과를 공개한 타사 사고는 ‘업계 사례’로, 고용노동부가 공개한 재해조사보고서 중 SOP와 같은 작업 유형의 사고는 ‘정부 보고서’로 함께 싣습니다.', 'Real SK hynix incidents, checked against official records and reporting, worked through case by case: find the causes, then eliminate the risk or cut it to a negligible level so it cannot happen again. Official findings and portal analysis (hypotheses) are labelled separately. Accidents at other chipmakers are included as industry cases only where the government has published its investigation, and MOEL accident-investigation reports on the same kinds of work as the SOPs appear as government reports.'))}
+      ${ui.tabs('casev', [{ id: 'cases', label: T(`사례 분석 ${list.length}`, `Cases ${list.length}`) }, { id: 'timeline', label: T(`사고 타임라인 ${tl.length}`, `Timeline ${tl.length}`) }, { id: 'selfcheck', label: T(`업계 지적 자가점검 ${S.MOEL_FINDINGS.length}`, `Industry findings ${S.MOEL_FINDINGS.length}`) }], view)}
+      ${view === 'cases' ? `
       ${processStrip()}
       <section class="panel stack">
-        ${ui.title(T('사례 목록', 'Cases'), T(`${list.length}건 · ${L(S.SITES[site].name)} 기준`, `${list.length} cases · ${L(S.SITES[site].name)}`))}
+        ${ui.title(T('사례 목록', 'Cases'), T(`${L(S.SITES[site].name)} 기준`, `${L(S.SITES[site].name)}`))}
+        ${S.listbar({ id: 'cases', ph: T('사고명·물질·장소로 찾기 — 예: 가스, 질소, 청주', 'Search by incident, substance or place — e.g. gas, nitrogen, Cheongju'), total: list.length,
+          facets: [{ key: 'o', label: T('출처', 'Origin'), opts: Object.keys(ORIGIN).filter((k) => oN[k]).map((k) => ({ id: k, label: L(ORIGIN[k]), n: oN[k] })) },
+            { key: 'ty', label: T('사고 유형', 'Type'), opts: Object.keys(S.CASE_TYPES).filter((k) => tyN[k]).map((k) => ({ id: k, label: L(S.CASE_TYPES[k]), n: tyN[k] })) }] })}
         <div class="sop-grid">${list.map((c) => caseCard(c, c.id === cur.id)).join('')}</div>
+        <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 사례가 없습니다.', 'No cases match.')}</p>
         <div class="row"><button class="btn ghost sm" type="button" id="case-new">+ ${T('내 사례 새로 만들기', 'Create my own case')}</button><span class="xs muted">${T('예방안전의 사고조사 기록에서도 사례를 만들 수 있습니다.', 'You can also start a case from an investigation in Preventive safety.')}</span></div>
       </section>
-      ${cur ? detail(cur) : ''}
+      ${cur ? detail(cur) : ''}` : ''}
+      ${view === 'timeline' ? `
       <section class="panel" id="anchor-timeline">${ui.title(T('사고 타임라인', 'Incident timeline'), T('분석 사례와 짧은 기록', 'Analysed cases and short records'))}
         <ol class="timeline">${tl.map((x) => `<li><span class="num">${x.date}</span><span class="chip">${S.esc(placeOf(x))}</span> <span>${S.esc(L(x.t))}${S.cite(x.src)}</span>${x.caseId ? ` <a class="xs" href="#cases/${x.caseId}">${T('분석 보기', 'Open analysis')} →</a>` : ''}</li>`).join('')}</ol>
-      </section>
+      </section>` : ''}
+      ${view === 'selfcheck' ? `
       <section class="panel" id="anchor-selfcheck">${ui.title(T('업계 공통 지적 사항 자가점검', 'Self-check against industry findings'), T('고용노동부 2026 반도체 집중점검 지적 사항으로 우리 사업장을 수평 점검', 'Use MOEL’s 2026 chipmaker findings to check your own sites'))}
         <div class="row small" style="margin-bottom:8px"><span>${T('이천', 'Icheon')}: ${ui.pill('ok', T(`적합 ${ckCount('icheon', 'ok')}`, `OK ${ckCount('icheon', 'ok')}`))} ${ui.pill('bad', T(`개선 ${ckCount('icheon', 'ng')}`, `Fix ${ckCount('icheon', 'ng')}`))}</span><span>${T('청주', 'Cheongju')}: ${ui.pill('ok', T(`적합 ${ckCount('cheongju', 'ok')}`, `OK ${ckCount('cheongju', 'ok')}`))} ${ui.pill('bad', T(`개선 ${ckCount('cheongju', 'ng')}`, `Fix ${ckCount('cheongju', 'ng')}`))}</span></div>
         <div class="table-wrap"><table class="data"><thead><tr><th>${T('점검 항목', 'Check')}</th><th>${T('지적된 곳', 'Where found')}</th><th>${T('이천', 'Icheon')}</th><th>${T('청주', 'Cheongju')}</th></tr></thead><tbody>
@@ -253,19 +276,21 @@
         </tbody></table></div>
         <div class="row" style="margin-top:8px">${S.printLink('selfcheck', T('자가점검표 인쇄', 'Print the self-check sheet'))}</div>
         <p class="xs muted" style="margin-top:6px">${T('고용노동부는 위반 사례를 협·단체를 통해 전파해 점검을 받지 않은 사업장도 스스로 확인·개선하도록 유도하겠다고 밝혔습니다. 입력값은 예시·연습용이며 이 브라우저에만 저장됩니다.', 'MOEL said it will circulate the findings so uninspected sites can check and fix themselves. Entries are for practice and are saved in this browser only.')}${S.cite('moel0920')}</p>
-      </section>`;
+      </section>` : ''}`;
     },
     mount(root, sub) {
       const { cur: c, direct } = pick(sub);
+      root.querySelectorAll('[data-ck]').forEach((el) => el.addEventListener('change', () => { const ck = S.load('moelck', {}); ck[el.dataset.ck] = Object.assign({}, ck[el.dataset.ck], { [el.dataset.s]: el.value }); S.save('moelck', ck); S.refresh(); }));
+      if (S.tab('casev', 'cases') !== 'cases') return;
       S.save('cases.sel', c.id);
-      if (direct && !S.state.refreshing) setTimeout(() => { const d = root.querySelector('#case-detail'); if (d) d.scrollIntoView({ block: 'start' }); }, 0);
+      S.listFilter(root, 'cases');
+      if (direct && !S.state.refreshing) setTimeout(() => { const d = root.querySelector('#case-detail'); if (d) S.reveal(d); }, 0);
       const st = stateOf(c.id);
       const persist = () => { saveState(c.id, st); S.refresh(); };
       root.querySelectorAll('[data-rk]').forEach((s) => s.addEventListener('change', () => { const r = riskOf(c); r[s.dataset.rk] = Number(s.value); st.risk = r; persist(); }));
       root.querySelectorAll('[data-act]').forEach((el) => el.addEventListener('change', () => { const i = el.dataset.act; st.act[i] = Object.assign({}, st.act[i], { [el.dataset.k]: el.value }); persist(); }));
       root.querySelectorAll('[data-lat]').forEach((el) => el.addEventListener('change', () => { st.lat[el.dataset.lat] = el.value; persist(); }));
       root.querySelectorAll('[data-ver]').forEach((el) => el.addEventListener('change', () => { const i = el.dataset.ver; st.ver[i] = Object.assign({}, st.ver[i], { [el.dataset.k]: el.value }); persist(); }));
-      root.querySelectorAll('[data-ck]').forEach((el) => el.addEventListener('change', () => { const ck = S.load('moelck', {}); ck[el.dataset.ck] = Object.assign({}, ck[el.dataset.ck], { [el.dataset.s]: el.value }); S.save('moelck', ck); S.refresh(); }));
       root.querySelector('#case-new').addEventListener('click', () => { const id = S.newCaseFromIncident({ what: '', why: [], m4: [], fix: '', date: S.iso(S.today()), site: S.state.site, type: 'contact' }); location.hash = '#cases/' + id; });
       root.querySelector('#to-ra').addEventListener('click', () => {
         const r = riskOf(c); const rows = S.load('ra.fs', null) || [];
@@ -313,14 +338,21 @@
   const KIND = { reg: { ko: '규제·감독', en: 'Regulator', lv: 'bad' }, sk: { ko: 'SK하이닉스', en: 'SK hynix', lv: 'info' }, acc: { ko: '사고', en: 'Incident', lv: 'warn' }, law: { ko: '법령', en: 'Law', lv: 'ok' } };
   S.pages.news = {
     render() {
-      const k = S.tab('newsk', 'all');
-      const items = S.NEWS.filter((x) => k === 'all' || x.kind === k);
+      const kN = {}; S.NEWS.forEach((x) => { kN[x.kind] = (kN[x.kind] || 0) + 1; });
+      const yN = {}; S.NEWS.forEach((x) => { const y = String(x.date).slice(0, 4); yN[y] = (yN[y] || 0) + 1; });
       return `
       ${ui.head(T('사고 학습', 'Learning from incidents'), T('최신 안전 동향', 'Latest safety updates'),
-        T(`기준일 ${S.NEWS_ASOF}. 정부 발표·법령 개정·회사 공식 발표·사고 보도를 한 줄씩 모았습니다. 각 항목의 [번호]는 원문 출처입니다.`, `As of ${S.NEWS_ASOF}. Government announcements, law changes, company releases and incident reports, one line each. Each [number] links to the original source.`))}
-      ${ui.tabs('newsk', [{ id: 'all', label: T('전체', 'All') }].concat(Object.keys(KIND).map((id) => ({ id, label: L(KIND[id]) }))), k)}
-      <section class="panel"><ol class="timeline news">${items.map((x) => `<li><span class="num">${x.date}</span>${ui.pill(KIND[x.kind].lv, L(KIND[x.kind]))} <span>${S.esc(L(x.t))}${S.cite(x.src)}</span>${x.link ? ` <a class="xs" href="${x.link}">${T('관련 화면', 'Related page')} →</a>` : ''}</li>`).join('')}</ol></section>
+        T('정부 발표·법령 개정·회사 공식 발표·사고 보도를 한 줄씩 모았습니다.', 'Government announcements, law changes, company releases and incident reports, one line each.'),
+        T(`기준일 ${S.NEWS_ASOF}. 각 항목의 [번호]는 원문 출처이고, ‘관련 화면’은 포털에서 이어서 볼 곳입니다.`, `As of ${S.NEWS_ASOF}. Each [number] links to the original source; “Related page” opens the matching part of the portal.`))}
+      <section class="panel stack">
+        ${S.listbar({ id: 'news', ph: T('동향 검색 — 예: 도급, 가스, 과태료', 'Search updates — e.g. contracting, gas, fine'), total: S.NEWS.length,
+          facets: [{ key: 'k', label: T('분류', 'Kind'), opts: Object.keys(KIND).filter((id) => kN[id]).map((id) => ({ id, label: L(KIND[id]), n: kN[id] })) },
+            { key: 'y', label: T('연도', 'Year'), opts: Object.keys(yN).sort().reverse().map((y) => ({ id: y, label: y, n: yN[y] })) }] })}
+        <ol class="timeline news">${S.NEWS.map((x) => `<li data-li="${S.esc(bothText(x.t))}" data-f-k="${x.kind}" data-f-y="${String(x.date).slice(0, 4)}"><span class="num">${x.date}</span>${ui.pill(KIND[x.kind].lv, L(KIND[x.kind]))} <span>${S.esc(L(x.t))}${S.cite(x.src)}</span>${x.link ? ` <a class="xs" href="${x.link}">${T('관련 화면', 'Related page')} →</a>` : ''}</li>`).join('')}</ol>
+        <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 동향이 없습니다.', 'No updates match.')}</p>
+      </section>
       <p class="xs muted">${T('업데이트 방법: assets/js/data/cases.js 의 SHE.NEWS 배열에 날짜·분류·내용·출처 id를 추가하고, 새 출처는 sources.js 에 등록합니다.', 'To update: add date, kind, text and source ids to SHE.NEWS in assets/js/data/cases.js, and register new sources in sources.js.')}</p>`;
-    }
+    },
+    mount(root) { S.listFilter(root, 'news'); }
   };
 })();

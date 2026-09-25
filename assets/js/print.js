@@ -294,9 +294,58 @@
       + foot([], T('확인 방법: 국가법령정보센터 법령 화면 제목 옆 [시행 …] [… 제○호]를 ‘포털 기준’과 비교하고, 다르면 ‘신구법비교’로 바뀐 조문을 확인합니다. 공포됐지만 시행 전인 개정은 부칙의 시행일을 확인합니다.', 'Method: compare the [in force …] [No. …] line on each law page with “Portal version”; if it differs, read the changed articles in “old vs new”. For amendments not yet in force, read the effective date in the addendum.')) + '</div>';
   };
 
+  /* 5단계 — 중대재해처벌법 안전보건관리체계 반기 점검표 (시행령 제4조·제5조②) */
+  DOCS.sapa = function () {
+    if (!S.SAPA_ITEMS) return notFound();
+    const sp = S.load('prev.sapa', {});
+    const ST = { ok: T('이행', 'In place'), part: T('보완 중', 'Improving'), ng: T('미흡', 'Gap') };
+    const mark = (v) => ST[v] || `${box} ${T('이행', 'OK')}  ${box} ${T('보완', 'Fix')}  ${box} ${T('미흡', 'Gap')}`;
+    return head({ kind: T('중대재해처벌법', 'Serious Accidents Act'), title: T('안전보건관리체계 반기 점검표', 'Half-yearly safety management system check'), approve: [T('점검', 'Checked'), T('검토', 'Reviewed'), T('경영책임자', 'Executive')],
+      sub: T('중대재해처벌법 시행령 제4조(안전보건관리체계의 구축 및 이행)·제5조②(관계 법령 의무이행 관리)', 'SAPA Decree Art. 4 (management system) and Art. 5(2) (compliance control)'),
+      meta: [[T('점검일', 'Date'), ''], [T('점검자', 'Checked by'), ''], [T('사업장', 'Site'), siteName()], [T('점검 반기', 'Half-year'), '']] })
+      + `<table class="doc-table"><thead><tr><th class="n">#</th><th>${esc(T('의무', 'Duty'))}</th><th>${esc(T('근거', 'Basis'))}</th><th>${esc(T('상태', 'Status'))}</th><th>${esc(T('증빙·메모', 'Evidence / notes'))}</th></tr></thead><tbody>
+        ${S.SAPA_ITEMS().map((x, i) => { const v = sp[x.id] || {}; return `<tr class="write"><td class="n">${i + 1}</td><td>${esc(x.t)}${x.half ? ` <span class="doc-small">(${esc(T('반기 1회 이상', 'half-yearly'))})</span>` : ''}</td><td class="doc-small">${esc(x.art)}</td><td class="doc-small">${esc(mark(v.st))}</td><td class="doc-small">${esc(v.note || '')}</td></tr>`; }).join('')}</tbody></table>`
+      + sec(T('미흡 항목 개선 계획', 'Plan for gaps'), blankRows([T('항목', 'Item'), T('개선 내용', 'Action'), T('담당', 'Owner'), T('기한', 'Due')], 4, true), 'keep')
+      + foot(['lawSapaAct', 'lawSapa'], T('법이 정한 의무 주체는 사업주·경영책임자입니다. 이 표는 시행령 조문을 옮겨 만든 연습용 양식입니다.', 'The duties fall on the business owner and responsible executive. This sheet is a practice template built from the decree articles.'));
+  };
+
+  /* PSM 가동 전 안전점검표 (고시 제49조) — #print/pssr/<기록 id>, id가 없으면 작성 중인 점검 */
+  DOCS.pssr = function (id) {
+    if (!S.pssrApi) return notFound();
+    const ps = S.pssrApi.state(), d = id ? ps.list.find((x) => x.id === id) : ps.draft;
+    if (!d) return notFound();
+    const r = S.pssrApi.result(d);
+    const V = { ok: T('적합', 'OK'), ng: T('부적합', 'Not OK'), na: T('해당 없음', 'N/A') };
+    const mark = (v) => V[v] || `${box} ${T('적합', 'OK')}  ${box} ${T('부적합', 'Not OK')}  ${box} ${T('해당 없음', 'N/A')}`;
+    return head({ kind: 'PSM', title: T('가동 전 안전점검표 (PSSR)', 'Pre-startup safety review (PSSR)'), approve: [T('점검', 'Reviewed'), T('운전부서', 'Operations'), T('승인', 'Approved')],
+      sub: T('PSM 고시 제49조 — 새 설비 설치, 공정·설비 변경 시 시운전 전 점검', 'PSM Notice Art. 49 — before the trial run of new or changed equipment'),
+      meta: [[T('점검 대상', 'Subject'), d.t || ''], [T('점검일', 'Date'), d.date || ''], [T('점검팀', 'Team'), d.team || ''], [T('사업장', 'Site'), siteName()]] })
+      + `<table class="doc-table"><thead><tr><th class="n">#</th><th>${esc(T('확인 항목', 'Check'))}</th><th>${esc(T('결과', 'Result'))}</th><th>${esc(T('근거·메모', 'Evidence / notes'))}</th></tr></thead><tbody>
+        ${S.PSSR_ITEMS().map((it, i) => `<tr class="write"><td class="n">${i + 1}</td><td>${esc(it)}</td><td class="doc-small">${esc(mark((d.ck || {})[i]))}</td><td class="doc-small">${esc((d.note || {})[i] || '')}</td></tr>`).join('')}</tbody></table>`
+      + sec(T('판정', 'Decision'), `<p>${esc(r.ok ? T('모든 항목 적합 — 시운전 가능', 'All items OK — ready for trial run') : r.ng ? T(`부적합 ${r.ng}건 — 조치 후 재점검, 시운전 보류`, `${r.ng} not OK — fix, review again, hold the trial run`) : `${box} ${T('시운전 가능', 'Ready')}  ${box} ${T('시운전 보류', 'Hold')}`)}</p>`, 'keep')
+      + sec(T('부적합 조치', 'Actions on items not OK'), blankRows([T('항목', 'Item'), T('조치 내용', 'Action'), T('담당', 'Owner'), T('완료일', 'Done')], 3, true), 'keep')
+      + foot(['moelPsm'], T('점검 결과는 기록·보존해야 합니다(고시 제49조).', 'Keep the review record (Notice Art. 49).'));
+  };
+
+  /* PSM 자체감사 보고서 (고시 제51조) */
+  DOCS.psmaudit = function () {
+    if (!S.auditApi || !S.PSM12) return notFound();
+    const au = S.auditApi.state();
+    const V = { ok: T('적합', 'Adequate'), imp: T('개선 필요', 'Needs work'), gap: T('미흡', 'Gap') };
+    const mark = (v) => V[v] || `${box} ${T('적합', 'OK')}  ${box} ${T('개선', 'Fix')}  ${box} ${T('미흡', 'Gap')}`;
+    return head({ kind: 'PSM', title: T('PSM 자체감사 보고서', 'PSM self-audit report'), approve: [T('감사팀장', 'Lead auditor'), T('검토', 'Reviewed'), T('안전보건총괄책임자', 'Site head')],
+      sub: T('PSM 고시 제51조 — 1년마다 실시, 보고서 3년 이상 보관', 'PSM Notice Art. 51 — yearly; keep at least 3 years'),
+      meta: [[T('감사일', 'Date'), au.date || ''], [T('감사 대상 공정', 'Process'), au.scope || ''], [T('감사팀', 'Team'), au.team || ''], [T('사업장', 'Site'), siteName()]] })
+      + `<table class="doc-table"><thead><tr><th class="n">#</th><th>${esc(T('요소', 'Element'))}</th><th>${esc(T('평가', 'Rating'))}</th><th>${esc(T('발견 사항·조치', 'Findings / action'))}</th></tr></thead><tbody>
+        ${S.PSM12.map((e, i) => { const v = au.el[e.id] || {}; return `<tr class="write"><td class="n">${i + 1}</td><td>${esc(L(e.t))}</td><td class="doc-small">${esc(mark(v.st))}</td><td class="doc-small">${esc(v.note || '')}</td></tr>`; }).join('')}</tbody></table>`
+      + sec(T('심사기준 확인 (고시 제51조)', 'Review criteria (Notice Art. 51)'), `<ul>${S.AUDIT_CHECK().map((x, i) => `<li>${au.ck[i] ? '☑' : box} ${esc(x)}</li>`).join('')}</ul>`, 'keep')
+      + sec(T('개선 조치 계획', 'Corrective action plan'), blankRows([T('요소', 'Element'), T('조치 내용', 'Action'), T('담당', 'Owner'), T('기한', 'Due')], 4, true), 'keep')
+      + foot(['moelPsm']);
+  };
+
   /* where the “back” button goes for each document */
   const BACK = { lawcheck: () => '#sources/lawcheck', ptw: (id) => '#ptw/' + id, ptwmon: (id) => '#ptw/' + id, ptwaudit: () => '#ptw/audit', training: () => '#training', card: (id) => '#sop/' + id, sop: (id) => '#sop/' + id, tbm: () => '#prevent/tbm', ra: () => '#risk', inc: () => '#prevent/incident', report: () => '#prevent/report',
-    selfcheck: () => '#cases/selfcheck', duty: () => '#partner', chem: () => '#psm/chem', cycles: () => '#home/cycles', case: (id) => '#cases/' + id };
+    selfcheck: () => '#cases/selfcheck', duty: () => '#partner', sapa: () => '#prevent/sapa', pssr: () => '#psm/pssr', psmaudit: () => '#psm/audit', chem: () => '#psm/chem', cycles: () => '#home/cycles', case: (id) => '#cases/' + id };
 
   S.pages.print = {
     render(sub) {

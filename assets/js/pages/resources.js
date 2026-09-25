@@ -94,8 +94,9 @@
       const chipBtn = (attr, k, label, n, cur) => `<button type="button" class="fchip" data-${attr}="${k}" aria-pressed="${cur === k}">${label}<span class="num">${n}</span></button>`;
       return `
       ${ui.head(T('라이브러리', 'Library'), T('안전 정보 자료실', 'Resource library'),
-        T(`포털을 만들며 직접 확인한 믿을 만한 공식 사이트 ${S.RESOURCES.length}곳입니다. SK하이닉스 공식 채널, 국내 법령·공공기관, 해외 규제기관·국제 표준, 화학물질 데이터베이스, 사고 교훈 영상·교육자료를 가나다·유형·주제로 찾을 수 있습니다.`,
-          `${S.RESOURCES.length} trustworthy official sites checked while building the portal — SK hynix channels, Korean law and agencies, foreign regulators and standards, chemical databases, incident videos and learning material — browse A–Z, by type or by subject.`))}
+        T(`포털을 만들며 직접 확인한 공식 사이트 ${S.RESOURCES.length}곳입니다.`, `${S.RESOURCES.length} official sites checked while building the portal.`),
+        T('SK하이닉스 공식 채널, 국내 법령·공공기관, 해외 규제기관·국제 표준, 화학물질 데이터베이스, 사고 교훈 영상·교육자료를 가나다·유형·주제로 찾을 수 있습니다.',
+          'SK hynix channels, Korean law and agencies, foreign regulators and standards, chemical databases, incident videos and learning material — browse A–Z, by type or by subject.'))}
       <section class="panel stack" id="res-top">
         <div class="tabs" role="tablist" aria-label="${T('목록 방식', 'List view')}">
           <button type="button" role="tab" data-rv="az" aria-selected="${s.view === 'az'}">${T('가나다 리스트', 'A–Z list')}</button>

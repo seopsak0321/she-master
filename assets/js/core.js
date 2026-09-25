@@ -36,6 +36,27 @@
   };
   S.applyView();
 
+  /* ---------- 글자 크기 ----------
+     지금 크기를 100%로 두고 5단계(85·92.5·100·115·130%)로 줄이고 키운다. 글자만 비례해서 바뀌고 배치는 그대로다(인쇄 양식은 고정).
+     설정 ‘fz’. 자체 점검(#qa)의 검사용 화면은 주소의 fz= 값으로 크기를 정해 가장 큰 글자에서도 넘침을 확인한다 */
+  S.FZ = [0.85, 0.925, 1, 1.15, 1.3];
+  S.fz = () => {
+    const q = S.QA_FRAME ? Number(new URLSearchParams(location.search).get('fz')) : NaN;
+    const v = S.QA_FRAME ? (S.FZ.includes(q) ? q : 1) : Number(S.load('fz', 1));
+    return S.FZ.includes(v) ? v : 1;
+  };
+  S.applyFz = function () { document.documentElement.style.setProperty('--fz', String(S.fz())); };
+  S.applyFz();
+  /* 가− · 100% · 가+ 버튼 (상단 막대와 휴대폰 메뉴에 같은 모양) */
+  S.fzCtl = function () {
+    const i = S.FZ.indexOf(S.fz());
+    return `<div class="fz-ctl" role="group" aria-label="${S.T('글자 크기', 'Text size')}">
+      <button type="button" data-fz="dn" ${i <= 0 ? 'disabled' : ''} aria-label="${S.T('글자 작게', 'Smaller text')}" title="${S.T('글자 작게', 'Smaller text')}">${S.T('가', 'A')}<span aria-hidden="true">−</span></button>
+      <button type="button" data-fz="reset" class="fz-val" aria-label="${S.T(`글자 크기 ${Math.round(S.fz() * 1000) / 10}% — 누르면 기본(100%)으로`, `Text size ${Math.round(S.fz() * 1000) / 10}% — click to reset to 100%`)}" title="${S.T('기본 크기로', 'Reset to default')}">${Math.round(S.fz() * 1000) / 10}%</button>
+      <button type="button" data-fz="up" ${i >= S.FZ.length - 1 ? 'disabled' : ''} aria-label="${S.T('글자 크게', 'Larger text')}" title="${S.T('글자 크게', 'Larger text')}">${S.T('가', 'A')}<span aria-hidden="true">+</span></button>
+    </div>`;
+  };
+
   /* ---------- i18n ---------- */
   S.T = (ko, en) => (S.state.lang === 'en' ? en : ko);
   S.L = (o) => {
@@ -74,11 +95,14 @@
 
   /* ---------- small UI helpers ---------- */
   S.ui = {
-    head(eyebrow, title, lead) {
+    /* 머리말은 한 문장(lead). 덧붙일 설명은 more로 넘기면 ‘자세히’ 아래에 접혀 들어간다 */
+    head(eyebrow, title, lead, more) {
       const r = S.state.route;
       const guide = !S.state.indexing && r !== 'guide' && S.GUIDES && S.GUIDES[r];
-      return `<header class="page-head"><div class="head-top"><div class="eyebrow">${eyebrow}</div>${guide ? `<button type="button" class="guide-btn" data-guide="${r}" aria-haspopup="dialog">${S.ICON_HELP}${S.T('이 페이지 가이드', 'Page guide')}</button>` : ''}</div><h1>${title}</h1>${lead ? `<p class="lead">${lead}</p>` : ''}</header>`;
+      return `<header class="page-head"><div class="head-top"><div class="eyebrow">${eyebrow}</div>${guide ? `<button type="button" class="guide-btn" data-guide="${r}" aria-haspopup="dialog">${S.ICON_HELP}${S.T('이 페이지 가이드', 'Page guide')}</button>` : ''}</div><h1>${title}</h1>${lead ? `<p class="lead">${lead}</p>` : ''}${more ? `<details class="more"><summary>${S.T('자세히', 'More')}</summary><div class="more-body">${/^\s*</.test(more) ? more : `<p>${more}</p>`}</div></details>` : ''}</header>`;
     },
+    /* 근거·해설처럼 일부만 필요한 내용 — 접어 둔다 */
+    fine(inner, label) { return `<details class="fine"><summary>${label || S.T('근거·참고', 'Notes & sources')}</summary><div class="fine-body">${inner}</div></details>`; },
     title(t, sub) { return `<div class="section-title"><h2>${t}</h2>${sub ? `<span class="sub">${sub}</span>` : ''}</div>`; },
     pill(level, text) { return `<span class="pill ${level}">${text}</span>`; },
     ex() { return `<span class="ex-flag">${S.T('예시', 'Example')}</span>`; },
@@ -147,13 +171,80 @@
   };
 
   /* which saved keys are the user's own work (as opposed to screen preferences) — used by backup and the dashboard reminder */
-  S.PREF_KEYS = /^(lang|site|theme|view|tab\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
+  S.PREF_KEYS = /^(lang|site|theme|view|fz|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
+
+  /* ---------- 늘어나는 목록의 공통 도구막대: 검색 + 분류 칩(건수) + ‘n / 전체’ ----------
+     S.listbar({ id, ph, facets: [{ key, label, opts: [{ id, label, n }] }] })을 목록 위에 두고, mount에서 S.listFilter(root, id)를 부른다.
+     목록 항목에는 data-li(검색에 더할 글자, 예: 영문명·CAS)와 data-f-<key>="값 값"을 단다. 다시 그리지 않고 즉시 거르며 고른 값은 lb.<id>에 기억한다 */
+  const SUBD = '₀₁₂₃₄₅₆₇₈₉';
+  S.norm = (s) => String(s == null ? '' : s).toLowerCase().replace(/[₀-₉]/g, (d) => String(SUBD.indexOf(d))).replace(/\s+/g, ' ').trim();
+  S.ICON_SEARCH = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  S.lbState = (id) => { const v = S.load('lb.' + id, null); return v && typeof v === 'object' ? v : {}; };
+  S.listbar = function (cfg) {
+    const st = S.lbState(cfg.id);
+    return `<div class="listbar" data-lb="${cfg.id}">
+      <div class="lb-top"><label class="lb-search">${S.ICON_SEARCH}<input type="search" data-lb-q value="${S.esc(st.q || '')}" placeholder="${S.esc(cfg.ph)}" aria-label="${S.esc(cfg.ph)}" autocomplete="off" spellcheck="false" enterkeyhint="search"></label>
+        <span class="lb-count" data-lb-count aria-live="polite"></span></div>
+      ${(cfg.facets || []).map((f) => { const cur = st[f.key] || 'all'; return `<div class="lb-facet" role="group" aria-label="${S.esc(f.label)}"><span class="lbl">${f.label}</span>${[{ id: 'all', label: S.T('전체', 'All'), n: cfg.total }].concat(f.opts).map((o) =>
+        `<button type="button" class="fchip" data-lb-f="${f.key}" data-val="${o.id}" aria-pressed="${o.id === cur}">${o.label}${o.n != null ? ` <span class="num">${o.n}</span>` : ''}</button>`).join('')}</div>`; }).join('')}
+    </div>`;
+  };
+  S.listFilter = function (root, id, opts) {
+    const bar = root.querySelector(`[data-lb="${id}"]`); if (!bar) return;
+    const o = opts || {};
+    const scope = o.scope ? root.querySelector(o.scope) : root;
+    const items = [...scope.querySelectorAll('[data-li]')];
+    const st = S.lbState(id);
+    const input = bar.querySelector('[data-lb-q]'), count = bar.querySelector('[data-lb-count]'), empty = scope.querySelector('[data-lb-empty]');
+    const keys = [...new Set([...bar.querySelectorAll('[data-lb-f]')].map((b) => b.dataset.lbF))];
+    keys.forEach((k) => { if (st[k] && st[k] !== 'all' && !bar.querySelector(`[data-lb-f="${k}"][data-val="${st[k]}"]`)) st[k] = 'all'; });
+    /* 화면을 저장된 선택과 맞춘다 (mount에서 선택을 비운 경우 등) */
+    input.value = st.q || '';
+    bar.querySelectorAll('[data-lb-f]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.val === (st[b.dataset.lbF] || 'all'))));
+    const apply = () => {
+      const tks = S.norm(st.q).split(' ').filter(Boolean);
+      let n = 0;
+      items.forEach((el) => {
+        if (el._h == null) { el._h = S.norm(el.dataset.li + ' ' + el.textContent); el._hn = el._h.replace(/ /g, ''); }
+        let ok = tks.every((t) => el._h.includes(t) || el._hn.includes(t));
+        keys.forEach((k) => { const v = st[k]; if (ok && v && v !== 'all') ok = (el.getAttribute('data-f-' + k) || '').split(' ').includes(v); });
+        el.hidden = !ok; if (ok) n++;
+      });
+      count.textContent = `${n} / ${items.length}`;
+      if (empty) empty.hidden = n > 0;
+      if (o.after) o.after(n);
+    };
+    let t = 0;
+    input.addEventListener('input', () => { st.q = input.value; clearTimeout(t); t = setTimeout(() => { apply(); S.save('lb.' + id, st); }, 80); });
+    bar.querySelectorAll('[data-lb-f]').forEach((b) => b.addEventListener('click', () => {
+      st[b.dataset.lbF] = b.dataset.val;
+      bar.querySelectorAll(`[data-lb-f="${b.dataset.lbF}"]`).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      apply(); S.save('lb.' + id, st);
+    }));
+    apply();
+  };
+
+  /* 접힌 곳(<details>) 안의 요소로 갈 때: 감싼 접기를 모두 펼치고, 상단 막대 아래로 스크롤 */
+  S.reveal = function (el, noScroll) {
+    if (!el) return;
+    for (let d = el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+    if (noScroll) return;
+    const bar = document.querySelector('.topbar');
+    const top = el.getBoundingClientRect().top + window.scrollY - ((bar ? bar.offsetHeight : 0) + 12);
+    window.scrollTo(0, Math.max(0, top));
+  };
   S.storedKeys = function () {
     const out = [];
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(S.NS)) out.push(k.slice(S.NS.length)); } } catch (e) { /* storage blocked */ }
     return out.sort();
   };
   S.userKeys = () => S.storedKeys().filter((k) => !S.PREF_KEYS.test(k));
+
+  /* SK하이닉스 뉴스룸 공식 사진 (data/company.js의 SHE.PHOTOS) — 원본 비율 그대로, 사진마다 출처·원문 링크 */
+  S.photo = function (k) {
+    const p = (S.PHOTOS || {})[k]; if (!p) return '';
+    return `<figure class="photo"><img src="${p.f}" width="${p.w}" height="${p.h}" alt="${S.esc(S.L(p.t))}" loading="lazy" decoding="async"><figcaption>${S.esc(S.L(p.t))} · ${S.T('사진', 'Photo')}: <a href="${p.url}" target="_blank" rel="noopener noreferrer">${S.T('SK하이닉스 뉴스룸', 'SK hynix Newsroom')}</a> (${p.d})${S.cite('nrGuide')}</figcaption></figure>`;
+  };
 
   /* printable documents open at #print/<doc>/<id> */
   S.ICON_PRINT = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
@@ -230,7 +321,9 @@
       <div class="seg" role="group" aria-label="${S.T('사업장', 'Site')}">${siteBtns}</div>
       <div class="row" style="gap:8px"><div class="seg" role="group" aria-label="${S.T('언어', 'Language')}">${['ko', 'en'].map((l) => `<button type="button" data-lang="${l}" aria-pressed="${S.state.lang === l}">${l.toUpperCase()}</button>`).join('')}</div>
       <button type="button" class="btn ghost sm" data-theme-toggle>${S.T('밝게·어둡게', 'Light / dark')}</button></div>
+      <div class="row" style="gap:8px"><span class="lbl">${S.T('글자 크기', 'Text size')}</span>${S.fzCtl()}</div>
       ${S.isPhone() ? `<div>${viewLink()}</div>` : ''}</div>`;
+    const fzBox = document.getElementById('fzCtl'); if (fzBox) fzBox.innerHTML = S.fzCtl();
     document.getElementById('sidenav').innerHTML = prefs + S.NAV.map((grp) => `<div class="nav-group"><h4>${S.L(grp.g)}</h4>${grp.items.map(([id, l]) =>
       `<a href="#${id}" data-route="${id}" ${S.state.route === id ? 'aria-current="page"' : ''}>${S.L(l)}</a>`).join('')}</div>`).join('');
     /* 모바일 아래 탭 막대 — 현장에서 자주 여는 네 곳과 전체 메뉴 */
@@ -280,6 +373,80 @@
         });
       });
     });
+  });
+
+  /* 패널 끝에 이어지는 작은 회색 설명(p.xs.muted)은 ‘근거·참고’로 접는다 — 지우지 않고 한 번 누르면 보인다.
+     출처 번호만 있는 짧은 줄과 .keep은 그대로 둔다. 펼친 상태는 다시 그려도(입력 변경 등) 유지한다 */
+  const fineOpen = new Set();
+  S.after.push(() => {
+    const view = document.getElementById('view'); if (!view || S.state.route === 'print') return;
+    const boxes = [...view.querySelectorAll('.panel, .card5')].concat([...view.querySelectorAll(':scope > .wrap')]);
+    boxes.forEach((box, bi) => {
+      if (box.closest('.doc')) return;
+      const kids = [...box.children], run = [];
+      for (let i = kids.length - 1; i >= 0; i--) { const k = kids[i]; if (k.matches('p.xs.muted') && !k.classList.contains('keep')) run.unshift(k); else break; }
+      if (!run.length) return;
+      const plain = run.map((p) => p.textContent.replace(/\[\d+\]/g, '')).join(' ').replace(/[\s·:,]+/g, ' ').trim();
+      if (plain.length < 40) return;
+      const h = box.querySelector('h2, h3');
+      const key = S.state.route + '|' + (h ? h.textContent.trim() : bi);
+      const det = document.createElement('details'); det.className = 'fine';
+      det.innerHTML = `<summary>${S.T('근거·참고', 'Notes & sources')}${run.length > 1 ? ` <span class="fine-n">${run.length}</span>` : ''}</summary>`;
+      const body = document.createElement('div'); body.className = 'fine-body';
+      run.forEach((p) => body.appendChild(p));
+      det.appendChild(body); box.appendChild(det);
+      if (fineOpen.has(key)) det.open = true;
+      det.addEventListener('toggle', () => { if (det.open) fineOpen.add(key); else fineOpen.delete(key); });
+    });
+  });
+
+  /* 긴 선택 목록(물질 등 25개 이상)에는 ‘입력해서 찾기’ 칸을 붙인다 — 입력하면 맞는 항목만 남기고, 고른 값은 항상 남긴다 */
+  S.after.push(() => {
+    const view = document.getElementById('view'); if (!view) return;
+    view.querySelectorAll('select').forEach((sel) => {
+      if (sel.closest('table, .doc') || sel.dataset.find === 'no' || sel.options.length < 25) return;
+      const orig = [...sel.children].map((n) => n.cloneNode(true));
+      const inp = document.createElement('input');
+      inp.type = 'search'; inp.className = 'sel-find'; inp.autocomplete = 'off'; inp.spellcheck = false;
+      inp.placeholder = S.T(`${sel.options.length}개 중 입력해서 찾기`, `Type to filter ${sel.options.length} items`);
+      inp.setAttribute('aria-label', S.T('목록에서 찾기', 'Filter the list'));
+      sel.before(inp);
+      const hay = (o, g) => S.norm(o.textContent + ' ' + o.value + ' ' + (g ? g.label : ''));
+      inp.addEventListener('input', () => {
+        const tks = S.norm(inp.value).split(' ').filter(Boolean), cur = sel.value;
+        const hit = (o, g) => o.value === cur || tks.every((t) => hay(o, g).includes(t));
+        sel.innerHTML = '';
+        orig.forEach((n) => {
+          if (n.tagName === 'OPTGROUP') { const g = n.cloneNode(false); [...n.children].forEach((o) => { if (hit(o, n)) g.appendChild(o.cloneNode(true)); }); if (g.children.length) sel.appendChild(g); }
+          else if (hit(n)) sel.appendChild(n.cloneNode(true));
+        });
+        sel.value = cur;
+      });
+    });
+  });
+
+  /* ‘이 페이지’ 목차 — 제목 있는 섹션이 4개 이상인 화면에 칩으로 단다(페이지 탭이 있으면 그 탭의 내용 기준) */
+  S.after.push(() => {
+    const view = document.getElementById('view'), wrap = view && view.querySelector(':scope > .wrap');
+    if (!wrap || S.state.route === 'print' || S.state.route === 'guide' || S.state.route === 'search') return;
+    const ok = (h) => !h.closest('.drawer, .doc, details:not([open]), [hidden]') && h.closest('.panel, .card5') && !h.closest('.panel .panel');
+    let heads = [...wrap.querySelectorAll('.section-title > h2, .card5 h3')].filter(ok);
+    /* 큰 양식 하나로 된 화면(예: 작업허가서)은 번호 붙은 소제목까지 목차에 넣는다 */
+    if (heads.length < 4) {
+      const subs = [...wrap.querySelectorAll('h3.sub-h')].filter(ok);
+      if (subs.length >= 4) heads = heads.concat(subs).sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+    }
+    if (heads.length < 4) return;
+    const label = (h) => { const c = h.cloneNode(true); c.querySelectorAll('.xs, .sub, .src, .ex-flag, .muted').forEach((n) => n.remove()); return c.textContent.replace(/\s+/g, ' ').trim(); };
+    let at = wrap.querySelector(':scope > .page-head'); if (!at) return;
+    if (at.nextElementSibling && at.nextElementSibling.matches('.tabs')) at = at.nextElementSibling;
+    const nav = document.createElement('nav'); nav.className = 'toc'; nav.setAttribute('aria-label', S.T('이 페이지 목차', 'On this page'));
+    nav.innerHTML = `<span class="toc-lbl">${S.T('이 페이지', 'On this page')}</span>` + heads.map((h, i) => {
+      const t = label(h);
+      return `<button type="button" data-toc="${i}" title="${S.esc(t)}">${S.esc(t.length > 22 ? t.slice(0, 21) + '…' : t)}</button>`;
+    }).join('');
+    at.after(nav);
+    nav.addEventListener('click', (e) => { const b = e.target.closest('[data-toc]'); if (!b) return; const h = heads[Number(b.dataset.toc)]; S.reveal(h.matches('.sub-h') ? h : (h.closest('.panel, .card5') || h)); });
   });
 
   S.render = function () {

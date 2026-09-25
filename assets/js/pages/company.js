@@ -17,13 +17,15 @@
     render() {
       return `
       ${ui.head(T('회사 이해', 'Company'), T('SK하이닉스 이해', 'Understanding SK hynix'),
-        T('포털 설계의 출발점입니다. 회사가 직접 공개한 지속가능경영보고서(2024·2025·2026)와 뉴스룸만 근거로 정리했습니다.', 'The starting point for the portal’s design, drawn only from the company’s own sustainability reports (2024–2026) and newsroom.'))}
+        T('SK하이닉스가 직접 공개한 자료로 회사와 안전 체계를 정리했습니다.', 'The company and its safety system, from material SK hynix itself has published.'),
+        T('포털 설계의 출발점입니다. 근거는 회사가 직접 공개한 지속가능경영보고서(2024·2025·2026)와 뉴스룸뿐입니다.', 'The starting point for the portal’s design; the only sources are the company’s own sustainability reports (2024–2026) and newsroom.'))}
       <section class="grid g2">
-        <div class="panel">${ui.title(T('회사 개요', 'Overview'))}
+        <div class="panel stack" style="gap:14px">${ui.title(T('회사 개요', 'Overview'))}
+          ${S.photo('m16')}
           <div class="table-wrap"><table class="data"><tbody>${C.overview.map((o) => `<tr><th scope="row" style="width:34%">${L(o.k)}</th><td>${L(o.v)}${S.cite(o.src)}</td></tr>`).join('')}</tbody></table></div>
         </div>
         <div class="panel">${ui.title('Brand Identity', T('회사 BI', 'Company BI'))}
-          <p style="font-size:17px;font-weight:600;line-height:1.5">“${L(C.bi.purpose)}”${S.cite(C.bi.src)}</p>
+          <p style="font-size:calc(17px * var(--fz));font-weight:600;line-height:1.5">“${L(C.bi.purpose)}”${S.cite(C.bi.src)}</p>
           <div class="grid g3" style="margin-top:14px">${C.bi.values.map((v) => `<div class="kpi"><span class="k">Value</span><span style="font-weight:600">${v.en}</span>${S.state.lang === 'ko' ? `<span class="d">${v.ko}</span>` : ''}</div>`).join('')}</div>
           <p class="small muted" style="margin-top:12px">Drivers — ${C.bi.drivers.join(' · ')}</p>
         </div>
@@ -57,10 +59,12 @@
       const s = S.SITES[cur];
       return `
       ${ui.head(T('사업장', 'Sites'), T('사업장별 안전 프로필', 'Site safety profiles'),
-        T('공통 체계는 공통으로, 이천·청주는 각 사업장이 공개한 특징과 그에 따른 관리 포인트로 나눴습니다. 상단 사업장 선택과 연동됩니다.', 'Company-wide systems stay common; Icheon and Cheongju each get their disclosed characteristics and resulting focus points. Linked to the site switch at the top.'))}
+        T('이천·청주 사업장이 공개한 특징과 그에 따른 관리 포인트입니다.', 'What Icheon and Cheongju have disclosed, and the focus points that follow.'),
+        T('공통 체계는 ‘공통’에 두었습니다. 상단 사업장 선택과 연동됩니다.', 'Company-wide systems sit under “All”. Linked to the site switch at the top.'))}
       <div class="seg" role="group" aria-label="${T('사업장', 'Site')}">${['common', 'icheon', 'cheongju'].map((id) => `<button type="button" data-site="${id}" aria-pressed="${cur === id}">${L(S.SITES[id].name)}</button>`).join('')}</div>
       <section class="grid g3">
-        <div class="panel span2">${ui.title(L(s.name), L(s.lead))}
+        <div class="panel span2 stack" style="gap:16px">${ui.title(L(s.name), L(s.lead))}
+          ${cur === 'common' ? `<div class="grid g2">${S.photo('icheon')}${S.photo('cheongju')}</div>` : S.photo(cur)}
           <ul class="facts">${s.facts.map((f) => `<li>${L(f.t)}${S.cite(f.src)}</li>`).join('')}</ul>
         </div>
         <div class="panel">${ui.title(T('안전관리 포인트', 'Focus points'), T('포털 제안 — 공개자료 기반 해석', 'Portal proposal — interpretation of public data'))}
@@ -144,6 +148,7 @@
       const tab = S.tab('bench', 'peer');
       return `
       ${ui.head(T('벤치마킹', 'Benchmarks'), T('타사·해외 사례에서 가져온 것', 'What the portal borrows from others'),
+        T('타사·해외 규제기관에서 포털에 가져온 점과 한·미 규제의 차이입니다.', 'What the portal takes from peers and foreign regulators, and how Korean and US rules differ.'),
         T('회사가 공개한 공식 페이지와 해외 규제기관 자료만 사용했습니다. 사례 탭은 포털에 반영한 점을, 규제 비교 탭은 한국 법령과 미국 OSHA 표준의 조항별 차이를 보여 줍니다.', 'Only official company pages and foreign regulators are used. The cases tab shows what the portal takes from each; the regulation tab compares Korean law with US OSHA standards clause by clause.'))}
       ${ui.tabs('bench', [{ id: 'peer', label: T('타사·해외 사례', 'Peer and overseas cases') }, { id: 'reg', label: T('한·미 규제 비교', 'Korea–US regulation') }], tab)}
       ${tab === 'reg' ? `
@@ -155,7 +160,7 @@
           </tbody></table></div>${c.note ? `<p class="xs muted" style="margin-top:6px">${esc(L(c.note))}</p>` : ''}</section>`).join('')}
         <p class="xs muted">${T('포털 반영: 작업허가서에 C-C-49 모니터링·절차 평가(OSHA PSM 준수감사와 같은 방향), 밀폐공간 SOP에 E-G-18 환기량·2년 평가, 판정 도구에 한·미 기준 병기.', 'Applied here: C-C-49 monitoring and system audit in the permit tool (in line with the OSHA PSM compliance audit), E-G-18 ventilation and two-yearly review in the confined-space SOP, and Korean and US criteria side by side in the checkers.')}</p>`
       : `<section class="grid g3">${BENCH.map((b) => `<div class="panel stack">
-        <h3 style="font-size:16px">${typeof b.who === 'string' ? b.who : L(b.who)}${S.cite(b.src)}</h3>
+        <h3 style="font-size:calc(16px * var(--fz))">${typeof b.who === 'string' ? b.who : L(b.who)}${S.cite(b.src)}</h3>
         <ul class="facts">${L(b.facts).map((f) => `<li>${f}</li>`).join('')}</ul>
         <div class="callout ok small"><b>${T('포털 반영', 'Applied here')}</b> — ${L(b.take)}</div>
       </div>`).join('')}</section>`}`;
@@ -167,13 +172,50 @@
 
   S.pages.sources = {
     render(sub) {
+      /* 주소로 들어오면 해당 탭을 연다: #sources/lawcheck · #sources/kosha · #sources/<출처 id> (탭 클릭에 의한 재렌더 때는 선택 유지) */
+      if (!S.state.refreshing && sub) {
+        const t = sub === 'lawcheck' ? 'lawcheck' : sub === 'kosha' ? 'kosha' : S.SOURCES.some((s) => s.id === sub) ? 'list' : null;
+        if (t) S.save('tab.src', t);
+        if (t === 'list') S.save('lb.src', {});   /* 찾아온 출처가 필터에 가려지지 않게 */
+      }
+      const tab = S.tab('src', 'method');
+      const byType = {}; S.SOURCES.forEach((s) => { byType[s.type] = (byType[s.type] || 0) + 1; });
+      const kn = Object.keys(S.KOSHA).length;
       return `
       ${ui.head(T('출처·검증', 'Sources & verification'), T('이 포털의 근거', 'Evidence behind this portal'),
-        T('모든 수치와 회사 정보에는 [번호]로 출처를 달았습니다. 확인 방법과 한계도 함께 밝힙니다.', 'Every figure and company fact carries a [number] citation. The method and its limits are stated below.'))}
-      <section class="grid g2">
-        <div class="callout ok"><b>${T('검증 방법', 'How facts were checked')}</b><br>${T('법령 수치(적정공기·소음·고온·조도·교육시간·도급 주기·소방 점검)는 국가법령정보센터 원문 조문을 직접 확인했고, 화학물질 노출기준은 고시 출력본의 별표 표 이미지와 한 줄씩 대조했습니다. SK하이닉스 정보는 회사 지속가능경영보고서 3개년 원문과 뉴스룸에서만 가져왔습니다.', 'Statutory values (acceptable air, noise, heat, illumination, training hours, subcontract cycles, fire inspections) were read in the original articles on the National Law Information Center; chemical exposure limits were matched line by line against the annex tables of the official notice. SK hynix facts come only from three years of its sustainability reports and its newsroom.')}<br>${T('법령은 매월 아래 ‘법령 변경 점검’으로 현행본과 대조하고, 수정할 때마다 ', 'Laws are compared with the current text every month (see “Law-change check” below), and after every edit the ')}<a href="#qa">${T('포털 자체 점검', 'portal self-check')}</a>${T('으로 전 페이지·한영·화면 폭을 자동 점검합니다.', ' renders every page in both languages at three widths.')}</div>
-        <div class="callout warn"><b>${T('한계', 'Limits')}</b><br>${T('SOP는 SK하이닉스 사내 절차가 아니라 공개 법령·지침으로 재구성한 교육용 예시입니다. KOSHA GUIDE는 법적 강제 기준이 아닌 기술적 권고이며, 수치·절 번호를 옮긴 지침(안전작업허가·가스감지경보기·혼합가스·세안설비·밀폐공간 등)은 원문 PDF로 확인했고 나머지는 번호·명칭·공표일을 확인했습니다. 법령은 개정될 수 있으므로 실제 적용 전 최신본을 확인해야 합니다. 언론 출처는 회사 공식 자료로 확인되지 않는 경우에만 보조로 썼습니다.', 'SOPs are teaching examples rebuilt from public law and guidance, not SK hynix internal procedures. KOSHA Guides are technical recommendations, not binding law; guides whose values or clause numbers are quoted (permits, gas detectors, gas mixtures, eyewash, confined spaces and others) were read in the original PDF, and the rest were checked for number, title and date. Laws change, so confirm the current text before real use. Press sources are used only as a supplement where no official source exists.')}</div>
+        T('모든 수치와 회사 정보에는 [번호]로 출처를 달았습니다.', 'Every figure and company fact carries a [number] citation.'),
+        T('검증 방법과 한계, 출처 목록, 인용한 KOSHA GUIDE의 현행 번호, 매월 하는 법령 변경 점검을 탭으로 나눴습니다. 본문의 [번호]를 누르면 출처 목록의 해당 줄로 옵니다.', 'The method and its limits, the source list, current numbers of the KOSHA Guides cited and the monthly law-change check are split into tabs. Clicking a [number] in the text brings you to that line of the source list.'))}
+      ${ui.tabs('src', [
+        { id: 'method', label: T('검증 방법', 'Method') },
+        { id: 'list', label: T(`출처 목록 ${S.SOURCES.length}`, `Sources ${S.SOURCES.length}`) },
+        { id: 'kosha', label: T(`KOSHA 지침 ${kn}`, `KOSHA Guides ${kn}`) },
+        { id: 'lawcheck', label: T('법령 변경 점검', 'Law-change check') }], tab)}
+      ${tab === 'method' ? `
+      <section class="tiles" aria-label="${T('출처 유형별 건수', 'Sources by type')}">
+        <div class="tile info"><span class="t">${T('법령·고시', 'Statutes & notices')}</span><span class="n">${byType.law || 0}<small>${T('건', '')}</small></span><span class="d">${T('국가법령정보센터 원문', 'Original text, National Law Information Center')}</span></div>
+        <div class="tile info"><span class="t">${T('공공기관', 'Public agencies')}</span><span class="n">${byType.gov || 0}<small>${T('건', '')}</small></span><span class="d">${T('고용노동부·공단·소방청 등', 'MOEL, KOSHA, fire agency and others')}</span></div>
+        <div class="tile info"><span class="t">${T('SK하이닉스 공식', 'SK hynix official')}</span><span class="n">${byType.sk || 0}<small>${T('건', '')}</small></span><span class="d">${T('지속가능경영보고서·뉴스룸', 'Sustainability reports, newsroom')}</span></div>
+        <div class="tile info"><span class="t">${T('해외·국제·기타', 'Foreign, international, other')}</span><span class="n">${S.SOURCES.length - (byType.law || 0) - (byType.gov || 0) - (byType.sk || 0)}<small>${T('건', '')}</small></span><span class="d">${T('OSHA·NIOSH·ILO, 타사 공식, 법원, 언론(보조)', 'OSHA, NIOSH, ILO, peers, courts, press (supplementary)')}</span></div>
       </section>
+      <section class="grid g2">
+        <div class="panel">${ui.title(T('검증 방법', 'How facts were checked'))}
+          <ul class="facts">
+            <li>${T('법령 수치(적정공기·소음·고온·조도·교육시간·도급 주기·소방 점검)는 국가법령정보센터 원문 조문을 직접 확인했습니다.', 'Statutory values (acceptable air, noise, heat, illumination, training hours, subcontract cycles, fire inspections) were read in the original articles on the National Law Information Center.')}</li>
+            <li>${T('화학물질 노출기준은 고시 출력본의 별표 표 이미지와 한 줄씩 대조했습니다.', 'Chemical exposure limits were matched line by line against the annex tables of the official notice.')}</li>
+            <li>${T('SK하이닉스 정보는 회사 지속가능경영보고서 3개년 원문과 뉴스룸에서만 가져왔습니다.', 'SK hynix facts come only from three years of its sustainability reports and its newsroom.')}</li>
+            <li>${T('법령은 매월 ‘법령 변경 점검’ 탭의 순서로 현행본과 대조합니다.', 'Laws are compared with the current text every month, following the “Law-change check” tab.')}</li>
+            <li>${T('수정할 때마다 ', 'After every edit the ')}<a href="#qa">${T('포털 자체 점검', 'portal self-check')}</a>${T('으로 전 페이지·한영·화면 폭을 자동 점검합니다.', ' renders every page in both languages at three widths.')}</li>
+          </ul></div>
+        <div class="panel">${ui.title(T('한계', 'Limits'))}
+          <ul class="facts">
+            <li>${T('SOP는 SK하이닉스 사내 절차가 아니라 공개 법령·지침으로 재구성한 교육용 예시입니다.', 'SOPs are teaching examples rebuilt from public law and guidance, not SK hynix internal procedures.')}</li>
+            <li>${T('KOSHA GUIDE는 법적 강제 기준이 아닌 기술적 권고입니다. 수치·절 번호를 옮긴 지침(안전작업허가·가스감지경보기·혼합가스·세안설비·밀폐공간 등)은 원문 PDF로 확인했고, 나머지는 번호·명칭·공표일을 확인했습니다.', 'KOSHA Guides are technical recommendations, not binding law. Guides whose values or clause numbers are quoted (permits, gas detectors, gas mixtures, eyewash, confined spaces and others) were read in the original PDF; the rest were checked for number, title and date.')}</li>
+            <li>${T('법령은 개정될 수 있으므로 실제 적용 전 최신본을 확인해야 합니다.', 'Laws change, so confirm the current text before real use.')}</li>
+            <li>${T('언론 출처는 회사 공식 자료로 확인되지 않는 경우에만 보조로 썼습니다.', 'Press sources are used only as a supplement where no official source exists.')}</li>
+          </ul></div>
+      </section>
+      <p class="small">${T('업무에 자주 쓰는 공식 사이트는 ', 'The official sites most useful day to day are curated in the ')}<a href="#resources">${T('안전 정보 자료실', 'resource library')}</a>${T('에 가나다·유형·주제별로 따로 정리했습니다.', ', by name, type and subject.')}</p>` : ''}
+      ${tab === 'lawcheck' ? `
       <section class="panel stack" id="anchor-lawcheck">${ui.title(T('법령 변경 점검 (월 1회)', 'Law-change check (monthly)'), T(`포털 기준일 ${S.LAW_ASOF}`, `Portal as of ${S.LAW_ASOF}`))}
         ${(() => {
           const G = { law: T('법령', 'Statute'), adm: T('고시·예규', 'Notice'), code: T('기술기준', 'Code') };
@@ -209,7 +251,8 @@
             </div>
           </div>`;
         })()}
-      </section>
+      </section>` : ''}
+      ${tab === 'kosha' ? `
       <section class="panel" id="anchor-kosha">${ui.title(T('KOSHA GUIDE 현행화 대조표', 'KOSHA GUIDE currency check'), T('2026-09-25 산업안전포털 목록·원문 PDF와 대조', 'Checked against the KOSHA portal list and PDFs, 2026-09-25'))}
         <p class="small">${T('2026.1.30 정비(437건: 제정 11·개정 164·폐지 262)로 많은 지침의 번호가 바뀌었습니다. 포털은 현행 번호로 적고, 번호를 누르면 공단 원문 PDF가 열립니다. 구 번호는 “구 ○○”로 함께 표시합니다.', 'The 2026-01-30 overhaul (437 guides: 11 new, 164 revised, 262 withdrawn) renumbered many guides. The portal uses current numbers; each number opens KOSHA’s PDF, and former numbers are shown as “formerly …”.')}${S.cite('koshaGuide', 'moelKosha2026')}</p>
         ${(() => {
@@ -221,16 +264,22 @@
             ${rows.map((r) => `<tr><td class="nowrap">${S.koshaTag(r.id)}</td><td class="small">${esc(L(r))}</td><td class="num nowrap">${esc(r.d || '')}</td><td class="small">${r.old ? `${esc([].concat(r.old).join(', '))} — ${esc(REL[r.rel] || '')}` : `<span class="muted">${T('변경 없음', 'Unchanged')}</span>`}</td></tr>`).join('')}
           </tbody></table></div>`;
         })()}
-      </section>
-      <p class="small">${T('업무에 자주 쓰는 공식 사이트는 ', 'The official sites most useful day to day are curated in the ')}<a href="#resources">${T('안전 정보 자료실', 'resource library')}</a>${T('에 가나다·유형·주제별로 따로 정리했습니다.', ', by name, type and subject.')}</p>
-      <section class="panel"><div class="table-wrap"><table class="data">
-        <thead><tr><th>#</th><th>${T('출처', 'Source')}</th><th>${T('유형', 'Type')}</th><th>${T('확인일', 'Checked')}</th></tr></thead>
-        <tbody>${S.SOURCES.map((s, i) => `<tr id="anchor-${s.id}" ${sub === s.id ? 'style="background:var(--accent-bg)"' : ''}><td class="n">${i + 1}</td>
+      </section>` : ''}
+      ${tab === 'list' ? `
+      <section class="panel stack">
+        ${S.listbar({ id: 'src', ph: T('출처 검색 — 예: 안전보건규칙, KOSHA, 지속가능경영보고서', 'Search sources — e.g. Standards Rules, KOSHA, sustainability report'), total: S.SOURCES.length,
+          facets: [{ key: 't', label: T('유형', 'Type'), opts: Object.keys(TYPE).filter((k) => byType[k]).map((k) => ({ id: k, label: L(TYPE[k]), n: byType[k] })) }] })}
+        <div class="table-wrap"><table class="data">
+        <thead><tr><th class="n">#</th><th>${T('출처', 'Source')}</th><th>${T('유형', 'Type')}</th><th>${T('확인일', 'Checked')}</th></tr></thead>
+        <tbody>${S.SOURCES.map((s, i) => `<tr id="anchor-${s.id}" data-li="${esc(s.id + ' ' + [].concat(s.title.ko || '', s.title.en || '').join(' '))}" data-f-t="${s.type}" ${sub === s.id ? 'style="background:var(--accent-bg)"' : ''}><td class="n">${i + 1}</td>
           <td><a href="${s.url}" target="_blank" rel="noopener">${L(s.title)}</a>${s.note ? `<div class="xs muted">${L(s.note)}</div>` : ''}</td>
-          <td><span class="chip">${L(TYPE[s.type])}</span></td><td class="n">${s.checked}</td></tr>`).join('')}</tbody>
-      </table></div></section>`;
+          <td><span class="chip">${L(TYPE[s.type])}</span></td><td class="num nowrap">${s.checked}</td></tr>`).join('')}</tbody>
+        </table></div>
+        <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 출처가 없습니다.', 'No sources match.')}</p>
+      </section>` : ''}`;
     },
     mount(root) {
+      S.listFilter(root, 'src');
       const sv = root.querySelector('#lc-save');
       if (sv) sv.addEventListener('click', () => {
         const at = root.querySelector('#lc-at').value, by = root.querySelector('#lc-by').value.trim(), note = root.querySelector('#lc-note').value.trim();

@@ -138,6 +138,7 @@
       const pgGroups = pg && pg.ok ? summarize(Object.keys(pg.data)) : [];
       return `
       ${ui.head(T('업무', 'Workspace'), T('데이터 백업·복원', 'Backup & restore'),
+        T('포털에 입력한 내용을 파일로 백업하고 되살립니다.', 'Back up what you have entered to a file, and restore it.'),
         T('업무 보드, 법정 주기 실시일, 위험성평가, 조사 기록처럼 포털에 입력한 내용은 이 브라우저에만 저장됩니다. 파일로 백업해 두면 브라우저 데이터를 지웠거나 다른 PC로 옮길 때 그대로 되살릴 수 있습니다.', 'Everything you enter — tasks, cycle dates, risk assessments, investigations — is stored only in this browser. Back it up to a file so you can restore it after clearing the browser or on another PC.'))}
       <section class="grid g3">
         <div class="panel span2">${ui.title(T('이 브라우저에 저장된 데이터', 'Data stored in this browser'), `${S.fmt(keys.length)}${T('개 항목', ' items')} · ${kb(bytesOf(keys))}`)}
@@ -146,7 +147,7 @@
             : `<p class="small muted">${T('아직 입력한 데이터가 없습니다. 화면의 예시 값은 저장되지 않은 기본값입니다.', 'Nothing entered yet. Example values on screen are defaults, not saved data.')}</p>`}
         </div>
         <div class="panel stack">${ui.title(T('마지막 백업', 'Last backup'))}
-          <span class="num" style="font-size:22px;font-weight:600">${last ? S.esc(last) : T('없음', 'Never')}</span>
+          <span class="num" style="font-size:calc(22px * var(--fz));font-weight:600">${last ? S.esc(last) : T('없음', 'Never')}</span>
           ${last ? `<span class="small muted">${T(`${ago}일 전`, `${ago} days ago`)}</span>` : ''}
           ${mine.length && (ago == null || ago > 30) ? `<div class="callout warn small">${T('입력한 데이터가 있는데 30일 넘게 백업하지 않았습니다.', 'You have data that has not been backed up for over 30 days.')}</div>` : ''}
         </div>

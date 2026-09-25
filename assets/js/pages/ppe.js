@@ -55,8 +55,9 @@
       const lvl = ev.gates.some((g) => g.lv === 'bad') || ev.idlhCase ? 'bad' : ev.best ? (ev.best.sup ? 'warn' : 'ok') : 'info';
       return `
       ${ui.head(T('판정·평가 도구', 'Tools'), T('호흡보호구 선정', 'Respirator selection'),
-        T('물질과 예상 농도를 넣으면 산소 농도 → IDLH 여부 → 유해비(농도 ÷ 노출기준)에 맞는 할당보호계수 순서로 쓸 수 있는 호흡보호구를 고르고, 국내 안전인증 방독마스크 정화통 종류·등급·표시색과 방진마스크 등급을 함께 보여줍니다.',
-          'Enter a substance and the expected concentration: the tool checks oxygen, then IDLH, then the hazard ratio (concentration ÷ limit) against assigned protection factors, and shows the Korean certified canister type, class and colour and the dust-mask class.'))}
+        T('물질과 예상 농도를 넣으면 쓸 수 있는 호흡보호구를 고릅니다.', 'Enter a substance and the expected concentration to pick a suitable respirator.'),
+        T('산소 농도 → IDLH 여부 → 유해비(농도 ÷ 노출기준)에 맞는 할당보호계수 순서로 판단하고, 국내 안전인증 방독마스크 정화통 종류·등급·표시색과 방진마스크 등급을 함께 보여줍니다.',
+          'The tool checks oxygen, then IDLH, then the hazard ratio (concentration ÷ limit) against assigned protection factors, and shows the Korean certified canister type, class and colour and the dust-mask class.'))}
       <section class="grid g2">
         <div class="panel stack">
           <div class="form-grid">

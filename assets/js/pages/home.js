@@ -11,7 +11,8 @@
   /* 예시 최근 실시일: 상태가 골고루 보이도록 오늘 기준으로 생성 (사용자가 수정하면 예시 표시가 사라진다) */
   const EXAMPLE_AGO = { council: 20, rounds: 1, joint: 70, sapa3: 150, sapa5: 190, sapa7: 40, sapa8: 100, sapa9: 170, fireop: 300, firefull: 120, drill: 380, edu: 60, supedu: 200, ra: 250,
     oshc: 40, 'sapa-law': 120, 'sapa-edu': 90, wem: 150, she: 200, inspect: 500, 'psm-eval': 900, disclose: 55, mgredu: 400,
-    'cca-self': 3, 'cca-insp': 200, 'cca-plan': 900, 'cca-notice': 150, 'cca-edu': 100, 'cca-edu2': 300, 'hpg-insp': 335, 'hpg-edu': 500 };
+    'cca-self': 3, 'cca-insp': 200, 'cca-plan': 900, 'cca-notice': 150, 'cca-edu': 100, 'cca-edu2': 300, 'hpg-insp': 335, 'hpg-edu': 500,
+    'dg-check': 280, 'dg-edu': 400, msd: 800, 'psm-audit': 320 };
   /* 매년 정해진 날짜까지 하는 의무(예: 4월 30일 공시)는 최근 실시일 다음에 오는 그 날짜를 기한으로 본다 */
   const nextFixed = (from, md) => {
     const [m, d] = md.split('-').map(Number);
@@ -19,6 +20,14 @@
     return x > from ? x : new Date(from.getFullYear() + 1, m - 1, d);
   };
   const CYC_SHOW = 10;
+  /* 주기 업무를 실제로 하는 화면 — 관련 기능이 없는 업무(위원회·공시 등)는 연결하지 않는다 */
+  const CYCLE_GO = {
+    council: 'partner', rounds: 'partner', joint: 'partner', sapa3: 'prevent/sapa', sapa5: 'prevent/sapa', sapa7: 'prevent/sapa', sapa8: 'prevent/sapa', sapa9: 'partner/score',
+    fireop: 'fire/schedule', firefull: 'fire/schedule', drill: 'fire', edu: 'training', supedu: 'training', ra: 'risk', 'sapa-law': 'prevent/sapa', 'sapa-edu': 'training',
+    wem: 'measure/wem', she: 'measure/wem', 'psm-audit': 'psm/audit', 'psm-eval': 'psm/eval', 'cca-self': 'print/chem', 'cca-insp': 'psm/chem', 'cca-plan': 'psm/chem', 'cca-notice': 'psm/chem',
+    'cca-edu': 'training', 'cca-edu2': 'training', 'hpg-insp': 'psm/chem', 'hpg-edu': 'psm/chem', 'dg-check': 'psm/dg', 'dg-edu': 'psm/dg'
+  };
+  S.CYCLE_GO = CYCLE_GO;
   const validDate = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T00:00:00'));
   function cycleData() {
     const saved = S.load('cycles', {}), picked = S.load('cycles.days', {});
@@ -121,6 +130,19 @@
     </svg>`;
   }
 
+  /* 바로 가기 아이콘 */
+  const QI = {
+    chem: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/>',
+    air: '<path d="M3 8h11a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h8"/>',
+    risk: '<path d="M4 4h16v16H4zM4 12h16M12 4v16"/>',
+    partner: '<path d="M8 12.5l2.8 2.8L16 10M3.5 12a8.5 8.5 0 1 0 17 0 8.5 8.5 0 0 0-17 0"/>',
+    fire: '<path d="M12 3c1 4 5.5 5.5 5.5 10.5a5.5 5.5 0 0 1-11 0c0-3 2-4.5 2-7.5 2 1 3.5 2.5 3.5 5"/>',
+    card: '<path d="M4 5h16v14H4zM8 9.5h8M8 13.5h5"/>',
+    report: '<path d="M12 4 3 20h18L12 4zM12 10v5M12 17.6v.4"/>',
+    psm: '<path d="M4 20V10l5 3v-3l5 3V5h5v15z"/>'
+  };
+  const qicon = (k) => `<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">${QI[k]}</svg>`;
+
   S.pages.home = {
     render() {
       const k = S.COMPANY.kpi, site = S.state.site, siteInfo = S.SITES[site];
@@ -130,16 +152,19 @@
       const cycRows = showAll ? cyc : cyc.slice(0, CYC_SHOW);
       const tk = tasks().filter((x) => site === 'common' || x.site === site || x.site === 'common');
       const cols = [['todo', T('할 일', 'To do')], ['doing', T('진행 중', 'In progress')], ['done', T('완료', 'Done')]];
+      const cnt = (st) => tk.filter((x) => x.st === st).length;
       const ra = k.ra[k.ra.length - 1];
+      const cs = S.caseStats(), pct = cs.total ? Math.round(cs.done / cs.total * 100) : 0;
 
       return `
       ${ui.head(T('업무판', 'Dashboard') + ' · ' + S.dateLabel(S.today()) + ' · ' + L(siteInfo.name),
         T('안전관리자 업무판', 'SHE manager dashboard'),
+        T('기한이 다가온 법정 업무와 회사가 공개한 안전 지표를 한눈에 봅니다.', 'Statutory deadlines and the company’s published safety figures at a glance.'),
         document.documentElement.classList.contains('m')
-          ? T('법정 주기 업무의 기한, 회사가 공개한 안전 KPI, 6대 직무별 할 일을 한 화면에서 확인합니다. 사업장(공통·이천·청주)과 언어는 ‘전체 메뉴’ 맨 위에서 바꿉니다.',
-            'Statutory deadlines, the company’s published safety KPIs and tasks across the six SHE functions on one screen. Switch site (all, Icheon, Cheongju) and language at the top of the menu.')
-          : T('법정 주기 업무의 기한, 회사가 공개한 안전 KPI, 6대 직무별 할 일을 한 화면에서 확인합니다. 상단에서 사업장(공통·이천·청주)과 언어를 바꿀 수 있습니다.',
-            'Statutory deadlines, the company’s published safety KPIs and tasks across the six SHE functions on one screen. Switch site (all, Icheon, Cheongju) and language at the top.'))}
+          ? T('6대 직무별 할 일도 함께 관리합니다. 사업장(공통·이천·청주)과 언어는 ‘전체 메뉴’ 맨 위에서 바꿉니다. ‘예시’ 표시는 가상 데이터입니다.',
+            'Tasks across the six SHE functions live here too. Switch site (all, Icheon, Cheongju) and language at the top of the menu. Items marked “Example” are fictional.')
+          : T('6대 직무별 할 일도 함께 관리합니다. 상단에서 사업장(공통·이천·청주)과 언어를 바꿀 수 있습니다. ‘예시’ 표시는 가상 데이터입니다.',
+            'Tasks across the six SHE functions live here too. Switch site (all, Icheon, Cheongju) and language at the top. Items marked “Example” are fictional.'))}
       ${(() => {
         if (S.state.indexing || !S.userKeys().length) return '';
         const ago = S.backup ? S.backup.lastAgo() : null;
@@ -155,40 +180,47 @@
         return ago > 31 ? `<div class="callout warn small" id="lawchk-nudge">${T(`마지막 법령 변경 점검이 ${ago}일 전입니다(월 1회 권장).`, `Your last law-change check was ${ago} days ago (monthly is recommended).`)} <a href="#sources/lawcheck">${T('점검하기', 'Check now')} →</a></div>` : '';
       })()}
 
-      <section class="grid g4" aria-label="KPI">
-        <div class="panel kpi"><span class="k">${T('재해율 (국내, 2025)', 'Injury rate (Korea, 2025)')}${S.cite('sr2026')}</span><span class="v">0.09<small>%</small></span><span class="d">${T('2024년 0.10% · 2023년 0.10%', '2024: 0.10 % · 2023: 0.10 %')}</span></div>
-        <div class="panel kpi"><span class="k">LTIFR ${T('(20만 근무시간당, 2025)', '(per 200k hours, 2025)')}${S.cite('sr2026')}</span><span class="v">0.03</span><span class="d">${T('2024년 0.02', '2024: 0.02')}</span></div>
-        <div class="panel kpi"><span class="k">${T('산재 사망자 (2025)', 'Work fatalities (2025)')}${S.cite('sr2026')}</span><span class="v">0<small>${T('명', '')}</small></span><span class="d">${T('2024년 1명 — 무재해가 당연하지 않다는 기록', '2024: 1 — a reminder zero is never automatic')}</span></div>
-        <div class="panel kpi"><span class="k">${T('작업 위험성평가 (2025)', 'Job risk assessments (2025)')}${S.cite('sr2026')}</span><span class="v">${S.fmt(ra.jobs)}</span><span class="d">${T(`개선 필요 ${S.fmt(ra.hazards)}건 · 평균 위험도 ${ra.before}→${ra.after}`, `${S.fmt(ra.hazards)} hazards fixed · mean risk ${ra.before}→${ra.after}`)}</span></div>
+      <section class="tiles" aria-label="${T('오늘의 현황', 'Status today')}">
+        <a class="tile ${overdue ? 'bad' : 'ok'}" href="#home/cycles"><span class="t">${T('기한 경과', 'Overdue')}</span><span class="n">${overdue}<small>${T('건', '')}</small></span><span class="d">${T(`법정 주기 업무 ${cyc.length}개 중`, `of ${cyc.length} statutory cycles`)}</span></a>
+        <a class="tile ${soon ? 'warn' : 'ok'}" href="#home/cycles"><span class="t">${T('기한 임박', 'Due soon')}</span><span class="n">${soon}<small>${T('건', '')}</small></span><span class="d">${T('남은 기간이 주기의 15% 이내', 'within 15 % of the cycle')}</span></a>
+        <a class="tile info" href="#home/tasks"><span class="t">${T('진행 중 업무', 'Tasks in progress')}</span><span class="n">${cnt('doing')}<small>${T('건', '')}</small></span><span class="d">${T(`할 일 ${cnt('todo')} · 완료 ${cnt('done')}`, `${cnt('todo')} to do · ${cnt('done')} done`)}</span></a>
+        <a class="tile ${pct >= 80 ? 'ok' : pct >= 40 ? 'warn' : 'bad'}" href="#cases"><span class="t">${T('재발방지 대책 이행', 'Recurrence measures done')}</span><span class="n">${pct}<small>%</small></span><span class="d">${T(`${cs.total}개 중 ${cs.done}개 완료`, `${cs.done} of ${cs.total} done`)}</span></a>
+      </section>
+
+      <section class="panel" id="anchor-cycles">
+        ${ui.title(T('법정 주기 트래커', 'Statutory cycle tracker'), T('최근 실시일을 넣으면 다음 기한을 다시 계산합니다', 'Enter the last date to recalculate the next due date'))}
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>${T('업무 · 주기 · 근거', 'Obligation · cycle · basis')}</th><th>${T('다음 기한', 'Next due')}</th><th>${T('상태', 'Status')}</th><th>${T('최근 실시일', 'Last done')}</th></tr></thead>
+          <tbody>${cycRows.map((c) => `<tr>
+            <td style="min-width:12em"><div><span class="chip">${L(MOD[c.mod])}</span> <b style="font-weight:600">${L(c.t)}</b></div>
+              <div class="cyc-meta">${c.choices ? `<select data-cycdays="${c.id}" aria-label="${S.esc(T('주기 선택', 'Choose the interval') + ' — ' + L(c.t))}">${c.choices.map(([d, l]) => `<option value="${d}" ${d === c.days ? 'selected' : ''}>${S.esc(L(l))}</option>`).join('')}</select>` : `<span>${L(c.every)}</span>`}<span class="muted">${L(c.basis)}${S.cite(c.src)}</span>${CYCLE_GO[c.id] ? `<a href="#${CYCLE_GO[c.id]}">${T('업무 화면', 'Open the tool')} →</a>` : ''}</div></td>
+            <td class="num nowrap">${S.iso(c.due)}</td>
+            <td class="nowrap">${ui.pill(c.level, c.left < 0 ? T(`경과 ${-c.left}일`, `${-c.left} d overdue`) : c.left === 0 ? T('오늘', 'Today') : T(`D-${c.left}`, `${c.left} d left`))}</td>
+            <td><input type="date" id="cyc-${c.id}" data-cycle="${c.id}" value="${S.iso(c.last)}" aria-label="${S.esc(T('최근 실시일', 'Last done') + ' — ' + L(c.t))}" style="width:auto;max-width:100%">${c.example ? `<div style="margin-top:4px">${ui.ex()}</div>` : ''}</td>
+          </tr>`).join('')}</tbody></table></div>
+        <div class="row" style="margin-top:12px">${cyc.length > CYC_SHOW && !S.state.indexing ? `<button class="btn ghost sm" type="button" id="cycAll" aria-expanded="${showAll}">${showAll ? T('기한 임박 10개만 보기', 'Show the 10 most urgent') : T(`전체 ${cyc.length}개 보기`, `Show all ${cyc.length}`)}</button>` : ''}<button class="btn ghost sm" type="button" id="cycIcs">${T('캘린더로 내보내기 (.ics)', 'Export to calendar (.ics)')}</button>${S.printLink('cycles', T('기한 계획표 인쇄', 'Print the schedule'))}</div>
+        <p class="xs muted">${T('주기는 법령 원문 기준의 최소 요건입니다. 소방 점검 시기는 사용승인월·대상물 등급에 따라 달라지므로 “소방·방재”에서 계산하세요. 작업환경측정·특수건강진단은 보건관리자 소관이지만 화학물질 노출 관리와 맞물려 함께 봅니다.', 'Cycles are statutory minimums. Fire-inspection timing depends on the approval month and property grade — use “Fire & emergency” to calculate it. Exposure monitoring and special health checks belong to the health manager but are tracked here because they tie into chemical-exposure control.')}</p>
       </section>
 
       <section class="grid g3">
-        <div class="panel span2" id="anchor-cycles">
-          ${ui.title(T('법정 주기 트래커', 'Statutory cycle tracker'), T(`경과 ${overdue} · 임박 ${soon} — 최근 실시일을 입력하면 다음 기한을 계산합니다`, `${overdue} overdue · ${soon} due soon — enter the last date to recalculate`))}
-          <div class="table-wrap"><table class="data">
-            <thead><tr><th>${T('업무', 'Obligation')}</th><th>${T('주기', 'Cycle')}</th><th>${T('근거', 'Basis')}</th><th>${T('최근 실시일', 'Last done')}</th><th>${T('다음 기한', 'Next due')}</th><th>${T('상태', 'Status')}</th></tr></thead>
-            <tbody>${cycRows.map((c) => `<tr>
-              <td><span class="chip">${L(MOD[c.mod])}</span> ${L(c.t)}</td>
-              <td class="small">${c.choices ? `<select data-cycdays="${c.id}" aria-label="${S.esc(T('주기 선택', 'Choose the interval') + ' — ' + L(c.t))}" style="max-width:min(220px,100%)">${c.choices.map(([d, l]) => `<option value="${d}" ${d === c.days ? 'selected' : ''}>${S.esc(L(l))}</option>`).join('')}</select>` : L(c.every)}</td>
-              <td class="small">${L(c.basis)}${S.cite(c.src)}</td>
-              <td><input type="date" id="cyc-${c.id}" data-cycle="${c.id}" value="${S.iso(c.last)}" aria-label="${S.esc(L(c.t))}"> ${c.example ? ui.ex() : ''}</td>
-              <td class="n">${S.iso(c.due)}</td>
-              <td>${ui.pill(c.level, c.left < 0 ? T(`경과 ${-c.left}일`, `${-c.left} d overdue`) : c.left === 0 ? T('오늘', 'Today') : T(`D-${c.left}`, `${c.left} d left`))}</td>
-            </tr>`).join('')}</tbody></table></div>
-          <div class="row" style="margin-top:8px">${cyc.length > CYC_SHOW && !S.state.indexing ? `<button class="btn ghost sm" type="button" id="cycAll" aria-expanded="${showAll}">${showAll ? T('기한 임박 10개만 보기', 'Show the 10 most urgent') : T(`전체 ${cyc.length}개 보기`, `Show all ${cyc.length}`)}</button>` : ''}<button class="btn ghost sm" type="button" id="cycIcs">${T('캘린더로 내보내기 (.ics)', 'Export to calendar (.ics)')}</button>${S.printLink('cycles', T('기한 계획표 인쇄', 'Print the schedule'))}</div>
-          <p class="xs muted" style="margin-top:8px">${T('주기는 법령 원문 기준의 최소 요건입니다. 소방 점검 시기는 사용승인월·대상물 등급에 따라 달라지므로 “소방·방재”에서 계산하세요. 작업환경측정·특수건강진단은 보건관리자 소관이지만 화학물질 노출 관리와 맞물려 함께 봅니다.', 'Cycles are statutory minimums. Fire-inspection timing depends on the approval month and property grade — use “Fire & emergency” to calculate it. Exposure monitoring and special health checks belong to the health manager but are tracked here because they tie into chemical-exposure control.')}</p>
+        <div class="panel span2">
+          ${ui.title(T('회사 안전 지표', 'Company safety figures'), T('2025년 · 회사 공개', '2025 · published by the company') + S.cite('sr2026'))}
+          <div class="kpis">
+            <div class="kpi"><span class="k">${T('재해율 (국내)', 'Injury rate (Korea)')}</span><span class="v">0.09<small>%</small></span><span class="d">${T('2024년 0.10% · 2023년 0.10%', '2024: 0.10 % · 2023: 0.10 %')}</span></div>
+            <div class="kpi"><span class="k">LTIFR ${T('(20만 시간당)', '(per 200k h)')}</span><span class="v">0.03</span><span class="d">${T('2024년 0.02', '2024: 0.02')}</span></div>
+            <div class="kpi"><span class="k">${T('산재 사망자', 'Work fatalities')}</span><span class="v">0<small>${T('명', '')}</small></span><span class="d">${T('2024년 1명 — 무재해가 당연하지 않다는 기록', '2024: 1 — a reminder zero is never automatic')}</span></div>
+            <div class="kpi"><span class="k">${T('작업 위험성평가', 'Job risk assessments')}</span><span class="v">${S.fmt(ra.jobs)}</span><span class="d">${T(`개선 필요 ${S.fmt(ra.hazards)}건 · 평균 위험도 ${ra.before}→${ra.after}`, `${S.fmt(ra.hazards)} hazards fixed · mean risk ${ra.before}→${ra.after}`)}</span></div>
+          </div>
+          <div class="grid g2" style="margin-top:18px">
+            <div class="stack" style="gap:6px"><h3 class="chart-t">${T('통합재해율 목표 vs 실적', 'Injury-rate target vs actual')} <span class="xs muted">${T('2021년 대비', 'vs 2021')}</span></h3>${gapChart()}
+              <p class="xs">${T('PRISM 2030 목표는 10% 저감이지만 2024·2025년 모두 증가해 미달성했다고 회사가 공개했습니다. 이 격차가 안전관리자가 풀어야 할 과제입니다.', 'The PRISM 2030 goal is a 10 % cut, yet the company reports increases in both 2024 and 2025. Closing this gap is the SHE team’s job.')}${S.cite('sr2026', 'sr2025')}</p></div>
+            <div class="stack" style="gap:6px"><h3 class="chart-t">${T('재해율 추이', 'Injury-rate trend')} <span class="xs muted">${T('국내, %', 'Korea, %')}</span></h3>${barChart(k.injuryRate, { max: 0.12, ticks: [0, 0.06, 0.12], label: T('재해율 추이', 'Injury rate trend') })}</div>
+          </div>
         </div>
-        <div class="stack">
-          <div class="panel">
-            ${ui.title(T('통합재해율 목표 vs 실적', 'Injury-rate target vs actual'), T('2021년 대비', 'vs 2021'))}
-            ${gapChart()}
-            <p class="xs muted">${T('PRISM 2030 목표는 10% 저감이지만 2024·2025년 모두 증가해 미달성했다고 회사가 공개했습니다. 이 격차가 안전관리자가 풀어야 할 과제입니다.', 'The PRISM 2030 goal is a 10 % cut, yet the company reports increases in both 2024 and 2025. Closing this gap is the SHE team’s job.')}${S.cite('sr2026', 'sr2025')}</p>
-          </div>
-          <div class="panel">
-            ${ui.title(T('재해율 추이', 'Injury-rate trend'), T('국내, %', 'Korea, %'))}
-            ${barChart(k.injuryRate, { max: 0.12, ticks: [0, 0.06, 0.12], label: T('재해율 추이', 'Injury rate trend') })}
-            <p class="xs muted">${S.cite('sr2026')}</p>
-          </div>
+        <div class="panel stack">
+          ${ui.title(T('재발방지 현황', 'Recurrence prevention'), `<a href="#cases">${T('사고사례 분석', 'Incident analysis')} →</a>`)}
+          <div class="kpi"><span class="k">${T('대책 이행률 (내가 입력한 상태 기준)', 'Measures completed (from the status you enter)')}</span><span class="v">${pct}<small>%</small></span><span class="d">${T(`${cs.total}개 대책 중 ${cs.done}개 완료`, `${cs.done} of ${cs.total} measures done`)}</span></div><div class="gauge" aria-hidden="true"><i style="width:${pct}%;background:var(--ok)"></i></div>
+          <div class="callout bad small"><b>${T('2026 정부 점검', '2026 MOEL inspection')}</b> — ${T('SK하이닉스 청주 119건 위반, 이천 도급승인 취소. 6월 가스룸 사고의 공식 원인은 사전점검 미실시·허가 없는 가스 작업 개시.', 'SK hynix Cheongju: 119 violations; Icheon: approval revoked. Official cause of the June gas-room events: skipped pre-checks and gas work without a permit.')}${S.cite('moel0920')}</div>
         </div>
       </section>
 
@@ -198,10 +230,18 @@
           ${(() => { const d = S.daysBetween(new Date(S.LAW_ASOF + 'T00:00:00'), S.today()); return d > 45 ? `<div class="callout warn small">${T(`포털의 법령·동향 기준일(${S.LAW_ASOF}) 이후 ${d}일이 지났습니다. 그 사이 개정이 있을 수 있으니 국가법령정보센터에서 최신본을 확인하세요.`, `${d} days have passed since the portal’s law and news date (${S.LAW_ASOF}); laws may have changed, so check the current text on the National Law Information Center.`)} <a href="#sources/lawcheck">${T('점검 방법', 'How to check')} →</a></div>` : ''; })()}
           <ol class="timeline news">${S.NEWS.slice(0, 6).map((x) => `<li><span class="num">${x.date}</span>${ui.pill({ reg: 'bad', sk: 'info', acc: 'warn', law: 'ok' }[x.kind], { reg: T('규제·감독', 'Regulator'), sk: 'SK hynix', acc: T('사고', 'Incident'), law: T('법령', 'Law') }[x.kind])} <span>${S.esc(L(x.t))}${S.cite(x.src)}</span>${x.link ? ` <a class="xs" href="${x.link}">→</a>` : ''}</li>`).join('')}</ol>
         </div>
-        <div class="panel stack">
-          ${ui.title(T('재발방지 현황', 'Recurrence prevention'), `<a href="#cases">${T('사고사례 분석', 'Incident analysis')} →</a>`)}
-          ${(() => { const st = S.caseStats(); const pct = st.total ? Math.round(st.done / st.total * 100) : 0; return `<div class="kpi"><span class="k">${T('대책 이행률 (내가 입력한 상태 기준)', 'Measures completed (from the status you enter)')}</span><span class="v">${pct}<small>%</small></span><span class="d">${T(`${st.total}개 대책 중 ${st.done}개 완료`, `${st.done} of ${st.total} measures done`)}</span></div><div class="gauge" aria-hidden="true"><i style="width:${pct}%;background:var(--ok)"></i></div>`; })()}
-          <div class="callout bad small"><b>${T('2026 정부 점검', '2026 MOEL inspection')}</b> — ${T('SK하이닉스 청주 119건 위반, 이천 도급승인 취소. 6월 가스룸 사고의 공식 원인은 사전점검 미실시·허가 없는 가스 작업 개시.', 'SK hynix Cheongju: 119 violations; Icheon: approval revoked. Official cause of the June gas-room events: skipped pre-checks and gas work without a permit.')}${S.cite('moel0920')}</div>
+        <div class="panel">
+          ${ui.title(T('바로 가기', 'Quick launch'))}
+          <div class="quick">
+            <a href="#measure/chem">${qicon('chem')}${T('화학물질 노출 판정', 'Chemical exposure check')}</a>
+            <a href="#measure/confined">${qicon('air')}${T('밀폐공간 적정공기 판정', 'Confined-space air check')}</a>
+            <a href="#risk">${qicon('risk')}${T('위험성평가', 'Risk assessment')}</a>
+            <a href="#partner">${qicon('partner')}${T('도급승인 대상 판별', 'Subcontract approval check')}</a>
+            <a href="#fire">${qicon('fire')}${T('소방 자체점검 일정', 'Fire self-inspection schedule')}</a>
+            <a href="#sop">${qicon('card')}${T('작업 전 5분 안전카드', '5-minute pre-job card')}</a>
+            <a href="#prevent/report">${qicon('report')}${T('사고 보고 의무 판정', 'Accident reporting check')}</a>
+            <a href="#psm/tq">${qicon('psm')}${T('PSM 대상(규정량) 판정', 'PSM threshold check')}</a>
+          </div>
         </div>
       </section>
 
@@ -221,24 +261,9 @@
           </div>`).join('')}</div>`).join('')}</div>
       </section>
 
-      <section class="grid g2">
-        <div class="panel">
-          ${ui.title(T('사업장 스냅샷', 'Site snapshot') + ' — ' + L(siteInfo.name), `<a href="#sites">${T('사업장 상세', 'Site details')} →</a>`)}
-          <ul class="facts">${siteInfo.facts.slice(0, 5).map((f) => `<li>${L(f.t)}${S.cite(f.src)}</li>`).join('')}</ul>
-        </div>
-        <div class="panel">
-          ${ui.title(T('바로 가기', 'Quick launch'))}
-          <div class="grid g2">
-            <a class="btn ghost" href="#measure">${T('화학물질 노출 판정', 'Chemical exposure check')}</a>
-            <a class="btn ghost" href="#measure">${T('밀폐공간 적정공기 판정', 'Confined-space air check')}</a>
-            <a class="btn ghost" href="#risk">${T('위험성평가 (SK하이닉스 수준표)', 'Risk assessment (SK hynix scale)')}</a>
-            <a class="btn ghost" href="#partner">${T('도급승인 대상 판별', 'Subcontract approval check')}</a>
-            <a class="btn ghost" href="#fire">${T('소방 자체점검 일정', 'Fire self-inspection schedule')}</a>
-            <a class="btn ghost" href="#sop">${T('작업 전 5분 안전카드', '5-minute pre-job card')}</a>
-            <a class="btn ghost" href="#prevent/report">${T('사고 보고 의무 판정', 'Accident reporting check')}</a>
-            <a class="btn ghost" href="#psm/tq">${T('PSM 대상(규정량) 판정', 'PSM threshold check')}</a>
-          </div>
-        </div>
+      <section class="panel">
+        ${ui.title(T('사업장 스냅샷', 'Site snapshot') + ' — ' + L(siteInfo.name), `<a href="#sites">${T('사업장 상세', 'Site details')} →</a>`)}
+        <ul class="facts cols2">${siteInfo.facts.slice(0, 6).map((f) => `<li>${L(f.t)}${S.cite(f.src)}</li>`).join('')}</ul>
       </section>`;
     },
     mount(root) {

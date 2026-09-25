@@ -16,21 +16,21 @@
       req: { art: '27–30', ko: ['단위공정 특성에 맞는 기법 선정 (반응·분리·이송·전기계장은 HAZOP·FMECA·FTA 등, 저장·유틸리티는 체크리스트·What-if 등)', '인화성 가스·액체 화재·폭발, 독성물질 누출별 최악 1건·대안 1건 이상 사고 시나리오의 정량적 피해예측', '위험성평가·설계·공정운전 전문가 참여, 명단 기록', '설비 설치·개보수 등 작업은 JSA 등으로 별도 위험성평가 규정 마련'], en: ['Choose methods to suit each unit (HAZOP, FMECA, FTA… for reaction, separation, transfer and E&I; checklist, What-if… for storage and utilities)', 'Quantitative consequence analysis of one worst-case and at least one alternative scenario each for flammable fire/explosion and toxic release', 'Risk-assessment, design and operations experts take part and are listed', 'A separate job risk-assessment rule (e.g. JSA) for installation, repair and similar work'] } },
     { id: 'sop', t: { ko: '안전운전지침서', en: 'Operating procedures' }, law: '①3가', d: { ko: '설비·작업별 안전운전 절차', en: 'Safe operating procedures by unit and task' }, link: 'sop',
       req: { art: '31', ko: ['최초 시운전·정상운전·비상시 운전', '정상 운전 정지·비상정지·정비 후 운전 개시', '운전범위를 벗어났을 때 조치 절차', '물성·유해위험성, 누출 예방, 보호구, 폭로 시 조치요령', '안전설비 계통의 기능·운전방법'], en: ['Initial start-up, normal and emergency operation', 'Normal shutdown, emergency shutdown, restart after maintenance', 'Actions when operating limits are exceeded', 'Properties and hazards, leak prevention, PPE, exposure response', 'Function and operation of safety systems'] } },
-    { id: 'mi', t: { ko: '설비점검·검사·보수·유지', en: 'Inspection, testing & maintenance' }, law: '①3나', d: { ko: '설비점검·검사 및 보수계획, 유지계획 및 지침서 — 로봇 순찰(SDX)과 연계', en: 'Inspection, testing, maintenance plans and guides — linked to robot patrols (SDX)' }, link: 'sdx',
+    { id: 'mi', t: { ko: '설비점검·검사·보수·유지', en: 'Inspection, testing & maintenance' }, law: '①3나', d: { ko: '설비점검·검사 및 보수계획, 유지계획 및 지침서 — 로봇 순찰(SDX)과 연계', en: 'Inspection, testing, maintenance plans and guides — linked to robot patrols (SDX)' }, link: 'home/cycles',
       req: { art: '32', ko: ['구성 기기의 우선순위 등급', '기기 점검·결함관리·정비', '기기·기자재 품질관리', '외주업체 관리', '설비 유지관리'], en: ['Priority grading of components', 'Inspection, defect management and repair', 'Quality control of equipment and materials', 'Managing outside contractors', 'Equipment upkeep'] } },
-    { id: 'ptw', t: { ko: '안전작업허가', en: 'Permit to work' }, law: '①3다', d: { ko: '화기·밀폐·배관개방 등 위험작업 허가', en: 'Permits for hot work, confined space, line breaking, etc.' }, link: 'prevent',
+    { id: 'ptw', t: { ko: '안전작업허가', en: 'Permit to work' }, law: '①3다', d: { ko: '화기·밀폐·배관개방 등 위험작업 허가', en: 'Permits for hot work, confined space, line breaking, etc.' }, link: 'ptw',
       req: { art: '33', ko: ['안전작업허가 일반사항·안전작업 준비', '화기작업 허가', '일반위험작업 허가', '밀폐공간 출입작업 허가', '정전작업 허가', '굴착작업 허가', '방사선 사용작업 허가'], en: ['General rules and preparation', 'Hot-work permit', 'General hazardous-work permit', 'Confined-space entry permit', 'Electrical isolation permit', 'Excavation permit', 'Radiation-work permit'] } },
     { id: 'contr', t: { ko: '도급업체 안전관리', en: 'Contractor safety' }, law: '①3라', d: { ko: '도급업체 안전관리계획', en: 'Contractor safety management plan' }, link: 'partner',
       req: { art: '34', ko: ['법 제63~66조 도급인 조치', '도급업체 선정과 안전관리수준 평가', '비상조치계획(최악·대안 시나리오) 제공 및 훈련', '도급업체: 조치 이행, 작업자 교육·훈련, 작업표준·작업 위험성평가'], en: ['Principal’s duties under Act Arts. 63–66', 'Selecting contractors and rating their safety performance', 'Sharing the emergency plan (worst and alternative scenarios) and drilling it', 'Contractor: carry out measures, train workers, write work standards and job risk assessments'] } },
-    { id: 'train', t: { ko: '근로자 등 교육', en: 'Training' }, law: '①3마', d: { ko: '근로자 등 교육계획', en: 'Training plan for workers and others' }, link: 'culture',
+    { id: 'train', t: { ko: '근로자 등 교육', en: 'Training' }, law: '①3마', d: { ko: '근로자 등 교육계획', en: 'Training plan for workers and others' }, link: 'training',
       req: { art: '35', ko: ['교육대상·종류', '교육계획 수립·실시', '교육 평가 및 사후관리'], en: ['Who and what kind of training', 'Planning and delivery', 'Evaluation and follow-up'] } },
-    { id: 'pssr', t: { ko: '가동 전 점검', en: 'Pre-startup safety review' }, law: '①3바', d: { ko: '가동 전 점검지침 (KOSHA C-C-52-2026)', en: 'Pre-startup review guide (KOSHA C-C-52-2026)' }, link: 'psm',
+    { id: 'pssr', t: { ko: '가동 전 점검', en: 'Pre-startup safety review' }, law: '①3바', d: { ko: '가동 전 점검지침 (KOSHA C-C-52-2026)', en: 'Pre-startup review guide (KOSHA C-C-52-2026)' }, link: 'psm/pssr',
       req: { art: '36', ko: ['점검팀 구성·점검시기', '점검표 작성', '점검보고서와 결과 처리'], en: ['Review team and timing', 'Checklists', 'Report and handling of findings'] } },
-    { id: 'moc', t: { ko: '변경요소 관리', en: 'Management of change' }, law: '①3사', d: { ko: '변경요소 관리계획 (KOSHA C-C-53-2026) — 아래 MOC 트래커', en: 'MOC plan (KOSHA C-C-53-2026) — see the tracker below' }, link: 'psm',
+    { id: 'moc', t: { ko: '변경요소 관리', en: 'Management of change' }, law: '①3사', d: { ko: '변경요소 관리계획 (KOSHA C-C-53-2026) — 아래 MOC 트래커', en: 'MOC plan (KOSHA C-C-53-2026) — see the tracker below' }, link: 'psm/moc',
       req: { art: '37', ko: ['변경요소 관리 원칙', '정상변경·비상변경 관리절차', '변경관리위원회 구성', '변경 시 검토항목·업무분담·기술적 근거', '변경요구서 서식'], en: ['MOC principles', 'Normal and emergency change procedures', 'Change committee', 'Review items, responsibilities, technical basis', 'Change request form'] } },
-    { id: 'audit', t: { ko: '자체감사', en: 'Compliance audit' }, law: '①3아', d: { ko: '자체감사 계획', en: 'Self-audit plan' }, link: 'psm',
+    { id: 'audit', t: { ko: '자체감사', en: 'Compliance audit' }, law: '①3아', d: { ko: '자체감사 계획', en: 'Self-audit plan' }, link: 'psm/audit',
       req: { art: '38', ko: ['감사계획·감사팀 구성', '감사 시행', '평가 및 시정, 문서화'], en: ['Audit plan and team', 'Conducting the audit', 'Evaluation, corrective action, documentation'] } },
-    { id: 'inv', t: { ko: '공정사고 조사', en: 'Incident investigation' }, law: '①3아', d: { ko: '사고조사 계획 — 예방안전의 사고조사 도구와 연계', en: 'Investigation plan — linked to the incident tool in Preventive safety' }, link: 'prevent',
+    { id: 'inv', t: { ko: '공정사고 조사', en: 'Incident investigation' }, law: '①3아', d: { ko: '사고조사 계획 — 예방안전의 사고조사 도구와 연계', en: 'Investigation plan — linked to the incident tool in Preventive safety' }, link: 'prevent/incident',
       req: { art: '39', ko: ['공정사고 조사팀 구성', '조사 보고서 작성', '조사 결과 처리'], en: ['Investigation team', 'Investigation report', 'Handling the findings'] } },
     { id: 'erp', t: { ko: '비상조치계획', en: 'Emergency response plan' }, law: '①4', d: { ko: '장비·인력, 비상연락체계, 조직 임무·절차, 교육계획, 주민홍보계획 (KOSHA C-C-55-2026)', en: 'Equipment and people, contact chain, roles and procedures, training, public information (KOSHA C-C-55-2026)' }, link: 'fire',
       req: { art: '40', ko: ['비상사태 구분, 위험성·재해 파악, 물질 성질·상태 조사', '최악·대안 사고 시나리오 피해예측을 반영한 대응계획', '비상대피 계획, 비상사태 발령(중대산업사고 보고 포함)·종결', '사업장 내·외부 대응기관과 피해범위 내 주민에게 비상경보 전파', '비상조치위원회·비상통제 조직, 장비·비상통제소, 운전정지 절차', '비상훈련 실시, 주민 홍보계획'], en: ['Emergency levels, hazard analysis, substance properties', 'Response plan reflecting worst and alternative scenario consequences', 'Evacuation plan; declaring (incl. reporting major accidents) and ending emergencies', 'Alerting on- and off-site responders and residents in the impact zone', 'Emergency committee and control organisation, equipment and control room, shutdown procedure', 'Drills and public information'] } }
@@ -69,6 +69,72 @@
     rq: (S.CHEM_REPORT.find((r) => r.id === c.id) || {}).q
   })).filter((x) => x.hpg || x.tq.length || x.rq != null);
   /* 규정량 판정 예시 수량(가상) — 합산 원리를 보여주기 위한 값 */
+  /* 12대 요소 현황판의 ‘연결’ — 요소별로 실제 업무를 이어서 하는 화면 */
+  const PSM_GO = () => ({
+    hazards: T('물질·공정 위험', 'Chemical & process hazards'), risk: T('위험성평가 워크벤치', 'Risk workbench'), sop: T('SOP·작업 안전', 'SOPs'),
+    'home/cycles': T('법정 주기(안전검사)', 'Statutory cycles (inspections)'), ptw: T('작업허가서 작성기', 'Permit builder'), partner: T('상생협력', 'Contractor partnership'),
+    training: T('교육 이수 관리', 'Training records'), 'psm/pssr': T('가동 전 점검표', 'Pre-startup review'), 'psm/moc': T('MOC 트래커', 'MOC tracker'),
+    'psm/audit': T('자체감사표', 'Self-audit'), 'prevent/incident': T('사고·아차사고 조사', 'Incident investigation'), fire: T('소방·방재 비상대응', 'Fire & emergency')
+  });
+
+  /* PSM 고시(제2025-30호) 제49조 가동전 안전점검 — 시운전 전 최소 확인 7항목, 결과 기록·보존 (원문 확인 2026-09-25) */
+  const PSSR_ITEMS = () => [
+    T('추가·변경 설비가 설계기준에 맞게 설계되었는지', 'Added or changed equipment is designed to the design standards'),
+    T('제작기준대로 제작되었고 규정된 검사에서 합격 판정을 받았는지', 'It was built to the fabrication standards and passed the required inspections'),
+    T('설치공사가 설치 기준·사양대로 되었는지', 'It was installed to the installation standards and specifications'),
+    T('안전운전절차·지침, 정비기준, 비상시 운전절차가 준비되어 있고 내용이 적절한지', 'Safe operating procedures, maintenance standards and emergency operating procedures are ready and adequate'),
+    T('신설 설비는 위험성평가를 했고 제시된 개선사항을 이행했는지', 'For new equipment, a hazard assessment was done and its recommendations carried out'),
+    T('변경된 설비는 규정된 변경관리 절차에 따라 변경되었는지', 'For changed equipment, the change followed the management-of-change procedure'),
+    T('신설·변경 공정·설비 운전절차에 대해 운전원 교육·훈련을 하고 숙지했는지', 'Operators were trained on the new or changed operating procedures and know them')
+  ];
+  /* 제51조 자체감사 — 1년마다, 심사기준 5항목 (원문 확인 2026-09-25) */
+  const AUDIT_CHECK = () => [
+    T('사용 중인 안전작업지침·절차 등 각종 기준과 절차가 현재의 공정·설비에 맞는지 확인했다', 'Checked that the work instructions and procedures in use fit the current process and equipment'),
+    T('감사팀에 감사 대상 공정에 전문 지식을 갖춘 사람이 1명 이상 참여했다', 'At least one person with expert knowledge of the audited process was on the team'),
+    T('지속적인 조사·연구나 정밀검토가 필요한 사항은 계속 조사·연구하고 있다', 'Items needing further study or detailed review are being followed up'),
+    T('도출된 문제점에 필요한 조치를 이행하고 문서로 기록·관리한다', 'Actions on the findings are carried out and documented'),
+    T('자체감사 보고서를 3년 이상 보관한다', 'Audit reports are kept for at least 3 years')
+  ];
+  S.PSSR_ITEMS = PSSR_ITEMS; S.AUDIT_CHECK = AUDIT_CHECK;
+  const pssrBlank = () => ({ t: '', moc: '', date: S.iso(S.today()), team: '', ck: {}, note: {} });
+  const pssrState = () => { const v = S.load('psm.pssr', null); return v && v.draft ? { draft: Object.assign(pssrBlank(), v.draft), list: Array.isArray(v.list) ? v.list : [] } : { draft: pssrBlank(), list: [] }; };
+  const pssrResult = (d) => { const vals = PSSR_ITEMS().map((_, i) => (d.ck || {})[i] || ''); const ng = vals.filter((v) => v === 'ng').length, open = vals.filter((v) => !v).length; return { ng, open, ok: !ng && !open && vals.includes('ok') }; };
+  const auditBlank = () => ({ date: S.iso(S.today()), scope: '', team: '', el: {}, ck: {} });
+  const auditState = () => Object.assign(auditBlank(), S.load('psm.audit', null) || {});
+  S.pssrApi = { state: pssrState, result: pssrResult }; S.auditApi = { state: auditState }; S.PSM12 = PSM12;
+
+  /* 5단계 — 위험물안전관리법 (법·시행령·시행규칙 원문 확인 2026-09-25). 지정수량은 data/standards.js의 SHE.DG_ITEMS(시행령 별표1) */
+  const DG_EX = { type: 'gen', rows: [{ id: 'k4al', q: '1000' }, { id: 'k3aa', q: '20' }, { id: 'k42n', q: '3000' }] };
+  /* 시설 종류와 예방규정·정기점검 대상 배수(시행령 제15조①·제16조) */
+  const DG_TYPES = () => [
+    ['mfg', T('제조소', 'Manufacturing facility'), 10],
+    ['gen', T('일반취급소', 'General handling facility'), 10],
+    ['indoor', T('옥내저장소', 'Indoor storage'), 150],
+    ['outdoor', T('옥외저장소', 'Outdoor storage'), 100],
+    ['tank', T('옥외탱크저장소', 'Outdoor tank storage'), 200]
+  ];
+  const DG_DUTIES = () => [
+    [T('지정수량 이상은 허가받은 제조소등에서만 저장·취급(관할 소방서장 승인을 받으면 90일 이내 임시 저장·취급 가능). 여러 위험물은 각 수량을 지정수량으로 나눈 값의 합이 1 이상이면 지정수량 이상으로 봄', 'At or above the designated quantity, store and handle only in a licensed facility (up to 90 days temporarily with fire-station approval). For several substances, the sum of each quantity divided by its designated quantity counts; 1 or more means at or above'), T('법 제5조①②⑤', 'Art. 5(1)(2)(5)')],
+    [T('지정수량 미만은 시·도 조례가 정한 기준을 따름', 'Below the designated quantity, follow the city or provincial ordinance'), T('법 제4조', 'Art. 4')],
+    [T('제조소등 설치·변경은 시·도지사 허가. 위치·구조·설비 변경 없이 품명·수량·지정수량 배수만 바꿀 때는 1일 전까지 신고', 'Installing or altering a facility needs a provincial licence; changing only the substance, quantity or multiple needs notice one day before'), T('법 제6조①②', 'Art. 6(1)(2)')],
+    [T('위험물안전관리자 — 제조소등마다 선임, 선임 14일 이내 소방서 신고, 해임·퇴직 후 30일 이내 재선임, 부재 시 대리자(30일 이내). 화학물질관리법상 인체·생태 유해성 물질이면 안전교육을 받은 유해화학물질관리자를 선임할 수 있음', 'Hazardous-materials safety manager — one per facility, reported within 14 days, replaced within 30 days, deputy for up to 30 days. For substances hazardous under the Chemicals Control Act, a trained hazardous-chemical manager may be appointed'), T('법 제15조①②③⑤, 시행령 제11조', 'Art. 15(1)(2)(3)(5); Decree 11')],
+    [T('위험물취급자격자가 아닌 사람은 안전관리자나 대리자가 참여한 상태에서만 위험물을 취급', 'People without a handling qualification may handle hazardous materials only with the manager or deputy present'), T('법 제15조⑦', 'Art. 15(7)')],
+    [T('예방규정 — 사용 시작 전 작성해 시·도지사에게 제출(변경 때도). 지정수량 10배 이상 제조소·일반취급소, 100배 옥외저장소, 150배 옥내저장소, 200배 옥외탱크저장소, 암반탱크저장소, 이송취급소. 합 3천배 이상은 이행 실태 평가 대상', 'Prevention rules — written and submitted before use (and on change) for manufacturing and general handling facilities at 10×, outdoor storage at 100×, indoor storage at 150×, outdoor tank storage at 200×, rock-cavern tanks and pipelines; 3,000× or more is subject to implementation reviews'), T('법 제17조, 시행령 제15조', 'Art. 17; Decree 15')],
+    [T('정기점검 — 예방규정 대상과 지하탱크·이동탱크저장소, 지하 매설 탱크가 있는 제조소 등은 연 1회 이상. 안전관리자가 점검하고 30일 이내 결과 제출, 기록 3년 보존', 'Periodic check — at least yearly for facilities needing prevention rules, underground and mobile tanks, and sites with buried tanks; done by the safety manager, results filed within 30 days and kept 3 years'), T('법 제18조①②, 시행령 제16조, 규칙 제64·67·68조', 'Art. 18(1)(2); Decree 16; Rule 64, 67, 68')],
+    [T('정기검사 — 액체위험물 50만L 이상 옥외탱크저장소는 소방본부·소방서의 정기검사', 'Periodic inspection by the fire service for outdoor tank storage of 500,000 L or more of liquids'), T('법 제18조③, 시행령 제17조', 'Art. 18(3); Decree 17')],
+    [T('자체소방대 — 같은 사업소에서 제4류를 취급하는 제조소·일반취급소의 최대수량 합이 지정수량 3천배 이상이면 화학소방자동차와 대원을 둠', 'On-site fire brigade — when Class 4 handled in manufacturing and general handling facilities at one site totals 3,000× or more, keep chemical fire engines and crew'), T('법 제19조, 시행령 제18조·별표8', 'Art. 19; Decree 18, Annex 8')],
+    [T('안전교육 — 안전관리자가 되려는 사람 강습교육 24시간(최초 선임 전), 안전관리자 실무교육 8시간(선임 6개월 이내, 이후 2년마다, 한국소방안전원)', 'Training — 24 h course before first appointment for would-be managers; 8 h refresher within 6 months of appointment and every 2 years after (Korea Fire Safety Institute)'), T('법 제28조, 규칙 제78조·별표24', 'Art. 28; Rule 78, Annex 24')],
+    [T('제조소등은 지정된 장소가 아니면 흡연 금지, 금연구역 표지 설치', 'No smoking at facilities except in designated places; post no-smoking signs'), T('법 제19조의2', 'Art. 19-2')]
+  ];
+  const dgOf = (id) => S.DG_ITEMS.find((x) => x.id === id);
+  function dgCalc(v) {
+    const rows = (v.rows || []).map((r) => { const it = dgOf(r.id); const q = n(r.q); return { it, q, x: it && q != null ? q / it.q : null }; });
+    const sum = rows.reduce((a, r) => a + (r.x || 0), 0);
+    const sum4 = rows.filter((r) => r.it && r.it.cls === 4).reduce((a, r) => a + (r.x || 0), 0);
+    const liters = rows.filter((r) => r.it && r.it.u === 'L').reduce((a, r) => a + (r.q || 0), 0);
+    return { rows, sum, sum4, liters, any: rows.some((r) => r.x != null) };
+  }
+
   const TQ_EX = { sih4: '300', nf3: '6000', hfaq: '4000', h2: '800' };
   const tqRatioOf = (v) => (r) => {
     if (r.tqs) {
@@ -79,7 +145,10 @@
   };
 
   S.pages.psm = {
-    render() {
+    render(sub) {
+      /* #psm/tq · #psm/moc · #psm/eval · #psm/chem → 해당 탭 (탭 클릭에 의한 재렌더 때는 선택 유지) */
+      if (!S.state.refreshing && ['tq', 'moc', 'pssr', 'audit', 'eval', 'chem', 'dg'].includes(sub)) S.save('tab.psm', sub);
+      const tab = S.tab('psm', 'board');
       const board = Object.assign({}, PSM_DEFAULT, S.load('psm.board', {}));
       const isEx = !S.load('psm.board', null);
       const st = () => [['done', T('이행', 'In place')], ['doing', T('보완 중', 'Improving')], ['gap', T('미흡', 'Gap')], ['todo', T('예정', 'Planned')]];
@@ -94,7 +163,45 @@
       const tqR = S.PSM_TQ.reduce((a, r) => a + (tqRatio(r) || 0), 0);
       return `
       ${ui.head(T('6대 직무 · 공정안전', 'Six functions · Process safety'), T('공정안전 (PSM)', 'Process safety (PSM)'),
-        T('PSM 요소와 관련 지침을 관리하고, 위험성평가로 화재·폭발·누출 위험을 찾아 개선합니다. 장비 안전관리, 변경관리, 법규 준수를 지원합니다.', 'Manage PSM elements and guides; find and fix fire, explosion and release risks through hazard analysis; support equipment safety, management of change and compliance.'))}
+        T('PSM 요소와 관련 지침을 관리하고, 위험성평가로 화재·폭발·누출 위험을 찾아 개선합니다.', 'Manage PSM elements and guides, and find and fix fire, explosion and release risks through hazard analysis.'),
+        T('장비 안전관리, 변경관리, 법규 준수를 지원합니다.', 'Also supports equipment safety, management of change and compliance.'))}
+      ${ui.tabs('psm', [{ id: 'board', label: T('현황판', 'Board') }, { id: 'tq', label: T('대상 판정', 'Threshold check') }, { id: 'moc', label: T('변경관리(MOC)', 'Change (MOC)') }, { id: 'pssr', label: T('가동 전 점검', 'Pre-startup review') }, { id: 'audit', label: T('자체감사', 'Self-audit') }, { id: 'eval', label: T('이행상태평가', 'Implementation assessment') }, { id: 'chem', label: T('화학·고압가스 의무', 'Chemical & gas duties') }, { id: 'dg', label: T('위험물', 'Hazardous materials') }, { id: 'gas', label: T('감지값·SOP·지침', 'Readings, SOPs, guides') }], tab)}
+      ${tab === 'dg' ? (() => {
+        const dv = S.load('psm.dg', null) || DG_EX, dEx = !S.load('psm.dg', null);
+        const r = dgCalc(dv), types = DG_TYPES(), ty = types.find(([k]) => k === dv.type) || types[1];
+        const on = (ok, yes, no) => ok ? ui.pill('warn', yes) : ui.pill('ok', no);
+        const itemOpts = (sel) => Object.keys(S.DG_CLASS).map((c) => `<optgroup label="${S.esc(L(S.DG_CLASS[c]))}">${S.DG_ITEMS.filter((x) => String(x.cls) === c).map((x) => `<option value="${x.id}" ${x.id === sel ? 'selected' : ''}>${S.esc(L(x))} — ${S.fmt(x.q)} ${x.u}</option>`).join('')}</optgroup>`).join('');
+        return `
+      <section class="panel stack" id="anchor-dg">${ui.title(T('위험물 지정수량 배수 판정', 'Designated-quantity multiple'), `${T('위험물안전관리법 제5조⑤ · 시행령 별표1', 'Dangerous Substances Act Art. 5(5) · Decree Annex 1')} ${dEx ? ui.ex() : ''}`)}
+        <p class="small">${T('같은 장소에서 저장·취급하는 위험물마다 품명과 최대 수량을 넣으면 지정수량으로 나눈 값을 더해 배수를 구하고, 시설 종류에 따라 예방규정·정기점검·정기검사·자체소방대 대상인지 보여 줍니다. 품명(인화점·수용성 등)은 사용하는 제품의 MSDS 15번 항목(법적 규제)으로 확인하세요.', 'Enter each hazardous material stored or handled in the same place and its maximum quantity. The ratios to the designated quantities are summed, and the facility type shows whether prevention rules, periodic checks, periodic inspection or an on-site fire brigade apply. Confirm the category (flash point, water solubility…) from section 15 of the product MSDS.')}</p>
+        <div class="field" style="max-width:320px"><label for="dg-type">${T('시설 종류', 'Facility type')}</label><select id="dg-type" data-dg-type>${types.map(([k, l]) => `<option value="${k}" ${k === ty[0] ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('품명 (지정수량)', 'Category (designated quantity)')}</th><th>${T('최대 수량', 'Maximum quantity')}</th><th class="n">${T('배수', 'Multiple')}</th><th></th></tr></thead><tbody>
+          ${r.rows.map((row, i) => `<tr><td style="min-width:14em"><select data-dg-row="${i}" data-k="id" aria-label="${T('품명', 'Category')} ${i + 1}">${itemOpts(row.it ? row.it.id : '')}</select>${row.it && row.it.d ? `<div class="xs muted" style="margin-top:4px">${S.esc(L(row.it.d))}</div>` : ''}</td>
+            <td class="nowrap"><input type="number" min="0" step="any" data-dg-row="${i}" data-k="q" value="${S.esc((dv.rows[i] || {}).q || '')}" style="max-width:130px" aria-label="${T('최대 수량', 'Maximum quantity')} ${i + 1}"> ${row.it ? row.it.u : ''}</td>
+            <td class="n nowrap">${row.x == null ? '–' : `<b>${S.fmt(row.x, 2)}</b>`}</td>
+            <td><button class="btn danger sm" type="button" data-dg-del="${i}" aria-label="${T('삭제', 'Delete')}">×</button></td></tr>`).join('') || `<tr><td colspan="4" class="small muted">${T('품명을 추가하세요', 'Add a category')}</td></tr>`}
+        </tbody></table></div>
+        <div class="row"><button class="btn ghost sm" type="button" id="dg-add">+ ${T('품명 추가', 'Add category')}</button><button class="btn ghost sm" type="button" id="dg-clear">${T('비우기', 'Clear')}</button><button class="btn ghost sm" type="button" id="dg-ex">${T('예시 불러오기', 'Load example')}</button></div>
+        <div class="result">
+          <div class="row" style="justify-content:space-between"><b>${T('지정수량 배수 합', 'Sum of multiples')}</b><span class="num" style="font-size:calc(22px * var(--fz));font-weight:600">${S.fmt(r.sum, 2)}${T('배', '×')}</span></div>
+          ${!r.any ? `<span class="small muted">${T('수량을 입력하세요', 'Enter quantities')}</span>` : `
+          <div>${r.sum >= 1 ? ui.pill('bad', T('지정수량 이상 — 허가받은 제조소등에서만 저장·취급, 위험물안전관리자 선임 (법 제5조①·제6조·제15조)', 'At or above — only in a licensed facility, with a safety manager (Arts. 5(1), 6, 15)')) : ui.pill('ok', T('지정수량 미만 — 시·도 조례 기준 적용 (법 제4조)', 'Below — the city or provincial ordinance applies (Art. 4)'))}</div>
+          ${r.sum >= 1 ? `<div class="table-wrap"><table class="data"><tbody>
+            <tr><td>${T('예방규정 작성·제출', 'Prevention rules')} <span class="xs muted">${ty[1]} ${S.fmt(ty[2])}${T('배 이상', '× or more')}</span></td><td>${on(r.sum >= ty[2], T('해당', 'Applies'), T('해당 없음', 'No'))}</td></tr>
+            <tr><td>${T('정기점검 (연 1회 이상)', 'Periodic check (yearly)')} <span class="xs muted">${T('예방규정 대상과 같음', 'Same scope as prevention rules')}</span></td><td>${on(r.sum >= ty[2], T('해당', 'Applies'), T('해당 없음', 'No'))}</td></tr>
+            <tr><td>${T('예방규정 이행 실태 평가', 'Implementation review')} <span class="xs muted">${T('예방규정 대상 중 3천배 이상', '3,000× or more among those')}</span></td><td>${on(r.sum >= ty[2] && r.sum >= 3000, T('해당', 'Applies'), T('해당 없음', 'No'))}</td></tr>
+            ${ty[0] === 'tank' ? `<tr><td>${T('정기검사 (소방본부·소방서)', 'Periodic inspection (fire service)')} <span class="xs muted">${T('액체위험물 50만L 이상', '500,000 L of liquid or more')} · ${S.fmt(r.liters)} L</span></td><td>${on(r.liters >= 500000, T('해당', 'Applies'), T('해당 없음', 'No'))}</td></tr>` : ''}
+            ${ty[0] === 'mfg' || ty[0] === 'gen' ? `<tr><td>${T('자체소방대', 'On-site fire brigade')} <span class="xs muted">${T('제4류 합', 'Class 4 total')} ${S.fmt(r.sum4, 2)}${T('배 — 같은 사업소의 제4류 제조소·일반취급소 전체 합으로 판단', '× — judged on all Class 4 manufacturing and handling facilities at the site')}</span></td><td>${on(r.sum4 >= 3000, T('해당 (3천배 이상)', 'Applies (3,000×+)'), T('이 시설만으로는 미만', 'Below for this facility alone'))}</td></tr>` : ''}
+          </tbody></table></div>` : ''}`}
+        </div>
+        ${ty[0] === 'gen' ? `<p class="small muted">${T('일반취급소 예외: 제4류(특수인화물 제외)만 50배 이하로 취급하고 제1석유류·알코올류가 10배 이하이면서, 보일러·버너 등 소비 설비이거나 용기에 옮겨 담는·차량 탱크에 주입하는 일반취급소는 예방규정·정기점검 대상에서 빠집니다(시행령 제15조①7).', 'Exception: a general handling facility with only Class 4 (no special flammables) at 50× or less, Class 1 petroleum and alcohols at 10× or less, that burns fuel (boilers, burners) or fills containers or vehicle tanks, is exempt (Decree 15(1)7).')}</p>` : ''}
+        <p class="xs muted">${T('과산화수소는 농도 36중량% 이상, 질산은 비중 1.49 이상만 제6류 위험물입니다. 알코올류는 탄소 1~3개 포화1가 알코올(예: 아이소프로필알코올)이며 60중량% 미만 수용액 등은 제외됩니다. 예시 수량은 가상 값입니다. 지하탱크·이동탱크저장소와 지하 매설 탱크가 있는 제조소 등은 배수와 관계없이 정기점검 대상입니다(시행령 제16조).', 'Hydrogen peroxide counts as Class 6 only at 36 wt% or more, nitric acid only at specific gravity 1.49 or more. Alcohols are saturated monohydric alcohols with 1–3 carbons (e.g. isopropyl alcohol); aqueous solutions under 60 wt% etc. are excluded. Example quantities are fictional. Underground and mobile tanks and sites with buried tanks need periodic checks regardless of the multiple (Decree 16).')}${S.cite('lawDg', 'lawDgDecree', 'lawDgRule')}</p>
+      </section>
+      <section class="panel">${ui.title(T('위험물안전관리법 핵심 의무', 'Key duties under the Dangerous Substances Safety Act'), T('반도체 용제·전구체를 저장·취급하는 제조소등', 'Facilities storing or handling fab solvents and precursors'))}
+        <ul class="facts">${DG_DUTIES().map(([t, b]) => `<li>${t} <span class="basis law">${b}</span></li>`).join('')}</ul>
+        <p class="xs muted" style="margin-top:8px">${T('위험물안전관리법은 소방청 소관으로, 산업안전보건법의 PSM·화학물질관리법과 별도로 적용됩니다. 같은 물질이 세 법에 동시에 해당할 수 있으니 물질별로 각각 확인하세요.', 'The Act is administered by the National Fire Agency and applies alongside OSH Act PSM and the Chemicals Control Act; one substance may fall under all three, so check each law.')}${S.cite('lawDg', 'lawDgDecree', 'lawDgRule')}</p>
+      </section>`; })() : ''}
+      ${tab === 'board' ? `
       <section class="grid g3">
         <div class="panel span2">${ui.title(T('SK하이닉스 공개 현황', 'What SK hynix discloses'))}
           ${facts([
@@ -120,10 +227,11 @@
         <div class="table-wrap"><table class="data"><thead><tr><th>#</th><th>${T('요소', 'Element')}</th><th>${T('제50조', 'Art. 50')}</th><th>${T('내용', 'Contents')}</th><th>${T('상태', 'Status')}</th><th>${T('연결', 'Go to')}</th></tr></thead><tbody>
           ${PSM12.map((e, i) => `<tr><td class="n">${i + 1}</td><td><b>${L(e.t)}</b></td><td class="n">${S.state.lang === 'ko' ? e.law : e.law.replace('①', '(1)').replace(/[가나다라마바사아]/, (c) => '(' + 'abcdefgh'['가나다라마바사아'.indexOf(c)] + ')')}</td><td class="small">${L(e.d)}
             ${e.req ? `<details class="req"><summary>${T(`고시 제${e.req.art}조 필수 포함사항`, `Must include (Notice Art. ${e.req.art})`)}</summary><ul class="clean">${L(e.req).map((x) => `<li>${x}</li>`).join('')}</ul></details>` : ''}</td>
-            <td>${statusSel('psm-' + e.id, board[e.id], st())}</td><td><a href="#${e.link}" class="small">${T('열기', 'Open')} →</a></td></tr>`).join('')}
+            <td>${statusSel('psm-' + e.id, board[e.id], st())}</td><td class="small"><a href="#${e.link}">${PSM_GO()[e.link] || T('열기', 'Open')} →</a></td></tr>`).join('')}
         </tbody></table></div>
         <p class="xs muted" style="margin-top:8px">${T('법령상 공정안전보고서는 공정안전자료·공정위험성평가서·안전운전계획·비상조치계획 4부분으로 구성되며, 흔히 말하는 “12대 요소”는 이를 실행 단위로 나눈 것입니다. ‘필수 포함사항’은 PSM 고시가 각 계획에 담도록 정한 항목입니다. 상태값은 예시이며 이 브라우저에 저장됩니다.', 'By law the PSM report has four parts — safety information, hazard analysis, safe operating plan and emergency plan; the common “12 elements” split these into working units. “Must include” lists what the PSM notice requires in each plan. Status values are examples saved in this browser.')}${S.cite('lawRule', 'moelPsm')}</p>
-      </section>
+      </section>` : ''}
+      ${tab === 'moc' ? `
       <section class="panel" id="anchor-moc">${ui.title(T('변경요소 관리(MOC) 트래커', 'Management-of-change tracker'), T('위험성평가 · 가동 전 점검 · SOP 개정 · 교육이 모두 끝나야 가동', 'Start-up only after assessment, PSSR, SOP update and training'))}
         <form class="row" id="mocForm" style="margin-bottom:10px">
           <input type="text" id="moc-t" placeholder="${T('변경 내용', 'Change')}" style="flex:1;min-width:200px" required>
@@ -133,11 +241,67 @@
         <div class="table-wrap"><table class="data"><thead><tr><th>${T('변경', 'Change')}</th><th>${T('유형', 'Type')}</th><th>${T('사업장', 'Site')}</th><th>${T('평가 기법', 'Method')}</th><th>PSSR</th><th>${T('SOP 개정', 'SOP update')}</th><th>${T('교육', 'Training')}</th><th>${T('가동 판단', 'Start-up')}</th><th></th></tr></thead><tbody>
           ${moc.map((m) => { const ready = m.pssr && m.sop && m.edu; return `<tr><td>${S.esc(L(m.t))} ${m.id <= 3 && !m.user ? ui.ex() : ''}</td><td class="small">${(MOC_TYPES().find(([v]) => v === m.type) || [, ''])[1]}</td><td class="small">${L(S.SITES[m.site].name)}</td>
             <td class="small">${({ fs: T('빈도·강도법', 'Frequency–severity'), hazop: 'HAZOP', whatif: 'What-if', fmea: 'FMEA', lopa: 'LOPA' })[m.ra] || T('미정', 'TBD')}</td>${['pssr', 'sop', 'edu'].map((k) => `<td><input type="checkbox" data-moc="${m.id}" data-k="${k}" ${m[k] ? 'checked' : ''} aria-label="${k}"></td>`).join('')}
-            <td>${ready ? ui.pill('ok', T('가동 가능', 'Ready')) : ui.pill('warn', T('미완료', 'Not ready'))}</td><td><button class="btn danger sm" type="button" data-moc-del="${m.id}">×</button></td></tr>`; }).join('')}
+            <td>${ready ? ui.pill('ok', T('가동 가능', 'Ready')) : ui.pill('warn', T('미완료', 'Not ready'))}
+              ${ready ? '' : `<div class="xs" style="margin-top:4px;display:grid;gap:2px">${!m.pssr ? `<a href="#psm/pssr" data-pssr-moc="${m.id}">${T('가동 전 점검 작성', 'Write the PSSR')} →</a>` : ''}${!m.sop ? `<a href="#sop">${T('SOP 개정 확인', 'Update the SOP')} →</a>` : ''}${!m.edu ? `<a href="#training">${T('교육 기록', 'Record training')} →</a>` : ''}</div>`}</td><td><button class="btn danger sm" type="button" data-moc-del="${m.id}">×</button></td></tr>`; }).join('')}
         </tbody></table></div>
         <p class="xs muted" style="margin-top:8px">KOSHA C-C-53-2026 · C-C-52-2026 ${S.cite('koshaGuide')} · ${T('PSM 고시 제37조는 변경요소 관리계획에 정상변경·비상변경 절차, 변경관리위원회, 변경요구서 서식을 담도록 정합니다.', 'PSM Notice Art. 37 requires normal and emergency change procedures, a change committee and a change-request form.')}${S.cite('moelPsm')}</p>
+      </section>` : ''}
+      ${tab === 'pssr' ? (() => {
+        const ps = pssrState(), d = ps.draft, mocs = S.load('psm.moc', null) || MOC_DEFAULT, r = pssrResult(d);
+        const OPTS = [['', T('미확인', 'Unchecked')], ['ok', T('적합', 'OK')], ['ng', T('부적합', 'Not OK')], ['na', T('해당 없음', 'N/A')]];
+        const RES = (x) => x.ok ? ui.pill('ok', T('시운전 가능', 'Ready for trial run')) : ui.pill('bad', T('시운전 보류', 'Hold'));
+        return `
+      <section class="panel stack" id="anchor-pssr">${ui.title(T('가동 전 안전점검 (PSSR)', 'Pre-startup safety review (PSSR)'), T('PSM 고시 제49조 — 시운전 전 최소 확인 7항목', 'PSM Notice Art. 49 — seven minimum checks before the trial run'))}
+        <p class="small">${T('새 설비를 설치하거나 공정·설비를 바꾸면 시운전 전에 안전점검을 하고 결과를 기록·보존합니다. 연결할 MOC를 고르고 모든 항목이 적합이면 저장할 때 그 변경 건의 PSSR 칸이 자동으로 체크됩니다.', 'After installing new equipment or changing a process or equipment, do a safety review before the trial run and keep the record. Pick the linked MOC; if every item is OK, saving ticks its PSSR box automatically.')}</p>
+        <div class="form-grid">
+          <div class="field"><label for="ps-t">${T('점검 대상 (설비·변경 내용)', 'What is reviewed (equipment / change)')}</label><input type="text" id="ps-t" data-ps="t" value="${S.esc(d.t)}"></div>
+          <div class="field"><label for="ps-moc">${T('연결된 MOC', 'Linked MOC')}</label><select id="ps-moc" data-ps="moc"><option value="">${T('없음 (신설 설비 등)', 'None (new equipment etc.)')}</option>${mocs.map((m) => `<option value="${m.id}" ${String(d.moc) === String(m.id) ? 'selected' : ''}>${S.esc(L(m.t))}${m.pssr ? ' ✓' : ''}</option>`).join('')}</select></div>
+          <div class="field"><label for="ps-date">${T('점검일', 'Date')}</label><input type="date" id="ps-date" data-ps="date" value="${S.esc(d.date)}"></div>
+          <div class="field"><label for="ps-team">${T('점검팀', 'Review team')}</label><input type="text" id="ps-team" data-ps="team" value="${S.esc(d.team)}"></div>
+        </div>
+        <div class="table-wrap"><table class="data"><thead><tr><th class="n">#</th><th>${T('확인 항목 (고시 제49조)', 'Check (Notice Art. 49)')}</th><th>${T('결과', 'Result')}</th><th>${T('근거·메모', 'Evidence / notes')}</th></tr></thead><tbody>
+          ${PSSR_ITEMS().map((it, i) => `<tr><td class="n">${i + 1}</td><td class="small" style="min-width:14em">${it}</td>
+            <td><select data-ps-ck="${i}" aria-label="${T('결과', 'Result')} ${i + 1}">${OPTS.map(([k, l]) => `<option value="${k}" ${((d.ck || {})[i] || '') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
+            <td><input type="text" data-ps-note="${i}" value="${S.esc((d.note || {})[i] || '')}" aria-label="${T('근거·메모', 'Evidence / notes')} ${i + 1}"></td></tr>`).join('')}
+        </tbody></table></div>
+        <div class="result">
+          <div>${r.ok ? ui.pill('ok', T('모든 항목 적합 — 시운전 가능, 결과를 기록·보존', 'All items OK — ready for trial run; keep the record')) : r.ng ? ui.pill('bad', T(`부적합 ${r.ng}건 — 조치 후 재점검, 시운전 보류`, `${r.ng} not OK — fix and review again; hold the trial run`)) : ui.pill('warn', T(`미확인 ${r.open}항목`, `${r.open} items unchecked`))}</div>
+          <div class="row"><button class="btn sm" type="button" id="ps-save" ${r.ok || r.ng ? '' : 'disabled'}>${T('점검 기록 저장', 'Save review')}</button><button class="btn ghost sm" type="button" id="ps-new">${T('새 점검으로 비우기', 'Start a new review')}</button>${S.printLink('pssr', T('점검표 인쇄', 'Print checklist'))}</div>
+        </div>
+        <p class="xs muted">${T('가동전 점검지침에는 목적·적용범위·점검팀 구성·점검시기·점검표 작성·점검보고서·점검결과 처리를 담아야 합니다(고시 제36조). 기록은 이 브라우저에 저장됩니다.', 'The pre-startup procedure must cover purpose, scope, team, timing, checklist, report and follow-up (Notice Art. 36). Records are saved in this browser.')}${S.cite('moelPsm')}</p>
       </section>
-      <section class="panel stack" id="anchor-tq">${ui.title(T('공정안전보고서 제출 대상 판정 — 규정량', 'Is a PSM report required? — threshold quantities'), `${T('산안법 시행령 제43조 · 별표13', 'OSH Decree Art. 43 · Annex 13')} ${tqEx ? ui.ex() : ''}`)}
+      <section class="panel">${ui.title(T('점검 기록', 'Review records'), T(`${ps.list.length}건`, `${ps.list.length}`))}
+        ${ps.list.length ? `<div class="table-wrap"><table class="data"><thead><tr><th>${T('점검일', 'Date')}</th><th>${T('대상', 'Subject')}</th><th>${T('결과', 'Result')}</th><th></th></tr></thead><tbody>
+          ${ps.list.map((x) => `<tr><td class="num nowrap">${S.esc(x.date)}</td><td class="small">${S.esc(x.t || '–')}</td><td>${RES(pssrResult(x))}</td><td class="nowrap">${S.printLink('pssr/' + x.id, T('인쇄', 'Print'))} <button class="btn danger sm" type="button" data-ps-del="${x.id}" aria-label="${T('삭제', 'Delete')}">×</button></td></tr>`).join('')}
+        </tbody></table></div>` : `<p class="small muted">${T('저장한 점검이 없습니다. MOC 트래커의 ‘가동 전 점검 작성’이나 위 양식으로 시작하세요.', 'No reviews saved yet. Start from “Write the PSSR” in the MOC tracker or the form above.')}</p>`}
+      </section>`; })() : ''}
+      ${tab === 'audit' ? (() => {
+        const au = auditState();
+        const ST = [['', T('미확인', 'Unchecked')], ['ok', T('적합', 'Adequate')], ['imp', T('개선 필요', 'Needs work')], ['gap', T('미흡', 'Gap')]];
+        const c = (v) => PSM12.filter((e) => ((au.el[e.id] || {}).st || '') === v).length;
+        const GO = PSM_GO();
+        return `
+      <section class="panel stack" id="anchor-audit">${ui.title(T('PSM 자체감사', 'PSM self-audit'), T('PSM 고시 제51조 — 1년마다, 보고서 3년 이상 보관', 'PSM Notice Art. 51 — every year; keep reports at least 3 years'))}
+        <p class="small">${T('공정안전관리가 규정대로 이행되는지 12대 요소별로 평가하고 문제점의 조치를 기록합니다. ‘감사 완료 기록’을 누르면 업무판 법정 주기(PSM 자체감사)의 최근 실시일이 감사일로 바뀝니다.', 'Rate how each of the 12 elements is carried out and record actions on the findings. “Record audit done” sets the last-done date of the PSM self-audit cycle on the dashboard to the audit date.')}</p>
+        <div class="form-grid">
+          <div class="field"><label for="au-date">${T('감사일', 'Audit date')}</label><input type="date" id="au-date" data-au="date" value="${S.esc(au.date)}"></div>
+          <div class="field"><label for="au-scope">${T('감사 대상 공정', 'Process audited')}</label><input type="text" id="au-scope" data-au="scope" value="${S.esc(au.scope)}"></div>
+          <div class="field"><label for="au-team">${T('감사팀 (공정 전문가 포함)', 'Audit team (incl. a process expert)')}</label><input type="text" id="au-team" data-au="team" value="${S.esc(au.team)}"></div>
+        </div>
+        <div class="row" style="gap:8px">${ui.pill('ok', T(`적합 ${c('ok')}`, `Adequate ${c('ok')}`))}${ui.pill('warn', T(`개선 필요 ${c('imp')}`, `Needs work ${c('imp')}`))}${ui.pill('bad', T(`미흡 ${c('gap')}`, `Gap ${c('gap')}`))}${ui.pill('plain', T(`미확인 ${c('')}`, `Unchecked ${c('')}`))}</div>
+        <div class="table-wrap"><table class="data"><thead><tr><th class="n">#</th><th>${T('요소', 'Element')}</th><th>${T('평가', 'Rating')}</th><th>${T('발견 사항·조치', 'Findings / action')}</th><th>${T('이어서', 'Follow up')}</th></tr></thead><tbody>
+          ${PSM12.map((e, i) => { const v = au.el[e.id] || {}; return `<tr><td class="n">${i + 1}</td><td><b>${L(e.t)}</b></td>
+            <td><select data-au-el="${e.id}" data-k="st" aria-label="${S.esc(T('평가', 'Rating') + ' — ' + L(e.t))}">${ST.map(([k, l]) => `<option value="${k}" ${(v.st || '') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
+            <td><input type="text" data-au-el="${e.id}" data-k="note" value="${S.esc(v.note || '')}" aria-label="${S.esc(T('발견 사항·조치', 'Findings / action') + ' — ' + L(e.t))}"></td>
+            <td class="small">${e.link === 'psm/audit' ? '<span class="muted">–</span>' : `<a href="#${e.link}">${GO[e.link] || T('열기', 'Open')} →</a>`}</td></tr>`; }).join('')}
+        </tbody></table></div>
+        <div class="stack" style="gap:6px"><b class="small">${T('자체감사 심사기준 (고시 제51조)', 'Self-audit review criteria (Notice Art. 51)')}</b>
+          ${AUDIT_CHECK().map((x, i) => `<label class="check"><input type="checkbox" data-au-ck="${i}" ${au.ck[i] ? 'checked' : ''}> <span>${x}</span></label>`).join('')}</div>
+        <div class="row"><button class="btn sm" type="button" id="au-done">${T('감사 완료 기록 (업무판 주기 갱신)', 'Record audit done (update dashboard)')}</button>${S.printLink('psmaudit', T('자체감사 보고서 인쇄', 'Print audit report'))}<button class="btn ghost sm" type="button" id="au-clear">${T('비우기', 'Clear')}</button></div>
+        <p class="xs muted">${T('자체감사 계획에는 목적·적용범위·감사계획·감사팀 구성·감사 시행·평가 및 시정·문서화를 담아야 합니다(고시 제38조). 이행상태평가에서 같은 기준으로 심사받습니다. 입력값은 이 브라우저에 저장됩니다.', 'The self-audit plan must cover purpose, scope, plan, team, conduct, evaluation and correction, and documentation (Notice Art. 38); the implementation assessment reviews against the same criteria. Entries are saved in this browser.')}${S.cite('moelPsm')}</p>
+      </section>`; })() : ''}
+      ${tab === 'tq' ? `
+      <section class="panel stack" id="anchor-tq">${ui.title(T('공정안전보고서 제출 대상 판정 — 규정량', 'PSM report requirement — threshold quantities'), `${T('산안법 시행령 제43조 · 별표13', 'OSH Decree Art. 43 · Annex 13')} ${tqEx ? ui.ex() : ''}`)}
         <p class="small">${T('반도체 제조업은 제43조의 7개 업종이 아니므로 <b>별표13 유해·위험물질을 규정량 이상 제조·취급·저장하는 설비</b>인지로 판단합니다. 물질마다 하루 동안 최대로 제조·취급·저장할 수 있는 양(공정 중 저장량 포함)을 넣으면 규정량 대비 비율을 합산(R)합니다. R이 1 이상이면 유해·위험설비입니다.', 'Chipmaking is not one of the seven industries in Art. 43, so the test is whether equipment makes, handles or stores <b>Annex 13 substances at or above the threshold</b>. Enter each substance’s maximum daily quantity (including in-process inventory); the ratios are summed as R. R ≥ 1 means a hazardous installation.')}</p>
         <div class="table-wrap"><table class="data"><thead><tr><th class="n">${T('별표13', 'No.')}</th><th>${T('물질', 'Substance')}</th><th>CAS</th><th class="n">${T('규정량(kg)', 'Threshold (kg)')}</th><th>${T('하루 최대량(kg)', 'Max per day (kg)')}</th><th class="n">C/T</th></tr></thead><tbody>
           ${S.PSM_TQ.map((r) => { const ratio = tqRatio(r); return `<tr><td class="n">${r.n}</td><td><b class="small">${L(r)}</b>${r.memo ? `<div class="xs muted">${L(r.memo)}</div>` : ''}</td><td class="n small">${r.cas}</td>
@@ -146,11 +310,12 @@
               : `<input type="number" min="0" step="any" data-tq="${r.id}" value="${S.esc(tqv[r.id] || '')}" aria-label="${S.esc(L(r))}" style="max-width:130px">`}</td>
             <td class="n">${ratio == null ? '–' : `<b${ratio >= 1 ? ' style="color:var(--bad)"' : ''}>${S.fmt(ratio, 3)}</b>`}</td></tr>`; }).join('')}
         </tbody></table></div>
-        <div class="result"><div class="row" style="justify-content:space-between"><b>R = ΣC/T</b><span class="num" style="font-size:20px;font-weight:600">${S.fmt(tqR, 3)}</span></div>
+        <div class="result"><div class="row" style="justify-content:space-between"><b>R = ΣC/T</b><span class="num" style="font-size:calc(20px * var(--fz));font-weight:600">${S.fmt(tqR, 3)}</span></div>
           ${tqAny ? (tqR >= 1 ? ui.pill('bad', T('R ≥ 1 — 유해·위험설비: 공정안전보고서 작성·제출 대상 (법 제44조)', 'R ≥ 1 — hazardous installation: a PSM report is required (Act Art. 44)')) : ui.pill('ok', T('R < 1 — 규정량 미만 (증설·물질 추가 때 다시 계산)', 'R < 1 — below threshold (recalculate when capacity or substances change)'))) : `<span class="small muted">${T('수량을 입력하세요', 'Enter quantities')}</span>`}</div>
         <div class="row"><button class="btn ghost sm" type="button" id="tq-clear">${T('비우기', 'Clear')}</button><button class="btn ghost sm" type="button" id="tq-ex">${T('예시 불러오기', 'Load example')}</button></div>
         <p class="xs muted">${T('별표13 비고: 규정량은 순도 100% 기준(농도가 정해진 물질은 그 농도 기준), 인화성 가스·액체는 제조·취급과 저장 규정량이 다르며 물질별로 가장 큰 비율을 씁니다. 가스를 전문으로 저장·판매하는 시설의 가스는 제외합니다. 이 표는 별표13의 51종 가운데 반도체 공정과 관련될 수 있는 물질만 추렸습니다. 예시 수량은 가상 값입니다.', 'Annex 13 notes: thresholds assume 100 % purity (or the stated concentration); flammable gases and liquids have separate use and storage thresholds and the larger ratio counts; gas held by dedicated gas storage/sales facilities is excluded. This table lists only the Annex 13 substances likely in chipmaking; example quantities are fictional.')}${S.cite('lawDecree')}</p>
-      </section>
+      </section>` : ''}
+      ${tab === 'eval' ? `
       <section class="panel" id="anchor-eval">${ui.title(T('PSM 이행상태평가', 'PSM implementation assessment'), T('고용노동부고시 제2025-30호 제54·57·58조', 'MOEL Notice 2025-30, Arts. 54, 57, 58'))}
         <div class="grid g3">
           <div><b class="small">${T('종류와 시기', 'Types and timing')}</b><ul class="facts" style="margin-top:6px">
@@ -169,9 +334,10 @@
               <tr><td><span class="grade A">M-</span> ${T('불량', 'Poor')}</td><td class="n">&lt; 70</td></tr></tbody></table></div>
             <p class="xs muted">${T('결과는 평가 후 1개월 이내 통보되고 다음 반기부터 적용됩니다.', 'Results are notified within a month and apply from the next half-year.')}</p></div>
         </div>
-        <div class="callout warn small" style="margin-top:10px">${T('재평가 사유 두 가지는 이 포털에서 바로 점검할 수 있습니다 — 화기작업은 ', 'Both re-assessment triggers can be checked here — hot work in the ')}${sopLink('hot-work')}${T(', 변경관리는 위의 ', ', change management in the ')}<a href="#psm/moc">${T('MOC 트래커', 'MOC tracker above')}</a>.</div>
+        <div class="callout warn small" style="margin-top:10px">${T('재평가 사유 두 가지는 이 포털에서 바로 점검할 수 있습니다 — 화기작업은 ', 'Both re-assessment triggers can be checked here — hot work in the ')}${sopLink('hot-work')}${T(', 변경관리는 ', ', change management in the ')}<a href="#psm/moc">${T('MOC 트래커', 'MOC tracker')}</a>.</div>
         <p class="xs muted" style="margin-top:8px">${S.cite('moelPsm')}</p>
-      </section>
+      </section>` : ''}
+      ${tab === 'chem' ? `
       <section class="panel stack" id="anchor-chem">${ui.title(T('화학물질·고압가스 법정 의무', 'Chemical and high-pressure gas duties'), T('화학물질관리법 · 고압가스 안전관리법', 'Chemicals Control Act · High-Pressure Gas Safety Control Act'))}
         <p class="small">${T('반도체 사업장은 산업안전보건법의 PSM과 함께, 유해화학물질 취급시설로서 화학물질관리법을, 실란·포스핀·아르신 같은 특정고압가스 사용시설로서 고압가스 안전관리법을 적용받습니다. 두 법의 핵심 의무를 원문 기준으로 정리했습니다.', 'Besides PSM under the OSH Act, a fab is a hazardous-chemical facility under the Chemicals Control Act and, for silane, phosphine, arsine and similar gases, a specified high-pressure gas user under the High-Pressure Gas Act. The key duties are summarised from the statutes.')}</p>
         <div class="grid g2">
@@ -181,14 +347,15 @@
             ${HPG_DUTIES().map(([t, b]) => `<li>${t} <span class="basis law">${b}</span></li>`).join('')}</ul></div>
         </div>
         <div class="table-wrap"><table class="data"><thead><tr><th>${T('물질', 'Substance')}</th><th>${T('특정고압가스 (사용신고)', 'Specified gas (use notice)')}</th><th>${T('PSM 규정량 (kg)', 'PSM threshold (kg)')}</th><th>${T('화학사고 즉시 신고 기준량', 'Accident reporting threshold')}</th></tr></thead><tbody>
-          ${REG_ROWS().map((x) => `<tr><td><a href="#hazards" data-hz="${x.c.cas}"><b class="small">${S.esc(L(x.c))}</b></a> <span class="xs muted">${x.c.f}</span></td>
+          ${REG_ROWS().map((x) => `<tr><td><a href="#hazards/${x.c.id}"><b class="small">${S.esc(L(x.c))}</b></a> <span class="xs muted">${x.c.f}</span></td>
             <td class="small">${x.hpg ? `${ui.pill('warn', T('해당', 'Yes'))} <span class="xs">${S.esc(L(x.hpg))}</span>` : '–'}</td>
             <td class="small">${x.tq.length ? x.tq.map((t) => `${S.fmt(t.tq)}${t.memo ? ` <span class="xs muted">(${S.esc(t.memo)})</span>` : ''}`).join('<br>') : '–'}</td>
             <td class="small">${x.rq != null ? `${x.rq} kg·L` : '–'}</td></tr>`).join('')}
         </tbody></table></div>
         <div class="row">${S.printLink('chem', T('유해화학물질 취급시설 주간 자체점검표 인쇄', 'Print the weekly facility self-inspection sheet'))}<a class="btn ghost sm" href="#prevent/chemreport">${T('화학사고·가스사고 신고 판정', 'Chemical/gas accident reporting check')} →</a></div>
         <p class="xs muted">${T('특정고압가스 명칭은 법 제20조①·시행령 제16조, 사용신고는 시행규칙 제46조①4호(양과 관계없이 신고, 시험용 등 예외)를 따랐습니다. 즉시 신고 기준량은 「화학사고 즉시 신고에 관한 규정」 별표1이며, 표에 없는 유해화학물질은 5 kg·L입니다. 유해화학물질 해당 여부와 사업장 구분(1군·2군)은 사업장 자료로 확인하세요.', 'Specified-gas names follow Act Art. 20(1) and Decree Art. 16; use notification follows Rule Art. 46(1)4 (required regardless of quantity, except testing). Reporting thresholds come from Annex 1 of the immediate-reporting rules; other hazardous chemicals use 5 kg or L. Confirm hazardous-chemical status and site group (1 or 2) from your site records.')}${S.cite('lawCca', 'lawCcaRule', 'mceReport', 'lawHpg', 'lawHpgDecree', 'lawHpgRule', 'lawDecree')}</p>
-      </section>
+      </section>` : ''}
+      ${tab === 'gas' ? `
       <section class="grid g2">
         <div class="panel stack">${ui.title(T('가스 감지기 값 즉시 판정', 'Instant gas-detector reading check'))}
           <div class="form-grid"><div class="field"><label for="gas-id">${T('가스', 'Gas')}</label><select id="gas-id">${S.chemOptions(gasSt.id)}</select></div>
@@ -202,23 +369,71 @@
           <ul class="clean small" style="margin-top:12px">${['P-12-2012', 'P-16-2012', 'P-122-2012', 'C-C-87-2026', 'P-179-2022', 'C-C-49-2026', 'C-C-37-2026', 'C-C-62-2026', 'C-C-52-2026', 'C-C-53-2026', 'C-C-55-2026'].map((k) => `<li>${S.koshaTag(k)} ${L(S.KOSHA[k])}</li>`).join('')}</ul>
           <p class="xs muted">${S.cite('koshaGuide')}</p>
         </div>
-      </section>`;
+      </section>` : ''}`;
     },
     mount(root) {
       root.querySelectorAll('[data-status^="psm-"]').forEach((s) => s.addEventListener('change', () => { const b = S.load('psm.board', {}); b[s.id.slice(4)] = s.value; saveRefresh('psm.board', b); }));
       const moc = () => S.load('psm.moc', null) || MOC_DEFAULT;
-      root.querySelector('#mocForm').addEventListener('submit', (e) => { e.preventDefault(); const t = root.querySelector('#moc-t').value.trim(); if (!t) return; const list = moc(); list.push({ id: Date.now(), t: { ko: t, en: t }, type: root.querySelector('#moc-type').value, site: S.state.site, ra: '-', pssr: false, sop: false, edu: false, user: true }); saveRefresh('psm.moc', list); });
+      const on = (sel, ev, fn) => { const el = root.querySelector(sel); if (el) el.addEventListener(ev, fn); };   /* 탭마다 있는 요소가 다르다 */
+      on('#mocForm', 'submit', (e) => { e.preventDefault(); const t = root.querySelector('#moc-t').value.trim(); if (!t) return; const list = moc(); list.push({ id: Date.now(), t: { ko: t, en: t }, type: root.querySelector('#moc-type').value, site: S.state.site, ra: '-', pssr: false, sop: false, edu: false, user: true }); saveRefresh('psm.moc', list); });
       root.querySelectorAll('[data-moc]').forEach((c) => c.addEventListener('change', () => { const list = moc(); const m = list.find((x) => String(x.id) === c.dataset.moc); m[c.dataset.k] = c.checked; saveRefresh('psm.moc', list); }));
       root.querySelectorAll('[data-moc-del]').forEach((b) => b.addEventListener('click', () => saveRefresh('psm.moc', moc().filter((x) => String(x.id) !== b.dataset.mocDel))));
       const g = S.load('psm.gas', { id: 'ph3', v: '0.4' });
-      root.querySelector('#gas-id').addEventListener('change', (e) => { g.id = e.target.value; g.v = ''; saveRefresh('psm.gas', g); });
-      root.querySelector('#gas-v').addEventListener('change', (e) => { g.v = e.target.value; saveRefresh('psm.gas', g); });
+      on('#gas-id', 'change', (e) => { g.id = e.target.value; g.v = ''; saveRefresh('psm.gas', g); });
+      on('#gas-v', 'change', (e) => { g.v = e.target.value; saveRefresh('psm.gas', g); });
       root.querySelectorAll('[data-tq]').forEach((i) => i.addEventListener('change', () => {
         const cur = Object.assign({}, S.load('psm.tq', null) || TQ_EX); cur[i.dataset.tq] = i.value; saveRefresh('psm.tq', cur);
       }));
-      root.querySelectorAll('[data-hz]').forEach((a) => a.addEventListener('click', () => { S.save('hz.q', a.dataset.hz); S.save('tab.hzc', 'all'); }));
-      root.querySelector('#tq-clear').addEventListener('click', () => saveRefresh('psm.tq', {}));
-      root.querySelector('#tq-ex').addEventListener('click', () => { S.drop('psm.tq'); S.refresh(); });
+      on('#tq-clear', 'click', () => saveRefresh('psm.tq', {}));
+      on('#tq-ex', 'click', () => { S.drop('psm.tq'); S.refresh(); });
+      /* MOC → 가동 전 점검: 누른 변경 건을 점검 양식에 미리 채운다 */
+      root.querySelectorAll('[data-pssr-moc]').forEach((a) => a.addEventListener('click', () => {
+        const ps = pssrState(), m = moc().find((x) => String(x.id) === a.dataset.pssrMoc);
+        ps.draft = Object.assign(pssrBlank(), { moc: a.dataset.pssrMoc, t: m ? L(m.t) : '' });
+        S.save('psm.pssr', ps); S.save('tab.psm', 'pssr');
+      }));
+      /* 가동 전 점검 */
+      const psSet = (fn, redraw) => { const ps = pssrState(); fn(ps.draft, ps); S.save('psm.pssr', ps); if (redraw) S.refresh(); };
+      root.querySelectorAll('[data-ps]').forEach((el) => el.addEventListener('change', () => psSet((d) => {
+        d[el.dataset.ps] = el.value;
+        if (el.dataset.ps === 'moc' && el.value && !d.t) { const m = moc().find((x) => String(x.id) === el.value); if (m) d.t = L(m.t); }
+      }, el.dataset.ps === 'moc')));
+      root.querySelectorAll('[data-ps-ck]').forEach((el) => el.addEventListener('change', () => psSet((d) => { d.ck = Object.assign({}, d.ck, { [el.dataset.psCk]: el.value }); }, true)));
+      root.querySelectorAll('[data-ps-note]').forEach((el) => el.addEventListener('change', () => psSet((d) => { d.note = Object.assign({}, d.note, { [el.dataset.psNote]: el.value }); })));
+      on('#ps-save', 'click', () => {
+        const ps = pssrState(), d = ps.draft, r = pssrResult(d);
+        ps.list.unshift(Object.assign({ id: 'p' + Date.now() }, d));
+        if (r.ok && d.moc) { const list = moc().map((x) => (String(x.id) === String(d.moc) ? Object.assign({}, x, { pssr: true }) : x)); S.save('psm.moc', list); }
+        ps.draft = pssrBlank(); S.save('psm.pssr', ps); S.refresh();
+        S.toast(r.ok && d.moc ? T('점검을 저장하고 MOC의 PSSR을 완료로 표시했습니다', 'Saved; the MOC’s PSSR is now ticked') : T('점검 기록을 저장했습니다', 'Review saved'));
+      });
+      on('#ps-new', 'click', () => psSet((d, ps) => { ps.draft = pssrBlank(); }, true));
+      root.querySelectorAll('[data-ps-del]').forEach((b) => b.addEventListener('click', () => {
+        if (!window.confirm(T('이 점검 기록을 지울까요?', 'Delete this review record?'))) return;
+        const ps = pssrState(); ps.list = ps.list.filter((x) => x.id !== b.dataset.psDel); S.save('psm.pssr', ps); S.refresh();
+      }));
+      /* 자체감사 */
+      const auSet = (fn, redraw) => { const au = auditState(); fn(au); S.save('psm.audit', au); if (redraw) S.refresh(); };
+      root.querySelectorAll('[data-au]').forEach((el) => el.addEventListener('change', () => auSet((au) => { au[el.dataset.au] = el.value; })));
+      root.querySelectorAll('[data-au-el]').forEach((el) => el.addEventListener('change', () => auSet((au) => { au.el = Object.assign({}, au.el); au.el[el.dataset.auEl] = Object.assign({}, au.el[el.dataset.auEl], { [el.dataset.k]: el.value }); }, el.dataset.k === 'st')));
+      root.querySelectorAll('[data-au-ck]').forEach((el) => el.addEventListener('change', () => auSet((au) => { au.ck = Object.assign({}, au.ck, { [el.dataset.auCk]: el.checked }); })));
+      on('#au-done', 'click', () => {
+        const au = auditState();
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(au.date)) { S.toast(T('감사일을 넣으세요', 'Enter the audit date')); return; }
+        const cy = S.load('cycles', {}); cy['psm-audit'] = au.date; S.save('cycles', cy);
+        S.toast(T(`업무판의 PSM 자체감사 최근 실시일을 ${au.date}로 기록했습니다`, `Dashboard PSM self-audit set to ${au.date}`));
+      });
+      on('#au-clear', 'click', () => { if (window.confirm(T('자체감사 입력값을 모두 지울까요?', 'Clear all self-audit entries?'))) { S.drop('psm.audit'); S.refresh(); } });
+      /* 위험물 지정수량 배수 */
+      const dgv = () => JSON.parse(JSON.stringify(S.load('psm.dg', null) || DG_EX));
+      on('[data-dg-type]', 'change', (e) => { const v = dgv(); v.type = e.target.value; saveRefresh('psm.dg', v); });
+      root.querySelectorAll('[data-dg-row]').forEach((el) => el.addEventListener('change', () => {
+        const v = dgv(), i = Number(el.dataset.dgRow); v.rows[i] = Object.assign({}, v.rows[i], { [el.dataset.k]: el.value }); saveRefresh('psm.dg', v);
+      }));
+      root.querySelectorAll('[data-dg-del]').forEach((b) => b.addEventListener('click', () => { const v = dgv(); v.rows.splice(Number(b.dataset.dgDel), 1); saveRefresh('psm.dg', v); }));
+      on('#dg-add', 'click', () => { const v = dgv(); v.rows.push({ id: 'k41n', q: '' }); saveRefresh('psm.dg', v); });
+      on('#dg-clear', 'click', () => { const v = dgv(); saveRefresh('psm.dg', { type: v.type, rows: [] }); });
+      on('#dg-ex', 'click', () => { S.drop('psm.dg'); S.refresh(); });
     }
   };
 
@@ -269,6 +484,26 @@
     ['sev6', T('6개월 이상 치료가 필요한 부상자 — 동일 사고 (명)', 'Injured needing 6+ months’ treatment — same accident')],
     ['ill', T('급성중독 등 직업성 질병자 — 동일 유해요인, 1년 이내 (명)', 'Occupational illness such as acute poisoning — same agent, within a year')]
   ];
+  /* 5단계 — 중대재해처벌법 시행령 제4조(안전보건관리체계 구축·이행)·제5조②(관계 법령 의무이행 관리) 점검표 (원문 확인 2026-09-25, src: lawSapa)
+     반기: 시행령이 ‘반기 1회 이상’ 점검·평가를 정한 항목. link: 포털에서 이어서 볼 곳 */
+  const SAPA_ITEMS = () => [
+    { id: 's41', art: T('제4조 제1호', 'Art. 4(1)'), t: T('안전·보건에 관한 목표와 경영방침 설정', 'Set safety and health goals and a management policy'), link: 'company', ll: T('회사 안전보건 거버넌스', 'Company governance') },
+    { id: 's42', art: T('제4조 제2호', 'Art. 4(2)'), t: T('안전·보건 업무를 총괄·관리하는 전담 조직 — 안전관리자·보건관리자 등 법정 인력이 총 3명 이상이고 상시근로자 500명 이상(또는 시공능력 상위 200위 이내 건설사업자)인 경우', 'A dedicated safety and health unit — where the statutory safety and health staff total 3 or more and there are 500 or more regular workers (or a top-200 builder)'), link: 'company', ll: T('회사 안전보건 거버넌스', 'Company governance') },
+    { id: 's43', art: T('제4조 제3호', 'Art. 4(3)'), half: true, t: T('유해·위험요인 확인·개선 업무절차 마련, 반기 1회 이상 점검 — 위험성평가 절차에 따라 실시하거나 결과를 보고받으면 점검한 것으로 봄', 'A procedure to find and fix hazards, checked at least half-yearly — running risk assessments under their procedure, or receiving their results, counts'), link: 'risk', ll: T('위험성평가 워크벤치', 'Risk workbench') },
+    { id: 's44', art: T('제4조 제4호', 'Art. 4(4)'), t: T('예산 편성·집행 — 안전·보건 인력·시설·장비, 유해·위험요인 개선, 고용노동부장관 고시 사항', 'Budget set and spent for safety and health staff, facilities and equipment, fixing hazards, and items in the MOEL notice'), link: '', ll: '' },
+    { id: 's45', art: T('제4조 제5호', 'Art. 4(5)'), half: true, t: T('안전보건관리책임자·관리감독자·안전보건총괄책임자에게 권한과 예산 부여, 평가기준 마련 후 반기 1회 이상 평가·관리', 'Give site heads, supervisors and the overall safety head authority and budget; set criteria and evaluate them at least half-yearly'), link: 'home/cycles', ll: T('업무판 법정 주기', 'Dashboard cycles') },
+    { id: 's46', art: T('제4조 제6호', 'Art. 4(6)'), t: T('안전관리자·보건관리자·안전보건관리담당자·산업보건의 법정 인원 배치(다른 업무를 겸하면 고시 기준으로 업무시간 보장)', 'Assign the statutory number of safety managers, health managers, safety officers and occupational physicians (guarantee their time if they hold other duties)'), link: '', ll: '' },
+    { id: 's47', art: T('제4조 제7호', 'Art. 4(7)'), half: true, t: T('종사자 의견청취 절차, 개선방안 이행 여부 반기 1회 이상 점검 — 산업안전보건위원회·안전보건 협의체 논의로 갈음 가능', 'A procedure to hear workers and check follow-up at least half-yearly — safety committee and partner council discussions count'), link: 'partner', ll: T('상생협력(협의체)', 'Partnership (council)') },
+    { id: 's48', art: T('제4조 제8호', 'Art. 4(8)'), half: true, t: T('중대산업재해 대비 매뉴얼(작업중지·근로자 대피·위험요인 제거, 구호, 추가 피해방지) 마련, 반기 1회 이상 점검', 'A manual for serious accidents (stop work, evacuate, remove the hazard; rescue; prevent further harm), checked at least half-yearly'), link: 'fire', ll: T('소방·방재 비상대응', 'Fire & emergency') },
+    { id: 's49', art: T('제4조 제9호', 'Art. 4(9)'), half: true, t: T('도급·용역·위탁 시 수급인의 조치 능력·기술 평가기준, 안전·보건 관리비용 기준(건설·조선은 공사·건조기간 기준) 마련, 반기 1회 이상 점검', 'For contracting out: criteria for the contractor’s capability and technology and for safety and health budgets (build time for construction and shipbuilding), checked at least half-yearly'), link: 'partner/score', ll: T('협력사 SHE 평가표', 'Contractor scorecard') },
+    { id: 's51', art: T('제5조② 제1호', 'Art. 5(2)1'), half: true, t: T('안전·보건 관계 법령에 따른 의무 이행 여부 반기 1회 이상 점검(기관에 위탁 가능, 직접 하지 않으면 결과를 지체 없이 보고받음)', 'Check compliance with safety and health laws at least half-yearly (may be delegated; if not done in person, get the results without delay)'), link: 'home/cycles', ll: T('업무판 법정 주기', 'Dashboard cycles') },
+    { id: 's52', art: T('제5조② 제2호', 'Art. 5(2)2'), t: T('의무 미이행이 확인되면 인력 배치·예산 추가 편성 등 이행에 필요한 조치', 'Where a duty is not met, add staff or budget as needed'), link: '', ll: '' },
+    { id: 's53', art: T('제5조② 제3호', 'Art. 5(2)3'), half: true, t: T('유해·위험한 작업에 관한 법정 안전·보건교육 실시 여부 반기 1회 이상 점검', 'Check at least half-yearly that statutory training for hazardous work was given'), link: 'training', ll: T('교육 이수 관리', 'Training records') },
+    { id: 's54', art: T('제5조② 제4호', 'Art. 5(2)4'), t: T('실시되지 않은 교육은 지체 없이 이행 지시·예산 확보 등 조치', 'Order any missing training at once and secure the budget'), link: 'training', ll: T('교육 이수 관리', 'Training records') }
+  ];
+  S.SAPA_ITEMS = SAPA_ITEMS;
+  const SAPA_ST = () => [['', T('미확인', 'Unchecked')], ['ok', T('이행', 'In place')], ['part', T('보완 중', 'Improving')], ['ng', T('미흡', 'Gap')]];
+
   const HIER = () => [['elim', T('제거·대체', 'Eliminate / substitute')], ['eng', T('공학적 대책', 'Engineering controls')], ['adm', T('행정적 대책', 'Administrative controls')], ['ppe', T('개인보호구', 'PPE')]];
 
   S.pages.prevent = {
@@ -289,6 +524,7 @@
       const ev = repEval(), rep = ev.r, repEx = ev.ex, repOsh = ev.osh, repForm = ev.form, repSapa = ev.sapa;
       return `
       ${ui.head(T('6대 직무 · 예방안전', 'Six functions · Preventive safety'), T('예방안전', 'Preventive safety'),
+        T('산업재해·사고조사·점검 같은 예방 활동과 위험작업 안전을 관리합니다.', 'Injuries, investigations, inspections and high-risk work in fab operations.'),
         T('산업재해 관리, 사고조사와 재발방지 대책, 점검 등 예방 활동과 반도체 제조·설비 운영의 위험작업 안전을 관리합니다. 작업 절차서 교육과 검증을 포함합니다.', 'Manage injuries, investigations and corrective actions, inspections, and high-risk work in fab operations — including procedure training and verification.'))}
       <section class="grid g3">
         <div class="panel span2">${ui.title(T('SK하이닉스 공개 운영 방식', 'SK hynix disclosed practice'))}
@@ -318,6 +554,23 @@
         <div class="row" style="margin-top:8px"><a class="btn sm" href="#ptw">${T('작업허가서 작성기 열기', 'Open the permit-to-work builder')} →</a><span class="xs muted">${T('PSM 고시 제46조·KOSHA C-C-49-2026 기준 — 허가 종류, 발급·승인·입회, 가스 측정, 1년 보관(밀폐공간 3년), 모니터링·절차 평가', 'Per PSM Notice Art. 46 and KOSHA C-C-49-2026 — permit types, issue, approval, attendance, gas tests, one-year retention (three years for confined space), monitoring and procedure audit')}</span></div>
         <p class="xs muted" style="margin-top:8px">${S.cite('lawStd', 'lawAct', 'lawDecree', 'koshaGuide', 'koshaCC49')}</p>
       </section>
+
+      ${(() => {
+        const sp = S.load('prev.sapa', {}), items = SAPA_ITEMS();
+        const cnt = (v) => items.filter((x) => ((sp[x.id] || {}).st || '') === v).length;
+        return `<section class="panel stack" id="anchor-sapa">${ui.title(T('중대재해처벌법 안전보건관리체계 점검표', 'Serious Accidents Act — safety management system check'), T('시행령 제4조 1~9호 · 제5조②', 'Decree Art. 4(1)–(9) · Art. 5(2)'))}
+          <p class="small">${T('경영책임자가 갖춰야 할 안전보건관리체계와 관계 법령 의무이행 관리 조치를 한 표에 모았습니다. 반기 점검 때 항목마다 상태와 증빙을 적고 인쇄해 보고용으로 씁니다.', 'The management system and compliance-control duties of the responsible executive in one table. At each half-yearly review, record status and evidence per item and print it for reporting.')}</p>
+          <div class="row" style="gap:8px">${ui.pill('ok', T(`이행 ${cnt('ok')}`, `In place ${cnt('ok')}`))}${ui.pill('warn', T(`보완 중 ${cnt('part')}`, `Improving ${cnt('part')}`))}${ui.pill('bad', T(`미흡 ${cnt('ng')}`, `Gap ${cnt('ng')}`))}${ui.pill('plain', T(`미확인 ${cnt('')}`, `Unchecked ${cnt('')}`))}</div>
+          <div class="table-wrap"><table class="data"><thead><tr><th>${T('의무', 'Duty')}</th><th>${T('주기', 'Cycle')}</th><th>${T('상태', 'Status')}</th><th>${T('증빙·메모', 'Evidence / notes')}</th></tr></thead><tbody>
+            ${items.map((x) => { const v = sp[x.id] || {}; return `<tr><td style="min-width:16em">${x.t} <span class="basis law">${x.art}</span>${x.link ? ` <a class="xs" href="#${x.link}">${x.ll} →</a>` : ''}</td>
+              <td class="small nowrap">${x.half ? T('반기 1회 이상', 'Half-yearly') : '–'}</td>
+              <td><select data-sapa="${x.id}" data-k="st" aria-label="${S.esc(T('상태', 'Status') + ' — ' + x.art)}">${SAPA_ST().map(([k, l]) => `<option value="${k}" ${(v.st || '') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
+              <td><input type="text" data-sapa="${x.id}" data-k="note" value="${S.esc(v.note || '')}" aria-label="${S.esc(T('증빙·메모', 'Evidence / notes') + ' — ' + x.art)}" placeholder="${T('예: 회의록·결재 문서 번호', 'e.g. minutes or approval no.')}"></td></tr>`; }).join('')}
+          </tbody></table></div>
+          <div class="row">${S.printLink('sapa', T('반기 점검표 인쇄', 'Print the half-yearly checklist'))}<button class="btn ghost sm" type="button" id="sapa-clear">${T('기록 비우기', 'Clear entries')}</button></div>
+          <p class="xs muted">${T('반기 1회 이상 점검 항목은 업무판 법정 주기(유해·위험요인 확인·개선 절차 이행 점검, 안전보건관리책임자 등 업무수행 평가, 종사자 의견청취, 중대산업재해 대비 매뉴얼, 도급 기준 이행 점검)와 이어집니다. 법은 사업주·경영책임자의 의무를 정하며, 이 표의 상태·증빙은 연습용으로 이 브라우저에만 저장됩니다.', 'Half-yearly items tie into the dashboard cycles (hazard procedure check, evaluation of safety managers, worker feedback, serious-accident manual, contracting criteria). The law sets duties for the business owner and responsible executive; statuses and evidence here are practice entries saved in this browser only.')}${S.cite('lawSapaAct', 'lawSapa')}</p>
+        </section>`;
+      })()}
 
       <section class="grid g2">
         <div class="panel stack" id="anchor-incident">${ui.title(T('사고·아차사고 조사', 'Incident & near-miss investigation'), T('5-Why · 4M · 대책 위계', '5-Why · 4M · hierarchy of controls'))}
@@ -423,6 +676,13 @@
       root.querySelector('#inc-level').addEventListener('change', (e) => { draft.level = e.target.value; keep(); S.refresh(); });
       root.querySelectorAll('[data-why]').forEach((i) => i.addEventListener('input', () => { draft.why[Number(i.dataset.why)] = i.value; keep(); }));
       root.querySelectorAll('[data-m4]').forEach((c) => c.addEventListener('change', () => { draft.m4 = [...root.querySelectorAll('[data-m4]:checked')].map((x) => x.dataset.m4); keep(); }));
+      /* 중처법 점검표 — 상태는 바로 다시 그리고, 메모는 입력을 마쳤을 때 저장 */
+      root.querySelectorAll('[data-sapa]').forEach((el) => el.addEventListener('change', () => {
+        const sp = S.load('prev.sapa', {}); sp[el.dataset.sapa] = Object.assign({}, sp[el.dataset.sapa], { [el.dataset.k]: el.value });
+        S.save('prev.sapa', sp); if (el.dataset.k === 'st') S.refresh();
+      }));
+      const sc = root.querySelector('#sapa-clear');
+      if (sc) sc.addEventListener('click', () => { if (window.confirm(T('중처법 점검표의 상태와 메모를 모두 지울까요?', 'Clear all statuses and notes in this checklist?'))) { S.drop('prev.sapa'); S.refresh(); } });
       root.querySelector('#incForm').addEventListener('submit', (e) => {
         e.preventDefault();
         if (!draft.what.trim()) { S.toast(S.T('경위를 입력하세요', 'Describe what happened')); root.querySelector('#inc-what').focus(); return; }
@@ -573,7 +833,8 @@
       const vendors = S.load('pt.v', null) || VENDORS_DEFAULT;
       return `
       ${ui.head(T('6대 직무 · 상생협력', 'Six functions · Contractor partnership'), T('상생협력', 'Contractor partnership'),
-        T('협력사의 SHE 정책·프로그램을 기획·운영하고 안전관리 체계 구축을 지원합니다. 도급 안전조치 이행, 작업환경 개선, 근로자 건강증진으로 Legal Risk를 줄이고 도급사업주 의무 이행 수준을 높입니다.', 'Plan and run contractor SHE programmes and help partners build their systems; deliver subcontract safety duties, better work environments and worker health — cutting legal risk and raising the principal’s compliance.'))}
+        T('협력사의 SHE 정책·프로그램을 기획·운영하고 안전관리 체계 구축을 지원합니다.', 'Plan and run contractor SHE programmes and help partners build their systems.'),
+        T('도급 안전조치 이행, 작업환경 개선, 근로자 건강증진으로 Legal Risk를 줄이고 도급사업주 의무 이행 수준을 높입니다.', 'Deliver subcontract safety duties, better work environments and worker health — cutting legal risk and raising the principal’s compliance.'))}
       <section class="grid g4">
         <div class="panel kpi"><span class="k">${T('1차 협력사 (2025)', 'Tier-1 suppliers (2025)')}${S.cite('sr2026')}</span><span class="v">${S.fmt(C.kpi.partners.tier1)}</span><span class="d">${L(C.kpi.partners.note)}</span></div>
         <div class="panel kpi"><span class="k">${T('SHE 컨설팅 (2025)', 'SHE consulting (2025)')}${S.cite('sr2026')}</span><span class="v">206<small>${T('개사', '')}</small></span><span class="d">${T('불합리 사항 3,100여 건 발굴 · 만족도 93%', '≈ 3,100 issues found · 93 % satisfaction')}</span></div>
@@ -586,7 +847,7 @@
           <p class="xs muted" style="margin-top:8px">${S.cite('lawAct', 'lawDecree', 'lawRule', 'lawSapa')} · ${T('체크 상태는 예시로 시작하며 이 브라우저에 저장됩니다.', 'Checks start as examples and are saved in this browser.')}</p>
           <div class="row" style="margin-top:6px">${S.printLink('duty', T('의무 점검표 인쇄', 'Print the duty checklist'))}</div>
         </div>
-        <div class="panel stack" id="anchor-approval">${ui.title(T('도급승인 대상 판별', 'Does this need subcontract approval?'), T('산안법 제59조 · 시행령 제51조', 'OSH Act 59 · Decree 51'))}
+        <div class="panel stack" id="anchor-approval">${ui.title(T('도급승인 대상 판별', 'Subcontract approval check'), T('산안법 제59조 · 시행령 제51조', 'OSH Act 59 · Decree 51'))}
           ${[['acid', T('설비가 황산·불화수소·질산·염화수소를 중량비율 1% 이상 취급하나요?', 'Does the equipment handle sulfuric, hydrofluoric, nitric or hydrochloric acid at ≥ 1 wt%?')],
              ['work', T('작업이 그 설비의 개조·분해·해체·철거 또는 설비 내부 작업인가요?', 'Is the job modifying, dismantling, removing the equipment, or working inside it?')],
              ['removed', T('도급인이 해당 화학물질을 모두 제거하고 증명자료를 첨부해 신고했나요?', 'Has the principal removed all such chemicals and filed proof?')]].map(([k, q]) => `<fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600">${q}</legend><div class="row">
@@ -609,7 +870,8 @@
         <p class="xs muted" style="margin-top:6px">${T('각 항목 0–5점 × 배점/5. 등급 구간(80·60점)도 포털 예시입니다. SK하이닉스는 신규 협력사 100%에 SHE 적격성 평가(인권노동·환경·안전)를 적용한다고 공개했습니다.', 'Each item 0–5 × weight/5. The 80/60 bands are portal examples too. SK hynix states that 100 % of new suppliers pass an SHE qualification review (human rights/labour, environment, safety).')}${S.cite('sr2026', 'lawSapa')}</p>
       </section>
       <section class="grid g2">
-        <div class="panel">${ui.title(T('SK하이닉스 협력사 지원 체계', 'SK hynix partner support'))}
+        <div class="panel stack" style="gap:14px">${ui.title(T('SK하이닉스 협력사 지원 체계', 'SK hynix partner support'))}
+          ${S.photo('partner')}
           ${facts([
             { t: { ko: '협력사 SHE 컨설팅 (2018~): 맞춤형 무상 컨설팅, 법적 서류·기술 지도', en: 'Partner SHE consulting (since 2018): free tailored support, legal documents and technical coaching' }, src: 'sr2026' },
             { t: { ko: '대·중소기업 안전보건 상생협력사업: 매년 50~60개 협력사와 컨설팅·안전용품·세미나·교육·시설 개선', en: 'Large–small business S&H cooperation: 50–60 partners a year — consulting, safety kit, seminars, training, facility upgrades' }, src: 'sr2026' },
@@ -624,6 +886,23 @@
           <div class="row" style="margin-top:10px">${S.SOPS.slice(0, 8).map((s) => sopLink(s.id)).join('')}</div>
           <hr class="sep"><p class="xs muted">${T('벤치마크: 삼성전자 반도체는 작업중지권 운영 건수(2024년 4,537건)를 공개, TSMC는 교육 이수와 출입·공사 신청을 연동합니다.', 'Benchmarks: Samsung publishes stop-work counts (4,537 in 2024); TSMC ties training to access and work requests.')}${S.cite('samsung', 'tsmc2023')} <a href="#bench">${T('벤치마킹', 'Benchmarks')} →</a></p>
         </div>
+      </section>
+      <section class="panel stack" id="anchor-build">${ui.title(T('건설공사 발주자 의무', 'Duties of the construction client'), T('산안법 제67~73조 — Fab 신·증설처럼 회사가 발주하는 공사', 'OSH Act Arts. 67–73 — works the company commissions, such as new fabs'))}
+        <p class="small">${T('총공사금액 50억원 이상 공사의 발주자는 계획·설계·시공 단계마다 안전보건대장을 작성·제공·확인해야 합니다. 회사가 발주하는 Fab 건설(예: 청주 P&T7, 건설 중)이 여기에 해당합니다.', 'Clients of works worth 5 billion won or more must write, hand over and check a safety and health ledger at the planning, design and construction stages. Fab construction the company commissions (e.g. P&T7 at Cheongju, under construction) is covered.')}${S.cite('lawAct', 'lawDecree', 'sr2026')}</p>
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('단계', 'Stage')}</th><th>${T('발주자가 할 일 (법 제67조①)', 'Client’s task (Act 67(1))')}</th><th>${T('대장에 담을 내용 (시행규칙 제86조)', 'Ledger contents (Rule 86)')}</th></tr></thead><tbody>
+          <tr><td class="nowrap"><b>${T('계획', 'Planning')}</b></td><td class="small">${T('중점 관리할 유해·위험요인과 감소방안을 담은 기본안전보건대장 작성', 'Write the basic ledger with the key hazards and how to reduce them')}</td><td class="small">${T('공사 개요, 공사현장 제반 정보, 설치·사용 예정 구조물·기계·기구 등 고시 유해·위험요인과 안전조치·위험성 감소방안, 발주자의 법령상 주요 의무와 확인', 'Outline, site information, hazards of planned structures, machines and tools listed in the notice with safety and risk-reduction measures, the client’s main legal duties and their confirmation')}</td></tr>
+          <tr><td class="nowrap"><b>${T('설계', 'Design')}</b></td><td class="small">${T('기본대장을 설계자에게 주고, 설계자가 작성한 설계안전보건대장 확인', 'Give the basic ledger to the designer and check the design ledger they write')}</td><td class="small">${T('안전한 작업을 위한 적정 공사기간·공사금액 산출서(건설사업관리 결과보고서로 갈음 가능), 공사 중 유해·위험요인과 시공단계 감소방안, 산업안전보건관리비 산출내역서', 'A calculation of safe duration and cost (may be covered by the construction-management report), hazards during works and reduction measures for construction, the itemised safety and health budget')}</td></tr>
+          <tr><td class="nowrap"><b>${T('시공', 'Construction')}</b></td><td class="small">${T('최초 수급인에게 설계대장을 주고, 수급인이 작성한 공사안전보건대장의 이행 여부 확인', 'Give the design ledger to the main contractor and check that the construction ledger they write is carried out')}</td><td class="small">${T('설계대장 감소방안을 반영한 안전보건 조치 이행계획, 유해위험방지계획서 심사·확인 결과 조치, 고시 건설기계·기구 배치·이동계획, 기술지도 계약·지도결과·조치', 'Safety plan reflecting the design ledger, action on the hazard-prevention plan review, layout and movement plan for listed construction machinery, technical-guidance contract, findings and action')}</td></tr>
+        </tbody></table></div>
+        <ul class="facts">
+          <li>${T('대장 내용의 적정성은 건설안전 분야 전문가(건설안전 분야 산업안전지도사, 건설안전기술사, 건설안전기사 실무 3년·산업기사 5년 이상)에게 확인받음', 'Have a construction-safety expert confirm the ledgers (construction-safety consultant, professional engineer, or engineer with 3 years’ / industrial engineer with 5 years’ experience)')} <span class="basis law">${T('법 제67조②, 시행령 제55조의2', 'Act 67(2); Decree 55-2')}</span></li>
+          <li>${T('설계자와 최초 수급인이 안전을 우선할 수 있게 적정한 비용과 기간을 계상·설정', 'Budget and schedule so the designer and main contractor can put safety first')} <span class="basis law">${T('법 제67조③', 'Act 67(3)')}</span></li>
+          <li>${T('같은 장소에서 2개 이상 공사를 도급하고 금액 합이 50억원 이상이면 안전보건조정자 배치', 'Appoint a safety and health coordinator when two or more contracts at one place total 5 billion won or more')} <span class="basis law">${T('법 제68조, 시행령 제56조', 'Act 68; Decree 56')}</span></li>
+          <li>${T('설계도서 등으로 산정한 공사기간 단축 금지, 공사비를 줄이려고 위험한 공법을 쓰거나 정당한 사유 없이 공법 변경 금지', 'No cutting the calculated construction period; no risky methods to save cost and no unjustified method changes')} <span class="basis law">${T('법 제69조', 'Act 69')}</span></li>
+          <li>${T('산업안전보건관리비를 고용노동부 고시에 따라 도급금액·사업비에 계상. 도급인은 기준대로 쓰고 사용명세서를 작성·보존하며, 산업재해 예방 외 목적으로 쓰지 않음', 'Include the safety and health budget in the contract per the MOEL notice; the contractor spends it as set, keeps a usage statement, and uses it only for accident prevention')} <span class="basis law">${T('법 제72조①③⑤', 'Act 72(1)(3)(5)')}</span></li>
+          <li>${T('공사금액 1억원 이상 120억원(토목공사업 150억원) 미만 공사와 건축허가 대상 공사는 착공 전날까지 건설재해예방전문지도기관과 기술지도계약(유해위험방지계획서 제출 대상 등은 제외)', 'Works of 100 million to under 12 billion won (15 billion for civil works) and works needing a building permit sign a technical-guidance contract with a designated agency by the day before start (exceptions include works needing a hazard-prevention plan)')} <span class="basis law">${T('법 제73조, 시행령 제59조', 'Act 73; Decree 59')}</span></li>
+        </ul>
+        <p class="xs muted">${T('대장 작성·확인의 방법과 절차는 시행규칙 제86조④에 따라 고용노동부장관이 고시로 정합니다. 산업안전보건관리비의 규모별 계상 기준과 사용 기준도 고시(법 제72조②)를 확인하세요.', 'How ledgers are written and checked is set by MOEL notice under Rule 86(4); the budget rates by project size and the rules for spending it are also in a MOEL notice (Act 72(2)).')}${S.cite('lawAct', 'lawDecree', 'lawRule')}</p>
       </section>`;
     },
     mount(root) {
@@ -695,7 +974,8 @@
       const ss = SCEN_STEPS[sc];
       return `
       ${ui.head(T('6대 직무 · 소방·방재', 'Six functions · Fire & emergency'), T('소방·방재', 'Fire & emergency'),
-        T('소방시설 운영·점검, 경보·소화설비 관리, 소방공사 시공·검수, 비상대피 훈련 기획·실행으로 안전한 사업장을 유지하고, 비상대응 체계를 표준화합니다.', 'Run and inspect fire systems, manage alarms and suppression, oversee fire-works construction and acceptance, plan and run evacuation drills — and standardise emergency response.'))}
+        T('소방시설 점검과 비상대피 훈련으로 사업장을 지키고 비상대응 체계를 표준화합니다.', 'Keep the site safe through fire-system inspection and evacuation drills, and standardise emergency response.'),
+        T('소방시설 운영·점검, 경보·소화설비 관리, 소방공사 시공·검수, 비상대피 훈련 기획·실행을 다룹니다.', 'Covers running and inspecting fire systems, alarms and suppression, fire-works construction and acceptance, and planning and running evacuation drills.'))}
       <section class="panel">${ui.title(T('SK하이닉스 비상대응 체계 (공개)', 'SK hynix emergency response (disclosed)'))}
         ${facts([
           { t: { ko: '중앙방재실이 감지기를 24시간 모니터링, 이상 시 ERT 출동 — 누출 차단·확산 방지·농도 측정·대피 유도 초동대응', en: 'Central control room monitors detectors 24/7; ERT handles first response — isolate, contain, measure, evacuate' }, src: 'sr2026' },
@@ -716,7 +996,7 @@
         <div class="grid g2">
           <div class="result stack" style="gap:6px"><b class="small">${T('등급', 'Grade')}</b>${fgGrade ? ui.pill(fgGrade === 'special' || fgGrade === 'first' ? 'bad' : 'warn', L(FG_NAME[fgGrade])) : ui.pill('ok', T('별표4 대상 아님', 'Not an Annex 4 property'))}
             ${fgGrade ? `<span class="xs">${L(FG_QUAL[fgGrade])}</span>` : ''}</div>
-          <div class="result stack" style="gap:6px"><b class="small">${T('소방안전관리보조자 (연면적 기준)', 'Assistant managers (by floor area)')}</b><span class="num" style="font-size:20px;font-weight:600">${fgAssist ? fgAssist + T('명 이상', '+') : T('연면적 기준 해당 없음', 'Not required by area')}</span>
+          <div class="result stack" style="gap:6px"><b class="small">${T('소방안전관리보조자 (연면적 기준)', 'Assistant managers (by floor area)')}</b><span class="num" style="font-size:calc(20px * var(--fz));font-weight:600">${fgAssist ? fgAssist + T('명 이상', '+') : T('연면적 기준 해당 없음', 'Not required by area')}</span>
             <span class="xs muted">${T(`연면적 1만5천㎡ 이상이면 1명, 초과 ${fg.ctrl ? '3만' : '1만5천'}㎡마다 1명 추가`, `1 from 15,000 m², plus 1 per extra ${fg.ctrl ? '30,000' : '15,000'} m²`)}</span></div>
         </div>
         <p class="xs muted">${T('아파트가 아닌 특정소방대상물 기준입니다(특급: 30층 이상(지하 포함)·높이 120m 이상·연면적 10만㎡ 이상 / 1급: 연면적 1만5천㎡ 이상·지상 11층 이상·가연성 가스 1천톤 이상). 위험물 제조소등·불연성 물품 창고 등은 특급·1급에서 제외되고, 기숙사·의료시설 등의 보조자 기준은 따로 있습니다. 예시 값은 가상입니다.', 'For non-residential properties (special: 30+ floors incl. basement, 120 m+ or 100,000 m²+; 1st: 15,000 m²+, 11+ floors above ground or 1,000 t+ flammable gas). Hazardous-material facilities and non-combustible storage are excluded from special/1st grade; dormitories, hospitals and others have their own assistant rules. Example values are fictional.')}${S.cite('lawFireDecree')}</p>
@@ -735,7 +1015,7 @@
             <p class="xs muted">${T('종합점검: 연 1회 이상(특급은 반기 1회 이상), 사용승인일이 속하는 달에 실시. 작동점검: 연 1회 이상, 종합점검 대상은 종합점검을 받은 달부터 6개월이 되는 달에 실시.', 'Full: at least yearly (special grade: half-yearly), in the approval month. Operational: at least yearly; for full-inspection sites, in the sixth month after the full inspection.')}${S.cite('lawFire')}</p>
           </div>
         </div>
-        <div class="panel stack">${ui.title(T('화재감시자 배치 판단', 'Is a fire watch required?'), T('안전보건규칙 제241조의2', 'OSH Standards Rules Art. 241-2'))}
+        <div class="panel stack">${ui.title(T('화재감시자 배치 판단', 'Fire-watch requirement'), T('안전보건규칙 제241조의2', 'OSH Standards Rules Art. 241-2'))}
           ${[['c1', T('작업반경 11m 이내에 건물 구조·내부(개구부 포함)에 가연성물질이 있다', 'Combustibles in the structure or interior (incl. openings) within 11 m')],
              ['c2', T('11m 이내 바닥 하부에 가연성물질이 11m 이상 떨어져 있지만 불꽃으로 쉽게 발화될 우려가 있다', 'Combustibles below the floor, more than 11 m away but easily ignited by sparks')],
              ['c3', T('가연성물질이 금속 칸막이·벽·천장·지붕의 반대쪽 면에 인접해 열전도·복사로 발화될 우려가 있다', 'Combustibles against the far side of metal partitions, walls, ceilings or roofs — ignition by conduction or radiation')],
@@ -804,6 +1084,7 @@
       ];
       return `
       ${ui.head(T('6대 직무 · 안전문화', 'Six functions · Safety culture'), T('안전문화', 'Safety culture'),
+        T('안전문화 활동과 교육, 안전보건경영시스템 인증과 KPI를 관리합니다.', 'Safety-culture activities, training, management-system certification and KPIs.'),
         T('전사 안전문화를 만들고 교육과정을 개발·운영하며, SHE 체험관을 관리하고, 안전보건경영시스템 인증과 KPI를 관리해 조직 전반의 안전문화를 활성화합니다.', 'Build company-wide safety culture, develop and run training, manage the SHE Experience Center, and look after management-system certification and KPIs.'))}
       <section class="grid g3">
         <div class="panel span2">${ui.title(T('SK하이닉스 안전문화 활동 (공개)', 'SK hynix safety-culture activities (disclosed)'))}

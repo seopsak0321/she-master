@@ -52,13 +52,13 @@
   /* ---------- index ---------- */
   let cache = null, dirty = true;
   const save0 = S.save, drop0 = S.drop;
-  S.save = function (k, v) { save0(k, v); if (!/^(tab\.|search\.|res\.st|theme|lang|site)/.test(k)) dirty = true; };
+  S.save = function (k, v) { save0(k, v); if (!/^(tab\.|lb\.|search\.|res\.st|theme|lang|site)/.test(k)) dirty = true; };
   S.drop = function (k) { drop0(k); dirty = true; };
 
   const CUSTOM = { sop: 1, cases: 1, hazards: 1, sources: 1, news: 1, resources: 1, guide: 1 };
-  const TABKEY = { measure: 'measure', risk: 'risk', fire: 'scen', gas: 'gas', bench: 'bench' };
+  const TABKEY = { measure: 'measure', risk: 'risk', fire: 'scen', gas: 'gas', bench: 'bench', psm: 'psm' };
   const VARIANTS = { sites: ['common', 'icheon', 'cheongju'] };
-  const FILTERS = { sopf: 'all', hzc: 'all', newsk: 'all' };
+  const FILTERS = {};
   /* text of an element with a space between separate text pieces (textContent would glue labels together) */
   const txt = (el) => {
     if (!el) return '';
@@ -143,15 +143,15 @@
     add({ k: 'sec', title: T('업계 공통 지적 사항 자가점검', 'Self-check against industry findings'), crumb: rn('cases'), href: '#cases/selfcheck',
       text: S.MOEL_FINDINGS.map((f) => L(f.t) + ' (' + L(f.where) + ')').join(' '), alt: S.MOEL_FINDINGS.map((f) => both(f.t)).join(' ') });
     S.TIMELINE.filter((x) => !x.caseId).forEach((x) => add({ k: 'news', title: L(x.t), crumb: rn('cases') + ' · ' + T('사고 타임라인', 'Incident timeline') + ' · ' + x.date, href: '#cases/timeline', alt: both(x.t) }));
-    S.CHEMICALS.forEach((c) => add({ k: 'chem', title: `${L(c)} (${c.f})`, crumb: rn('hazards') + ' · CAS ' + c.cas, href: '#hazards', go: { save: { 'hz.q': c.cas, 'tab.hzc': 'all' } },
+    S.CHEMICALS.forEach((c) => add({ k: 'chem', title: `${L(c)} (${c.f})`, crumb: rn('hazards') + ' · CAS ' + c.cas, href: '#hazards/' + c.id,
       text: `TWA ${c.twa ?? '–'} · STEL ${c.stel ?? '–'} · C ${c.c ?? '–'} ${c.unit} · IDLH ${c.idlh ?? '–'} · ${L(S.CHEM_CATS[c.cat])} ${L(c.note) || ''} ${L(c.icsc) || ''}`,
       alt: both(c) + ' ' + c.f + ' ' + c.cas + ' ' + c.id, at: both(c) + ' ' + c.f }));
-    S.PROCESSES.forEach((p) => add({ k: 'sec', title: L(p), crumb: rn('hazards') + ' › ' + T('공정 단계별 유해위험', 'Hazards by process step'), href: '#hazards',
-      go: { jump: T('공정 단계별 유해위험', 'Hazards by process step') }, text: L(p.d) + ' ' + L(p.hz).join(' '), alt: both(p) }));
+    S.PROCESSES.forEach((p) => add({ k: 'sec', title: L(p), crumb: rn('hazards') + ' › ' + T('공정 단계', 'Process steps'), href: '#hazards',
+      go: { save: { 'tab.hz': 'proc' }, jump: L(p) }, text: L(p.d) + ' ' + L(p.hz).join(' '), alt: both(p) }));
     S.RESOURCES.forEach((x) => add({ k: 'res', title: L(x.name), crumb: rn('resources') + ' · ' + L(x.org), href: '#resources/' + x.id,
       text: L(x.desc).join(' ') + ' · ' + L(S.RES_TYPES[x.type]) + ' · ' + x.subj.map((s) => L(S.RES_SUBJECTS[s])).join(', ') + ' · ' + x.url, alt: both(x.name) + ' ' + both(x.org), at: both(x.name) }));
     S.SOURCES.forEach((s, i) => add({ k: 'src', title: L(s.title), crumb: rn('sources') + ' · [' + (i + 1) + ']', href: '#sources/' + s.id, text: L(s.note) || '', alt: both(s.title) }));
-    S.NEWS.forEach((x) => add({ k: 'news', title: L(x.t), crumb: rn('news') + ' · ' + x.date, href: '#news', go: { save: { 'tab.newsk': 'all' } }, alt: both(x.t) }));
+    S.NEWS.forEach((x) => add({ k: 'news', title: L(x.t), crumb: rn('news') + ' · ' + x.date, href: '#news', go: { save: { 'lb.news': {} } }, alt: both(x.t) }));
     Object.keys(S.GUIDES).forEach((r) => {
       const g = S.GUIDES[r];
       add({ k: 'guide', title: T('가이드 · ', 'Guide · ') + rn(r), crumb: rn('guide'), href: '#guide/' + r,
@@ -239,10 +239,14 @@
       if (!region) region = view.querySelector('#sop-detail, #case-detail, .res.hl');
       if (region) {
         if (region.tagName === 'DETAILS') region.open = true;
+        S.reveal(region, true);   /* 접힌 곳 안이면 펼친다 */
         if (anchor) scrollToEl(anchor);
         region.classList.add('flash'); setTimeout(() => region.classList.remove('flash'), 2400);
       }
       markLive(region || view, j.terms);
+      /* 찾은 글자가 ‘근거·참고’ 같은 접기 안에만 있으면 펼쳐서 보이게 한다 */
+      const hit = (region || view).querySelector('mark.hit');
+      if (hit && hit.closest('details:not([open])')) S.reveal(hit, true);
     }, 60);
   });
 

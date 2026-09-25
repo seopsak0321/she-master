@@ -237,6 +237,7 @@
       const tool = TOOLS[cur] || TOOLS.alarm;
       return `
       ${ui.head(T('판정·평가 도구', 'Tools'), T('가스 안전 도구', 'Gas safety tools'),
+        T('특수가스 설비의 경보 설정값·혼합가스 인화성·누출 이격거리를 확인합니다.', 'Check detector set points, mixture flammability and release distances for specialty gases.'),
         T('반도체 특수가스 설비에서 바로 쓰는 세 가지 계산 — 가스 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 그 폭발하한계, 누출 시 초기 이격·방호 거리를 원문 기준으로 확인합니다.',
           'Three checks for fab specialty-gas systems — whether detector set points meet the KGS codes and KOSHA guidance, whether a gas mixture is flammable and its LEL, and initial isolation and protective distances for a release — all from the original documents.'))}
       ${ui.tabs('gas', Object.keys(TOOLS).map((id) => ({ id, label: TOOLS[id].label() })), cur)}

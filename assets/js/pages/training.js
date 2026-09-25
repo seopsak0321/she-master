@@ -87,6 +87,7 @@
       const SP = Object.keys(S.SPECIAL_EDU).map(Number);
       return `
       ${ui.head(T('업무', 'Workspace'), T('교육 이수 관리', 'Training records'),
+        T('사람별 교육 이수 시간과 부족분을 법정 기준으로 계산합니다.', 'Each person’s training hours and shortfall, measured against the legal minimums.'),
         T('교육 대상자와 교육 기록을 넣으면 산업안전보건법 시행규칙 별표4(정기·채용 시·특별교육)와 화학물질관리법 유해화학물질 안전교육 기준 대비 이수 시간과 부족분을 사람별로 계산합니다. 특별교육은 최초 작업 전 4시간·3개월 이내 16시간을 따로 확인합니다.',
           'Enter people and training records; the tool compares hours with OSH Rule Annex 4 (periodic, hiring, special training) and the Chemicals Control Act safety training, person by person. Special training is checked for 4 h before the first task and 16 h within three months.'))}
       <section class="grid g4">
