@@ -1,0 +1,518 @@
+/* 이용 가이드 — 페이지별 도움말, 도구·기법별 설명, 용어 사전, 둘러보기
+   - what: 이 기능은 / when: 이럴 때 / steps: 사용 방법 / example: 활용 예시(가상 상황) / real: 실제 선례(출처 확인된 사실만) / tips: 알아둘 점
+   - real 항목은 SHE.SOURCES 의 출처 id(src)를 반드시 단다. 가상 예시는 example 에만 둔다. */
+window.SHE = window.SHE || {};
+(function () {
+  const B = (ko, en) => ({ ko, en });
+
+  SHE.GUIDES = {
+    home: {
+      what: B('안전관리자가 하루를 시작하며 여는 첫 화면입니다. 법정 주기 업무의 다음 기한, 회사가 공개한 안전 KPI, 최신 안전 동향, 재발방지 대책 이행률, 6대 직무 할 일을 한곳에 모았습니다.',
+        'The first screen a SHE manager opens each day: next statutory deadlines, the company’s published safety KPIs, the latest updates, recurrence-prevention progress and tasks across the six functions.'),
+      when: B(['출근 직후 오늘 챙길 법정 기한(협의체·순회점검·합동점검 등)이 있는지 볼 때', '주간 회의 전에 재해율 추이와 목표 대비 실적을 확인할 때', '사업장(이천·청주)별로 할 일을 나눠 볼 때'],
+        ['First thing in the morning, to see which statutory deadlines (safety council, site rounds, joint inspections) are due', 'Before the weekly meeting, to check the injury-rate trend against target', 'To split tasks by site (Icheon, Cheongju)']),
+      steps: B(['상단에서 사업장(공통·이천·청주)을 고르면 업무 보드와 사업장 스냅샷이 그 사업장 기준으로 바뀝니다.', '‘법정 주기 트래커’의 ‘최근 실시일’에 실제 날짜를 넣으면 다음 기한과 D-day가 다시 계산되고, 기한이 지난 항목이 맨 위로 올라옵니다. 기본으로 급한 10개만 보이고 ‘전체 보기’로 31개를 모두 봅니다(산업안전보건위원회·작업환경측정·안전검사·안전보건 현황 공시, 화학물질관리법·고압가스법 의무 포함).', '‘6대 직무 업무 보드’에 업무를 입력하고 직무를 고른 뒤 ‘추가’를 누릅니다. → 버튼으로 할 일 → 진행 중 → 완료로 옮깁니다.', '‘최신 안전 동향’·‘재발방지 현황’의 항목을 누르면 해당 페이지로 이동합니다.'],
+        ['Pick a site (all, Icheon, Cheongju) at the top; the task board and site snapshot follow it.', 'Enter the real date under “Last done” in the statutory cycle tracker — the next due date and countdown are recalculated and overdue items move to the top. The ten most urgent show by default; “Show all” lists all 31 (including the safety committee, exposure monitoring, statutory inspections, the annual safety disclosure and chemical and gas-law duties).', 'Type a task in the six-function board, choose the function and press “Add”. Use → to move it from To do to In progress to Done.', 'Click any item in “Latest safety updates” or “Recurrence prevention” to open the related page.']),
+      example: B('월요일 아침, 법정 주기 트래커에 ‘합동 안전·보건점검’이 D-3으로 떠 있습니다. 업무 보드에 ‘3분기 합동점검 — 청주 M15X 셋업 구역’을 상생협력 업무로 추가하고, 점검을 마친 날 최근 실시일을 그 날짜로 바꾸면 다음 기한(분기 1회)이 자동으로 잡힙니다.',
+        'Monday morning the tracker shows the joint safety inspection at D-3. Add “Q3 joint inspection — Cheongju M15X set-up area” to the board as a partnership task; once it is done, set “Last done” to that date and the next quarterly deadline is scheduled automatically.'),
+      real: [{ t: B('SK하이닉스는 위험성평가 결과를 사내 ‘SHE Portal’에 게시해 관련 인원이 언제든 위험요인을 확인하도록 운영한다고 공개했습니다. 이 업무판은 그 개념을 안전관리자 개인 업무 관점으로 옮긴 포털 예시입니다.', 'SK hynix says it posts risk-assessment results on its in-house “SHE Portal” so anyone involved can check the hazards. This dashboard carries that idea into a SHE manager’s own daily work (portal example).'), src: ['sr2026'] }],
+      tips: B(['주기는 법령의 최소 요건입니다. 사내 기준이 더 짧으면 사내 기준을 따릅니다.', '‘캘린더로 내보내기(.ics)’로 받은 파일을 아웃룩·구글 캘린더에서 열면 다음 기한이 종일 일정으로 들어가고 기한 전에 알림이 옵니다. 실시일을 고친 뒤 다시 내보내면 같은 일정이 갱신됩니다. ‘기한 계획표 인쇄’는 담당·완료 확인란이 있는 가로 계획표입니다.', '유해화학물질 정기검사처럼 사업장 구분에 따라 주기가 다른 항목은 ‘주기’ 칸에서 해당 주기를 고릅니다. 작업환경측정·특수건강진단 주기는 ‘수치 판정 › 측정·검진 주기’의 판정 결과로 바로 바꿀 수 있습니다.', '입력한 내용은 이 브라우저에만 저장되므로 ‘데이터 백업·복원’에서 주기적으로 백업하세요.', '‘안전보건 현황 공시’처럼 매년 정해진 날짜까지 하는 의무는 최근 실시일 다음에 오는 그 날짜(4월 30일)를 기한으로 계산합니다.', '‘예시’ 표시가 붙은 날짜·업무는 설명용 가상 데이터이며, 직접 입력하면 표시가 사라집니다.', '입력한 내용은 이 브라우저에만 저장되고 다른 기기와 공유되지 않습니다.'],
+        ['Cycles are legal minimums; follow shorter in-house cycles where they exist.', '“Export to calendar (.ics)” gives a file that Outlook or Google Calendar opens as all-day events with a reminder before each deadline; export again after updating dates and the same events are updated. “Print the schedule” gives a landscape plan with owner and sign-off columns.', 'Where the interval depends on your site class — e.g. hazardous-chemical inspections — pick it in the Cycle column. Exposure-monitoring and special health-check intervals can be set straight from “Measurement check › Monitoring & health-check cycles”.', 'Your entries live only in this browser, so back them up regularly under “Backup & restore”.', 'Duties with a fixed yearly deadline, such as the safety disclosure, are due on the next such date (30 April) after the last one done.', 'Dates and tasks marked “Example” are fictional; the mark disappears once you enter your own.', 'Everything you enter stays in this browser and is not shared with other devices.']),
+      related: ['cases', 'news', 'partner', 'fire']
+    },
+
+    data: {
+      what: B('포털에 입력한 모든 내용(업무 보드, 법정 주기 실시일, 위험성평가, 조사 기록, 사고사례 진행 상황 등)은 서버가 아니라 지금 쓰는 브라우저에만 저장됩니다. 이 페이지에서 그 내용을 파일 하나(JSON)로 백업하고, 다른 PC나 브라우저에서 되살리고, 필요하면 모두 지울 수 있습니다.',
+        'Everything you enter in the portal — tasks, cycle dates, risk assessments, investigations, case progress — is stored in this browser, not on a server. Here you back it up to one JSON file, restore it on another PC or browser, or clear it.'),
+      when: B(['정기적으로(한 달에 한 번 이상) 작업 내용을 보관할 때', '브라우저 데이터 삭제나 PC 교체 전', '공용 PC에서 작업을 끝낸 뒤 흔적을 지울 때'],
+        ['Regularly — at least monthly — to keep your work safe', 'Before clearing browser data or changing PCs', 'After working on a shared PC, to remove your data']),
+      steps: B(['‘이 브라우저에 저장된 데이터’에서 어떤 기능에 몇 개 항목이 저장돼 있는지 확인합니다.', '‘백업 파일 내려받기’를 누르면 SHE-Master-backup-날짜.json 파일이 저장되고, 마지막 백업일이 기록됩니다.', '되살릴 때는 ‘백업 파일에서 복원’에서 파일을 고릅니다. 파일에 든 항목이 기능별로 먼저 표시되고, ‘백업 항목만 교체’ 또는 ‘모두 지우고 교체’를 골라 ‘복원 실행’을 누르면 확인 후 페이지를 다시 불러옵니다.', '‘기능별로 골라 내보내기’로 교육 기록·작업허가서처럼 필요한 기능만 파일로 만들어 인계합니다. 받는 사람은 같은 ‘백업 파일에서 복원’으로 가져옵니다(같은 기능의 데이터는 교체됨).', '‘오프라인 사용’에서 이 기기에 포털 파일을 받아 두었는지 확인합니다. 웹 서버(https)로 연 경우 한 번 온라인으로 열면 이후 인터넷 없이도 열리고, 앱처럼 설치할 수 있습니다.', '‘데이터 사전과 보존기간’에서 저장 항목과, 같은 내용을 업무 기록으로 남길 때의 법정 보존기간(위험성평가 3년, 밀폐공간 측정 3년, 허가서 1년 등)을 봅니다.', '‘입력 데이터 모두 지우기’는 되돌릴 수 없으므로 먼저 백업하세요. 화면 설정(언어·사업장·탭)은 체크했을 때만 함께 지웁니다.'],
+        ['“Data stored in this browser” shows how many items each feature holds.', '“Download backup” saves SHE-Master-backup-date.json and records the backup date.', 'To restore, choose the file under “Restore from a backup”. Its contents are listed by feature first; pick “replace only these items” or “clear everything and replace”, then “Restore” — after a confirmation the page reloads.', '“Export selected features” makes a file with only what someone needs, such as training records or permits; they load it with the same restore (their data for those features is replaced).', '“Offline use” shows whether the portal files are stored on this device. Served over https, the portal opens without internet after one online visit and can be installed like an app.', '“Data dictionary and retention” lists what is stored and the legal retention when the same content is a business record (risk assessments 3 years, confined-space tests 3 years, permits 1 year, and so on).', '“Clear all my data” cannot be undone, so back up first. Screen settings (language, site, tabs) are cleared only if you tick the box.']),
+      example: B('월말에 업무판의 ‘30일 넘게 백업하지 않았습니다’ 안내를 보고 백업 파일을 내려받아 개인 드라이브에 보관합니다. 새 노트북에서는 같은 파일을 복원해 법정 주기 실시일과 조사 기록을 그대로 이어 씁니다.',
+        'At month end the dashboard says you have not backed up for 30 days; download the file and keep it on your drive. On a new laptop, restore the same file and carry on with your cycle dates and investigations.'),
+      tips: B(['백업 파일에는 직접 입력한 이름·메모가 그대로 들어 있습니다. 공유 폴더에 두지 마세요.', '본인이 이 포털에서 내보낸 파일만 가져오세요. 형식이 맞지 않는 파일이나 항목은 복원되지 않습니다.', '예시 데이터는 저장된 값이 아니므로 백업에 들어가지 않습니다.'],
+        ['The backup contains names and notes exactly as typed — do not leave it in shared folders.', 'Only import files you exported from this portal; malformed files or items are not restored.', 'Example data is not stored, so it is not in the backup.']),
+      related: ['home', 'guide']
+    },
+
+    psm: {
+      what: B('공정안전관리(PSM)는 유해·위험설비에서 누출·화재·폭발 같은 중대산업사고를 막는 관리체계입니다. 이 페이지는 공정안전보고서(시행규칙 제50조)의 구성을 12개 실행 요소로 나눠 이행 상태와 고시상 필수 포함사항을 관리하고, 변경관리(MOC) 트래커, 규정량으로 PSM 대상인지 판정하는 계산기, 고용노동부 이행상태평가(P·S·M+·M-) 안내, 가스 감지값 즉시 판정을 함께 제공합니다.',
+        'Process safety management (PSM) prevents major accidents — releases, fires, explosions — at hazardous installations. This page tracks the PSM report (Rule Art. 50) as twelve working elements with what the notice requires in each, plus a management-of-change tracker, a threshold-quantity calculator for PSM coverage, MOEL’s implementation assessment (P, S, M+, M-) and an instant gas-reading check.'),
+      when: B(['공정안전보고서 이행 상태를 요소별로 점검하거나 자체감사를 준비할 때', '장비 반입·물질 변경·절차 변경처럼 ‘변경’이 생겨 가동 전 확인이 필요할 때', '가스 감지기에 값이 떴을 때 위험 수준을 빠르게 가늠할 때'],
+        ['To review PSM implementation element by element or prepare a self-audit', 'When a change (new tool, new chemical, new procedure) needs checks before start-up', 'To gauge quickly how serious a gas-detector reading is']),
+      steps: B(['‘PSM 12대 요소 현황판’에서 요소별 상태(이행·보완 중·미흡·예정)를 고릅니다. 위쪽 ‘요소 이행 현황’ 숫자가 바로 바뀝니다.', '각 줄의 ‘열기 →’로 관련 페이지(위험성평가·SOP·상생협력 등)로 이동해 실제 작업을 이어갑니다.', '‘변경요소 관리(MOC) 트래커’에 변경 내용을 등록하고 PSSR(가동 전 점검)·SOP 개정·교육을 체크합니다. 셋 다 체크해야 ‘가동 가능’으로 바뀝니다.', '각 요소의 ‘고시 필수 포함사항’을 펼치면 PSM 고시(제2025-30호)가 그 계획에 담도록 정한 항목이 나옵니다. 자체감사 점검표로 씁니다.', '‘공정안전보고서 제출 대상 판정’에 물질별 하루 최대량(kg)을 넣으면 규정량 대비 비율의 합 R이 계산되고, R ≥ 1이면 제출 대상으로 표시됩니다. 인화성 가스·액체는 취급량과 저장량을 따로 넣습니다.', '‘화학물질·고압가스 법정 의무’에서 화학물질관리법(취급시설 검사·주 1회 자체 점검·안전교육·화학사고 신고)과 고압가스 안전관리법(특정고압가스 사용신고·정기검사·사고 통보)의 핵심 의무와, 물질별 특정고압가스 여부·PSM 규정량·즉시 신고 기준량을 한 표로 봅니다. 주간 자체점검표를 인쇄할 수 있습니다.', '‘가스 감지기 값 즉시 판정’에서 가스를 고르고 감지값을 넣으면 최고노출기준(C)·NIOSH IDLH 대비 수준이 나옵니다.'],
+        ['In the PSM 12-element board, set each element’s status (in place, improving, gap, planned); the counts above update at once.', 'Use “Open →” on each row to jump to the related page (risk assessment, SOPs, partnership…) and carry on the work.', 'Register a change in the MOC tracker and tick PSSR, SOP update and training. Only when all three are ticked does it turn “Ready”.', 'Expand “Must include” on each element to see what the PSM notice (No. 2025-30) requires in that plan — a ready-made self-audit checklist.', 'In the PSM coverage check, enter each substance’s maximum daily quantity (kg); the ratios to the thresholds are summed as R, and R ≥ 1 means a report is required. Flammable gases and liquids take separate use and storage figures.', '“Chemical and high-pressure gas duties” sums up the Chemicals Control Act (inspections, weekly self-inspection, training, accident reports) and the High-Pressure Gas Act (use notice, yearly inspection, accident notification), with one table showing which substances are specified gases, their PSM thresholds and reporting thresholds. The weekly self-inspection sheet can be printed.', 'In the instant gas-reading check, pick a gas and enter the reading to see it against the ceiling limit and NIOSH IDLH.']),
+      example: B('청주 M15X에 새 식각 장비를 반입한다면, MOC 트래커에 ‘M15X 신규 식각 장비 반입’을 등록하고 HAZOP으로 평가한 뒤 가동 전 점검·SOP 개정·교육이 모두 체크되어 ‘가동 가능’이 될 때까지 가동을 보류하는 식으로 씁니다.',
+        'For a new etch tool coming into M15X at Cheongju: register it in the MOC tracker, assess it with HAZOP, and hold start-up until PSSR, SOP update and training are all ticked and it shows “Ready”.'),
+      real: [
+        { t: B('고용노동부는 2026년 6월 청주 가스룸 사고 2건을 ‘공정안전보고서 부적정 이행(사전점검 미실시, 허가 없이 가스 작업 개시)’에 따른 사고로 확인했습니다. 12대 요소 가운데 ‘안전작업허가’와 ‘가동 전 점검’이 서류가 아니라 현장에서 지켜져야 한다는 사례입니다.', 'MOEL found the two June 2026 Cheongju gas-room events resulted from improper PSM implementation — pre-checks skipped and gas work started without a permit. Permits and pre-start checks must work in the field, not just on paper.'), src: ['moel0920'] },
+        { t: B('SK하이닉스는 ISO 45001·ISO 14001·PSM을 하나의 SHE경영시스템으로 통합 운영한다고 공개했습니다.', 'SK hynix runs ISO 45001, ISO 14001 and PSM as one SHE management system.'), src: ['sr2026'] },
+        { t: B('PSM 고시는 P·S등급 사업장이라도 지도·점검에서 위험물질을 제거·격리하지 않고 화기작업을 하거나 변경관리절차를 지키지 않은 것이 확인되면 6개월 이내에 재평가하도록 정합니다. 화기작업 허가와 MOC가 등급을 좌우한다는 뜻입니다.', 'The PSM notice orders a re-assessment within six months if even a P- or S-grade site is found doing hot work without removing or isolating hazardous substances, or skipping change management — hot-work permits and MOC decide the grade.'), src: ['moelPsm'] }
+      ],
+      tips: B(['‘12대 요소’는 법령 용어가 아니라 공정안전보고서 4부분(공정안전자료·공정위험성평가서·안전운전계획·비상조치계획)을 실행 단위로 나눈 관행적 분류입니다.', '규정량 표는 별표13의 51종 가운데 반도체 공정과 관련될 수 있는 물질만 추렸습니다. 규정량은 순도 100% 기준이고, 불산·염산·황산처럼 농도가 정해진 물질은 그 농도 기준입니다.', '감지값 판정은 순간값 기준입니다. 8시간 평균(TWA)·15분(STEL) 평가는 ‘수치 판정’에서 하세요.'],
+        ['“Twelve elements” is not a legal term; it splits the report’s four legal parts (safety information, hazard analysis, operating plan, emergency plan) into working units.', 'The threshold table lists only the Annex 13 substances likely in chipmaking. Thresholds assume 100 % purity, except where a concentration is stated (e.g. hydrofluoric, hydrochloric and sulfuric acid).', 'The gas check uses instant readings. Assess 8-hour (TWA) and 15-minute (STEL) exposure in “Measurement check”.']),
+      related: ['risk', 'measure', 'cases', 'sop']
+    },
+
+    prevent: {
+      what: B('예방안전은 사고가 나기 전에 위험을 찾고, 사고·아차사고가 나면 원인을 조사해 같은 일이 반복되지 않게 하는 업무입니다. 이 페이지는 위험작업 허가 요건, 사고·아차사고 조사(5-Why·4M·대책 위계), 사고 보고·조치 의무 판정, SOP 교육 현황, TBM 시트를 제공합니다.',
+        'Preventive safety finds hazards before accidents happen and, when accidents or near misses occur, investigates them so they do not recur. This page covers permit requirements, investigations (5-Why, 4M, hierarchy of controls), accident-reporting duties, SOP training status and a TBM sheet.'),
+      when: B(['아차사고가 보고되어 원인조사 기록을 남겨야 할 때', '작업 허가 유형별 법적 요구사항을 확인할 때', '작업 전 TBM(작업 전 안전점검회의)을 진행할 때'],
+        ['When a near miss is reported and needs a written investigation', 'To check the legal requirements for each permit type', 'When running a pre-job toolbox meeting (TBM)']),
+      steps: B(['‘사고·아차사고 조사’에 발생일·유형·경위를 적고, ‘왜?’ 칸 다섯 개에 원인을 한 단계씩 파고들어 적습니다.', '4M(사람·기계·작업 환경·관리) 가운데 해당하는 원인을 체크하고, 대책 위계에서 가장 높은 수준의 대책을 고릅니다. 보호구·행정적 대책만 고르면 경고가 나옵니다.', '‘조사 기록 저장’을 누르면 오른쪽 ‘조사 기록’에 쌓입니다. ‘재발방지 분석 시작 →’을 누르면 사고사례 워크북으로 옮겨 대책·수평전개·효과성 검증까지 이어서 관리합니다.', '재해가 나면 ‘사고 보고·조치 의무 판정’에 사망자·부상자 수와 3일 이상 휴업 여부를 넣습니다. 산안법 중대재해(지체 없이 보고), 산업재해조사표(1개월 이내), 중대재해처벌법 중대산업재해 해당 여부가 한 번에 나옵니다. 화학물질이 누출됐다면 물질과 누출량을 넣어 화학사고 즉시 신고(15분 이내) 여부를, 고압가스 관련 사고라면 한국가스안전공사 통보(속보·상보 기한)를 함께 확인하고, 결과를 보고 기록지로 인쇄합니다.', '조사 기록마다 ‘조사 보고서 인쇄’, TBM 시트에는 ‘TBM 시트 인쇄’(참석자 서명란 포함)가 있습니다.', '‘TBM 시트’에서 오늘 작업을 고르면 해당 SOP의 위험요인과 작업중지 기준이 나옵니다. 확인 항목을 체크하고 참석자를 적습니다.'],
+        ['In the investigation form, enter the date, type and what happened, then work down the five “Why?” boxes one level at a time.', 'Tick the 4M categories that apply and choose the highest level of control. Choosing only PPE or administrative controls triggers a warning.', '“Save investigation” adds it to the list on the right. “Start recurrence analysis →” moves it into the incident workbook to manage measures, lateral deployment and effectiveness checks.', 'After an injury, enter deaths, injuries and whether anyone needs 3+ days off in the accident-reporting check: it shows at once whether it is an OSH Act serious accident (report without delay), whether the injury report form is due (within a month), and whether it is a SAPA serious industrial accident. For a chemical release, add the substance and quantity to see whether the 15-minute chemical accident report applies; for gas accidents, see the Korea Gas Safety Corporation notification deadlines; then print the result as a report log.', 'Each investigation has “Print report”, and the TBM sheet has “Print the TBM sheet” with attendee sign-off.', 'In the TBM sheet, pick today’s job to see that SOP’s hazards and stop-work criteria; tick the checks and list attendees.']),
+      example: B('가스 캐비닛 실린더 교체 직후 감지기 1차 경보가 울린 아차사고라면, ‘왜 경보가? → 연결부에 잔류가스 → 퍼지 횟수 부족 → 횟수를 확인할 표시 없음 → 절차서에 확인 방법 없음’처럼 적습니다. 그러면 대책이 ‘주의하라’가 아니라 ‘퍼지 횟수 인터록(공학적 대책)’으로 이어집니다.',
+        'For a near miss where a detector alarmed right after a gas-cylinder change: “Why the alarm? → residual gas at the joint → too few purge cycles → nothing showed the count → the procedure had no check.” The fix then becomes a purge-count interlock (engineering), not “be careful”.'),
+      real: [
+        { t: B('SK하이닉스는 고위험 작업을 시작부터 종료까지 관찰해 위험성평가·절차서·작업허가와 현장의 불일치를 확인하고, 허가 대상에서 빠지는 ‘Gray Zone’ 작업을 위해 모바일 TBM 앱을 구축했다고 공개했습니다.', 'SK hynix observes high-risk jobs start to finish to find gaps between assessments, procedures, permits and reality, and built a mobile TBM app for “grey-zone” jobs outside the permit scope.'), src: ['sr2025', 'sr2024'] },
+        { t: B('사고·아차사고가 발생하면 해당 작업을 수시 위험성평가 대상으로 삼는다고 공개했습니다.', 'After an accident or near miss, the job becomes subject to an ad-hoc risk assessment.'), src: ['sr2026'] }
+      ],
+      tips: B(['5-Why는 ‘작업자 부주의’에서 멈추지 말고, 그 실수가 왜 가능했는지(설비·절차·관리)까지 내려가야 합니다.', '대책은 제거·대체 → 공학적 → 행정적 → 보호구 순으로 검토합니다.', '산안법의 ‘중대재해’와 중대재해처벌법의 ‘중대산업재해’는 기준이 다릅니다(예: 3개월 이상 요양 동시 2명 vs 6개월 이상 치료 동일 사고 2명). 보고 판정기는 둘을 따로 보여줍니다.'],
+        ['Don’t stop 5-Why at “worker carelessness” — keep asking why the mistake was possible (equipment, procedure, management).', 'Consider controls in order: eliminate/substitute → engineering → administrative → PPE.', 'An OSH Act “serious accident” and a SAPA “serious industrial accident” use different tests (e.g. two people at once needing 3+ months’ care vs two from one accident needing 6+ months’ treatment); the reporting check shows them separately.']),
+      related: ['cases', 'risk', 'sop']
+    },
+
+    sdx: {
+      what: B('SDX(Safety Digital Transformation)는 로봇·AI·센서 같은 ICT로 안전관리를 바꾸는 활동입니다. 이 페이지는 SK하이닉스가 공개한 SDX 현황, 순찰 이벤트 판정기, SDX 과제 파이프라인을 제공합니다.',
+        'SDX (Safety Digital Transformation) changes safety management with robots, AI, sensors and other ICT. This page shows what SK hynix has disclosed, a patrol-event triage tool and an SDX project pipeline.'),
+      when: B(['순찰 로봇·열화상·가스 감지 이벤트를 우선순위대로 처리할 때', '새 SDX 아이디어를 PoC(시범 적용)로 올릴지 정리할 때'],
+        ['To triage patrol-robot, thermal and gas events by priority', 'To decide whether a new SDX idea should move to a proof of concept']),
+      steps: B(['‘순찰 이벤트 판정기’의 온도 이상 판단 기준(ΔT)을 사업장 기준값으로 바꿉니다(예시값 10℃).', '위치·기준 온도·측정 온도를 넣고 ‘온도 이벤트 추가’를 누르면 ΔT가 기준을 넘는지, 2배 이상인지 판정합니다.', '현장 확인과 조치를 마치면 ‘종결 처리’를 누릅니다.', '‘SDX 과제 파이프라인’에 아이디어를 추가하고 → 버튼으로 아이디어 → PoC → 확산·운영으로 옮깁니다. 회사 공개 과제는 출처와 함께 표시됩니다.'],
+        ['Set the temperature alert threshold (ΔT) to your site’s value (the example is 10 °C).', 'Enter location, baseline and measured temperature, then “Add thermal event” — it flags whether ΔT exceeds the threshold or doubles it.', 'After the field check and fix, press “Close”.', 'Add ideas to the SDX pipeline and move them with → from Idea to PoC to Scaled. Disclosed company projects carry their source.']),
+      example: B('P&S Room B-2 펌프 표면이 평소 42℃에서 61℃로 측정되면 ΔT 19℃로 기준(10℃)을 넘어 ‘기준 초과’가 됩니다. 담당자가 현장을 확인하고, 필요하면 수시 위험성평가로 넘긴 뒤 종결합니다.',
+        'If a pump in P&S Room B-2 normally runs at 42 °C and reads 61 °C, ΔT is 19 °C — above the 10 °C threshold. The owner checks it in the field, passes it to an ad-hoc risk assessment if needed, then closes it.'),
+      real: [
+        { t: B('SK하이닉스는 4족 보행 로봇(가온·다온)이 매일 약 3.3만㎡ 공간과 1,000대 이상 장비의 단순 반복 점검을 수행하고, 분산된 안전 시스템을 통합해 사고 대응 시간을 약 84% 줄였다고 공개했습니다.', 'SK hynix says its quadruped robots (Gaon, Daon) do routine daily checks across about 33,000 m² and 1,000+ tools, and that integrating its safety systems cut response time by about 84 %.'), src: ['sr2026', 'sr2024'] },
+        { t: B('TSMC는 천장 작업, 탱크로리 충전 구역에 AI 위험 식별 모듈을 적용했다고 공개했습니다.', 'TSMC applied AI hazard-identification modules to ceiling work and tanker-filling areas.'), src: ['tsmc2023'] }
+      ],
+      tips: B(['ΔT 기준은 법적 기준이 아니라 설비별로 사업장이 정하는 값입니다.', '가스 이벤트는 국내 최고노출기준(C)과 NIOSH IDLH로 판정합니다.'],
+        ['The ΔT threshold is not a legal limit; each site sets it per equipment.', 'Gas events are triaged against Korean ceiling limits and NIOSH IDLH.']),
+      related: ['psm', 'measure', 'risk']
+    },
+
+    partner: {
+      what: B('상생협력은 협력사(수급인)가 안전하게 일하도록 도급인이 법적 의무를 다하고 협력사의 안전보건 역량을 함께 키우는 업무입니다. 이 페이지는 도급인 법정 의무 체크, 도급승인 대상 판별, 협력사 SHE 평가표, 협력사 작업자용 콘텐츠를 제공합니다.',
+        'Contractor partnership means the principal meets its legal duties so contractors can work safely, and helps them build their own safety capability. This page offers a duty checklist, a subcontract-approval check, a contractor SHE scorecard and content for contractor workers.'),
+      when: B(['협의체·순회점검·합동점검 같은 도급인 의무의 이행 상태를 점검할 때', '황산·불산·질산·염산 설비 작업을 외부에 맡기기 전에 도급승인 대상인지 판단할 때', '협력사 선정·재평가 때 SHE 역량을 비교할 때'],
+        ['To check the principal’s duties — safety council, site rounds, joint inspections', 'Before contracting out work on sulfuric, hydrofluoric, nitric or hydrochloric acid equipment, to see if approval is needed', 'To compare contractors’ SHE capability when selecting or re-rating them']),
+      steps: B(['‘도급인 법정 의무 체크’에서 이행한 항목을 체크합니다. 각 항목 옆에 근거 조문이 있습니다(안전보건총괄책임자 지정, 협의체, 순회점검, 합동점검, 정보 제공 등 10개).', '‘도급승인 대상 판별’의 세 질문(1% 이상 취급 여부, 작업 종류, 물질 제거·신고 여부)에 답하면 승인 필요·제외·비대상이 바로 나옵니다.', '‘협력사 SHE 평가표’에서 항목별로 0–5점을 고르면 배점을 반영한 총점과 등급(우수·개선 권고·개선계획 제출)이 계산됩니다. 협력사를 추가할 수 있습니다.', '협력사 작업자에게는 SOP의 ‘작업 전 5분 안전카드’를 안내합니다. KO/EN 전환으로 외국인 작업자에게도 보여줄 수 있습니다.', '‘의무 점검표 인쇄’로 확인일·증빙 칸이 있는 점검표를 뽑아 반기 점검(중처법 시행령 제4조 제9호) 기록으로 씁니다.'],
+        ['Tick the duties you have met; each shows its legal basis (ten in all, from appointing a general safety & health manager to the safety council, site rounds, joint inspections and information sharing).', 'Answer the three questions (≥ 1 wt% acid, type of work, chemicals removed and filed) to see whether approval is needed, exempt or not applicable.', 'Score each item 0–5 in the contractor scorecard to get a weighted total and grade (good, improve, action plan). You can add contractors.', 'Point contractor workers to each SOP’s 5-minute pre-job card; switch KO/EN for workers who read English.', '“Print the duty checklist” gives a sheet with date and evidence columns for the half-yearly review (SAPA Decree Art. 4(9)).']),
+      example: B('HF를 1% 이상 취급하는 웨트 장비의 내부 부품 교체를 협력사에 맡기려 하면 판별기가 ‘예·예·아니오’로 ‘고용노동부장관 승인 필요’를 보여줍니다. 작업 전에 안전·보건 정보를 문서로 줘야 한다는 안내(법 제65조)도 함께 확인합니다.',
+        'Contracting out a parts change inside a wet bench that handles ≥ 1 wt% HF: the checker returns “Yes, Yes, No” → ministerial approval needed, plus the reminder to hand over written safety information before work (Act Art. 65).'),
+      real: [
+        { t: B('삼성전자 반도체는 2018년 작업중지권(Right to Work Suspension)을 도입하고 2021년 1월 협력사·작업자 보상 체계를 강화했으며, 2024년 작업중지 4,537건을 공개했습니다.', 'Samsung Semiconductor introduced a Right to Work Suspension in 2018, strengthened compensation for suppliers and workers in January 2021, and reported 4,537 work stoppages in 2024.'), src: ['samsung'] },
+        { t: B('TSMC는 협력사 디지털 안전교육 이수를 출입 권한·공사 신청과 연동한다고 공개했습니다.', 'TSMC ties contractors’ digital safety training to access rights and work applications.'), src: ['tsmc2023'] },
+        { t: B('2026년 SK하이닉스 이천캠퍼스는 승인받은 작업절차서대로 작업하지 않아 도급승인이 취소됐습니다(질산 폐액 노동자 접촉 재해).', 'In 2026 SK hynix Icheon had a subcontract approval revoked because approved work did not follow the approved procedure (a worker contacted nitric-acid waste).'), src: ['moel0920'] }
+      ],
+      tips: B(['평가표 배점과 등급 구간은 포털 예시입니다. 실제 기준은 중처법 시행령 제4조 제9호에 따라 사내에서 정합니다.', '판별기는 시행령 제51조 제1호(황산·불화수소·질산·염화수소 1% 이상 설비)만 봅니다. 도금 등 유해한 작업의 도급금지(법 제58조)는 조문을 따로 확인하세요.'],
+        ['Scorecard weights and grade bands are portal examples; set real criteria in-house under SAPA Decree Art. 4(9).', 'The checker covers only Decree Art. 51(1) (≥ 1 wt% sulfuric, hydrofluoric, nitric or hydrochloric acid). Check Act Art. 58 separately for work that may not be subcontracted, such as plating.']),
+      related: ['sop', 'cases', 'bench']
+    },
+
+    fire: {
+      what: B('소방·방재는 소방시설을 점검·관리하고 화재·누출 같은 비상 상황에 대비한 대응 체계와 훈련을 운영하는 업무입니다. 이 페이지는 소방안전관리대상물 등급·선임 인원 판정, 소방시설 자체점검 일정 계산, 화재감시자 배치 판단, 비상대응 시나리오 카드, 소방훈련 기록을 제공합니다.',
+        'Fire & emergency covers inspecting and managing fire systems and running response plans and drills for fires, releases and other emergencies. This page works out the fire-safety property grade and staffing, calculates self-inspection timing, decides whether a fire watch is needed, gives scenario cards and keeps a drill log.'),
+      when: B(['올해 종합점검·작동점검을 언제 해야 하는지 계산할 때', '용접·절단 같은 화기작업에 화재감시자를 둬야 하는지 판단할 때', '누출·화재·정전 시나리오별로 초기 행동을 교육하거나 훈련 계획을 세울 때'],
+        ['To work out when this year’s full and operational inspections are due', 'To decide whether hot work such as welding or cutting needs a fire watch', 'To teach first actions for leak, fire or power-loss scenarios, or plan drills']),
+      steps: B(['‘소방안전관리대상물 등급·선임 판정’에 층수·높이·연면적·가연성 가스량과 설치 대상 소방시설을 넣으면 특급~3급 등급, 소방안전관리자 자격 요건, 연면적에 따른 소방안전관리보조자 인원이 나옵니다.', '‘소방시설 자체점검 일정’에서 건축물 사용승인월을 고르고 종합점검 대상·특급 여부를 체크하면 종합점검·작동점검 시기가 계산됩니다.', '‘화재감시자 배치 판단’에서 현장 조건(11m 이내 가연물 등)을 체크하면 배치 필요 여부와 감시자 업무·지급 장비가 표시됩니다.', '‘비상대응 시나리오 카드’의 탭(특수가스 누출·케미컬 누출·화재·정전·배기 정지)을 바꿔 가며 ‘작업 중지·대피 / 재해자 구호 / 추가 피해 방지’ 3단계 행동을 봅니다.', '훈련을 마치면 ‘소방훈련·교육 기록’에 일자·시나리오·인원·대피 시간·개선사항을 추가합니다. 보관 기한(2년)이 자동 표시됩니다.'],
+        ['In the grade & staffing check, enter floors, height, total floor area, flammable-gas quantity and the fire systems required to get the grade (special to 3rd), the manager qualifications and the number of assistant managers by floor area.', 'In the self-inspection schedule, choose the occupancy-approval month and tick whether full inspection applies and whether it is special grade; the months are calculated.', 'In the fire-watch check, tick the site conditions (combustibles within 11 m, etc.) to see if a watch is required, with duties and equipment.', 'Switch the scenario-card tabs (specialty gas, chemical spill, fire, power/exhaust loss) to read the three steps: stop and evacuate, care for casualties, prevent further harm.', 'After a drill, add date, scenario, headcount, evacuation time and improvements to the log; the keep-until date (2 years) is shown automatically.']),
+      example: B('사용승인월이 3월이고 스프링클러가 설치된 건물(종합점검 대상, 특급 아님)이라면 종합점검은 매년 3월, 작동점검은 9월로 계산됩니다.',
+        'For a building approved in March with sprinklers (full inspection applies, not special grade), the full inspection falls in March and the operational inspection in September.'),
+      real: [
+        { t: B('SK하이닉스는 화학물질 누출 시나리오 기반 ECT(Emergency Control Tower) 모의훈련을 정기적으로 하고 소방서·화학물질안전원과 연계한다고 공개했습니다. 2025년 하반기 이천소방서 주관 긴급구조종합훈련에는 28개 기관·단체, 장비 58대, 278명이 참여했습니다.', 'SK hynix runs regular ECT (Emergency Control Tower) drills on leak scenarios with fire services and the National Institute of Chemical Safety; the H2 2025 Icheon Fire Station exercise involved 28 organisations, 58 units and 278 people.'), src: ['sr2026'] },
+        { t: B('미국 NFPA 318은 클린룸이 있는 반도체 제조시설을 화재와 관련 위험에서 보호하기 위한 요건을 정한 표준입니다(현행 2025년판).', 'NFPA 318 sets requirements to protect semiconductor fabs with cleanrooms from fire and related hazards (current edition 2025).'), src: ['nfpa318'] }
+      ],
+      tips: B(['종합점검 대상 여부는 설치된 소방시설과 연면적 등으로 정해집니다. 실제 대상 여부는 소방시설법 시행규칙 별표3 원문으로 확인하세요.', '시나리오 카드의 세부 행동은 포털 예시이고, ERT 역할만 회사 공개 내용입니다.'],
+        ['Whether full inspection applies depends on the installed systems and floor area — confirm against Annex 3 of the Fire-Systems Rule.', 'Detailed scenario actions are portal examples; only the ERT roles come from company disclosures.']),
+      related: ['psm', 'sop', 'culture']
+    },
+
+    culture: {
+      what: B('안전문화는 규정이 없어도 스스로 안전하게 일하는 조직을 만드는 업무입니다. 이 페이지는 SK하이닉스가 공개한 안전문화 활동, 연간 캠페인 캘린더, 법정 안전보건교육 시간표, 안전 KPI 계산기를 제공합니다.',
+        'Safety culture is about an organisation that works safely even where no rule says so. This page shows the culture activities SK hynix has disclosed, an annual campaign calendar, statutory training hours and a safety KPI calculator.'),
+      when: B(['이번 달 캠페인 주제와 연결 SOP를 정할 때', '신규 채용·작업 변경·특별교육 등 법정 교육시간을 확인할 때', '재해율·LTIFR 같은 안전 KPI를 계산하고 회사 공개값과 비교할 때'],
+        ['To pick this month’s campaign theme and its SOP', 'To check statutory training hours for hiring, job changes or special training', 'To calculate safety KPIs such as injury rate and LTIFR and compare them with the company’s published figures']),
+      steps: B(['‘연간 캠페인 캘린더’에서 이번 달(강조 표시) 주제와 연결 SOP를 확인합니다. SOP 링크로 5분 카드를 바로 엽니다.', '‘법정 안전보건교육 시간’ 표에서 대상별 교육시간을 확인합니다(시행규칙 별표4, 2025.5.30 개정). 안전관리자 본인의 직무교육(신규 34시간·보수 24시간)과, 반도체 사업장과 관련될 수 있는 특별교육 대상 작업(별표5)이 관련 SOP와 함께 정리돼 있습니다.', '‘안전 KPI 계산기’에 근로자수·재해자수·총근로시간 등을 넣으면 재해율·사망만인율·LTIFR·도수율·강도율이 계산됩니다.'],
+        ['In the campaign calendar, this month is highlighted with its theme and SOP; open the 5-minute card from the SOP link.', 'Check hours by group in the statutory training table (Rule Annex 4, amended 2025-05-30). It also covers the safety manager’s own job training (34 h initial, 24 h refresher) and the special-training jobs likely in a fab (Annex 5), linked to their SOPs.', 'Enter workers, injured, hours and so on in the KPI calculator to get injury rate, fatality rate, LTIFR, frequency and severity rates.']),
+      example: B('10월 캠페인이 ‘추락·끼임·부딪힘 3대 사고’라면 고소작업 SOP의 5분 카드를 TBM 자료로 쓰고, 월말에 KPI 계산기로 LTIFR을 계산해 회사 공개값(2025년 0.03)과 비교합니다.',
+        'If October’s campaign is the top three accidents (falls, caught-in, struck-by), use the work-at-height SOP card in TBMs and, at month end, compare your LTIFR with the company’s published 0.03 (2025).'),
+      real: [
+        { t: B('SK하이닉스는 2023년 말 안전문화팀을 신설하고, 2024년 자체 개발한 안전문화 수준평가(HSCA)를 매년 실시해 취약점을 분석한다고 공개했습니다.', 'SK hynix set up a Safety Culture team in late 2023 and runs its in-house HSCA safety-culture assessment every year to find weak spots.'), src: ['sr2024', 'sr2026'] },
+        { t: B('청주 SHE 체험교육관(2025.5)은 화학물질안전·가상안전·FAB안전 등 7개 분야 31개 체험으로 구성됩니다.', 'The Cheongju SHE Experience Center (May 2025) has 31 activities in 7 fields, including chemical, virtual and fab safety.'), src: ['nr2025she'] }
+      ],
+      tips: B(['LTIFR은 20만 근무시간당(SK하이닉스 공개 기준), 도수율은 100만 시간당입니다. 비교할 때 같은 산식인지 확인하세요.', 'KPI 계산기의 입력값은 예시이며 실제 회사 데이터가 아닙니다.'],
+        ['LTIFR is per 200,000 hours (SK hynix basis); the frequency rate is per 1,000,000 hours. Compare like with like.', 'The calculator’s inputs are examples, not company data.']),
+      related: ['sop', 'home', 'partner']
+    },
+
+    cases: {
+      what: B('실제 사고에서 배우는 페이지입니다. SK하이닉스 사고 8건을 공식 자료와 보도로 확인하고, 정부가 조사 결과를 공개한 사례 4건(원자력안전위원회 조사 1건, 고용노동부 재해조사보고서 3건)을 더해 사실 확인 → 원인 분석 → 위험성 평가 → 제거·저감 대책 → 잔여 위험 확인 → 수평전개 → 효과성 검증의 7단계로 재발방지를 연습합니다.',
+        'Learning from real incidents: eight SK hynix cases checked against official records and reporting, plus four cases with published government investigations (one by the NSSC, three MOEL accident reports), worked through seven steps — facts, causes, risk, eliminate/reduce, residual risk, lateral deployment, effectiveness check.'),
+      when: B(['비슷한 작업을 앞두고 과거 사고의 교훈을 확인할 때', '우리 사업장에서 난 사고·아차사고의 재발방지 대책을 체계적으로 관리할 때', '정부 점검 지적 사항으로 우리 사업장을 자가점검할 때'],
+        ['Before similar work, to review lessons from past incidents', 'To manage recurrence-prevention measures for your own incidents and near misses', 'To self-check your sites against government inspection findings']),
+      steps: B(['‘사례 목록’의 카드를 누르면 아래에 상세 분석이 열립니다. 상단 사업장 선택에 따라 목록이 걸러집니다.', '‘공식’ 태그는 정부·법원이 확인한 내용, ‘분석’ 태그는 공개 정보를 바탕으로 한 포털의 가설입니다. 둘을 구분해 읽습니다.', '‘위험성 평가 — 대책 전 → 후’에서 가능성·중대성을 바꿔 보며 대책 후 위험이 가장 낮은 구간(1–3점)에 들어가는지 확인합니다.', '‘재발방지 대책’ 표에 담당·기한·상태를 입력하고, ‘수평전개’와 ‘효과성 검증’으로 다른 곳 적용과 30·90·180일 뒤 효과를 관리합니다.', '‘+ 내 사례 새로 만들기’나 예방안전의 ‘재발방지 분석 시작’으로 직접 사례를 만들고, ‘위험성평가(빈도·강도법)로 보내기’로 평가표에 한 줄을 추가할 수 있습니다.', '‘재발방지 보고서 인쇄’는 입력한 담당·기한·상태까지 담은 회의용 보고서를, ‘자가점검표 인쇄’는 조치 계획을 적는 점검표를 만듭니다.'],
+        ['Click a card in the case list to open its analysis below; the list follows the site switch.', '“Official” tags mark findings confirmed by government or courts; “Analysis” tags mark the portal’s hypotheses from public information. Read them separately.', 'In “Risk — before → after”, change likelihood and severity to see whether the residual risk reaches the lowest band (1–3).', 'Fill in owner, due date and status in the measures table, and use lateral deployment and the effectiveness check (30, 90, 180 days).', 'Create your own case with “+ Create my own case” or from an investigation in Preventive safety, and use “Send to risk assessment” to add a row to the workbench.', '“Print the recurrence report” produces a meeting report including the owners, dates and status you entered; “Print the self-check sheet” gives a checklist with space for actions.']),
+      example: B('청주 가스룸 사례에서 대책 후 가능성을 1, 중대성을 3으로 두면 3점(C)으로 가장 낮은 구간에 들어갑니다. 반면 질소 질식 사례처럼 중대성이 4(사망)인 위험은 가능성을 1로 낮춰도 4점이어서, 사람이 들어가지 않는 점검(제거)이 필요하다는 것을 확인할 수 있습니다.',
+        'In the Cheongju gas-room case, residual likelihood 1 and severity 3 score 3 (C), the lowest band. In the nitrogen case, severity 4 (fatal) still scores 4 at likelihood 1 — showing why inspection without entry (elimination) is needed.'),
+      real: [
+        { t: B('고용노동부는 2026년 반도체 제조업 집중 점검(27개소 338건 위반) 결과를 협·단체를 통해 전파해 점검받지 않은 사업장도 스스로 확인·개선하도록 하겠다고 밝혔습니다. ‘업계 공통 지적 사항 자가점검’은 이 방식을 따릅니다.', 'MOEL said it will circulate its 2026 chipmaker findings (338 violations at 27 sites) through industry bodies so uninspected sites can check themselves; the self-check follows that approach.'), src: ['moel0920'] },
+        { t: B('미국 CSB는 사고조사 결과를 안전 영상으로, CCPS는 실제 사고를 월간 1쪽 교육자료(Process Safety Beacon, 한국어판 포함)로 공개해 다른 기업이 배우도록 합니다.', 'The US CSB turns its investigations into safety videos, and CCPS publishes real incidents as a monthly one-page flyer (the Process Safety Beacon, also in Korean) so others can learn.'), src: ['csbVideos', 'ccpsBeacon'] },
+        { t: B('원자력안전위원회는 2024년 반도체 사업장 X선 분석장비 피폭 사건의 조사결과(인터락 배선 변경, 전원을 켠 채 정비, 방사선안전관리자 승인 부재)를 원문으로 공개했습니다. ‘업계 사례’는 이렇게 정부 조사 결과가 공개된 경우에만 싣습니다.', 'The NSSC published its full findings on a 2024 X-ray analyser exposure at a chip plant (altered interlock wiring, work with power on, no radiation-safety approval). Industry cases are added only when a government investigation has been published like this.'), src: ['nsscSamsung'] }
+      ],
+      tips: B(['대책·수평전개·검증 항목은 학습용 포털 제안이며 회사의 실제 조치가 아닙니다.', '언론 보도끼리 수치가 다르면 범위로 적고 출처를 모두 달았습니다.'],
+        ['Measures, lateral items and checks are portal proposals for learning, not the company’s actual actions.', 'Where outlets report different numbers, the range is shown with every source.']),
+      related: ['prevent', 'risk', 'news', 'resources']
+    },
+
+    news: {
+      what: B('정부 발표, 법령 개정, 회사 공식 발표, 사고 보도를 날짜순으로 한 줄씩 모은 페이지입니다. 기준일은 2026-09-24입니다.',
+        'Government announcements, law changes, company releases and incident reports, one line each by date. As of 2026-09-24.'),
+      when: B(['최근 규제 동향과 사고 소식을 빠르게 훑을 때', '주간 안전회의 자료에 넣을 소식을 고를 때'],
+        ['To scan recent regulatory moves and incidents quickly', 'To pick items for the weekly safety meeting']),
+      steps: B(['탭(전체·규제·감독·SK하이닉스·사고·법령)으로 종류별로 걸러 봅니다.', '각 줄의 [번호]를 누르면 원문 출처로, ‘관련 화면 →’을 누르면 포털의 관련 페이지로 이동합니다.', '새 소식을 추가하려면 assets/js/data/cases.js 의 SHE.NEWS에 날짜·분류·내용·출처 id를 넣고, 출처는 sources.js에 등록합니다.'],
+        ['Filter by kind with the tabs (all, regulator, SK hynix, incident, law).', 'The [number] opens the original source; “Related page →” opens the matching portal page.', 'To add news, put date, kind, text and source ids into SHE.NEWS in assets/js/data/cases.js and register the source in sources.js.']),
+      example: B('‘법령’ 탭에서 2026.6.1 시행 산안법 제36조 개정을 확인하고, 위험성평가 워크벤치의 참여자 칸에 근로자·근로자대표 참여를 기록합니다.',
+        'In the Law tab, see the OSH Act Art. 36 amendment in force from 1 June 2026, then record worker and representative participation in the workbench’s participants field.'),
+      tips: B(['동향은 기준일까지 확인한 내용입니다. 이후 소식은 원문 사이트에서 확인하세요.'], ['Updates are checked up to the as-of date; see the original sites for later news.']),
+      related: ['cases', 'home', 'resources']
+    },
+
+    measure: {
+      what: B('현장에서 잰 값을 넣으면 국내 법령·고시와 국제 기준(NIOSH IDLH, OSHA 등)에 대조해 ‘기준 이내·주의·초과’를 판정하는 도구 모음입니다. 9개 도구를 탭으로 바꿔 씁니다 — 전체환기량 계산과 작업환경측정·특수건강진단 주기 판정도 포함합니다.',
+        'A set of tools that compare field readings with Korean statutes and notices and international references (NIOSH IDLH, OSHA) and return within limits, caution or exceeded. Switch between nine tools with the tabs, including a general-ventilation calculator and monitoring and health-check cycles.'),
+      when: B(['측정기·감지기 값이 기준에 비해 어느 정도인지 바로 알고 싶을 때', '밀폐공간 진입 전 측정값으로 진입 가능 여부를 판단할 때', '소음·고온·조도 측정 결과를 기준표와 대조할 때'],
+        ['To see at once how a meter or detector reading compares with the limit', 'To decide from pre-entry readings whether a confined space may be entered', 'To check noise, heat or lighting results against the tables']),
+      steps: B(['위쪽 탭에서 도구를 고릅니다: 화학물질 노출, 밀폐공간 적정공기, 소음, 충격소음, 고온(WBGT), 조도, 혼합물, 전체환기량, 측정·검진 주기.', '왼쪽에 측정값을 넣으면 오른쪽 결과 칸에 종합 판정, 기준 대비 비율, 근거 조문이 표시됩니다.', '아래 [번호]로 기준값의 원문 출처를 확인합니다. 입력값은 이 브라우저에 저장됩니다.'],
+        ['Choose a tool from the tabs: chemical exposure, confined-space air, noise, impulse noise, heat (WBGT), illumination, mixtures, general ventilation, monitoring and health-check cycles.', 'Enter readings on the left; the result panel shows the overall verdict, the ratio to the limit and the legal basis.', 'Use the [number] links to open the original source. Inputs are saved in this browser.']),
+      tips: B(['판정은 참고용입니다. 법적 판정은 작업환경측정 결과로 합니다.', '‘50%’, ‘IDLH의 10%’ 같은 관리선은 법적 기준이 아니라 포털의 참고선입니다.'],
+        ['Results are for reference; legal findings rest on formal workplace measurement.', 'Action lines such as 50 % or 10 % of IDLH are portal reference lines, not legal limits.']),
+      related: ['hazards', 'sop', 'psm'],
+      subs: {
+        chem: { t: B('화학물질 노출', 'Chemical exposure'),
+          what: B('국내 노출기준(고용노동부고시 제2020-48호)의 TWA·STEL·C와 NIOSH IDLH에 측정값을 대조합니다.', 'Compares readings with the Korean TWA, STEL and ceiling (MOEL Notice 2020-48) and NIOSH IDLH.'),
+          how: B(['물질을 고르면 CAS 번호와 기준값이 표시됩니다.', '8시간 TWA, 15분 측정값, 순간·감지기 값 가운데 가진 값을 넣습니다.', '구간별 농도·시간이 있으면 ‘TWA 계산기’에서 Σ(C·T)/8로 계산해 ‘TWA 칸에 적용’합니다.'], ['Pick a substance to see its CAS number and limits.', 'Enter whichever you have: 8-hour TWA, 15-minute sample, instant/detector value.', 'With interval data, use the TWA calculator (Σ(C·T)/8) and “Use as TWA”.']),
+          read: B('TWA는 기준의 50% 초과부터 ‘주의’, 100% 초과는 ‘초과’입니다. TWA를 넘고 STEL 이하인 구간은 1회 15분 미만·1일 4회 이하·간격 60분 이상이어야 합니다(고시 제2조). 순간값은 C와 IDLH로 봅니다.', 'Above 50 % of the TWA is caution, above 100 % exceeded. Between TWA and STEL, each exposure must be < 15 min, ≤ 4 times a day and ≥ 60 min apart (Notice Art. 2). Instant values are compared with the ceiling and IDLH.'),
+          example: B('불화수소(HF) 8시간 TWA가 0.3ppm이면 기준 0.5ppm의 60%로 ‘주의’입니다. 대책을 검토할 신호로 씁니다.', 'HF at 0.3 ppm (8-h TWA) is 60 % of the 0.5 ppm limit — caution, a signal to review controls.') },
+        confined: { t: B('밀폐공간 적정공기', 'Confined-space air'),
+          what: B('안전보건규칙 제618조의 적정공기(산소 18% 이상 23.5% 미만, CO₂ 1.5% 미만, CO 30ppm 미만, H₂S 10ppm 미만)와 미국 OSHA 1910.146 기준을 나란히 판정합니다.', 'Checks acceptable air under OSH Standards Rules Art. 618 (O₂ ≥ 18 % and < 23.5 %, CO₂ < 1.5 %, CO < 30 ppm, H₂S < 10 ppm) side by side with US OSHA 1910.146.'),
+          how: B(['O₂·CO₂·CO·H₂S·가연성 가스(%LEL) 측정값을 넣습니다.', '국내 기준과 미국 기준 판정을 함께 봅니다.'], ['Enter O₂, CO₂, CO, H₂S and flammable gas (%LEL).', 'Read the Korean and US verdicts together.']),
+          read: B('국내 기준을 하나라도 벗어나면 ‘진입 금지’입니다. 국내 기준은 충족해도 미국 기준(산소 19.5% 미만, 가연성 LFL 10% 초과 등)을 넘으면 보수적 관리를 권합니다.', 'Any Korean criterion failed means no entry. If Korean criteria are met but a US one is not (O₂ below 19.5 %, flammables over 10 % of LFL), act conservatively.'),
+          example: B('산소 19.2%는 국내 기준(18% 이상)은 충족하지만 미국 기준(19.5% 이상)에는 못 미칩니다. 환기를 보강하고 연속 측정을 권하는 식으로 씁니다.', 'O₂ at 19.2 % meets the Korean minimum (18 %) but not the US one (19.5 %) — boost ventilation and monitor continuously.') },
+        noise: { t: B('소음', 'Noise'),
+          what: B('고시 별표2-1(90dB(A) 8시간, 5dB 증가마다 허용시간 절반, 115dB(A) 초과 금지)으로 하루 소음 노출량과 8시간 등가소음을 계산합니다.', 'Uses Notice Annex 2-1 (90 dB(A) for 8 h, time halves per 5 dB, nothing above 115 dB(A)) to calculate the daily dose and 8-hour equivalent level.'),
+          how: B(['하루 노출 구간을 dB(A)와 시간으로 넣습니다(구간 추가 가능).'], ['Enter each exposure interval as dB(A) and hours (add more as needed).']),
+          read: B('노출량 100% 초과는 기준 초과, 8시간 등가 85dB 이상은 ‘소음작업’(안전보건규칙 제512조)으로 청력보존 프로그램 점검 대상입니다.', 'A dose above 100 % exceeds the limit; an 8-hour level of 85 dB or more is a “noise job” (Standards Rules Art. 512) that calls for the hearing-conservation programme.'),
+          example: B('92dB 3시간 + 86dB 4시간 + 78dB 1시간이면 노출량 약 78%, 등가소음 약 88dB로 기준 이내지만 소음작업(85dB 이상)에 해당합니다.', '92 dB for 3 h + 86 dB for 4 h + 78 dB for 1 h gives a dose of about 78 % and about 88 dB — within the limit but a noise job (≥ 85 dB).') },
+        impulse: { t: B('충격소음', 'Impulse noise'),
+          what: B('고시 별표2-2 충격소음 기준(1일 100회 140dB(A), 1,000회 130dB(A), 10,000회 120dB(A), 140dB(A) 초과 금지)으로 판정합니다.', 'Uses Notice Annex 2-2 (140 dB(A) at 100 impacts a day, 130 at 1,000, 120 at 10,000; never above 140 dB(A)).'),
+          how: B(['최대 음압수준과 1일 노출 횟수를 넣습니다.'], ['Enter the peak level and impacts per day.']),
+          read: B('해당 횟수의 허용 수준보다 높으면 초과입니다. 표의 행 사이 횟수는 더 많은 횟수 쪽 기준을 쓰는 보수적 해석이며, 제512조 제3호 충격소음작업 해당 여부도 표시합니다.', 'Above the allowed level for that count is exceeded. Counts between rows use the stricter row (a conservative reading); it also flags “impulse-noise jobs” under Art. 512(3).'),
+          example: B('125dB(A)를 하루 800번 받으면 1,000회 기준(130dB(A)) 이내라 ‘노출기준 이내’로 판정됩니다.', '125 dB(A), 800 times a day, is within the 1,000-impact level (130 dB(A)).') },
+        heat: { t: B('고온 (WBGT)', 'Heat (WBGT)'),
+          what: B('고시 별표3의 고온 노출기준(작업강도·작업휴식 비율별 WBGT)으로 판정합니다. WBGT는 옥내 0.7×자연습구 + 0.3×흑구, 태양광선이 있는 옥외 0.7×자연습구 + 0.2×흑구 + 0.1×건구입니다. 아래 ‘폭염작업 판정’은 안전보건규칙(2025.7.17 개정)의 체감온도 기준(31℃·33℃)과 법정 조치를 보여 줍니다.', 'Uses Notice Annex 3 (WBGT by workload and work–rest regime). Indoors WBGT = 0.7 × natural wet-bulb + 0.3 × globe; outdoors in sun, 0.7 × NWB + 0.2 × globe + 0.1 × dry-bulb. The “heat-wave work” panel below applies the Standards Rules’ apparent-temperature thresholds (31 °C, 33 °C; amended 2025-07-17) and the required measures.'),
+          how: B(['자연습구·흑구(옥외면 건구 포함) 온도를 넣거나 WBGT를 직접 입력합니다.', '작업강도(경·중등·중작업)와 작업·휴식 비율을 고릅니다.', '폭염철에는 작업장소 바닥에서 1.2~1.5m 높이에서 잰 체감온도를 ‘폭염작업 판정’에 넣습니다.'], ['Enter natural wet-bulb and globe (plus dry-bulb outdoors), or type the WBGT directly.', 'Choose workload (light, moderate, heavy) and the work–rest regime.', 'In hot weather, enter the apparent temperature measured 1.2–1.5 m above the work floor under “heat-wave work”.']),
+          read: B('WBGT가 기준을 넘으면 초과, 기준 1℃ 이내는 포털 참고선으로 ‘근접’을 표시합니다. 표에서 해당 칸이 강조됩니다.', 'Above the limit is exceeded; within 1 °C shows a portal “close to limit” line. The matching table cell is highlighted.'),
+          example: B('옥내 자연습구 26.5℃, 흑구 34℃면 WBGT 28.8℃로, 중등작업·계속작업 기준 26.7℃를 넘어 ‘초과’입니다.', 'Indoors, NWB 26.5 °C and globe 34 °C give WBGT 28.8 °C — above the 26.7 °C limit for continuous moderate work.') },
+        lux: { t: B('조도', 'Illumination'),
+          what: B('안전보건규칙 제8조 조도 기준(초정밀 750, 정밀 300, 보통 150, 그 밖 75 lux 이상)으로 판정합니다. 갱내와 감광재료 취급 작업장(예: 포토 공정)은 적용하지 않습니다.', 'Uses OSH Standards Rules Art. 8 (ultra-precision 750, precision 300, ordinary 150, other 75 lux). Underground work and photosensitive-material areas (e.g. photolithography) are exempt.'),
+          how: B(['작업 구분을 고르고 측정 조도를 넣습니다.', '감광재료 취급 구역이면 적용 제외를 체크합니다.'], ['Choose the work class and enter the reading.', 'Tick the exemption for photosensitive-material areas.']),
+          read: B('기준 미만이면 부족한 lux를 함께 보여줍니다.', 'Below the minimum, it shows how many lux are missing.'),
+          example: B('정밀작업 구역이 260lux면 기준 300lux에 40lux 부족으로 표시됩니다.', 'A precision-work area at 260 lux is 40 lux short of 300.') },
+        mix: { t: B('혼합물', 'Mixtures'),
+          what: B('여러 물질이 함께 있을 때 고시 제6조의 혼합물 계산식 Σ(C/T)로 판정합니다.', 'For co-present substances, applies the Notice Art. 6 mixture formula Σ(C/T).'),
+          how: B(['혼재 물질과 각 TWA 측정값을 넣습니다(물질 추가 가능).'], ['Enter each substance and its TWA reading (add more as needed).']),
+          read: B('합이 1을 넘으면 혼합물 노출기준 초과입니다. 유해작용이 인체의 같은 부위에 가중될 때만 합산하고, 서로 다른 부위에 작용하면 물질별로 따로 판정합니다.', 'A sum above 1 exceeds the mixture limit. Add only when effects act on the same organ; otherwise judge each substance separately.'),
+          example: B('IPA 80ppm, 아세톤 150ppm, PGME 20ppm이면 0.4 + 0.3 + 0.2 = 0.9로 1 이하입니다(같은 부위에 작용한다고 볼 때).', 'IPA 80 ppm, acetone 150 ppm and PGME 20 ppm give 0.4 + 0.3 + 0.2 = 0.9, below 1 (if they act on the same organ).') },
+        vent: { t: B('전체환기량', 'General ventilation'),
+          what: B('안전보건규칙 제430조의 산식으로 유기화합물 작업장의 전체환기장치 필요환기량(㎥/hr)을 계산합니다. 비중·분자량은 NIOSH 포켓가이드 값입니다.', 'Calculates the required general-ventilation rate (m³/h) for organic-compound work with the Standards Rules Art. 430 formula; specific gravity and molecular weight come from the NIOSH Pocket Guide.'),
+          how: B(['물질과 시간당 사용량(L/hr)을 넣습니다(물질 추가 가능).', '공기 혼합 상태에 맞는 안전계수 K(1~3)를 고릅니다.', '유해작용이 더해지면 합산, 아니면 가장 큰 값을 씁니다.'], ['Enter each substance and its use per hour (L/h).', 'Pick the safety factor K (1–3) for how well the air mixes.', 'Sum the rates if effects add up; otherwise take the largest.']),
+          read: B('필요환기량 = 24.1 × 비중 × 사용량 × K ÷ (분자량 × 노출기준) × 10⁶. 제430조는 별표12 관리대상 유기화합물에 적용되며, PGME·TEOS는 참고 계산으로 표시합니다.', 'Rate = 24.1 × SG × use × K ÷ (MW × limit) × 10⁶. Art. 430 covers the Annex 12 organic compounds; PGME and TEOS are shown for reference only.'),
+          example: B('IPA 2L/hr, K=2면 24.1 × 0.79 × 2 × 2 ÷ (60.1 × 200) × 10⁶ ≈ 6,340㎥/hr(약 106㎥/min)입니다.', 'IPA at 2 L/h with K = 2: 24.1 × 0.79 × 2 × 2 ÷ (60.1 × 200) × 10⁶ ≈ 6,340 m³/h (about 106 m³/min).') },
+        wem: { t: B('측정·검진 주기', 'Monitoring and health-check cycles'),
+          what: B('작업환경측정 결과로 다음 측정 주기(3개월·반기·연 1회)와 최소 간격, 특수건강진단 주기 단축 여부를 판정하고 업무판 법정 주기에 반영합니다.', 'From exposure-survey results, works out the next survey interval (3 months, half-yearly or yearly) with its minimum spacing and whether the next special health check is brought forward, then applies it to the dashboard cycles.'),
+          how: B(['유해인자와 이번·직전 측정치(TWA)를 넣거나, 소음이면 dB(A) 두 값을 넣습니다.', '최근 1년간 공정·설비·작업방법·물질 변경이 없으면 체크합니다.', '특수건강진단 대상 구분(별표23)을 고르고 ‘업무판 법정 주기에 반영’을 누릅니다.'], ['Enter the agent and this and the previous TWA result, or two dB(A) values for noise.', 'Tick if nothing changed in process, equipment, methods or chemicals in the last year.', 'Choose the Annex 23 group and press “Apply to the dashboard cycles”.']),
+          read: B('허가대상 유해물질(비소 등)·특별관리물질(pH 2.0 이하 황산 등)이 노출기준을 넘으면, 그 밖의 물질은 2배 이상이면 3개월 주기입니다. 최근 2회 연속 기준 미만이고 변경이 없으면 연 1회로 할 수 있습니다(고시 물질 제외). 노출기준 이상이면 다음 특수건강진단 주기를 2분의 1로 줄입니다.', 'Licensed substances (e.g. arsenic) and specially controlled ones (e.g. sulfuric acid at pH ≤ 2) over the limit, or other agents at twice the limit, mean a 3-month cycle. Two results in a row below the limit with no change allow a yearly cycle (not for listed substances). At or above the limit, the next special health check comes at half the interval.'),
+          example: B('HF 이번 0.6ppm(기준 0.5ppm)이면 2배 미만이라 반기 주기는 그대로지만, 노출기준 이상이므로 해당 공정 노출 근로자의 다음 특수건강진단은 12개월에서 6개월로 당겨집니다.', 'HF at 0.6 ppm (limit 0.5) is under twice the limit, so surveys stay half-yearly, but because it is at or above the limit the next special health check for exposed workers moves from 12 to 6 months.') }
+      }
+    },
+
+    ptw: {
+      what: B('안전작업허가서를 작성·발급·종료까지 기록하는 도구입니다. PSM 고시 제33·46조와 KOSHA 안전작업허가 기술지원규정(C-C-49-2026)의 구조대로 화기·일반위험 허가에 밀폐공간·정전·굴착·방사선·고소·중장비 보충 허가를 붙이고, 안전보건규칙 조문별 확인 항목과 가스 측정 판정을 거쳐야 발급됩니다.',
+        'Writes a permit to work and records it from issue to close-out. Following PSM Notice Arts. 33 and 46 and KOSHA’s permit guide (C-C-49-2026), a hot-work or general permit takes supplementary permits (confined space, isolation, excavation, radiation, height, heavy equipment); it can be issued only after the article-by-article checks and gas tests are satisfied.'),
+      when: B(['정비·공사 전에 어떤 허가와 조치가 필요한지 빠짐없이 정리할 때', '밀폐공간·화기작업의 가스 측정값이 진입·작업 기준을 만족하는지 볼 때', '허가서를 인쇄해 현장에 게시하고 종료 기록을 남길 때'], ['Before maintenance or construction, to list every permit and measure needed', 'To see whether confined-space or hot-work gas readings meet the criteria', 'To print the permit for posting and keep the close-out record']),
+      steps: B(['‘새 허가서’를 누르거나 SOP 상세의 ‘이 작업으로 작업허가서 작성’으로 시작합니다(SOP의 허가 유형이 자동 선택).', '작업 정보(작업일·허가 시각·장소·설비·개요)를 적고 주 허가와 보충 허가를 고릅니다.', '작업허가 전 점검 14항목과 유형별 안전조치를 체크합니다. ‘필수’가 남아 있으면 발급 버튼이 잠깁니다.', '가스 측정값을 넣습니다(화기작업은 인화성, 밀폐공간은 산소 필수). 기준을 벗어나면 발급할 수 없습니다.', '신청인·발급자·승인자 등 역할을 적고 ‘발급’ → ‘작업 시작’ → 복원 확인 후 ‘작업 종료’ 순으로 진행합니다. ‘허가서 인쇄’로 A4 양식을 뽑습니다.', '작업 중에는 ‘8. 작업허가 모니터링’(C-C-49 별지 양식3, 20문항)으로 현장 관리자·감독자가 확인하고 기록을 저장·인쇄합니다. ‘아니오’가 있으면 작업 중지 여부를 판단합니다.', '페이지 아래 ‘작업허가 절차 평가’(별지 양식4, 42문항)로 사업장의 허가 제도 자체를 감사합니다 — PSM 자체감사의 ‘작업허가’ 분야로 쓸 수 있습니다.'],
+        ['Press “New permit”, or “Start a permit for this job” on an SOP (its permit types are pre-selected).', 'Fill in the job details (date, valid times, location, equipment, description) and choose the main and supplementary permits.', 'Tick the 14 pre-permit questions and the measures for each type. While any “Req.” item is open, the Issue button stays locked.', 'Enter gas readings (flammable for hot work, oxygen for confined spaces are mandatory). Any reading out of range blocks issue.', 'Name the applicant, issuer, approver and others, then Issue → Start work → confirm restoration → Close out. “Print permit” gives the A4 form.', 'During the work, site managers use “8. Permit monitoring” (C-C-49 Form 3, 20 questions), then save and print the record. Any “No” means deciding whether to stop the work.', 'At the bottom, “Permit-system audit” (Form 4, 42 questions) audits the permit system itself — usable as the “permit” part of the PSM self-audit.']),
+      example: B('M15X 가스룸 실린더 캐비닛 밸브 교체라면 일반위험 허가 + 정전·고소 보충 허가를 고르고, 질소 퍼지·밸브 잠금 표지·검전·안전대 부착설비를 체크한 뒤 산소 20.8%, 인화성 0%, 포스핀 0ppm을 기록해 발급합니다(예시 허가서 참고).', 'For a cylinder-cabinet valve change in the M15X gas room: a general permit plus isolation and height; tick nitrogen purge, valve tags, dead testing and anchorages; record O₂ 20.8 %, flammable 0 % and phosphine 0 ppm, then issue (see the example permit).'),
+      real: [{ t: B('고용노동부는 2026년 6월 청주 가스룸 사고 2건이 ‘안전작업허가 대상임에도 허가 없이 가스 작업을 시작’한 것 등 공정안전보고서 부적정 이행에 따른 것이라고 확인했습니다.', 'MOEL found the June 2026 Cheongju gas-room events stemmed from improper PSM implementation, including gas work started without the required permit.'), src: ['moel0920'] }],
+      tips: B(['‘필수’ 표시는 포털이 발급 전에 요구하는 항목입니다. 사내 허가 규정의 항목·권한이 다르면 사내 규정을 따르세요.', '허가는 당일 정상근무시간 안에서만 유효합니다. 다음 날까지 이어지면 ‘복제’로 새로 발급합니다.', '허가서는 1년(C-C-49는 밀폐공간 출입 허가서 3년 권고), 밀폐공간 가스 측정 기록은 법정 3년 보관합니다.', '예시 허가서는 수정할 수 없습니다. ‘예시를 복사해 시작’으로 내 허가서를 만드세요.'],
+        ['“Req.” marks what the portal requires before issue; where your site’s permit rules differ, follow them.', 'A permit is valid within one day’s normal working hours; for work running into the next day, duplicate and issue a new one.', 'Keep permits for one year (C-C-49 advises three for confined-space entry permits) and confined-space gas records for three, as the law requires.', 'The example permit is read-only; use “Start from the example” to make your own.']),
+      related: ['prevent', 'sop', 'gas', 'measure']
+    },
+
+    gas: {
+      what: B('반도체 특수가스 설비에서 쓰는 세 가지 계산입니다. 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 폭발하한계, 누출 때의 초기 이격·방호 거리를 원문 기준으로 확인합니다.',
+        'Three checks for fab specialty-gas systems: whether detector set points meet the KGS codes and KOSHA guidance, whether a mixture is flammable and its LEL, and initial isolation and protective distances for a release.'),
+      when: B(['가스 감지기 경보값을 새로 정하거나 점검할 때', '실란·포스핀 같은 가스를 질소·수소 등에 섞은 혼합가스의 위험성을 판단할 때', '특수가스 누출 비상대응 훈련·계획에서 초기 이격 범위를 가늠할 때'], ['When setting or auditing detector alarm levels', 'To judge a mixture such as silane or phosphine in nitrogen or hydrogen', 'To size initial isolation in gas-leak drills and plans']),
+      steps: B(['탭에서 도구를 고릅니다: 경보 설정값 검토, 혼합가스 폭발하한계, 비상 이격거리.', '입력값을 넣으면 오른쪽에 판정과 근거 조항이 나옵니다.', '아래 [번호]로 KGS 코드·KOSHA 지침·ERG 원문 출처를 확인합니다.'], ['Choose a tool from the tabs: alarm set points, mixture LEL, isolation distances.', 'Enter values; the verdict and clause appear on the right.', 'Use the [number] links for the KGS codes, KOSHA guides and ERG.']),
+      tips: B(['고압가스 사용시설은 KGS FU211·FU212(법적 상세기준), 그 밖의 시설은 KOSHA C-C-87(권고 지침)을 기준으로 봅니다.', 'ERG 거리는 수송 사고의 초기 대응용 참고값입니다. 사업장 비상대응 범위는 공정안전보고서·화학사고예방관리계획서의 시나리오로 정합니다.'], ['High-pressure gas facilities follow KGS FU211/FU212 (binding detailed codes); others follow KOSHA C-C-87 (guidance).', 'ERG distances are early references for transport incidents; site emergency zones come from the PSM and chemical-accident-prevention scenarios.']),
+      related: ['psm', 'ppe', 'measure', 'hazards'],
+      subs: {
+        alarm: { t: B('경보 설정값 검토', 'Alarm set points'),
+          what: B('가스·적용 기준·경보 설정값을 넣으면 가연성은 폭발하한계의 25%(2차 50%), 독성은 고압가스 시설이면 TLV-TWA(국내 TWA로 대조), 그 밖의 고정식은 ERPG-2 → AEGL-2 → IDLH 10% 순의 기준과 비교합니다.', 'Compares set points with 25 % of the LEL (50 % for the 2nd alarm) for flammables and, for toxics, the TLV-TWA (checked against the Korean TWA) at high-pressure gas facilities or ERPG-2 → AEGL-2 → 10 % of IDLH for other fixed detectors.'),
+          how: B(['감지 대상 가스와 적용 기준(자동이면 고압가스 해당 여부로 결정)을 고릅니다.', '1차·2차 경보 설정값과 단위(ppm 또는 %LEL)를 넣습니다.', 'KOSHA 기준에서 ERPG-2를 알면 입력합니다.'], ['Choose the gas and the code (auto uses high-pressure gas status).', 'Enter the 1st and 2nd set points and the unit (ppm or %LEL).', 'For the KOSHA basis, enter the ERPG-2 if you know it.']),
+          read: B('인화성이면서 독성인 가스는 두 기준 중 낮은 값이 1차 경보 상한입니다. 아래 기능 요건(정밀도·응답시간·지시 범위·교정)도 함께 점검하세요.', 'For gases that are both flammable and toxic, the lower limit caps the 1st alarm. Check the function requirements below too (accuracy, response time, scale, calibration).'),
+          example: B('포스핀 고압가스 시설에서 1차 경보 0.3ppm이면 국내 TWA 0.3ppm 이하라 적합, 폭발하한계 기준(4,000ppm)보다는 훨씬 낮습니다.', 'Phosphine at a high-pressure gas facility with a 0.3 ppm 1st alarm is within the 0.3 ppm TWA and far below the LEL-based cap (4,000 ppm).') },
+        mix: { t: B('혼합가스 폭발하한계', 'Gas-mixture LEL'),
+          what: B('KOSHA P-179-2022의 식으로 인화성 가스와 불활성 가스 혼합물이 공기 중에서 인화성인지 판정하고, 인화성이면 혼합물 전체의 폭발하한계를 계산합니다.', 'Uses KOSHA P-179-2022 to decide whether a mixture of flammable and inert gases is flammable in air and, if so, calculates the LEL of the whole mixture.'),
+          how: B(['성분과 mol%를 넣어 합계를 100%로 맞춥니다.', '산화성 가스가 있으면 체크합니다(이 경우 도구 범위 밖).', '‘P-179 부록5 예시 불러오기’로 계산 과정을 확인할 수 있습니다.'], ['Enter the components in mol% so they add up to 100 %.', 'Tick if an oxidiser is present (then the tool does not apply).', '“Load the P-179 Annex 5 example” shows the working.']),
+          read: B('Σ A′/Tci가 1 이하면 비인화성, 1을 넘으면 인화성입니다. 인화성이면 질소등가계수로 보정한 폭발하한계(식 5-4~5-6)로 혼합물 LEL을 구합니다.', 'Σ A′/Tci ≤ 1 means non-flammable; above 1, flammable. The mixture LEL then uses limits corrected with the nitrogen-equivalency factor (Eq. 5-4 to 5-6).'),
+          example: B('실란 10% + 질소 90%는 Σ = 10(Tci 1%)으로 인화성이며, 혼합물 LEL은 약 10vol%입니다 — 공기와 10% 섞이면 폭발 범위에 들어갑니다.', 'Silane 10 % in nitrogen gives Σ = 10 (Tci 1 %) — flammable, with a mixture LEL of about 10 vol%: it becomes explosive at 10 % in air.') },
+        erg: { t: B('비상 이격거리 (ERG)', 'Isolation distances (ERG)'),
+          what: B('ERG 2024 표1·표3으로 흡입독성 가스 누출 시 먼저 모든 방향으로 이격할 거리와 풍하 방호 거리를 보여줍니다.', 'Shows, from ERG 2024 Tables 1 and 3, how far to isolate in all directions and how far to protect downwind for a toxic-by-inhalation release.'),
+          how: B(['물질, 누출 규모(208L 기준), 주간·야간을 고릅니다. 염소·HF·HCl·암모니아의 대량 누출은 풍속도 고릅니다.'], ['Choose the material, spill size (208 L boundary) and day or night; for large chlorine, HF, HCl or ammonia spills also choose the wind.']),
+          read: B('화재가 있으면 가이드의 화재 시 거리를 먼저 쓰고, 용기 전체가 한꺼번에 나오는 경우는 두 배로 봅니다. 실란·NF₃는 표1 대상이 아니어서 가이드의 이격거리를 보여줍니다.', 'With fire, use the guide’s fire distance first; double the distances for a whole-package release. Silane and NF₃ are not in Table 1, so their guide distances are shown.'),
+          example: B('아르신 소형 실린더 누설(소량)을 주간에 대응하면 150m를 이격하고 풍하 1.0km까지 보호조치를 검토합니다.', 'A small arsine cylinder leak in daytime: isolate 150 m and consider protective action 1.0 km downwind.') }
+      }
+    },
+
+    ppe: {
+      what: B('물질과 예상 농도로 쓸 수 있는 호흡보호구를 고릅니다. 산소 농도 → IDLH 여부 → 유해비(농도 ÷ 노출기준)와 할당보호계수(OSHA) 순서로 판정하고, 국내 안전인증 방독마스크 정화통 종류·등급·표시색과 방진마스크 등급을 함께 보여줍니다.',
+        'Selects a suitable respirator from the substance and expected concentration — oxygen, then IDLH, then the hazard ratio (concentration ÷ limit) against assigned protection factors (OSHA) — with the Korean certified canister type, class and colour and dust-mask class.'),
+      when: B(['정비·누출 대응 작업 전에 어떤 호흡보호구를 지급할지 정할 때', '방독마스크 정화통 종류와 사용 가능 농도를 확인할 때', '작업허가서의 보호구 항목을 채울 때'], ['Before maintenance or leak response, to decide what respirator to issue', 'To check a canister type and its concentration limit', 'To fill the PPE item on a permit']),
+      steps: B(['물질과 예상·측정 농도, 산소 농도를 넣습니다. 농도를 모르면 ‘농도를 알 수 없다’를 체크합니다.', '오른쪽 ‘최소 요건’과 보호구별 판정(사용 가능·보호계수 부족·정화통 없음)을 봅니다.', '아래 표에서 정화통 표시색·등급과 방진마스크 등급을 확인합니다.'], ['Enter the substance, expected or measured concentration and oxygen; tick “Concentration unknown” if you do not know.', 'Read the “Minimum” result and the verdict for each respirator type.', 'Check canister colours and classes and dust-mask classes in the tables below.']),
+      example: B('불화수소 4ppm(TWA 0.5ppm)은 유해비 8이지만, 국내 인증 방독마스크 6종에 대응 종류가 없어 송기마스크(보호계수 10 이상)가 최소 요건으로 나옵니다.', 'HF at 4 ppm (TWA 0.5 ppm) gives a hazard ratio of 8, but none of the six Korean certified canister types matches, so a supplied-air respirator (APF ≥ 10) comes out as the minimum.'),
+      tips: B(['할당보호계수는 미국 OSHA 기준입니다. 국내 법령에는 같은 표가 없어 참고 기준으로 씁니다.', '방독·방진마스크는 산소 18% 이상에서만 씁니다.', '장갑 재질은 공식 선정표가 없으므로 MSDS 8항과 제조사 투과 자료로 고릅니다.'], ['APFs are US OSHA values; Korean law has no such table, so they serve as a reference.', 'Gas and dust masks are only for air with at least 18 % oxygen.', 'There is no official glove chart; use MSDS section 8 and the maker’s permeation data.']),
+      related: ['gas', 'measure', 'sop', 'hazards']
+    },
+
+    training: {
+      what: B('교육 대상자와 교육 기록을 넣으면 산안법 시행규칙 별표4(정기·채용 시·특별교육)와 화학물질관리법 유해화학물질 안전교육 기준 대비 이수 시간과 부족분을 사람별로 계산합니다.', 'Enter people and training records to see hours completed and shortfalls against OSH Rule Annex 4 (periodic, hiring, special) and the Chemicals Control Act safety training, person by person.'),
+      when: B(['반기 말 정기교육 이수 현황을 점검할 때', '특별교육 대상 작업에 사람을 배치하기 전·후', '중처법 시행령 제5조에 따른 법정 교육 실시 여부 반기 점검 때'], ['At half-year end, to check periodic training', 'Before and after assigning people to special-training work', 'For the half-yearly check of statutory training under SAPA Decree Art. 5']),
+      steps: B(['‘대상자 추가’에서 성명·소속·구분·채용일을 넣고, 특별교육 대상 작업과 최초 종사일, 화관법 취급 담당자 여부를 고릅니다.', '‘교육 기록 추가’에서 대상자·교육일·과정·시간을 넣습니다.', '위쪽 현황표에서 과정별 이수/기준 시간과 부족분을 봅니다. 면제 옵션(전년도 무재해, 화관법 교육 시간 인정)을 켜고 끌 수 있습니다.', '‘이수 현황표 인쇄’나 ‘교육 기록 CSV’로 내보냅니다.'], ['Under “Add a person”, enter name, team, type and hiring date, and pick any special-training work with its first day and whether they handle hazardous chemicals.', 'Under “Add a training record”, enter the person, date, course and hours.', 'The status table shows done / required hours and shortfalls; exemption options (no accident last year, crediting chemical training) can be switched on or off.', 'Export with “Print the status sheet” or “Records CSV”.']),
+      example: B('설비팀 작업자가 9월 1일부터 밀폐공간 작업(별표5 제34호)을 한다면, 8월에 받은 4시간으로 ‘최초 작업 전 4시간’은 충족하고, 나머지 12시간은 12월 2일까지 채워야 한다고 표시됩니다.', 'A facilities worker starting confined-space work (Annex 5 No. 34) on 1 September meets “4 h before the first task” with 4 hours in August, and the remaining 12 hours are due by 2 December.'),
+      tips: B(['교육 면제(제27조)는 사업주가 할 수 있는 것이므로 사내 기준을 확인하세요.', '이름 등 개인정보는 이 브라우저에만 저장됩니다. 백업 파일을 공유 폴더에 두지 마세요.', '예시 대상자는 설명용이며, 대상자를 한 명 추가하면 사라집니다.'], ['Exemptions (Art. 27) are optional for the employer — check your in-house rules.', 'Names stay in this browser only; keep backup files out of shared folders.', 'Example people are for illustration and disappear once you add someone.']),
+      related: ['culture', 'home', 'sop']
+    },
+
+    risk: {
+      what: B('위험성평가를 직접 해 보는 작업대입니다. 고용노동부 「사업장 위험성평가에 관한 지침」 제7조의 4개 기법과 공정안전보고서용 기법(HAZOP·What-if·FMEA), LOPA까지 9개 기법을 탭으로 바꿔 쓰고 결과를 CSV로 내보냅니다.',
+        'A workbench for doing risk assessments: the four methods in Art. 7 of MOEL’s guideline plus PSM techniques (HAZOP, What-if, FMEA) and LOPA — nine methods on tabs, with CSV export.'),
+      when: B(['정기·수시 위험성평가를 표 형식으로 작성할 때', '작업·설비 특성에 맞는 평가 기법을 고르고 비교할 때', '사고사례나 SOP에서 바로 평가를 시작할 때'],
+        ['To write a periodic or ad-hoc assessment as a table', 'To choose and compare methods for a job or a piece of equipment', 'To start an assessment straight from an incident case or an SOP']),
+      steps: B(['맨 위에 평가명·평가일·참여자를 적습니다. 산안법 제36조에 따라 근로자가 참여해야 합니다.', '탭에서 기법을 고릅니다. 처음에는 예시 행이 들어 있고 ‘예시’ 표시가 붙습니다. ‘비우기’로 지운 뒤 ‘행 추가’로 작성합니다.', '표를 채우면 위험도·등급·집중관리 여부가 자동 계산되고, ‘결과 요약’에 위험성 매트릭스와 등급 분포가 나옵니다.', '체크리스트법·JSA는 SOP를 골라 ‘불러오기’로 시작할 수 있습니다.', '‘CSV 내보내기’로 엑셀에서 여는 파일을 받고, ‘평가표 인쇄’로 결재란이 있는 가로 평가표를 뽑거나 PDF로 저장합니다.', '맨 아래 ‘언제 평가해야 하나’에서 시행규칙 제37조의 최초·정기·수시평가 시기, 근로자 참여·공유·기록(3년) 방법, 2027년부터 적용되는 과태료, 지침의 상시평가 요건을 확인합니다.'],
+        ['Enter assessment name, date and participants at the top — OSH Act Art. 36 requires workers to take part.', 'Pick a method tab. It starts with example rows marked “Example”; use “Clear”, then “Add row”.', 'As you fill the table, risk score, grade and focus flag are calculated, and the summary shows a risk matrix and grade counts.', 'For the checklist and JSA methods, choose an SOP and press “Load” to start.', 'Use “Export CSV” for a file that opens in Excel, or “Print” for a landscape form with sign-off boxes (or a PDF).', 'At the bottom, “When to assess” gives the Rule Art. 37 timing for initial, periodic and ad-hoc assessments, how to involve workers, share results and keep records (3 years), the fines that start in 2027, and the guideline’s continuous-assessment route.']),
+      real: [
+        { t: B('SK하이닉스는 2025년 작업 위험성평가의 평균 위험도를 5.7에서 2.5로 낮췄다고 공개했고, 위험도 8 이상 또는 가스·화학물질·3대 사고유형의 위험도 6 단위작업 943건을 현장에서 이행 확인했습니다(2024).', 'SK hynix reports cutting mean job risk from 5.7 to 2.5 in 2025, and field-verified 943 unit tasks with risk ≥ 8, or risk 6 in gas/chemical and top-three accident types (2024).'), src: ['sr2026', 'sr2025'] },
+        { t: B('영국 HSE는 위험성평가의 최소 요건으로 ① 위험요인 파악 ② 가능성과 심각도 판단 ③ 제거, 불가능하면 통제를 제시합니다.', 'UK HSE sets three minimum steps: identify hazards, decide likelihood and severity, eliminate — or control if that is not possible.'), src: ['hseRisk'] },
+        { t: B('EU-OSHA는 소규모 사업장용 온라인 대화형 위험성평가 도구 OiRA를 운영합니다.', 'EU-OSHA runs OiRA, an online interactive risk-assessment tool for micro and small firms.'), src: ['oira'] }
+      ],
+      tips: B(['등급 구간과 관리기준은 SK하이닉스 2026 지속가능경영보고서의 수준표입니다. 가능성·중대성 단계 정의는 공개되지 않아 포털 예시 문구를 씁니다.', '기법에 정답은 없습니다. 일상 작업은 빈도·강도법·체크리스트, 설비·공정 변경은 HAZOP·What-if, 설비 고장 우선순위는 FMEA가 흔히 쓰입니다.'],
+        ['Bands and actions come from the SK hynix 2026 report’s level table; step definitions for likelihood and severity are not public, so the portal supplies example wording.', 'There is no single right method: frequency–severity or checklists for routine jobs, HAZOP or What-if for process changes, FMEA for ranking equipment failures.']),
+      related: ['cases', 'sop', 'psm'],
+      subs: {
+        fs: { t: B('빈도·강도법', 'Frequency–severity'),
+          what: B('가능성(1–5)×중대성(1–4)=위험도(1–20)를 SK하이닉스 수준표로 판정합니다: A(16–20) 즉시 작업중지, B(8–15) 허용 불가·감소 대책, C(1–6) 허용. 위험도 8 이상, 또는 가스·화학물질·추락·끼임·부딪힘 유형의 위험도 6 이상은 ‘집중관리’로 표시합니다.', 'Likelihood (1–5) × severity (1–4) = risk (1–20), graded with the SK hynix table: A (16–20) stop now, B (8–15) not acceptable — reduce, C (1–6) acceptable. Risk ≥ 8, or ≥ 6 in gas/chemical, fall, caught-in or struck-by types, is flagged “Focus”.'),
+          example: B('OHT 레일 상부 점검: 가능성 3 × 중대성 4 = 12(B) → 수평 구명줄 설치·반송 정지 구간 잠금 후 1 × 4 = 4(C).', 'Inspection above an OHT rail: 3 × 4 = 12 (B) → horizontal lifeline and locked transport stop zone → 1 × 4 = 4 (C).') },
+        three: { t: B('위험성수준 3단계 판단법', 'Three-level judgment'),
+          what: B('상·중·하로 직관적으로 판단합니다. 소규모·단순 작업에 적합하며, 상은 즉시 개선, 중은 계획적 개선, 하는 현 상태 유지·교육으로 안내합니다.', 'Rates risk as high, medium or low — good for small or simple jobs. High means fix now, medium a planned fix, low maintain and train.') },
+        check: { t: B('체크리스트법', 'Checklist'),
+          what: B('미리 준비한 점검 항목으로 적합·부적합·해당 없음을 판정합니다. SOP 절차를 체크리스트로 불러오면 각 항목의 근거(법·지침·관행)가 함께 표시됩니다.', 'Judges prepared check items as compliant, non-compliant or N/A. Loading an SOP brings each item’s basis (law, guide or practice).') },
+        key: { t: B('핵심요인 기술법', 'Key-factor description'),
+          what: B('‘무엇이 위험한가, 누가 어떻게 다치나, 지금 무엇을 하나, 무엇을 더 해야 하나’ 네 질문에 서술형으로 답합니다. 수치화가 어려운 작업이나 소규모 사업장에 적합합니다.', 'Answers four questions in words: what is hazardous, who is harmed and how, what is done now, what more is needed. Suits jobs that are hard to score or small workplaces.') },
+        jsa: { t: B('작업안전분석 (JSA)', 'Job safety analysis (JSA)'),
+          what: B('작업을 단계로 나눠 단계마다 위험요인과 안전대책을 적습니다. SOP 라이브러리의 절차를 불러와 시작하면 빠릅니다.', 'Breaks the job into steps and lists hazards and controls for each. Loading an SOP from the library is the quickest start.') },
+        hazop: { t: B('HAZOP', 'HAZOP'),
+          what: B('공정을 노드로 나누고 파라미터(유량·압력·온도 등)와 가이드워드(없음·증가·감소 등)를 조합해 설계 의도에서 벗어나는 이탈을 찾은 뒤 원인·결과·안전장치·권고를 적습니다(KOSHA C-C-37-2026).', 'Split the process into nodes, combine parameters (flow, pressure, temperature…) with guide words (no, more, less…) to find deviations, then record causes, consequences, safeguards and recommendations (KOSHA C-C-37-2026).') },
+        whatif: { t: B('What-if', 'What-if'),
+          what: B('‘만약 ~라면?’ 질문으로 사고 시나리오를 브레인스토밍하고 결과·안전장치·권고를 적습니다(KOSHA C-C-38-2026). 경험 많은 운전원과 함께 하면 효과적입니다.', 'Brainstorm accident scenarios with “What if…?” and record consequences, safeguards and recommendations (KOSHA C-C-38-2026). Works best with experienced operators in the room.') },
+        fmea: { t: B('FMEA / 이상위험도 분석', 'FMEA / FMECA'),
+          what: B('부품·기능별 고장모드의 심각도(S)·발생도(O)·검출도(D)를 1–10으로 매겨 RPN=S×O×D로 우선순위를 정합니다. 조치 기준 RPN은 조직이 정합니다(포털 예시 100).', 'Rate severity, occurrence and detection (1–10) for each failure mode and rank by RPN = S × O × D. The action threshold is set by your organisation (portal example: 100).') },
+        lopa: { t: B('방호계층분석 (LOPA)', 'Layers of protection (LOPA)'),
+          what: B('초기사건 빈도에 독립방호계층(IPL)의 요구 시 고장확률(PFD)과 조건부 수정계수를 곱해 완화 빈도를 구하고 목표 빈도와 비교합니다. 목표에 못 미치면 필요한 추가 위험감소 배수를 보여줍니다(KOSHA C-C-62-2026). 모든 수치는 조직 기준으로 넣습니다.', 'Multiply the initiating-event frequency by each independent protection layer’s PFD and any conditional modifier to get the mitigated frequency, then compare it with the target; if it falls short, the needed risk-reduction factor is shown (KOSHA C-C-62-2026). Enter all values per your organisation’s criteria.') }
+      }
+    },
+
+    sop: {
+      what: B('반도체 사업장의 대표 고위험 작업 19종(가스·약액·장비 정비부터 X선 장비·크레인·충전전로·지게차·세안설비·굴착까지)을 법령 조문·KOSHA 지침·해외 규제기관 자료로 재구성한 표준 절차(SOP) 예시입니다. 안전관리자용 단계별 절차(JSA), 협력사 작업자용 ‘작업 전 5분 안전카드’, 이해도 퀴즈를 한 화면에 둡니다.',
+        'Nineteen representative high-risk fab jobs — from gas, chemical and equipment maintenance to X-ray tools, cranes, live circuits, forklifts, eyewash stations and excavation — rebuilt from statutes, KOSHA guides and foreign regulators as example SOPs. The manager’s step-by-step JSA, the contractor’s 5-minute pre-job card and a quiz sit on one page.'),
+      when: B(['작업 전에 절차·작업중지 기준·비상 시 행동을 확인할 때', '협력사 작업자에게 TBM 자료로 5분 카드를 보여줄 때', 'SOP를 바탕으로 위험성평가(JSA·체크리스트)를 시작할 때'],
+        ['Before a job, to check the steps, stop-work criteria and emergency actions', 'To show contractor workers the 5-minute card in a TBM', 'To start a JSA or checklist assessment from an SOP']),
+      steps: B(['위쪽 탭(전체·허가 유형)으로 걸러 SOP 카드를 고릅니다.', '상세에서 주요 유해·위험요인, 법령·지침 근거, 관련 물질 노출기준, 관련 실제 사고사례를 확인합니다.', '‘단계별 절차(JSA)’의 각 단계 오른쪽 표시(법·지침·관행)로 근거 수준을 구분합니다.', '‘관련될 수 있는 특별교육’에서 그 작업에 배치하기 전 필요한 특별교육 항목(시행규칙 별표5)을 확인합니다.', '‘위험성평가(JSA)로 보내기’·‘체크리스트로 점검하기’로 워크벤치에서 바로 평가합니다.', '‘작업 전 5분 안전카드’는 협력사·현장용입니다. ‘SOP 이해도 확인’ 퀴즈로 교육 효과를 확인합니다.', '‘SOP 인쇄’는 절차표와 교육 참석자 서명란이 있는 교육 자료로, ‘카드 인쇄’는 현장 게시용 카드로 나옵니다. 외국인 작업자가 있으면 ‘한·영 병기 인쇄’로 한국어·영어 카드를 한 장에 뽑습니다.'],
+        ['Filter with the tabs (all or permit type) and pick an SOP card.', 'In the detail, read the key hazards, legal and guidance basis, related exposure limits and linked real incidents.', 'The tag on each step (law, guide, practice) shows how strong its basis is.', '“Special training that may apply” lists the Rule Annex 5 training needed before assigning someone to the job.', 'Use “Send to risk assessment (JSA)” or “Check as a checklist” to assess it in the workbench.', 'The 5-minute card is for contractors and field crews; the check-up quiz confirms understanding.', '“Print SOP” gives a training handout with the step table and an attendance sign-off; “Print card” gives a card to post on site. For mixed crews, “Print KO + EN” puts the Korean and English cards on one sheet.']),
+      example: B('밀폐공간 작업 전 TBM에서 5분 카드를 띄워 ‘측정 없이 진입 금지’, ‘보호구 없이 구조 진입 금지’를 함께 읽고 퀴즈로 이해도를 확인합니다. 결과는 예방안전의 ‘SOP 교육·검증 현황’에 모입니다.',
+        'Before confined-space work, put the 5-minute card on screen in the TBM, read “never enter without testing” and “never rescue without breathing apparatus” together, then run the quiz. Results collect in Preventive safety’s SOP training status.'),
+      real: [
+        { t: B('2015년 SK하이닉스 이천 질식 사고에서는 구조하러 들어간 동료 4명도 두통 등 경상을 입었습니다. 밀폐공간 SOP의 ‘보호구 없이 구조 진입 금지’는 이 교훈과 안전보건규칙 제643조를 반영합니다.', 'In the 2015 SK hynix Icheon asphyxiation, four co-workers who went in to rescue were also hurt. The confined-space SOP’s “no rescue without breathing apparatus” reflects that lesson and Standards Rules Art. 643.'), src: ['seoul2015', 'lawStd'] },
+        { t: B('SEMI S2는 반도체 제조장비의 환경·보건·안전 가이드라인으로, 장비 반입·PM 절차를 만들 때 참고하는 업계 가이드라인입니다.', 'SEMI S2 is the industry’s EHS guideline for semiconductor manufacturing equipment — a reference for tool move-in and PM procedures.'), src: ['semiEhs'] }
+      ],
+      tips: B(['SK하이닉스 사내 SOP가 아니라 교육·포트폴리오용 예시입니다. 실제 작업은 사내 절차를 따르세요.', 'KOSHA GUIDE 번호는 2026.1.30 정비 후의 현행 번호입니다. 번호를 누르면 공단 원문 PDF가 열리고, 구 번호는 마우스를 올리면 보입니다(출처·검증 페이지의 대조표 참고).'],
+        ['These are teaching examples, not SK hynix internal SOPs; real work follows in-house procedures.', 'KOSHA GUIDE numbers are the current ones after the 2026-01-30 overhaul. Click a number to open KOSHA’s PDF; hover to see the former number (see the table on the Sources page).']),
+      related: ['risk', 'prevent', 'cases', 'resources']
+    },
+
+    hazards: {
+      what: B('반도체 공정 단계별 유해위험(미국 OSHA 정리)과 물질 63종의 국내 노출기준·NIOSH IDLH, 법정 관리 구분(작업환경측정·특수건강진단·관리대상·특별관리·허가대상), ICSC·KOSHA MSDS 링크를 한곳에서 보는 참고 페이지입니다.',
+        'A reference page with hazards by semiconductor process step (as compiled by US OSHA) and, for 63 substances, Korean exposure limits, NIOSH IDLH, statutory status (monitoring, health checks, controlled, specially controlled, licensed) and ICSC and KOSHA MSDS links.'),
+      when: B(['새 공정이나 물질을 다루기 전에 어떤 위험이 있는지 훑어볼 때', '물질의 TWA·STEL·C·IDLH를 빠르게 찾을 때'],
+        ['To scan the hazards before working with a new process or chemical', 'To look up a substance’s TWA, STEL, ceiling and IDLH quickly']),
+      steps: B(['‘공정 단계별 유해위험’ 표에서 공정별 위험과 관련 물질·SOP를 봅니다.', '‘물질 데이터베이스’의 분류 탭, 검색창(물질명·화학식·CAS), ‘법정 관리 구분’(예: 특별관리물질만)으로 물질을 찾습니다.', '비고 칸의 칩은 법정 관리 목록(별표21·22·12, 시행령 제88조) 해당 여부입니다. 칩에 마우스를 올리면 근거와 의무가 보입니다.', 'ICSC·KOSHA MSDS 링크로 위험 특성과 공단 MSDS를 엽니다.', '‘판정’ 버튼을 누르면 수치 판정의 화학물질 노출 도구가 그 물질이 선택된 상태로 열립니다(국내 노출기준이 없는 물질은 판정 대상에서 제외).'],
+        ['Read hazards, substances and SOPs by process in the process table.', 'Find a substance with the category tabs, the search box (name, formula, CAS) and the statutory-status filter (e.g. specially controlled only).', 'Chips in the notes column show statutory lists (Annexes 21, 22, 12; Decree Art. 88); hover for the basis and duties.', 'ICSC and KOSHA MSDS links open the hazard card and KOSHA’s MSDS.', '“Check” opens the chemical-exposure tool with that substance selected (substances without a Korean limit are left out).']),
+      example: B('식각 공정에서 불소(F₂)를 쓴다면 검색창에 ‘불소’를 넣어 TWA 0.1ppm, IDLH 25ppm을 확인하고, 가스룸 사고사례와 가스 실린더 SOP로 이어서 봅니다.',
+        'For fluorine (F₂) in etching, search “fluorine” to see TWA 0.1 ppm and IDLH 25 ppm, then read the gas-room case and the gas-cylinder SOP.'),
+      real: [{ t: B('미국 OSHA는 반도체 제조 공정과 그에 따른 위험이 몇 년마다 완전히 바뀔 수 있어 위험성평가를 더 자주 해야 한다고 설명합니다.', 'US OSHA notes that semiconductor processes and their hazards can change completely every few years, so hazard assessments must be done more often.'), src: ['oshaSemi'] }],
+      tips: B(['OSHA 표는 출발점입니다. 실제 위험은 사업장 공정을 분석해 확정해야 합니다.', 'IDLH가 ‘–’인 물질은 NIOSH 목록에 없는 경우입니다. NIOSH가 2016년 이후 새로 정한 값(이산화질소 13ppm, 삼불화염소 12ppm)은 개정값을 씁니다.', '물질이 PSM 규정량 대상인지(예: 불소 500kg, 포스핀 500kg)는 공정안전 페이지의 규정량 판정에서 확인합니다.'],
+        ['The OSHA table is a starting point; real hazards come from analysing your own process.', 'A dash for IDLH means the substance is not on the NIOSH list. Where NIOSH set new values after 2016 (nitrogen dioxide 13 ppm, chlorine trifluoride 12 ppm), the updated value is used.', 'Whether a substance counts toward PSM thresholds (e.g. fluorine 500 kg, phosphine 500 kg) is checked on the Process safety page.']),
+      related: ['measure', 'sop', 'resources']
+    },
+
+    company: {
+      what: B('SK하이닉스가 어떤 회사이고 어떻게 일하는지를 회사가 직접 공개한 지속가능경영보고서(2024·2025·2026)와 뉴스룸만으로 정리한 페이지입니다. 포털의 기능은 모두 이 이해에서 출발합니다.',
+        'What SK hynix is and how it works, drawn only from its own sustainability reports (2024–2026) and newsroom. Every portal feature starts from here.'),
+      when: B(['면접·보고 전에 회사 개요, 브랜드, 안전 거버넌스를 정리할 때', '회사 문화(SKMS, VWBE 등)를 안전 업무 방식과 연결해 볼 때'],
+        ['Before an interview or report, to summarise the company, brand and safety governance', 'To connect company culture (SKMS, VWBE…) with how safety work is done']),
+      steps: B(['‘회사 개요’와 ‘회사 BI’로 사업과 브랜드 방향을 봅니다.', '‘안전보건 거버넌스’와 ‘회사가 공개한 안전 제도·시스템’으로 조직과 제도를 확인합니다.', '‘문화를 포털 설계로’에서 회사 방식이 포털 기능에 어떻게 반영됐는지 봅니다.'],
+        ['Read the overview and brand identity for the business and brand direction.', 'Check organisation and programmes under safety governance and disclosed programmes.', '“From culture to portal design” shows how the company’s ways shaped portal features.']),
+      tips: B(['세부 내용이 공개되지 않은 제도(예: Golden Rules 항목)는 임의로 채우지 않았습니다.'], ['Programmes whose details are not public (e.g. the Golden Rules items) are not filled in.']),
+      related: ['sites', 'bench', 'sources']
+    },
+
+    sites: {
+      what: B('공통 체계와 이천·청주 사업장의 공개된 특징, 그에 따른 안전관리 포인트를 나눠 보는 페이지입니다. 상단 사업장 선택과 연동됩니다.',
+        'Company-wide systems and the disclosed features of Icheon and Cheongju, with the focus points that follow. Linked to the site switch at the top.'),
+      when: B(['사업장별 주요 Fab·설비·최근 이슈를 확인할 때', '사업장에 맞는 SOP와 관리 포인트를 고를 때'], ['To check each site’s main fabs, facilities and recent issues', 'To pick SOPs and focus points for a site']),
+      steps: B(['페이지 안의 공통·이천·청주 버튼(또는 상단 선택)으로 사업장을 바꿉니다.', '‘안전관리 포인트’는 공개자료를 해석한 포털 제안이며, 관련 SOP로 바로 이동할 수 있습니다.', '‘사업장 비교’ 표로 이천·청주를 나란히 봅니다.'],
+        ['Switch sites with the buttons on the page (or the top switch).', 'Focus points are portal proposals interpreting public data, with links to related SOPs.', 'Compare Icheon and Cheongju side by side in the comparison table.']),
+      tips: B(['사업장 정보는 공개자료 기준이며 내부 현황과 다를 수 있습니다.'], ['Site information follows public sources and may differ from internal status.']),
+      related: ['home', 'company', 'cases']
+    },
+
+    bench: {
+      what: B('삼성전자 반도체, TSMC 같은 다른 회사와 미국 OSHA의 공개 사례에서 포털이 무엇을 가져왔는지, 그리고 한국 법령과 미국 OSHA 표준(PSM·밀폐공간·LOTO·화기작업·호흡보호구)이 조항별로 어떻게 다른지 정리한 페이지입니다.',
+        'What the portal borrows from other chipmakers (Samsung Semiconductor, TSMC) and US OSHA, and how Korean law and US OSHA standards (PSM, confined spaces, LOTO, hot work, respirators) differ clause by clause.'),
+      when: B(['다른 회사의 안전 제도를 참고해 개선 아이디어를 낼 때', '사내 기준을 정할 때 한·미 기준 중 더 보호적인 쪽을 고를 때'], ['To draw improvement ideas from other companies’ safety programmes', 'To pick the more protective of the Korean and US rules when setting in-house standards']),
+      steps: B(['‘타사·해외 사례’ 탭에서 각 카드의 사실(출처 번호 포함)과 ‘포털 반영’ 칸을 비교합니다.', '‘한·미 규제 비교’ 탭에서 주제 칩을 눌러 표로 이동하고, 한국 조문과 OSHA 조항을 나란히 봅니다.', '더 많은 해외 기준·자료는 ‘안전 정보 자료실’에서 찾습니다.'], ['In “Peer and overseas cases”, compare each card’s facts (with sources) and “Applied here”.', 'In “Korea–US regulation”, jump to a topic and read the Korean article next to the OSHA paragraph.', 'Find more foreign standards and material in the resource library.']),
+      example: B('PSM 사고조사는 한국 고시 심사기준이 24시간 이내 착수, OSHA는 48시간 이내입니다. 반대로 LOTO 절차의 연 1회 정기 점검은 OSHA에만 있으므로 사내 LOTO 절차에 넣을 만합니다.', 'For PSM incident investigations, the Korean review criteria say start within 24 hours, OSHA within 48. Conversely, the yearly inspection of LOTO procedures exists only in OSHA — worth adding to an in-house LOTO procedure.'),
+      real: [
+        { t: B('삼성전자 반도체는 2024년 작업중지 4,537건과 2021~2024년 협력사 285곳의 ISO 45001/KOSHA-MS 인증 확대를 공개했습니다.', 'Samsung Semiconductor reports 4,537 work stoppages in 2024 and ISO 45001/KOSHA-MS certification for 285 suppliers in 2021–2024.'), src: ['samsung'] },
+        { t: B('TSMC는 2022년 하루 5만 1천 명 이상의 협력사 인원이 출입했고, 협력사용 ESH Blue Book을 수시 개정한다고 공개했습니다.', 'TSMC reports over 51,000 contractor entries a day in 2022 and rolling updates to its contractor ESH Blue Book.'), src: ['tsmc2023'] }
+      ],
+      tips: B(['회사가 직접 공개한 공식 페이지와 규제기관 자료만 사용했습니다.'], ['Only official company pages and regulator material are used.']),
+      related: ['partner', 'sdx', 'resources']
+    },
+
+    sources: {
+      what: B('포털의 모든 수치와 회사 정보에 달린 [번호] 출처의 목록입니다. SK하이닉스 공식·법령·공공기관·법원·해외 기관·타사·언론으로 구분하고 확인 날짜를 적었습니다.',
+        'The list behind every [number] in the portal, grouped as SK hynix official, law, public agency, court, foreign/international body, peer company or press, with the date each was checked.'),
+      when: B(['어떤 수치의 근거를 원문으로 확인할 때', '포털 정보의 신뢰 수준(공식·언론)을 구분할 때'], ['To trace a figure back to its original source', 'To tell official sources from press reports']),
+      steps: B(['본문의 [번호]를 누르면 이 목록의 해당 줄로 와서 강조됩니다.', '출처 이름을 누르면 원문 사이트가 새 창으로 열립니다.', '‘법령 변경 점검(월 1회)’에서 인용 법령·고시·기술기준 26건의 ‘포털 기준’ 판과 시행 예정 개정을 보고, ‘현행 확인’으로 국가법령정보센터 현행본과 비교한 뒤 점검 기록을 남깁니다. 점검표를 인쇄할 수 있고, 한 번 기록하면 31일이 지났을 때 업무판에 알림이 뜹니다.', '포털을 고친 뒤에는 ‘포털 자체 점검’(#qa)으로 전 페이지를 한/영·화면 폭 3가지로 자동 점검합니다.', '자주 쓰는 공식 사이트는 ‘안전 정보 자료실’에 따로 정리했습니다.'], ['A [number] in the text jumps here and highlights the row.', 'The source name opens the original site in a new window.', '“Law-change check (monthly)” lists the version of each of the 26 cited laws, notices and codes the portal was checked against, plus upcoming amendments; open “Current text” to compare on the National Law Information Center and record the check. The checklist prints, and once you record a check the dashboard reminds you after 31 days.', 'After editing the portal, run the “portal self-check” (#qa) to test every page in both languages at three widths.', 'Frequently used official sites are curated in the resource library.']),
+      tips: B(['언론 출처는 공식 자료가 없을 때만 보조로 썼습니다.', '법령은 개정될 수 있으니 실제 적용 전에 최신본을 확인하세요.', '‘KOSHA GUIDE 현행화 대조표’에서 인용한 지침의 현행 번호·공표일·구 번호를 확인하고 원문 PDF를 엽니다.'], ['Press sources supplement official ones only where none exist.', 'Laws change; confirm the current text before real use.', 'The “KOSHA GUIDE currency check” lists the current number, date and former number of each cited guide, with its PDF.']),
+      related: ['resources', 'company']
+    },
+
+    resources: {
+      what: B('포털을 만들며 직접 확인한 믿을 만한 공식 사이트 25곳을 모은 자료실입니다. SK하이닉스 공식 채널, 국내 법령·공공기관, 해외 규제기관·국제 표준, 화학물질 데이터베이스, 사고 교훈 영상·교육자료를 가나다·유형·주제로 찾습니다.',
+        'A library of 25 trustworthy official sites checked while building the portal — SK hynix channels, Korean law and agencies, foreign regulators and standards, chemical databases, and incident videos and learning material — searchable A–Z, by type or by subject.'),
+      when: B(['법령 원문, MSDS, 노출기준 같은 1차 자료를 찾을 때', '사고 교훈 영상·교육자료로 TBM이나 교육을 준비할 때', '해외 기준(OSHA·NIOSH·SEMI·NFPA)과 비교할 때'],
+        ['To find primary material such as statutes, MSDSs and exposure limits', 'To prepare a TBM or training with incident videos and lesson sheets', 'To compare with foreign references (OSHA, NIOSH, SEMI, NFPA)']),
+      steps: B(['‘가나다 리스트’에서 첫 글자(가~하, A~Z)로 찾거나, ‘유형·주제별 리스트’에서 자료유형·주제분야로 좁힙니다.', '검색 분류(전체·자료명·제공기관·자료유형·내용·URL)를 고르고 키워드로 검색합니다.', '정렬(가나다순·유형순·확인일순)과 오름·내림차순, 한 번에 볼 개수(10·20·30·50개)를 고릅니다.', '자료명을 누르면 원문 사이트가 새 창으로 열립니다. ‘포털 활용’ 링크로 그 자료가 쓰인 포털 화면으로 이동합니다.'],
+        ['Browse by first letter in the A–Z list, or narrow by type and subject in the type/subject view.', 'Choose a search field (all, name, provider, type, content, URL) and enter a keyword.', 'Set the sort (name, type, date checked), direction and page size (10, 20, 30, 50).', 'The resource name opens the site in a new window; “Used in” links jump to the portal pages that rely on it.']),
+      example: B('TBM에서 가스 누출 교훈을 나누고 싶다면 주제 ‘사고사례·교훈’을 골라 CSB 안전 영상이나 CCPS Process Safety Beacon(한국어판 제공)을 엽니다.',
+        'To share a gas-leak lesson in a TBM, pick the subject “Incidents & lessons” and open a CSB safety video or the CCPS Process Safety Beacon (available in Korean).'),
+      tips: B(['외부 사이트의 내용과 주소는 확인일(2026-09-24) 기준이며 바뀔 수 있습니다.', '표준(ISO·SEMI·NFPA)은 원문이 유료이고 개요 페이지만 무료입니다.'],
+        ['Content and addresses of outside sites are as checked on 2026-09-24 and may change.', 'Standards (ISO, SEMI, NFPA) are paid; only their overview pages are free.']),
+      related: ['sources', 'measure', 'cases']
+    },
+
+    search: {
+      what: B('포털 전체(페이지·섹션·SOP·사고사례·물질·자료실·동향·출처·가이드·용어)를 한 번에 찾는 검색입니다. 상단 검색창과 이 결과 화면이 같은 색인을 씁니다.',
+        'Search across the whole portal — pages, sections, SOPs, incidents, substances, library, updates, sources, guides and glossary. The top search box and this results page share one index.'),
+      steps: B(['상단 검색창에 단어를 넣으면 바로 추천 결과가 뜹니다. Enter를 누르면 전체 결과 화면이 열립니다.', '여러 단어를 띄어 쓰면 모두 포함한 결과만 보여줍니다. 띄어쓰기가 달라도(밀폐 공간 = 밀폐공간) 찾습니다.', '종류 탭(페이지·SOP·사고사례·물질 등)으로 결과를 좁힙니다.', '결과를 누르면 해당 화면으로 이동하고 검색어가 있는 부분을 잠시 강조합니다.', '어디서든 ‘/’ 키(또는 Ctrl+K)를 누르면 검색창으로 갑니다. ↑↓로 고르고 Enter로 엽니다.'],
+        ['Type in the top search box for instant suggestions; Enter opens the full results.', 'Several words must all match; spacing differences are ignored (“confined space” also finds “confinedspace”).', 'Narrow results with the kind tabs (page, SOP, incident, substance…).', 'Opening a result takes you to that screen and briefly highlights the match.', 'Press “/” (or Ctrl+K) anywhere to jump to search; use ↑↓ and Enter.']),
+      tips: B(['영문 약어·화학식으로도 찾습니다(PSM, LOTO, IDLH, HF, NF3).', 'SOP·사고사례·물질·자료실은 한국어·영어 이름 모두로 찾고, 나머지는 현재 언어로 보이는 내용을 기준으로 찾습니다.'],
+        ['Abbreviations and formulas work too (PSM, LOTO, IDLH, HF, NF3).', 'SOPs, incidents, substances and library items match Korean and English names; everything else matches the text in the current language.']),
+      related: ['guide', 'resources']
+    }
+  };
+
+  /* 용어 사전 — 정의의 근거가 법령·기준이면 src 로 출처를 단다 */
+  SHE.GLOSSARY = [
+    { id: 'psm', t: B('PSM (공정안전관리)', 'PSM (process safety management)'), link: 'psm', src: ['lawAct', 'lawRule'],
+      d: B('유해·위험설비의 누출·화재·폭발 같은 중대산업사고를 막기 위해 공정안전보고서를 작성·제출해 심사받고 이행하는 제도입니다. 보고서가 적합 통보를 받기 전에는 관련 설비를 가동할 수 없습니다(산안법 제44조). 보고서는 공정안전자료·공정위험성평가서·안전운전계획·비상조치계획으로 구성됩니다(시행규칙 제50조).', 'A regime in which a PSM report is prepared, reviewed and implemented to prevent major accidents (releases, fires, explosions) at hazardous installations; the equipment may not start until the report is approved (OSH Act Art. 44). The report covers safety information, hazard analysis, the operating plan and the emergency plan (Rule Art. 50).') },
+    { id: 'moc', t: B('MOC (변경요소 관리)', 'MOC (management of change)'), link: 'psm', src: ['lawRule'],
+      d: B('설비·공정 조건·물질·절차·조직이 바뀔 때 위험성을 평가하고 가동 전 점검·절차서 개정·교육을 마친 뒤 가동하도록 관리하는 절차입니다. 안전운전계획의 ‘변경요소 관리계획’에 해당합니다.', 'Assessing risk whenever equipment, conditions, chemicals, procedures or organisation change, and starting up only after pre-start checks, procedure updates and training. Part of the operating plan in the PSM report.') },
+    { id: 'pssr', t: B('PSSR (가동 전 점검)', 'PSSR (pre-startup safety review)'), link: 'psm', src: ['lawRule'],
+      d: B('새 설비나 변경된 설비를 가동하기 전에 설계대로 설치됐는지, 절차·교육·안전장치가 준비됐는지 확인하는 점검입니다. 안전운전계획의 ‘가동 전 점검지침’에 해당합니다.', 'Checks before starting new or changed equipment that it is installed as designed and that procedures, training and safeguards are ready. Part of the operating plan in the PSM report.') },
+    { id: 'ra', t: B('위험성평가', 'Risk assessment'), link: 'risk', src: ['lawAct'],
+      d: B('유해·위험요인을 찾아 위험성이 허용 가능한 수준인지 결정하고, 위험을 줄이는 개선대책을 세워 이행하는 과정입니다. 근로자를 참여시켜야 하고, 근로자대표가 요구하면 근로자대표도 참여시켜야 합니다(산안법 제36조).', 'Finding hazards, deciding whether the risk is acceptable, and planning and carrying out measures to reduce it. Workers must take part, and the workers’ representative too if they ask (OSH Act Art. 36).') },
+    { id: 'jsa', t: B('JSA (작업안전분석)', 'JSA (job safety analysis)'), link: 'risk',
+      d: B('작업을 단계로 나눠 단계마다 위험요인과 안전대책을 정리하는 기법입니다.', 'A method that breaks a job into steps and lists the hazards and controls for each.') },
+    { id: 'hazop', t: B('HAZOP', 'HAZOP'), link: 'risk', src: ['lawRule', 'koshaGuide'],
+      d: B('공정을 노드로 나누고 파라미터와 가이드워드를 조합해 설계 의도에서 벗어나는 이탈과 그 원인·결과·안전장치를 찾는 공정위험성평가 기법입니다(KOSHA C-C-37-2026).', 'A process hazard analysis that splits the process into nodes and combines parameters with guide words to find deviations and their causes, consequences and safeguards (KOSHA C-C-37-2026).') },
+    { id: 'lopa', t: B('LOPA (방호계층분석)', 'LOPA (layers of protection analysis)'), link: 'risk', src: ['koshaGuide'],
+      d: B('사고 시나리오의 초기사건 빈도에 독립방호계층(IPL)의 요구 시 고장확률(PFD)을 곱해 완화 빈도를 구하고 목표와 비교하는 기법입니다(KOSHA C-C-62-2026).', 'Multiplies a scenario’s initiating-event frequency by each independent protection layer’s probability of failure on demand and compares the result with a target (KOSHA C-C-62-2026).') },
+    { id: 'twa', t: B('TWA · STEL · C', 'TWA · STEL · C'), link: 'measure', src: ['moelOel'],
+      d: B('시간가중평균노출기준(TWA)은 1일 8시간 평균, 단시간노출기준(STEL)은 15분 평균, 최고노출기준(C)은 잠시라도 넘으면 안 되는 값입니다(노출기준 고시 제2조).', 'TWA is the 8-hour average, STEL the 15-minute average, and C (ceiling) a level that must never be exceeded, even briefly (Exposure Limits Notice Art. 2).') },
+    { id: 'idlh', t: B('IDLH', 'IDLH'), link: 'measure', src: ['nioshIdlh'],
+      d: B('미국 NIOSH가 정한 ‘생명이나 건강에 즉각적인 위험을 주는 농도’입니다. 비상대응과 호흡보호구 선정에 쓰이며 국내 법적 노출기준은 아닙니다.', 'NIOSH’s “immediately dangerous to life or health” concentration, used for emergency response and respirator selection; it is not a Korean legal limit.') },
+    { id: 'lel', t: B('폭발하한계 (LEL)', 'Lower explosive limit (LEL)'), link: 'gas', src: ['koshaP179'],
+      d: B('가스가 공기 중에서 점화원으로 착화돼 화염이 퍼지는 최소 농도입니다. 가연성 가스 감지경보기의 1차 경보는 LEL의 25%(1/4) 이하로 정합니다.', 'The lowest concentration of a gas in air at which an ignition source makes a flame spread. First alarms on flammable-gas detectors are set at no more than 25 % (1/4) of the LEL.') },
+    { id: 'aegl', t: B('ERPG-2 · AEGL-2', 'ERPG-2 · AEGL-2'), link: 'gas', src: ['koshaCC87', 'epaAegl'],
+      d: B('일반인이 1시간(AEGL은 시간별) 노출돼도 회복 불가능하거나 대피를 방해하는 건강 영향이 없다고 보는 최대 농도입니다. KOSHA C-C-87은 독성가스 고정식 감지기의 경보값을 ERPG-2 → AEGL-2 → PAC-2 → IDLH 10% 순으로 정합니다.', 'The highest concentration most people could breathe for an hour (AEGL: for set durations) without irreversible effects or effects that would stop them escaping. KOSHA C-C-87 sets fixed toxic-gas alarms from ERPG-2, then AEGL-2, PAC-2, then 10 % of IDLH.') },
+    { id: 'apf', t: B('할당보호계수 (APF)', 'Assigned protection factor (APF)'), link: 'ppe', src: ['oshaResp'],
+      d: B('호흡보호 프로그램이 제대로 운영될 때 해당 종류의 호흡보호구가 줄여 줄 것으로 기대되는 배수입니다(미국 OSHA 1910.134 Table 1). 유해비(농도 ÷ 노출기준)보다 큰 APF의 보호구를 씁니다.', 'How many times a class of respirator is expected to reduce exposure when a proper respirator programme is in place (US OSHA 1910.134 Table 1). Choose a respirator whose APF exceeds the hazard ratio (concentration ÷ limit).') },
+    { id: 'suppermit', t: B('보충적인 작업허가', 'Supplementary permit'), link: 'ptw', src: ['koshaCC49'],
+      d: B('화기작업이나 일반위험작업을 하면서 함께 하는 밀폐공간 출입·정전·굴착·방사선 사용·고소·중장비 사용작업에 대한 허가로, 주 허가와 함께 발급합니다(KOSHA C-C-49-2026).', 'A permit for confined-space entry, electrical isolation, excavation, radiation, work at height or heavy equipment carried out alongside hot work or general hazardous work; issued together with the main permit (KOSHA C-C-49-2026).') },
+    { id: 'air', t: B('적정공기', 'Acceptable air'), link: 'measure', src: ['lawStd'],
+      d: B('산소 18% 이상 23.5% 미만, 이산화탄소 1.5% 미만, 일산화탄소 30ppm 미만, 황화수소 10ppm 미만인 공기입니다(안전보건규칙 제618조). 밀폐공간 진입 전에 확인합니다.', 'Air with O₂ ≥ 18 % and < 23.5 %, CO₂ < 1.5 %, CO < 30 ppm and H₂S < 10 ppm (OSH Standards Rules Art. 618) — confirmed before confined-space entry.') },
+    { id: 'loto', t: B('LOTO (잠금·표지)', 'LOTO (lockout/tagout)'), link: 'sop', src: ['koshaGuide', 'osha147'],
+      d: B('정비 전 전기·유체·압력 같은 에너지원을 차단하고, 잠금장치와 표지로 다른 사람이 다시 켜지 못하게 하는 절차입니다(안전보건규칙 제92조·제319조, KOSHA B-M-25-2026, 미국 OSHA 1910.147).', 'Isolating energy sources (electrical, fluid, pressure) before maintenance and using locks and tags so no one can re-energise them (Standards Rules Arts. 92 and 319; KOSHA B-M-25-2026; US OSHA 1910.147).') },
+    { id: 'special', t: B('특별관리물질', 'Specially controlled substance'), link: 'hazards', src: ['lawStd'],
+      d: B('관리대상 유해물질 중 발암성·생식세포 변이원성·생식독성 등 중대한 건강장해 우려가 있어 안전보건규칙 별표12에 “특별관리물질”로 표기된 물질입니다(제420조). 취급 시 근로자명·물질명·취급량·작업내용·보호구·사고 조치를 기록하고(제439조) 특별관리물질임을 게시합니다(제440조). 예: 산화붕소, 수은, 2-에톡시에틸 아세테이트, pH 2.0 이하인 황산.', 'Controlled substances marked “specially controlled” in Standards Rules Annex 12 because they are carcinogenic, mutagenic or toxic to reproduction (Art. 420). Handling must be recorded — worker, substance, amount, task, PPE, incidents (Art. 439) — and the status posted (Art. 440). Examples: boron oxide, mercury, 2-ethoxyethyl acetate, sulfuric acid at pH 2.0 or below.') },
+    { id: 'approach', t: B('접근한계거리', 'Approach limit'), link: 'sop', src: ['lawStd'],
+      d: B('유자격자라도 절연 조치 없이 노출 충전부에 다가갈 수 있는 최소 거리입니다(안전보건규칙 제321조). 선간전압 22.9kV(15 초과 37kV 이하)는 90cm이며, 유자격자가 아닌 근로자는 대지전압 50kV 이하에서 300cm 안으로 들어갈 수 없습니다.', 'The closest a qualified worker may come to exposed live parts without insulation (Standards Rules Art. 321). For a 22.9 kV line (over 15 up to 37 kV) it is 90 cm; unqualified workers keep 300 cm from circuits up to 50 kV to earth.') },
+    { id: 'rso', t: B('방사선안전관리자', 'Radiation safety officer'), link: 'sop', src: ['lawNsaDecree'],
+      d: B('방사선발생장치의 허가사용자·신고사용자가 사업소마다 선임해 사용 개시 전 원자력안전위원회에 신고하는 관리자입니다(원자력안전법 시행령 제82조의3). X선 분석장비·이온주입기 정비는 이 관리자의 검토·승인 뒤 시작하는 것이 원안위가 2024 기흥 사건 뒤 요구한 방식입니다.', 'The officer that licensed and notified users of radiation generators appoint for each site and report to the NSSC before use (Nuclear Safety Act Decree Art. 82-3). After the 2024 Giheung case, the NSSC required that maintenance on X-ray analysers and implanters start only after this officer’s review and approval.') },
+    { id: 'tbm', t: B('TBM (작업 전 안전점검회의)', 'TBM (toolbox meeting)'), link: 'prevent', src: ['lawAct'],
+      d: B('작업 시작 전에 작업자들이 모여 오늘의 위험과 대책, 작업중지 기준을 확인하는 짧은 회의입니다. 산안법 제36조④는 중대재해로 이어질 수 있는 유해·위험요인을 작업 전 안전점검회의 등으로 상시 알리도록 노력하게 합니다.', 'A short pre-job meeting on today’s hazards, controls and stop-work criteria. OSH Act Art. 36(4) asks employers to keep workers informed of hazards that could cause serious accidents through pre-job meetings and similar means.') },
+    { id: 'stop', t: B('작업중지권', 'Right to stop work'), link: 'sop', src: ['lawAct'],
+      d: B('근로자는 산업재해가 발생할 급박한 위험이 있으면 작업을 중지하고 대피할 수 있고, 사업주는 합리적인 이유가 있는 작업중지를 이유로 불리한 처우를 해서는 안 됩니다(산안법 제52조).', 'Workers may stop work and leave when there is an imminent risk of injury, and employers may not penalise them where they had reasonable grounds (OSH Act Art. 52).') },
+    { id: 'approval', t: B('도급승인', 'Subcontract approval'), link: 'partner', src: ['lawAct', 'lawDecree'],
+      d: B('황산·불화수소·질산·염화수소를 중량비율 1% 이상 취급하는 설비의 개조·분해·해체·철거나 설비 내부 작업 등을 도급하려면 고용노동부장관의 승인을 받아야 합니다(산안법 제59조, 시행령 제51조). 도금 등 유해한 작업은 원칙적으로 도급이 금지됩니다(제58조).', 'Contracting out modification, dismantling, removal of, or work inside, equipment handling ≥ 1 wt% sulfuric, hydrofluoric, nitric or hydrochloric acid needs ministerial approval (OSH Act Art. 59; Decree Art. 51). Hazardous work such as plating may not in principle be subcontracted (Art. 58).') },
+    { id: 'sapa', t: B('중대재해처벌법 (안전보건관리체계)', 'Serious Accidents Punishment Act'), link: 'partner', src: ['lawSapa'],
+      d: B('경영책임자에게 안전보건관리체계를 구축·이행할 의무를 지우는 법입니다. 시행령 제4조가 안전보건 목표·경영방침, 전담 조직, 유해·위험요인 확인·개선, 중대산업재해 대비 매뉴얼, 도급 시 평가 기준 같은 조치를 정합니다.', 'Requires top management to build and run a safety and health management system. Decree Art. 4 lists the measures, such as goals and policy, a dedicated organisation, hazard identification and improvement, a serious-accident manual and criteria for contractors.') },
+    { id: 'lateral', t: B('수평전개', 'Lateral deployment'), link: 'cases',
+      d: B('한 곳에서 찾은 위험과 대책을 같은 위험이 있는 다른 공정·설비·사업장에도 적용하는 것입니다.', 'Applying a hazard and its fix found in one place to every other process, piece of equipment or site with the same hazard.') },
+    { id: 'ltifr', t: B('LTIFR (근로손실재해 도수율)', 'LTIFR (lost-time injury frequency rate)'), link: 'culture', src: ['sr2026'],
+      d: B('근로손실재해 건수를 근무시간으로 나눈 지표입니다. SK하이닉스는 20만 근무시간당 값으로 공개합니다(2025년 0.03).', 'Lost-time injuries relative to hours worked; SK hynix reports it per 200,000 hours (0.03 in 2025).') },
+    { id: 'wbgt', t: B('WBGT (습구흑구온도지수)', 'WBGT (wet-bulb globe temperature)'), link: 'measure', src: ['moelOel'],
+      d: B('자연습구·흑구(옥외는 건구 포함) 온도로 계산하는 고온 노출 지표로, 고시 별표3 기준과 비교합니다.', 'A heat-stress index from natural wet-bulb and globe temperature (plus dry-bulb outdoors), compared with Annex 3 of the notice.') },
+    { id: 'sdx', t: B('SDX', 'SDX'), link: 'sdx', src: ['nrgaon'],
+      d: B('Safety + Digital Transformation. 로봇·AI·센서 같은 ICT로 안전관리 체계를 바꾸는 SK하이닉스의 활동입니다.', 'Safety + Digital Transformation — SK hynix’s shift of safety management onto robots, AI, sensors and other ICT.') },
+    { id: 'ert', t: B('ERT (비상대응팀)', 'ERT (emergency response team)'), link: 'fire', src: ['sr2026'],
+      d: B('비상 상황에 먼저 출동하는 팀입니다. SK하이닉스는 감지기 이상 시 ERT가 출동해 누출 차단·확산 방지·농도 측정·대피 유도를 한다고 공개했습니다.', 'The team that responds first in an emergency. SK hynix says its ERT isolates leaks, contains them, measures levels and leads evacuation when detectors alarm.') },
+    { id: 'semis2', t: B('SEMI S2', 'SEMI S2'), link: 'resources', src: ['semiEhs'],
+      d: B('반도체 제조장비의 환경·보건·안전 가이드라인입니다(SEMI). 라벨(S1)·배기(S6)·인간공학(S8)·위험성평가(S10) 등 관련 가이드라인의 출발점입니다.', 'SEMI’s EHS guideline for semiconductor manufacturing equipment — the starting point for related guidelines on labels (S1), exhaust (S6), ergonomics (S8), risk assessment (S10) and more.') },
+    { id: 'tq', t: B('규정량 (PSM 대상 판정)', 'Threshold quantity (PSM coverage)'), link: 'psm', src: ['lawDecree'],
+      d: B('공정안전보고서 제출 대상을 가르는 유해·위험물질별 기준량입니다(시행령 별표13, 51종). 물질마다 하루 동안 최대로 제조·취급·저장할 수 있는 양을 규정량으로 나눈 비율을 더해 1 이상이면 유해·위험설비로 봅니다.', 'The per-substance quantity that decides whether a PSM report is required (Decree Annex 13, 51 substances). Divide each substance’s maximum daily quantity by its threshold and add the ratios; a total of 1 or more makes it a hazardous installation.') },
+    { id: 'psmgrade', t: B('PSM 이행상태평가 등급 (P·S·M+·M-)', 'PSM implementation grades (P, S, M+, M-)'), link: 'psm', src: ['moelPsm'],
+      d: B('고용노동부가 공정안전보고서 이행 상태를 평가해 매기는 등급입니다. 환산점수 90점 이상 P(우수), 80점 이상 S(양호), 70점 이상 M+(보통), 70점 미만 M-(불량)이며, 신규평가 후 4년마다 정기평가합니다.', 'The grade MOEL gives after assessing how a PSM report is implemented: P (excellent) ≥ 90, S (good) ≥ 80, M+ (fair) ≥ 70, M- (poor) < 70 on a 100-point scale, with a periodic assessment every four years after the first.') },
+    { id: 'serious', t: B('중대재해 · 중대산업재해', 'Serious accident vs serious industrial accident'), link: 'prevent', src: ['lawRule', 'lawSapaAct'],
+      d: B('산안법의 중대재해는 사망 1명 이상, 3개월 이상 요양 부상자 동시 2명 이상, 부상·질병자 동시 10명 이상인 재해로 지체 없이 보고해야 합니다. 중대재해처벌법의 중대산업재해는 사망 1명 이상, 동일 사고로 6개월 이상 치료 부상자 2명 이상, 동일 유해요인으로 직업성 질병자 1년 이내 3명 이상입니다.', 'Under the OSH Act a serious accident is 1+ death, 2+ people at once needing 3+ months’ care, or 10+ injured or ill at once, and must be reported without delay. Under the SAPA a serious industrial accident is 1+ death, 2+ people from one accident needing 6+ months’ treatment, or 3+ occupational-illness cases from one agent within a year.') },
+    { id: 'hpg', t: B('특정고압가스', 'Specified high-pressure gas'), link: 'psm', src: ['lawHpg', 'lawHpgDecree', 'lawHpgRule'],
+      d: B('고압가스 안전관리법이 따로 관리하는 가스입니다. 법에 적힌 수소·산소·액화암모니아·아세틸렌·액화염소·천연가스·압축모노실란·압축디보레인·액화알진과 시행령의 포스핀·게르만·삼불화질소·삼불화붕소 등 11종이 해당합니다. 반도체 공정 가스 상당수가 여기에 들어가며, 사용 전 신고와 사용시설 완성검사·매년 정기검사를 받아야 합니다.', 'Gases the High-Pressure Gas Act controls separately: hydrogen, oxygen, liquefied ammonia, acetylene, liquefied chlorine, natural gas, compressed monosilane, compressed diborane and liquefied arsine in the Act, plus 11 in the Decree such as phosphine, germane, nitrogen trifluoride and boron trifluoride. Many chipmaking gases are on the list; users must notify before use and pass a completion inspection and yearly inspections.') },
+    { id: 'chemreport', t: B('화학사고 즉시 신고', 'Immediate chemical accident report'), link: 'prevent', src: ['lawCca', 'mceReport'],
+      d: B('화학사고가 나면 취급자는 즉시 응급조치하고 관할 지자체·지방환경관서·경찰·소방·지방고용노동관서에 신고해야 합니다(화학물질관리법 제43조). 인명 피해가 있거나 기준량(유해화학물질 5kg·L, 불산·염산 50, 황산·질산 500, 염소·불소 5 등) 이상 누출되면 15분 이내에 신고합니다.', 'After a chemical accident the handler must take emergency measures at once and report to the local government, environment office, police, fire service or labour office (Chemicals Control Act Art. 43). If people are harmed or the release reaches the threshold (5 kg or L for hazardous chemicals; 50 for HF and HCl, 500 for sulfuric and nitric acid, 5 for chlorine and fluorine, etc.), report within 15 minutes.') },
+    { id: 'specialedu', t: B('특별교육', 'Special safety training'), link: 'culture', src: ['lawRule'],
+      d: B('밀폐공간 작업, 화재위험작업, 관리대상 유해물질 취급처럼 시행규칙 별표5에 정한 39개 유해·위험작업에 근로자를 배치할 때 하는 교육입니다. 16시간 이상(최초 작업 전 4시간 이상, 나머지는 3개월 이내 분할), 단기간·간헐적 작업은 2시간 이상입니다.', 'Training for workers assigned to any of the 39 hazardous jobs in Rule Annex 5 — confined spaces, fire-risk work, controlled hazardous substances and so on: at least 16 hours (4 before the first task, the rest within 3 months), or 2 hours for short or intermittent work.') }
+  ];
+
+  /* 처음 오셨다면 — 6곳 둘러보기 */
+  SHE.TOUR = [
+    { r: 'home', d: B('오늘 챙길 법정 기한, 회사 공개 KPI, 최신 동향을 한눈에', 'Today’s deadlines, the company’s KPIs and the latest updates at a glance') },
+    { r: 'cases', d: B('실제 사고에서 원인을 찾고 위험을 없애는 7단계', 'Seven steps from a real incident to removing the risk') },
+    { r: 'risk', d: B('SK하이닉스 수준표로 직접 평가하고 CSV로 내보내기', 'Assess with the SK hynix scale and export to CSV') },
+    { r: 'measure', d: B('측정값을 국내 법적 기준과 국제 기준에 바로 대조', 'Check readings against Korean and international limits') },
+    { r: 'sop', d: B('작업 절차, 작업중지 기준, 협력사용 5분 카드', 'Job steps, stop-work criteria and the contractor’s 5-minute card') },
+    { r: 'resources', d: B('법령·MSDS·사고 영상 등 믿을 만한 1차 자료', 'Trustworthy primary sources: laws, MSDSs, incident videos') }
+  ];
+})();

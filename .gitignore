@@ -1,0 +1,12 @@
+# 공개하면 안 되는 개인 자료·저작물 (실수로 복사해도 올라가지 않게)
+이성호_프로필/
+SK Hynix 지속가능경영보고서/
+*.pdf
+*.docx
+*.hwp
+.claude/
+
+# 운영체제가 만드는 파일
+Thumbs.db
+desktop.ini
+.DS_Store

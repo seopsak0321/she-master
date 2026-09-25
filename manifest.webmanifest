@@ -1,0 +1,16 @@
+{
+  "name": "SHE Master 반도체 안전 포털",
+  "short_name": "SHE Master",
+  "description": "반도체 제조 사업장 안전관리자를 위한 SHE 통합 업무 포털 — 이성호의 개인 포트폴리오 (공개자료 기반)",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F2F3F5",
+  "theme_color": "#111316",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
