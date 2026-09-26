@@ -49,8 +49,8 @@ window.SHE = window.SHE || {};
         { t: B('SK하이닉스는 ISO 45001·ISO 14001·PSM을 하나의 SHE경영시스템으로 통합 운영한다고 공개했습니다.', 'SK hynix runs ISO 45001, ISO 14001 and PSM as one SHE management system.'), src: ['sr2026'] },
         { t: B('PSM 고시는 P·S등급 사업장이라도 지도·점검에서 위험물질을 제거·격리하지 않고 화기작업을 하거나 변경관리절차를 지키지 않은 것이 확인되면 6개월 이내에 재평가하도록 정합니다. 화기작업 허가와 MOC가 등급을 좌우한다는 뜻입니다.', 'The PSM notice orders a re-assessment within six months if even a P- or S-grade site is found doing hot work without removing or isolating hazardous substances, or skipping change management — hot-work permits and MOC decide the grade.'), src: ['moelPsm'] }
       ],
-      tips: B(['‘12대 요소’는 법령 용어가 아니라 공정안전보고서 4부분(공정안전자료·공정위험성평가서·안전운전계획·비상조치계획)을 실행 단위로 나눈 관행적 분류입니다.', '규정량 표는 별표13의 51종 가운데 반도체 공정과 관련될 수 있는 물질만 추렸습니다. 규정량은 순도 100% 기준이고, 불산·염산·황산처럼 농도가 정해진 물질은 그 농도 기준입니다.', '감지값 판정은 순간값 기준입니다. 8시간 평균(TWA)·15분(STEL) 평가는 ‘수치 판정’에서 하세요.'],
-        ['“Twelve elements” is not a legal term; it splits the report’s four legal parts (safety information, hazard analysis, operating plan, emergency plan) into working units.', 'The threshold table lists only the Annex 13 substances likely in chipmaking. Thresholds assume 100 % purity, except where a concentration is stated (e.g. hydrofluoric, hydrochloric and sulfuric acid).', 'The gas check uses instant readings. Assess 8-hour (TWA) and 15-minute (STEL) exposure in “Measurement check”.']),
+      tips: B(['‘12대 요소’는 법령 용어가 아니라 공정안전보고서 4부분(공정안전자료·공정위험성평가서·안전운전계획·비상조치계획)을 실행 단위로 나눈 관행적 분류입니다.', '규정량 표는 처음에 별표13의 51종 가운데 반도체 공정과 관련될 수 있는 25종을 보여 주고, 표 위 ‘별표13 전체 51종’을 누르면 나머지도 함께 봅니다. 규정량은 순도 100% 기준이고, 불산·염산·황산처럼 농도가 정해진 물질은 그 농도 기준입니다.', '감지값 판정은 순간값 기준입니다. 8시간 평균(TWA)·15분(STEL) 평가는 ‘수치 판정’에서 하세요.'],
+        ['“Twelve elements” is not a legal term; it splits the report’s four legal parts (safety information, hazard analysis, operating plan, emergency plan) into working units.', 'The threshold table first shows the 25 Annex 13 substances likely in chipmaking; “All 51 in Annex 13” above the table adds the rest. Thresholds assume 100 % purity, except where a concentration is stated (e.g. hydrofluoric, hydrochloric and sulfuric acid).', 'The gas check uses instant readings. Assess 8-hour (TWA) and 15-minute (STEL) exposure in “Measurement check”.']),
       related: ['risk', 'measure', 'cases', 'sop']
     },
 
@@ -291,7 +291,7 @@ window.SHE = window.SHE || {};
     },
 
     units: {
-      what: B('길이·압력·유량·에너지·방사선량 등 물리량 23종, 단위 170여 개를 바꾸고, 분자량으로 가스 농도(ppm ↔ mg/m³)를 환산합니다. 상단의 ‘단위’ 버튼(좁은 화면은 ‘도구’)을 누르면 어느 페이지에서나 같은 도구가 작은 창으로 열립니다.', 'Converts about 170 units across 23 quantities such as length, pressure, flow, energy and radiation dose, and converts gas concentration (ppm ↔ mg/m³) from the molar mass. The “Units” button at the top (“Tools” on narrow screens) opens the same tool in a small window on any page.'),
+      what: B('길이·압력·유량·에너지·방사선량 등 물리량 23종, 단위 177개를 바꾸고, 분자량으로 가스 농도(ppm ↔ mg/m³)를 환산합니다. 상단의 ‘단위’ 버튼(좁은 화면은 ‘도구’)을 누르면 어느 페이지에서나 같은 도구가 작은 창으로 열립니다.', 'Converts 177 units across 23 quantities such as length, pressure, flow, energy and radiation dose, and converts gas concentration (ppm ↔ mg/m³) from the molar mass. The “Units” button at the top (“Tools” on narrow screens) opens the same tool in a small window on any page.'),
       when: B(['가스 실린더·배관 압력을 MPa·kgf/cm²·psi로 맞춰 볼 때', '외국 장비 자료(ft/min, CFM, °F, psi)를 국내 기준과 비교할 때', '노출기준이 ppm인 물질을 mg/m³ 측정값과 비교할 때'], ['To compare cylinder or line pressures in MPa, kgf/cm² and psi', 'To compare foreign equipment data (ft/min, CFM, °F, psi) with Korean limits', 'To compare a ppm limit with a mg/m³ reading']),
       steps: B(['물리량을 고르고 값과 단위를 넣습니다. 결과 단위를 고르면 큰 글씨로, 아래 표에는 모든 단위로 한꺼번에 나옵니다. ⇅ 버튼은 두 단위를 맞바꿉니다.', '가스 농도는 ‘가스 농도 ppm ↔ mg/m³’를 고르고 분자량을 넣습니다. 온도·압력 기본값은 NIOSH 환산 조건(25 °C, 101.325 kPa)입니다.', '입력값은 이 브라우저에 남아, 작은 창과 이 페이지가 같은 값을 씁니다.'], ['Pick a quantity, enter a value and unit; choose a result unit to see it large, with every unit listed below. ⇅ swaps the two units.', 'For gas concentration choose “ppm ↔ mg/m³” and enter the molar mass; the default temperature and pressure are NIOSH’s conversion conditions (25 °C, 101.325 kPa).', 'Inputs stay in this browser, and the small window and this page share them.']),
       example: B('실린더 압력 14.7 MPa는 약 150 kgf/cm², 2,132 psi입니다. 국소배기 제어풍속 0.5 m/s는 약 98 ft/min입니다.', 'A cylinder at 14.7 MPa is about 150 kgf/cm² or 2,132 psi. A capture velocity of 0.5 m/s is about 98 ft/min.'),
@@ -445,6 +445,17 @@ window.SHE = window.SHE || {};
       tips: B(['영문 약어·화학식으로도 찾습니다(PSM, LOTO, IDLH, HF, NF3).', 'SOP·사고사례·물질·자료실은 한국어·영어 이름 모두로 찾고, 나머지는 현재 언어로 보이는 내용을 기준으로 찾습니다.'],
         ['Abbreviations and formulas work too (PSM, LOTO, IDLH, HF, NF3).', 'SOPs, incidents, substances and library items match Korean and English names; everything else matches the text in the current language.']),
       related: ['guide', 'resources']
+    },
+
+    updates: {
+      what: B('포털의 역사를 적은 패치노트입니다. 공개 업데이트마다 버전·날짜와 함께 무엇을 추가하고, 보완하고, 고쳤는지 적고, 물질·SOP·출처 수가 어떻게 늘었는지 그래프로 보여 줍니다.',
+        'Patch notes that record the portal’s history: for each public update, the version and date and what was added, improved and fixed, plus charts of how substances, SOPs and sources grew.'),
+      when: B(['지난번에 본 뒤 무엇이 바뀌었는지 확인할 때', '어떤 기능이나 수치가 언제 들어오고 검증됐는지 찾을 때'], ['To see what changed since your last visit', 'To find when a feature or figure arrived and was verified']),
+      steps: B(['맨 위 숫자판에서 현재 버전, 공개 업데이트 횟수, 첫 공개일과 최근 업데이트일을 봅니다.', '‘콘텐츠 규모 변화’ 막대에서 버전별 물질·SOP·출처 수를 비교합니다. ‘지금’은 현재 데이터에서 직접 센 값입니다.', '패치노트는 최신순이며 최근 3개는 펼쳐 둡니다. 제목 줄을 누르면 접고 펼칩니다.', '‘GitHub 기록’의 번호를 누르면 그 업데이트의 실제 변경 내역이 새 창으로 열립니다.'],
+        ['The figures at the top show the current version, number of public updates, first release and latest update.', '“How the content grew” compares substances, SOPs and sources by version; “now” is counted from the live data.', 'Patch notes run newest first with the latest three open; click a title row to fold or unfold it.', 'The number after “GitHub record” opens that update’s actual changes in a new window.']),
+      tips: B(['바닥글의 버전 번호는 이 페이지의 현재 버전과 같습니다. 화면이 옛 버전으로 보이면 새로고침하세요.', '버전 번호(v)는 빌드 번호라 공개 사이에 건너뛸 수 있습니다.'],
+        ['The version in the footer matches the current version here; if the page looks old, reload it.', 'The version (v) is a build number, so it can skip between releases.']),
+      related: ['sources', 'guide']
     }
   };
 

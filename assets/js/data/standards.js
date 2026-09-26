@@ -251,10 +251,38 @@ SHE.PSM_TQ = [
   { n: 48, id: 'hfaq', ko: '불산(중량 10% 이상)', en: 'Hydrofluoric acid (≥ 10 wt%)', cas: '7664-39-3', tq: 10000, chem: 'hf' },
   { n: 49, id: 'hclaq', ko: '염산(중량 20% 이상)', en: 'Hydrochloric acid (≥ 20 wt%)', cas: '7647-01-0', tq: 20000, chem: 'hcl' },
   { n: 50, id: 'h2so4', ko: '황산(중량 20% 이상)', en: 'Sulfuric acid (≥ 20 wt%)', cas: '7664-93-9', tq: 20000, chem: 'h2so4' },
-  { n: 51, id: 'nh4oh', ko: '암모니아수(중량 20% 이상)', en: 'Ammonia solution (≥ 20 wt%)', cas: '1336-21-6', tq: 50000, chem: 'nh3' }
-];
+  { n: 51, id: 'nh4oh', ko: '암모니아수(중량 20% 이상)', en: 'Ammonia solution (≥ 20 wt%)', cas: '1336-21-6', tq: 50000, chem: 'nh3' },
+  /* 9단계(2026-09-26) — 별표13 원문(dec_byl13) 나머지 행. 삼염화인은 인 확산 도펀트(OSHA Table 5)라 기본 목록, 나머지는 all: true → ‘별표13 전체 보기’에서만 */
+  { n: 28, id: 'pcl3', ko: '삼염화인', en: 'Phosphorus trichloride', cas: '7719-12-2', tq: 10000, chem: 'pcl3' },
+  { n: 3, id: 'mic', all: true, ko: '메틸이소시아네이트', en: 'Methyl isocyanate', cas: '624-83-9', tq: 1000 },
+  { n: 4, id: 'cocl2', all: true, ko: '포스겐', en: 'Phosgene', cas: '75-44-5', tq: 500 },
+  { n: 5, id: 'acn', all: true, ko: '아크릴로니트릴', en: 'Acrylonitrile', cas: '107-13-1', tq: 10000 },
+  { n: 8, id: 'so2', all: true, ko: '이산화황', en: 'Sulfur dioxide', cas: '7446-09-5', tq: 10000 },
+  { n: 9, id: 'so3', all: true, ko: '삼산화황', en: 'Sulfur trioxide', cas: '7446-11-9', tq: 10000 },
+  { n: 10, id: 'cs2', all: true, ko: '이황화탄소', en: 'Carbon disulfide', cas: '75-15-0', tq: 10000 },
+  { n: 11, id: 'hcn', all: true, ko: '시안화수소', en: 'Hydrogen cyanide', cas: '74-90-8', tq: 500, chem: 'hcn' },
+  { n: 15, id: 'an', all: true, ko: '질산암모늄', en: 'Ammonium nitrate', cas: '6484-52-2', tq: 500000 },
+  { n: 16, id: 'ng', all: true, ko: '니트로글리세린', en: 'Nitroglycerin', cas: '55-63-0', tq: 10000 },
+  { n: 17, id: 'tnt', all: true, ko: '트리니트로톨루엔', en: 'Trinitrotoluene', cas: '118-96-7', tq: 50000 },
+  { n: 19, id: 'eo', all: true, ko: '산화에틸렌', en: 'Ethylene oxide', cas: '75-21-8', tq: 1000 },
+  { n: 23, id: 'oleum', all: true, ko: '발연황산(삼산화황 중량 65% 이상 80% 미만)', en: 'Oleum (65–80 wt% SO₃)', cas: '8014-95-7', tq: 20000 },
+  { n: 25, id: 'tdi', all: true, ko: '톨루엔디이소시아네이트', en: 'Toluene diisocyanate', cas: '91-08-7, 584-84-9, 26471-62-5', tq: 2000 },
+  { n: 26, id: 'csa', all: true, ko: '클로로술폰산', en: 'Chlorosulfonic acid', cas: '7790-94-5', tq: 10000 },
+  { n: 29, id: 'bzcl', all: true, ko: '염화벤질', en: 'Benzyl chloride', cas: '100-44-7', tq: 2000 },
+  { n: 30, id: 'clo2', all: true, ko: '이산화염소', en: 'Chlorine dioxide', cas: '10049-04-4', tq: 500 },
+  { n: 31, id: 'socl2', all: true, ko: '염화티오닐', en: 'Thionyl chloride', cas: '7719-09-7', tq: 10000 },
+  { n: 32, id: 'br2', all: true, ko: '브롬', en: 'Bromine', cas: '7726-95-6', tq: 1000 },
+  { n: 35, id: 'mekp', all: true, ko: '메틸에틸케톤과산화물', en: 'Methyl ethyl ketone peroxide', cas: '1338-23-4', tq: 10000 },
+  { n: 37, id: 'na', all: true, ko: '니트로아닐린', en: 'Nitroaniline', cas: '88-74-4, 99-09-2, 100-01-6, 29757-24-2', tq: 2500 },
+  { n: 40, id: 'cyf', all: true, ko: '시아누르플루오르화물', en: 'Cyanuric fluoride', cas: '675-14-9', tq: 2000 },
+  { n: 42, id: 'nc', all: true, ko: '니트로셀룰로오스(질소 함유량 12.6% 이상)', en: 'Nitrocellulose (≥ 12.6 % nitrogen)', cas: '9004-70-0', tq: 100000 },
+  { n: 43, id: 'bpo', all: true, ko: '과산화벤조일', en: 'Benzoyl peroxide', cas: '94-36-0', tq: 3500 },
+  { n: 44, id: 'ap', all: true, ko: '과염소산암모늄', en: 'Ammonium perchlorate', cas: '7790-98-9', tq: 3500 },
+  { n: 46, id: 'deac', all: true, ko: '디에틸알루미늄염화물', en: 'Diethylaluminium chloride', cas: '96-10-6', tq: 10000 },
+  { n: 47, id: 'ippc', all: true, ko: '디이소프로필퍼옥시디카보네이트', en: 'Diisopropyl peroxydicarbonate', cas: '105-64-6', tq: 3500 }
+].sort((a, b) => a.n - b.n);
 
-/* 특별교육 대상 작업 — 산안법 시행규칙 [별표5] 제1호라목 중 반도체 사업장과 관련될 수 있는 항목 (2026.8.1 시행본 원문 PDF 확인, src: lawRule)
+/* 특별교육 대상 작업 — 산안법 시행규칙 [별표5] 제1호라목 39종 전체, 반도체 사업장과 관련될 수 있는 12종은 rel (2026.8.1 시행본 원문 PDF 확인, src: lawRule)
    교육시간은 [별표4]: 16시간 이상(최초 작업 전 4시간 이상, 나머지 3개월 이내 분할), 단기간·간헐적 작업 2시간 이상 */
 SHE.SPECIAL_EDU = {
   4:  { ko: '폭발성·물반응성·자기반응성·자기발열성 물질, 자연발화성 액체·고체 및 인화성 액체의 제조 또는 취급작업', en: 'Making or handling explosive, water-reactive, self-reactive or self-heating substances, pyrophoric liquids/solids and flammable liquids' },
@@ -268,8 +296,38 @@ SHE.SPECIAL_EDU = {
   34: { ko: '밀폐공간에서의 작업', en: 'Work in confined spaces' },
   35: { ko: '허가 또는 관리 대상 유해물질의 제조 또는 취급작업', en: 'Making or handling licensed or controlled hazardous substances' },
   36: { ko: '로봇작업', en: 'Robot work' },
-  38: { ko: '가연물이 있는 장소에서 하는 화재위험작업', en: 'Fire-risk work where combustibles are present' }
+  38: { ko: '가연물이 있는 장소에서 하는 화재위험작업', en: 'Fire-risk work where combustibles are present' },
+  /* 9단계(2026-09-26) — 별표5 제1호라목 나머지 27종 (원문 rule_byl5 대조). 위 12종은 rel: true(반도체 사업장 관련)로 먼저 보이고, 아래는 ‘그 밖의 대상 작업’ */
+  1:  { ko: '고압실 내 작업 (잠함공법 등 압기공법으로 대기압을 넘는 기압인 작업실·수갱 내부 작업)', en: 'Work in compressed-air chambers (caissons and other methods above atmospheric pressure)' },
+  2:  { ko: '아세틸렌 용접장치 또는 가스집합 용접장치를 사용하는 금속의 용접·용단 또는 가열작업', en: 'Welding, cutting or heating metal with acetylene or gas-manifold welding equipment' },
+  3:  { ko: '밀폐된 장소(탱크 내, 환기가 극히 불량한 좁은 장소)에서 하는 용접작업 또는 습한 장소에서 하는 전기용접 작업', en: 'Welding in enclosed places (tanks, very poorly ventilated spaces) or arc welding in damp places' },
+  5:  { ko: '액화석유가스·수소가스 등 인화성 가스 또는 폭발성 물질 중 가스의 발생장치 취급 작업', en: 'Operating generators of flammable gases such as LPG and hydrogen, or of explosive gases' },
+  6:  { ko: '화학설비 중 반응기, 교반기·추출기의 사용 및 세척작업', en: 'Using and cleaning reactors, agitators and extractors in chemical plant' },
+  8:  { ko: '분말·원재료 등을 담은 호퍼·저장창고 등 저장탱크의 내부작업', en: 'Work inside hoppers, silos and other tanks holding powders or raw materials' },
+  9:  { ko: '건조설비에 의한 물건의 가열·건조작업 (위험물 등 관계 설비는 속부피 1㎥ 이상, 그 밖에는 연료 시간당 10kg 이상 또는 전력 10kW 이상)', en: 'Heating and drying in dryers (dangerous-material dryers ≥ 1 m³; others ≥ 10 kg/h fuel or ≥ 10 kW)' },
+  10: { ko: '집재장치(원목·장작을 담아 올리거나 공중 운반하는 설비)의 조립·해체·변경·수리 및 집재·운반 작업', en: 'Assembling, altering or repairing cable-yarding equipment for logs and firewood, and yarding with it' },
+  11: { ko: '동력 프레스기계를 5대 이상 보유한 사업장에서 해당 기계로 하는 작업', en: 'Work with power presses at sites that have five or more' },
+  12: { ko: '목재가공용 기계(둥근톱·띠톱·대패·모떼기기계·라우터기, 휴대용 제외)를 5대 이상 보유한 사업장에서 해당 기계로 하는 작업', en: 'Work with woodworking machines (circular and band saws, planers, chamfering machines, routers; portable excluded) at sites with five or more' },
+  15: { ko: '건설용 리프트·곤돌라를 이용한 작업', en: 'Work using construction lifts or gondolas' },
+  16: { ko: '주물 및 단조(금속을 두들기거나 눌러서 형체를 만드는 일) 작업', en: 'Casting and forging (shaping metal by hammering or pressing)' },
+  18: { ko: '콘크리트 파쇄기를 사용하여 하는 파쇄작업 (2미터 이상인 구축물)', en: 'Breaking structures 2 m or taller with concrete crushers' },
+  20: { ko: '흙막이 지보공의 보강 또는 동바리를 설치하거나 해체하는 작업', en: 'Reinforcing earth-retaining supports, or installing and removing shoring' },
+  21: { ko: '터널 안에서의 굴착작업 또는 같은 작업에서의 터널 거푸집 지보공 조립·콘크리트 작업', en: 'Excavation inside tunnels, and tunnel formwork and concrete work there' },
+  22: { ko: '굴착면의 높이가 2미터 이상이 되는 암석의 굴착작업', en: 'Rock excavation 2 m deep or more' },
+  23: { ko: '높이가 2미터 이상인 물건을 쌓거나 무너뜨리는 작업 (하역기계로만 하는 작업 제외)', en: 'Stacking or unstacking loads 2 m high or more (not work done only by machines)' },
+  24: { ko: '선박에 짐을 쌓거나 부리거나 이동시키는 작업', en: 'Loading, unloading or moving cargo on ships' },
+  25: { ko: '거푸집 동바리의 조립 또는 해체작업', en: 'Assembling or dismantling formwork shoring' },
+  26: { ko: '비계의 조립·해체 또는 변경작업', en: 'Erecting, dismantling or altering scaffolds' },
+  27: { ko: '건축물의 골조, 다리의 상부 구조 또는 탑의 금속제 부재(5미터 이상)의 조립·해체 또는 변경작업', en: 'Erecting, dismantling or altering steel members of building frames, bridge superstructures or towers (5 m or more)' },
+  28: { ko: '처마 높이가 5미터 이상인 목조건축물의 구조 부재 조립이나 지붕·외벽 밑에서의 설치작업', en: 'Framing timber buildings with eaves 5 m or higher, or fitting work under their roofs and outer walls' },
+  29: { ko: '콘크리트 인공구조물(높이 2미터 이상)의 해체 또는 파괴작업', en: 'Demolishing concrete structures 2 m or taller' },
+  30: { ko: '타워크레인을 설치(상승작업 포함)·해체하는 작업', en: 'Erecting (including climbing) or dismantling tower cranes' },
+  31: { ko: '보일러(소형 보일러 등 제외)의 설치 및 취급 작업', en: 'Installing and operating boilers (small boilers and listed exceptions excluded)' },
+  37: { ko: '석면해체·제거작업', en: 'Asbestos removal' },
+  39: { ko: '타워크레인을 사용하는 작업 시 신호업무를 하는 작업', en: 'Signalling for tower-crane work' }
 };
+/* 반도체 사업장 관련 12종 표시 — 목록에서 먼저 보이고 나머지는 접어 둔다 */
+[4, 7, 13, 14, 17, 19, 32, 33, 34, 35, 36, 38].forEach((n) => { SHE.SPECIAL_EDU[n].rel = true; });
 
 /* 밀폐공간 적정공기 (안전보건규칙 제618조) + 미국 OSHA 1910.146 */
 SHE.CONFINED = {
@@ -337,10 +395,13 @@ SHE.TRAINING = [
 ];
 
 /* 위험물안전관리법 시행령 [별표1] 위험물 및 지정수량 (개정 2024.4.30, 원문 PDF 확인 2026-09-25, src: lawDgDecree)
-   반도체 사업장에서 다룰 수 있는 제3류(자연발화성·금수성)·제4류(인화성 액체)·제6류(산화성 액체)만 싣는다. u: 지정수량 단위 */
+   제1~6류 전 품명(9단계에 제1·2·5류 추가 — 원문 dg_byl1 대조). ‘그 밖에 행정안전부령으로 정하는 것’·‘함유한 것’ 행은 해당 품명의 지정수량을 따르므로 따로 싣지 않는다. u: 지정수량 단위 */
 SHE.DG_CLASS = {
+  1: { ko: '제1류 산화성 고체', en: 'Class 1 — oxidising solids' },
+  2: { ko: '제2류 가연성 고체', en: 'Class 2 — flammable solids' },
   3: { ko: '제3류 자연발화성·금수성 물질', en: 'Class 3 — pyrophoric and water-reactive' },
   4: { ko: '제4류 인화성 액체', en: 'Class 4 — flammable liquids' },
+  5: { ko: '제5류 자기반응성 물질', en: 'Class 5 — self-reactive substances' },
   6: { ko: '제6류 산화성 액체', en: 'Class 6 — oxidising liquids' }
 };
 SHE.DG_ITEMS = [
@@ -366,5 +427,24 @@ SHE.DG_ITEMS = [
   { id: 'k3cc', cls: 3, q: 300, u: 'kg', ko: '칼슘 또는 알루미늄의 탄화물', en: 'Calcium or aluminium carbides' },
   { id: 'k6pc', cls: 6, q: 300, u: 'kg', ko: '과염소산', en: 'Perchloric acid' },
   { id: 'k6hp', cls: 6, q: 300, u: 'kg', ko: '과산화수소 (농도 36중량% 이상만)', en: 'Hydrogen peroxide (only ≥ 36 wt%)' },
-  { id: 'k6na', cls: 6, q: 300, u: 'kg', ko: '질산 (비중 1.49 이상만)', en: 'Nitric acid (only specific gravity ≥ 1.49)' }
+  { id: 'k6na', cls: 6, q: 300, u: 'kg', ko: '질산 (비중 1.49 이상만)', en: 'Nitric acid (only specific gravity ≥ 1.49)' },
+  /* 9단계(2026-09-26) — 제1류·제2류·제5류 */
+  { id: 'k1cl', cls: 1, q: 50, u: 'kg', ko: '아염소산염류', en: 'Chlorites' },
+  { id: 'k1ca', cls: 1, q: 50, u: 'kg', ko: '염소산염류', en: 'Chlorates' },
+  { id: 'k1pc', cls: 1, q: 50, u: 'kg', ko: '과염소산염류', en: 'Perchlorates' },
+  { id: 'k1ip', cls: 1, q: 50, u: 'kg', ko: '무기과산화물', en: 'Inorganic peroxides' },
+  { id: 'k1br', cls: 1, q: 300, u: 'kg', ko: '브로민산염류', en: 'Bromates' },
+  { id: 'k1no', cls: 1, q: 300, u: 'kg', ko: '질산염류', en: 'Nitrates' },
+  { id: 'k1io', cls: 1, q: 300, u: 'kg', ko: '아이오딘산염류', en: 'Iodates' },
+  { id: 'k1mn', cls: 1, q: 1000, u: 'kg', ko: '과망가니즈산염류', en: 'Permanganates' },
+  { id: 'k1cr', cls: 1, q: 1000, u: 'kg', ko: '다이크로뮴산염류', en: 'Dichromates' },
+  { id: 'k2ps', cls: 2, q: 100, u: 'kg', ko: '황화인', en: 'Phosphorus sulfides' },
+  { id: 'k2rp', cls: 2, q: 100, u: 'kg', ko: '적린', en: 'Red phosphorus' },
+  { id: 'k2s', cls: 2, q: 100, u: 'kg', ko: '황 (순도 60중량% 이상)', en: 'Sulfur (≥ 60 wt% purity)' },
+  { id: 'k2fe', cls: 2, q: 500, u: 'kg', ko: '철분', en: 'Iron powder', d: { ko: '53μm 표준체를 통과하는 것이 50중량% 미만이면 제외', en: 'Excluded if less than 50 wt% passes a 53 μm sieve' } },
+  { id: 'k2mp', cls: 2, q: 500, u: 'kg', ko: '금속분', en: 'Metal powders', d: { ko: '알칼리·알칼리토류금속·철·마그네슘 외 금속의 분말 (별표1 비고)', en: 'Powders of metals other than alkali and alkaline-earth metals, iron and magnesium (Annex 1 notes)' } },
+  { id: 'k2mg', cls: 2, q: 500, u: 'kg', ko: '마그네슘', en: 'Magnesium' },
+  { id: 'k2fs', cls: 2, q: 1000, u: 'kg', ko: '인화성고체', en: 'Flammable solids' },
+  { id: 'k5t1', cls: 5, q: 10, u: 'kg', ko: '제5류 제1종 (유기과산화물·질산에스터류·나이트로화합물 등)', en: 'Class 5, type 1 (organic peroxides, nitrate esters, nitro compounds…)', d: { ko: '품명: 유기과산화물·질산에스터류·나이트로화합물·나이트로소화합물·아조화합물·다이아조화합물·하이드라진 유도체·하이드록실아민·하이드록실아민염류. 제1종·제2종은 소방청 고시 시험 결과로 정함', en: 'Categories: organic peroxides, nitrate esters, nitro, nitroso, azo and diazo compounds, hydrazine derivatives, hydroxylamine and its salts. Type 1 or 2 is set by the National Fire Agency test' } },
+  { id: 'k5t2', cls: 5, q: 100, u: 'kg', ko: '제5류 제2종 (유기과산화물·질산에스터류·나이트로화합물 등)', en: 'Class 5, type 2 (organic peroxides, nitrate esters, nitro compounds…)', d: { ko: '품명은 제1종과 같음. 시험 결과 제2종에 해당하는 것', en: 'Same categories as type 1; those that test as type 2' } }
 ];

@@ -59,11 +59,20 @@
   const TABKEY = { measure: 'measure', risk: 'risk', fire: 'scen', gas: 'gas', bench: 'bench', psm: 'psm' };
   const VARIANTS = { sites: ['common', 'icheon', 'cheongju'] };
   const FILTERS = {};
-  /* text of an element with a space between separate text pieces (textContent would glue labels together) */
+  /* text of an element with a space between separate text pieces (textContent would glue labels together).
+     Pieces from different blocks (table cells, list items, paragraphs) get a “ · ” between them, so a step name and its
+     description (“분해” + “분해·잔류물 처리”) do not read as a repeated word in the result snippet */
+  const BLOCK = /^(P|LI|TD|TH|DIV|H[1-6]|DT|DD|TR|SECTION|ARTICLE|FIGCAPTION|LABEL|SUMMARY)$/;
   const txt = (el) => {
     if (!el) return '';
-    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), parts = []; let n;
-    while ((n = w.nextNode())) parts.push(n.nodeValue);
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), parts = []; let n, prev = null;
+    const blockOf = (t) => { for (let p = t.parentElement; p && p !== el; p = p.parentElement) if (BLOCK.test(p.tagName)) return p; return el; };
+    while ((n = w.nextNode())) {
+      const v = n.nodeValue; if (!v.trim()) continue;
+      const b = blockOf(n);
+      if (parts.length && b !== prev && !/[.:;!?·—–,→]\s*$/.test(parts[parts.length - 1]) && !/^\s*[.,:;)\]·—–→]/.test(v)) parts.push('·');
+      parts.push(v); prev = b;
+    }
     return clean(parts.join(' ')).replace(/ ([,.)\]:;!?])/g, '$1').replace(/([([]) /g, '$1');
   };
   const strip = (box) => { box.querySelectorAll('script,style,svg,select,textarea,button,input,.src,.ex-flag,.sr,.tabs').forEach((e) => e.remove()); return box; };
@@ -135,7 +144,7 @@
   function indexData(add) {
     const rn = S.routeName;
     S.SOPS.forEach((s) => add({ k: 'sop', title: L(s.t), crumb: rn('sop') + ' · ' + L(s.area), href: '#sop/' + s.id,
-      text: [L(s.hz).join(' '), s.steps.map((st) => [L(st.s), L(st.h), L(st.c)].join(' ')).join(' '), L(s.stop).join(' '), L(s.emer).join(' '), s.legal.map(L).join(' '), L(s.card.do).join(' '), L(s.card.dont).join(' ')].join(' '),
+      text: [L(s.hz).join(' · '), s.steps.map((st) => [L(st.s), L(st.h), L(st.c)].join(' · ')).join(' · '), L(s.stop).join(' · '), L(s.emer).join(' · '), s.legal.map(L).join(' · '), L(s.card.do).join(' · '), L(s.card.dont).join(' · ')].join(' · '),
       alt: both(s.t) + ' ' + s.id + ' ' + s.kosha.join(' '), at: both(s.t) }));
     S.CASES.concat(S.load('cases.user', [])).forEach((c) => add({ k: 'case', title: L(c.t), crumb: rn('cases') + ' · ' + (L(c.dateLabel) || c.date), href: '#cases/' + c.id,
       text: [L(c.impact), (c.facts || []).map((f) => L(f.t)).join(' '), (c.officialFindings || []).map((f) => L(f.t)).join(' '), (c.why || []).map((w) => L(w.t)).join(' '), (c.actions || []).map((a) => L(a.t)).join(' '), L(c.lesson)].join(' '),

@@ -161,6 +161,7 @@
       const tqRatio = tqRatioOf(tqv);
       const tqAny = S.PSM_TQ.some((r) => tqRatio(r) != null);
       const tqR = S.PSM_TQ.reduce((a, r) => a + (tqRatio(r) || 0), 0);
+      const tqAll = !!S.load('lb.psmtq', {}).all;
       return `
       ${ui.head(T('6대 직무 · 공정안전', 'Six functions · Process safety'), T('공정안전 (PSM)', 'Process safety (PSM)'),
         T('PSM 요소와 관련 지침을 관리하고, 위험성평가로 화재·폭발·누출 위험을 찾아 개선합니다.', 'Manage PSM elements and guides, and find and fix fire, explosion and release risks through hazard analysis.'),
@@ -305,8 +306,9 @@
       ${tab === 'tq' ? `
       <section class="panel stack" id="anchor-tq">${ui.title(T('공정안전보고서 제출 대상 판정 — 규정량', 'PSM report requirement — threshold quantities'), `${T('산안법 시행령 제43조 · 별표13', 'OSH Decree Art. 43 · Annex 13')} ${tqEx ? ui.ex() : ''}`)}
         <p class="small">${T('반도체 제조업은 제43조의 7개 업종이 아니므로 <b>별표13 유해·위험물질을 규정량 이상 제조·취급·저장하는 설비</b>인지로 판단합니다. 물질마다 하루 동안 최대로 제조·취급·저장할 수 있는 양(공정 중 저장량 포함)을 넣으면 규정량 대비 비율을 합산(R)합니다. R이 1 이상이면 유해·위험설비입니다.', 'Chipmaking is not one of the seven industries in Art. 43, so the test is whether equipment makes, handles or stores <b>Annex 13 substances at or above the threshold</b>. Enter each substance’s maximum daily quantity (including in-process inventory); the ratios are summed as R. R ≥ 1 means a hazardous installation.')}</p>
+        <div class="row"><span class="seg" role="group" aria-label="${T('표시 범위', 'Rows shown')}"><button type="button" data-tqall="0" aria-pressed="${!tqAll}">${T(`반도체 관련 ${S.PSM_TQ.filter((r) => !r.all).length}종`, `Chip-related ${S.PSM_TQ.filter((r) => !r.all).length}`)}</button><button type="button" data-tqall="1" aria-pressed="${tqAll}">${T(`별표13 전체 ${S.PSM_TQ.length}종`, `All ${S.PSM_TQ.length} in Annex 13`)}</button></span></div>
         <div class="table-wrap"><table class="data"><thead><tr><th class="n">${T('별표13', 'No.')}</th><th>${T('물질', 'Substance')}</th><th>CAS</th><th class="n">${T('규정량(kg)', 'Threshold (kg)')}</th><th>${T('하루 최대량(kg)', 'Max per day (kg)')}</th><th class="n">C/T</th></tr></thead><tbody>
-          ${S.PSM_TQ.map((r) => { const ratio = tqRatio(r); return `<tr><td class="n">${r.n}</td><td><b class="small">${L(r)}</b>${r.memo ? `<div class="xs muted">${L(r.memo)}</div>` : ''}</td><td class="n small">${r.cas}</td>
+          ${S.PSM_TQ.filter((r) => !r.all || tqAll || tqRatio(r) != null).map((r) => { const ratio = tqRatio(r); return `<tr><td class="n">${r.n}</td><td><b class="small">${L(r)}</b>${r.memo ? `<div class="xs muted">${L(r.memo)}</div>` : ''}</td><td class="n small">${r.cas}</td>
             <td class="n small">${r.tqs ? `${T('취급', 'Use')} ${S.fmt(r.tq)}<br>${T('저장', 'Store')} ${S.fmt(r.tqs)}` : S.fmt(r.tq)}</td>
             <td>${r.tqs ? `<div class="stack" style="gap:4px"><input type="number" min="0" step="any" data-tq="${r.id}.h" value="${S.esc(tqv[r.id + '.h'] || '')}" placeholder="${T('제조·취급', 'Make/use')}" aria-label="${S.esc(L(r))} ${T('제조·취급량', 'use')}" style="max-width:130px"><input type="number" min="0" step="any" data-tq="${r.id}.s" value="${S.esc(tqv[r.id + '.s'] || '')}" placeholder="${T('저장', 'Storage')}" aria-label="${S.esc(L(r))} ${T('저장량', 'storage')}" style="max-width:130px"></div>`
               : `<input type="number" min="0" step="any" data-tq="${r.id}" value="${S.esc(tqv[r.id] || '')}" aria-label="${S.esc(L(r))}" style="max-width:130px">`}</td>
@@ -317,7 +319,7 @@
           ${tqAny ? ui.bars(S.PSM_TQ.filter((r) => tqRatio(r) != null).map((r) => ({ label: S.esc(L(r)), v: tqRatio(r) })).concat([{ label: 'R', v: tqR, tone: tqR >= 1 ? 'bad' : 'ok' }]),
             { caption: T('물질별 규정량 대비 비율(C/T)과 합계 R', 'Ratio to threshold (C/T) by substance and the sum R'), refs: [{ v: 1, label: T('규정량 (R = 1)', 'Threshold (R = 1)') }], fmt: (v) => S.fmt(v, 3) }) : ''}</div>
         <div class="row"><button class="btn ghost sm" type="button" id="tq-clear">${T('비우기', 'Clear')}</button><button class="btn ghost sm" type="button" id="tq-ex">${T('예시 불러오기', 'Load example')}</button></div>
-        <p class="xs muted">${T('별표13 비고: 규정량은 순도 100% 기준(농도가 정해진 물질은 그 농도 기준), 인화성 가스·액체는 제조·취급과 저장 규정량이 다르며 물질별로 가장 큰 비율을 씁니다. 가스를 전문으로 저장·판매하는 시설의 가스는 제외합니다. 이 표는 별표13의 51종 가운데 반도체 공정과 관련될 수 있는 물질만 추렸습니다. 예시 수량은 가상 값입니다.', 'Annex 13 notes: thresholds assume 100 % purity (or the stated concentration); flammable gases and liquids have separate use and storage thresholds and the larger ratio counts; gas held by dedicated gas storage/sales facilities is excluded. This table lists only the Annex 13 substances likely in chipmaking; example quantities are fictional.')}${S.cite('lawDecree')}</p>
+        <p class="xs muted">${T('별표13 비고: 규정량은 순도 100% 기준(농도가 정해진 물질은 그 농도 기준), 인화성 가스·액체는 제조·취급과 저장 규정량이 다르며 물질별로 가장 큰 비율을 씁니다. 가스를 전문으로 저장·판매하는 시설의 가스는 제외합니다. 기본 표는 별표13 51종 가운데 반도체 공정과 관련될 수 있는 물질이고, ‘별표13 전체’를 누르면 51종을 모두 봅니다. 예시 수량은 가상 값입니다.', 'Annex 13 notes: thresholds assume 100 % purity (or the stated concentration); flammable gases and liquids have separate use and storage thresholds and the larger ratio counts; gas held by dedicated gas storage/sales facilities is excluded. By default the table lists the Annex 13 substances likely in chipmaking; “All in Annex 13” shows all 51. Example quantities are fictional.')}${S.cite('lawDecree')}</p>
       </section>` : ''}
       ${tab === 'eval' ? `
       <section class="panel" id="anchor-eval">${ui.title(T('PSM 이행상태평가', 'PSM implementation assessment'), T('고용노동부고시 제2025-30호 제54·57·58조', 'MOEL Notice 2025-30, Arts. 54, 57, 58'))}
@@ -390,6 +392,7 @@
       }));
       on('#tq-clear', 'click', () => saveRefresh('psm.tq', {}));
       on('#tq-ex', 'click', () => { S.drop('psm.tq'); S.refresh(); });
+      root.querySelectorAll('[data-tqall]').forEach((b) => b.addEventListener('click', () => { S.save('lb.psmtq', { all: b.dataset.tqall === '1' }); S.refresh(); }));
       /* MOC → 가동 전 점검: 누른 변경 건을 점검 양식에 미리 채운다 */
       root.querySelectorAll('[data-pssr-moc]').forEach((a) => a.addEventListener('click', () => {
         const ps = pssrState(), m = moc().find((x) => String(x.id) === a.dataset.pssrMoc);
@@ -1119,8 +1122,11 @@
           <div class="table-wrap"><table class="data"><tbody>${S.TRAINING.map((g) => `<tr><th colspan="2" style="background:var(--panel-2)">${L(g.g)}</th></tr>${g.rows.map((r) => `<tr><td class="small">${L(r.who)}</td><td class="small">${L(r.h)}</td></tr>`).join('')}`).join('')}</tbody></table></div>
           <p class="xs muted" style="margin-top:6px">${T('영 별표1 제1호 사업, 상시근로자 50명 미만 도매·숙박·음식점업은 2분의 1 이상. 일용근로자가 1주일 내 같은 사업장·업무에 재취업하면 채용 시·특별교육 면제.', 'Half the hours for businesses in Decree Annex 1(1) and wholesale, lodging and restaurants under 50 workers. Day labourers re-hired for the same job at the same site within a week are exempt from hiring and special training.')}${S.cite('lawRule')}</p>
           <div id="anchor-special" style="margin-top:12px"><b class="small">${T('반도체 사업장과 관련될 수 있는 특별교육 대상 작업 (별표5 제1호라목)', 'Special-training jobs likely in a fab (Annex 5, 1-d)')}</b>
-            <ul class="clean small" style="margin-top:6px">${Object.keys(S.SPECIAL_EDU).map((no) => { const sops = S.SOPS.filter((s) => (s.edu || []).includes(Number(no))); return `<li><span class="chip">${T(`제${no}호`, `No. ${no}`)}</span> ${L(S.SPECIAL_EDU[no])}${sops.length ? ` — ${sops.map((s) => `<a href="#sop/${s.id}">${S.esc(L(s.t))}</a>`).join(', ')}` : ''}</li>`; }).join('')}</ul>
-            <p class="xs muted">${T('별표5는 39개 작업을 정합니다. 여기서는 반도체 사업장에서 흔한 작업만 추리고 관련 SOP를 연결했습니다.', 'Annex 5 lists 39 jobs; only those common in fabs are shown, linked to the related SOPs.')}${S.cite('lawRule')}</p>
+            ${(() => { const li = (no) => { const sops = S.SOPS.filter((s) => (s.edu || []).includes(Number(no))); return `<li><span class="chip">${T(`제${no}호`, `No. ${no}`)}</span> ${L(S.SPECIAL_EDU[no])}${sops.length ? ` — ${sops.map((s) => `<a href="#sop/${s.id}">${S.esc(L(s.t))}</a>`).join(', ')}` : ''}</li>`; };
+              const keys = Object.keys(S.SPECIAL_EDU).map(Number).sort((a, b) => a - b), other = keys.filter((n) => !S.SPECIAL_EDU[n].rel);
+              return `<ul class="clean small" style="margin-top:6px">${keys.filter((n) => S.SPECIAL_EDU[n].rel).map(li).join('')}</ul>
+              <details style="margin-top:6px"><summary class="small">${T(`별표5의 그 밖의 대상 작업 ${other.length}종 보기`, `Show the other ${other.length} jobs in Annex 5`)}</summary><ul class="clean small" style="margin-top:6px">${other.map(li).join('')}</ul></details>`; })()}
+            <p class="xs muted">${T('별표5는 39개 작업을 정합니다. 반도체 사업장에서 흔한 작업을 먼저 보이고 관련 SOP를 연결했으며, 나머지는 접어 두었습니다.', 'Annex 5 lists 39 jobs; those common in fabs come first, linked to the related SOPs, and the rest are folded.')}${S.cite('lawRule')}</p>
             <p class="small"><a href="#training">${T('교육 이수 관리 — 사람별 부족 시간 계산', 'Training records — shortfalls by person')} →</a></p></div>
         </div>
         <div class="panel stack" id="anchor-kpi">${ui.title(T('안전 KPI 계산기', 'Safety KPI calculator'), ui.ex())}

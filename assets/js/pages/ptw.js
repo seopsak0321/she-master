@@ -117,7 +117,29 @@
         active: [['closed', T('작업 종료', 'Close out'), !p.restored]],
         closed: [], cancelled: []
       }[p.status] || [];
-      return `
+      /* 단계 표시기 상태 (가독성 2차 개편 D14) — 입력 현황으로 완료·진행·부적합을 표시 */
+      const stepItems = () => {
+        const has = (v) => !!(v != null && String(L(v)).trim());
+        const s1 = [p.date, p.from, p.to, p.area, p.task, p.workers].filter(has).length;
+        const pre = S.PTW_PRE.filter((it) => (p.pre || {})[it.id]).length;
+        const gasRows = (p.gas || []).filter((r) => r.v !== '' && r.v != null);
+        const gasBad = gasRows.some((r) => gasVerdict(r) === 'bad');
+        const roles = S.PTW_ROLES.filter(([k]) => (k !== 'firewatch' || (p.main === 'hot' && p.fw)) && (k !== 'watcher' || (p.supp || []).includes('confined')));
+        const rf = roles.filter(([k]) => has(R[k])).length;
+        const live = !isEx && (p.status === 'issued' || p.status === 'active');
+        const st = (done, some) => (done ? 'done' : some ? 'part' : 'todo');
+        return [
+          { n: 1, t: T('작업 정보', 'Job details'), st: st(s1 === 6, s1 > 0) },
+          { n: 2, t: T('허가 종류', 'Permit types'), st: p.main ? 'done' : 'todo' },
+          { n: 3, t: T('허가 전 점검', 'Pre-permit review'), st: st(pre === S.PTW_PRE.length, pre > 0) },
+          { n: 4, t: T('안전조치', 'Safety measures'), st: st(pr.req > 0 && pr.reqDone === pr.req, pr.done > 0) },
+          { n: 5, t: T('가스 측정', 'Gas tests'), st: gasBad ? 'bad' : st(gasRows.length > 0, false) },
+          { n: 6, t: T('역할·서명', 'Roles & sign-off'), st: st(roles.length > 0 && rf === roles.length, rf > 0) },
+          { n: 7, t: T('발급·종료', 'Issue & close-out'), st: p.status === 'closed' ? 'done' : p.status === 'issued' || p.status === 'active' ? 'part' : p.status === 'cancelled' ? 'na' : 'todo' },
+          { n: 8, t: T('모니터링', 'Monitoring'), st: (p.mon || []).length ? 'done' : live ? 'todo' : 'na' }
+        ];
+      };
+      const page = `
       ${ui.head(T('판정·평가 도구', 'Tools'), T('작업허가서 작성기', 'Permit-to-work builder'),
         T('작업허가서를 만들고 발급부터 종료까지 기록합니다.', 'Build a permit to work and record it from issue to close-out.'),
         T('화기·일반위험 허가에 밀폐공간·정전·굴착·방사선·고소·중장비 보충 허가를 붙여, 법령 조문과 KOSHA 안전작업허가 기술지원규정(C-C-49-2026)의 확인 항목을 빠짐없이 체크하고 가스 측정값을 판정한 뒤 발급 → 작업 중 → 종료까지 기록합니다. 완성된 허가서는 A4로 인쇄해 현장에 게시합니다.',
@@ -139,7 +161,7 @@
         ${ui.title(`${esc(p.no)} · ${esc(STATUS()[p.status])}`, isEx ? ui.ex() : T(`확인 ${pr.done}/${pr.n} · 필수 ${pr.reqDone}/${pr.req}`, `Checks ${pr.done}/${pr.n} · required ${pr.reqDone}/${pr.req}`))}
         ${isEx ? `<div class="callout small">${T('예시 허가서입니다(가상 데이터, 수정 불가). ‘새 허가서’ 또는 ‘예시를 복사해 시작’을 누르세요.', 'This is an example permit (fictional, read-only). Press “New permit” or “Start from the example”.')}</div>` : ''}
         ${lock && !isEx ? `<div class="callout small">${T('종료·취소된 허가서는 수정할 수 없습니다. 같은 작업을 다시 하려면 복제해 새로 발급하세요.', 'Closed or cancelled permits cannot be edited. Duplicate it to issue a new one for the same job.')}</div>` : ''}
-        <h3 class="sub-h">1. ${T('작업 정보', 'Job details')}</h3>
+        <!--step:1--><h3 class="sub-h">1. ${T('작업 정보', 'Job details')}</h3>
         <div class="form-grid">
           ${field('no', T('허가번호', 'Permit no.'), 'text', p.no)}
           <div class="field"><label for="pf-site">${T('사업장', 'Site')}</label><select id="pf-site" data-f="site" ${dis}>${Object.keys(S.SITES).map((k) => `<option value="${k}" ${p.site === k ? 'selected' : ''}>${esc(L(S.SITES[k].name))}</option>`).join('')}</select></div>
@@ -156,7 +178,7 @@
         ${field('task', T('작업 개요', 'Work description'), 'area', L(p.task))}
         ${p.sop ? `<p class="xs">${T('연결 SOP', 'Linked SOP')}: <a href="#sop/${esc(p.sop)}">${esc(L((S.SOPS.find((s) => s.id === p.sop) || {}).t))}</a> · ${S.printLink('card/' + p.sop, T('5분 카드 인쇄', 'Print 5-minute card'))}</p>` : ''}
 
-        <h3 class="sub-h">2. ${T('허가 종류', 'Permit types')} <span class="xs muted">${T('주 허가 1개 + 해당하는 보충 허가 (C-C-49 5.1)', 'One main permit plus any supplementary ones (C-C-49 5.1)')}</span></h3>
+        <!--step:2--><h3 class="sub-h">2. ${T('허가 종류', 'Permit types')} <span class="xs muted">${T('주 허가 1개 + 해당하는 보충 허가 (C-C-49 5.1)', 'One main permit plus any supplementary ones (C-C-49 5.1)')}</span></h3>
         <div class="grid g2">
           ${Object.keys(S.PTW_MAIN).map((k) => `<label class="check opt-card ${p.main === k ? 'on' : ''}"><input type="radio" name="ptw-main" data-main="${k}" ${p.main === k ? 'checked' : ''} ${dis}> <span><b>${esc(L(S.PTW_MAIN[k].t))}</b><br><span class="xs muted">${esc(L(S.PTW_MAIN[k].d))}</span></span></label>`).join('')}
         </div>
@@ -166,15 +188,15 @@
         </div>
         ${p.main === 'hot' ? `<label class="check"><input type="checkbox" id="ptw-fw" ${p.fw ? 'checked' : ''} ${dis}> ${T('화재감시자 배치 대상 — 작업반경 11m 이내 건물 구조·내부에 가연성물질, 11m 밖이라도 바닥 하부 가연물이 불꽃에 쉽게 발화, 금속 칸막이·벽 반대편에 가연물 인접 중 하나 (제241조의2①)', 'Fire watch required — combustibles within 11 m in the structure; combustibles below the floor that sparks could ignite even beyond 11 m; or combustibles against the far side of a metal partition, wall or roof (Art. 241-2(1))')}</label>` : ''}
 
-        <h3 class="sub-h">3. ${T('작업허가 전 점검', 'Pre-permit review')} <span class="xs muted">${T('발급자와 현장 감독자가 서류·도면·현장으로 확인 (C-C-49 6.1)', 'Issuer and supervisor check papers, drawings and the site (C-C-49 6.1)')}</span></h3>
+        <!--step:3--><h3 class="sub-h">3. ${T('작업허가 전 점검', 'Pre-permit review')} <span class="xs muted">${T('발급자와 현장 감독자가 서류·도면·현장으로 확인 (C-C-49 6.1)', 'Issuer and supervisor check papers, drawings and the site (C-C-49 6.1)')}</span></h3>
         <div class="grid g2">${S.PTW_PRE.map((it) => { const sp = S.PTW_PRE_SUPP[it.id]; const on = sp && (p.supp || []).includes(sp);
           return `<label class="check ptw-ck"><input type="checkbox" data-pre="${it.id}" ${(p.pre || {})[it.id] ? 'checked' : ''} ${dis}> <span>${esc(L(it))}${sp ? ` <span class="chip ${on ? '' : 'muted'}">${T('보충', 'Supp.')}: ${esc(L(S.PTW_SUPP[sp].t))} ${on ? '✓' : T('— 해당하면 선택', '— select if it applies')}</span>` : ''}</span></label>`; }).join('')}</div>
 
-        <h3 class="sub-h">4. ${T('안전조치 확인', 'Safety measures')} <span class="xs muted">${T('‘필수’는 포털이 발급 전에 요구하는 항목', '“Req.” items must be ticked before issue (portal rule)')}</span></h3>
+        <!--step:4--><h3 class="sub-h">4. ${T('안전조치 확인', 'Safety measures')} <span class="xs muted">${T('‘필수’는 포털이 발급 전에 요구하는 항목', '“Req.” items must be ticked before issue (portal rule)')}</span></h3>
         ${groups(p).map((g) => `<details class="ptw-grp" open><summary><b>${esc(groupTitle(g))}</b> <span class="xs muted">${S.PTW_CHECKS[g].filter((it) => (p.checks || {})[it.id]).length}/${S.PTW_CHECKS[g].length}</span></summary>
           <div class="stack" style="gap:6px;margin-top:8px">${S.PTW_CHECKS[g].map(ck).join('')}</div></details>`).join('')}
 
-        <h3 class="sub-h">5. ${T('가스 농도 측정', 'Gas tests')} <span class="xs muted">${T('작업 전·재개 전마다 측정 (제619조의2, C-C-49 7.1(3)(아)·7.3(1)(마)④)', 'Before work and before every restart (Art. 619-2; C-C-49 7.1(3)(h), 7.3(1)(e)4)')}</span></h3>
+        <!--step:5--><h3 class="sub-h">5. ${T('가스 농도 측정', 'Gas tests')} <span class="xs muted">${T('작업 전·재개 전마다 측정 (제619조의2, C-C-49 7.1(3)(아)·7.3(1)(마)④)', 'Before work and before every restart (Art. 619-2; C-C-49 7.1(3)(h), 7.3(1)(e)4)')}</span></h3>
         <div class="table-wrap"><table class="data"><thead><tr><th>${T('항목', 'Gas')}</th><th class="n">${T('측정값', 'Reading')}</th><th>${T('기준', 'Criterion')}</th><th>${T('측정 시각', 'Time')}</th><th>${T('측정자', 'Tester')}</th><th>${T('판정', 'Result')}</th><th></th></tr></thead><tbody>
           ${(p.gas || []).map((r, i) => { const d = gasDef(r.id) || { u: '', rule: '–' }; const v = gasVerdict(r);
             return `<tr><td><select data-gas="${i}" data-k="id" aria-label="${T('항목', 'Gas')} ${i + 1}" ${dis}>${gasOptions(r.id)}</select></td>
@@ -188,11 +210,11 @@
           <button class="btn ghost sm" type="button" id="gas-set">${T('적정공기 4종 + 인화성 행 추가', 'Add O₂, flammable, CO, CO₂, H₂S rows')}</button></div>`}
         ${ui.fine(`<p class="xs muted">${T('측정 대상은 작업에 따라 다릅니다 — 불활성가스 공정은 산소, 인화성물질 설비 내부는 산소와 그 물질, 유해화학물질 설비 내부는 산소와 그 물질, 유기물 부패 가능 장소는 산소·CO₂·CO·H₂S·메탄 (C-C-49 7.3(1)(마)②). 물질 행은 밀폐공간 작업 측정용 경보 기준인 TWA로 판정합니다(C-C-87 7.2(2)).', 'What to test depends on the job — inert-gas processes: oxygen; inside flammable-material equipment: oxygen and that material; inside toxic-chemical equipment: oxygen and that chemical; where organic matter may rot: O₂, CO₂, CO, H₂S and methane (C-C-49 7.3(1)(e)2). Substance rows are judged against the TWA, the alarm basis for confined-space testing instruments (C-C-87 7.2(2)).')}${S.cite('lawStd', 'koshaCC49', 'koshaCC87')} <a href="#gas">${T('가스 경보 설정값 검토 →', 'Alarm set-point review →')}</a></p>`, T('측정 대상·판정 기준', 'What to test and how it is judged'))}
 
-        <h3 class="sub-h">6. ${T('역할·서명', 'Roles and sign-off')} <span class="xs muted">${T('발급: 운전부서 담당자가 현장 확인 후 · 승인: 운전부서 책임자 (C-C-49 5.2·5.3)', 'Issued by operations after a site check; approved by the operations head (C-C-49 5.2–5.3)')}</span></h3>
+        <!--step:6--><h3 class="sub-h">6. ${T('역할·서명', 'Roles and sign-off')} <span class="xs muted">${T('발급: 운전부서 담당자가 현장 확인 후 · 승인: 운전부서 책임자 (C-C-49 5.2·5.3)', 'Issued by operations after a site check; approved by the operations head (C-C-49 5.2–5.3)')}</span></h3>
         <div class="form-grid">${S.PTW_ROLES.filter(([k]) => (k !== 'firewatch' || (p.main === 'hot' && p.fw)) && (k !== 'watcher' || (p.supp || []).includes('confined'))).map(([k, l]) =>
           `<div class="field"><label for="pr-${k}">${esc(L(l))}</label><input type="text" id="pr-${k}" data-role="${k}" value="${esc(L(R[k]))}" ${dis}></div>`).join('')}</div>
 
-        <h3 class="sub-h">7. ${T('발급·작업·종료', 'Issue, work and close-out')}</h3>
+        <!--step:7--><h3 class="sub-h">7. ${T('발급·작업·종료', 'Issue, work and close-out')}</h3>
         ${p.status === 'draft' ? (bl.length ? `<div class="callout warn small"><b>${T('아직 발급할 수 없습니다', 'Not ready to issue')}</b><ul class="clean">${bl.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>` : `<div class="callout small">${ui.pill('ok', T('발급 가능', 'Ready to issue'))} ${T('발급자는 현장 조치를 직접 확인한 뒤 발급하고, 승인자는 서면으로 확인해 승인합니다.', 'The issuer confirms the measures on site before issuing; the approver checks in writing.')}</div>`) : ''}
         ${p.status === 'active' ? `<div class="form-grid">
             <div class="field"><label for="pf-extTo">${T('연장 종료 시각 (당일, 작업자·발급자 변경 없을 때)', 'Extend to (same day, same crew and issuer)')}</label><input type="time" id="pf-extTo" value="${esc(p.extTo || '')}"></div>
@@ -204,7 +226,7 @@
         ${(p.log || []).length ? `<ol class="clean xs muted">${p.log.map((x) => `<li>${esc(x.at)} — ${esc(STATUS()[x.st] || x.st)}${x.note ? ' · ' + esc(x.note) : ''}</li>`).join('')}</ol>` : ''}
         <p class="callout small">${T('허가의 효력은 허가서에 적은 기간에만 있고 일일 정상근무시간을 넘을 수 없습니다. 식사 등으로 멈췄다가 다시 시작할 때는 입회자나 현장 책임자에게 안전상태를 다시 확인받고 서명한 뒤 작업합니다(C-C-49 5.6). 이 도구는 포털의 판단 보조이며, 실제 허가 기준·양식·권한은 사내 안전작업허가 규정을 따르세요.', 'A permit is valid only for the period written on it and never beyond one day’s normal working hours. After a break (e.g. a meal) the attendant or site lead re-confirms safe conditions and signs before work resumes (C-C-49 5.6). This tool is a portal aid; follow your site’s own permit rules, forms and authorities.')}${S.cite('koshaCC49', 'moelPsm')}</p>
 
-        <h3 class="sub-h" id="anchor-monitor">8. ${T('작업허가 모니터링', 'Permit monitoring')} <span class="xs muted">${T('발급자 점검과 별도로 현장 관리자·감독자가 작업 중 확인 (C-C-49 8(3), 별지 양식3)', 'Checked during the work by site managers and supervisors, on top of the issuer’s checks (C-C-49 8(3), Form 3)')}</span></h3>
+        <!--step:8--><h3 class="sub-h" id="anchor-monitor">8. ${T('작업허가 모니터링', 'Permit monitoring')} <span class="xs muted">${T('발급자 점검과 별도로 현장 관리자·감독자가 작업 중 확인 (C-C-49 8(3), 별지 양식3)', 'Checked during the work by site managers and supervisors, on top of the issuer’s checks (C-C-49 8(3), Form 3)')}</span></h3>
         ${(() => {
           const live = !isEx && (p.status === 'issued' || p.status === 'active');
           const md = p.monDraft || {}, ma = md.a || {}, mons = p.mon || [], mt = tally(ma, monKeys());
@@ -227,6 +249,7 @@
             </tbody></table></div>` : ''}
             <p class="xs muted">${T('모니터링 기록은 현장에 보관하고 주기적인 작업허가 감사 때 검토합니다. 해결할 수 없는 부적합은 즉시 경영진에게 보고합니다(C-C-49 8(3)·(6)).', 'Keep monitoring records at the site and review them in the periodic permit audit. Report any non-conformity that cannot be resolved to management at once (C-C-49 8(3), (6)).')}${S.cite('koshaCC49')}</p>`;
         })()}
+        <!--steps-end-->
       </section>
 
       <section class="panel stack" id="anchor-audit">
@@ -246,6 +269,7 @@
             <div class="table-wrap" style="margin-top:8px"><table class="data"><tbody>${g.q.map(([n, q]) => `<tr><td class="n">${n}</td><td class="small">${esc(L(q))}</td><td class="nowrap"><select data-aud="q${n}" aria-label="${T('응답', 'Answer')} ${n}"><option value=""></option>${ANS().map(([v, l]) => `<option value="${v}" ${au.a['q' + n] === v ? 'selected' : ''}>${l}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div></details>`; }).join('')}`;
         })()}
       </section>`;
+      return S.stepify(page, 'ptw', stepItems());
     },
 
     mount(root, sub) {

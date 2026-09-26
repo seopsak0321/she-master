@@ -163,6 +163,38 @@
     const col = ratio > 1 ? 'var(--bad)' : ratio > (o.warn || 0.5) ? 'var(--warn)' : 'var(--ok)';
     return `<div class="gauge" aria-hidden="true"><i style="width:${pct}%;background:${col}"></i>${marks.map((m) => `<i style="left:${m / top * 100}%;width:${m === 1 ? 2 : 1}px;background:var(--ink${m === 1 ? '' : '-2'});${m === 1 ? '' : 'opacity:.5'}"></i>`).join('')}</div>`;
   };
+  /* ---------- 단계 표시기 (가독성 2차 개편 D14 — USWDS step indicator·GOV.UK task list) ----------
+     여러 절을 차례로 채우는 긴 양식을 번호·이름·완료 상태가 보이는 단계로 나누고, 한 번에 한 단계만 보인다.
+     ‘모두 펼쳐 보기’로 예전처럼 전체를 한 화면에(내용은 그대로). 자체 점검·검색 색인 때는 항상 전체를 그린다 */
+  const stepAll = (key) => !!(S.load('step.' + key + '.all', false) || S.QA_FRAME || S.state.indexing);
+  const stepCur = (key, first) => String(S.load('step.' + key, first));
+  /* items: [{ n, t, st: 'done'|'part'|'bad'|'todo'|'na' }] */
+  S.ui.steps = function (key, items) {
+    const all = stepAll(key), ns = items.map((i) => String(i.n)), cur = ns.includes(stepCur(key, ns[0])) ? stepCur(key, ns[0]) : ns[0];
+    return `<nav class="stepper" data-stepper="${key}" aria-label="${S.T('작성 단계', 'Steps')}"><ol>${items.map((it) => `<li class="s-${it.st || 'todo'}"><button type="button" data-step-go="${key}:${it.n}" ${!all && String(it.n) === cur ? 'aria-current="step"' : ''}><span class="sn" aria-hidden="true">${it.st === 'done' ? '✓' : it.st === 'bad' ? '!' : it.n}</span><span class="st">${it.t}</span>${it.st === 'done' ? `<span class="sr-only">${S.T(' — 완료', ' — done')}</span>` : it.st === 'bad' ? `<span class="sr-only">${S.T(' — 부적합 있음', ' — has a failure')}</span>` : ''}</button></li>`).join('')}</ol>
+      <div class="stepper-foot"><span class="xs muted">${S.T('✓ 완료 · 주황 테두리 진행 중 · ! 부적합', '✓ done · orange ring in progress · ! failure')}</span><button type="button" class="btn ghost sm" data-step-all="${key}" aria-pressed="${all}">${all ? S.T('한 단계씩 보기', 'One step at a time') : S.T('모두 펼쳐 보기', 'Show all steps')}</button></div></nav>`;
+  };
+  S.ui.stepPane = function (key, n, html, prev, next, first) {
+    const all = stepAll(key), cur = stepCur(key, first == null ? n : first);
+    return `<div class="step-pane" data-step-pane="${key}:${n}" ${!all && String(n) !== cur ? 'hidden' : ''}>${html}${all ? '' : `<div class="row step-nav">${prev != null ? `<button type="button" class="btn ghost sm" data-step-go="${key}:${prev}">← ${S.T('이전 단계', 'Previous step')}</button>` : '<span></span>'}${next != null ? `<button type="button" class="btn sm" data-step-go="${key}:${next}">${S.T('다음 단계', 'Next step')} →</button>` : ''}</div>`}</div>`;
+  };
+  /* 표시만 바꾼다(다시 그리지 않음) — 입력 중인 값과 스크롤을 지킨다 */
+  S.stepApply = function (key) {
+    const all = stepAll(key), cur = stepCur(key, '1');
+    document.querySelectorAll(`[data-step-pane^="${key}:"]`).forEach((p) => { p.hidden = !all && p.dataset.stepPane.split(':')[1] !== cur; });
+    document.querySelectorAll(`.stepper[data-stepper="${key}"] [data-step-go]`).forEach((b) => { if (!all && b.dataset.stepGo.split(':')[1] === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+  };
+  S.stepShow = function (pane) { const [key, n] = pane.dataset.stepPane.split(':'); S.save('step.' + key, n); S.stepApply(key); };
+  /* 템플릿의 <!--step:N--> 표시로 나눈 구간을 단계로 만든다 — 기존 화면 코드를 크게 바꾸지 않고 적용 */
+  S.stepify = function (html, key, items) {
+    const a = html.indexOf('<!--step:'), b = html.indexOf('<!--steps-end-->');
+    if (a < 0 || b < 0) return html;
+    const parts = html.slice(a, b).split(/<!--step:(\d+)-->/).slice(1), ns = [];
+    for (let i = 0; i < parts.length; i += 2) ns.push(Number(parts[i]));
+    let out = '';
+    for (let i = 0; i < parts.length; i += 2) { const k = i / 2; out += S.ui.stepPane(key, ns[k], parts[i + 1], k > 0 ? ns[k - 1] : null, k < ns.length - 1 ? ns[k + 1] : null, ns[0]); }
+    return html.slice(0, a) + S.ui.steps(key, items) + out + html.slice(b);
+  };
   /* the search index renders pages with fixed tabs through S._tabOv, without touching saved choices */
   S.tab = (key, def) => { const ov = S._tabOv && S._tabOv[key]; return ov != null ? ov : S.load('tab.' + key, def); };
   S.ICON_HELP = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.7 9.4a2.4 2.4 0 1 1 3.5 2.1c-.8.4-1.2.9-1.2 1.8v.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';
@@ -216,7 +248,7 @@
   };
 
   /* which saved keys are the user's own work (as opposed to screen preferences) — used by backup and the dashboard reminder */
-  S.PREF_KEYS = /^(lang|site|theme|view|fz|nav\.fold|fp\..*|calc\.(mode|angle)|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
+  S.PREF_KEYS = /^(lang|site|theme|view|fz|nav\.fold|fp\..*|calc\.(mode|angle)|step\..*|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
 
   /* ---------- 늘어나는 목록의 공통 도구막대: 검색 + 분류 칩(건수) + ‘n / 전체’ ----------
      S.listbar({ id, ph, facets: [{ key, label, opts: [{ id, label, n }] }] })을 목록 위에 두고, mount에서 S.listFilter(root, id)를 부른다.
@@ -272,6 +304,9 @@
   /* 접힌 곳(<details>) 안의 요소로 갈 때: 감싼 접기를 모두 펼치고, 상단 막대 아래로 스크롤 */
   S.reveal = function (el, noScroll) {
     if (!el) return;
+    /* 단계 표시기(한 번에 한 단계)로 숨긴 단계 안이면 그 단계를 연다 */
+    const pane = el.closest('.step-pane');
+    if (pane && pane.hidden && S.stepShow) S.stepShow(pane);
     for (let d = el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
     if (noScroll) return;
     const bar = document.querySelector('.topbar');
@@ -329,7 +364,9 @@
       ['company', { ko: 'SK하이닉스 이해', en: 'Understanding SK hynix' }],
       ['sites', { ko: '사업장 (공통·이천·청주)', en: 'Sites (company-wide, Icheon, Cheongju)' }],
       ['bench', { ko: '벤치마킹', en: 'Benchmarks' }],
-      ['sources', { ko: '출처·검증', en: 'Sources & verification' }] ] }
+      ['sources', { ko: '출처·검증', en: 'Sources & verification' }] ] },
+    { g: { ko: '포털 정보', en: 'About this portal' }, ic: 'info', items: [
+      ['updates', { ko: '업데이트 현황', en: 'Update history' }] ] }
   ];
   /* 대분류 아이콘 — 글자 앞에 두어 그룹을 빨리 알아보게 하는 보조 신호 (왼쪽 메뉴·가이드 목차) */
   const NAV_ICON = {
@@ -338,7 +375,8 @@
     alert: '<path d="M12 4 2.8 20h18.4z"/><path d="M12 10v4.5M12 17.4v.1"/>',
     tools: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
     book: '<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19M9 7h6"/>',
-    org: '<path d="M4 21V6l8-3v18M12 21h8V10l-8-2.5M3 21h18M7.5 9v.1M7.5 13v.1M7.5 17v.1M16 13v.1M16 17v.1"/>'
+    org: '<path d="M4 21V6l8-3v18M12 21h8V10l-8-2.5M3 21h18M7.5 9v.1M7.5 13v.1M7.5 17v.1M16 13v.1M16 17v.1"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/>'
   };
   S.navIcon = (k) => (NAV_ICON[k] ? `<svg class="gi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${NAV_ICON[k]}</svg>` : '');
   /* page name in the current language (pages outside the menu fall back to a fixed label) */
@@ -411,7 +449,9 @@
        <div>법령·동향 기준일 ${S.LAW_ASOF} · 실제 업무 적용 전 최신 법령과 사내 기준을 반드시 확인하세요. <a href="#sources">출처·검증 방법 보기</a> · <a href="#sources/lawcheck">법령 변경 점검</a> · <a href="#guide">이용 가이드</a></div>`,
       `<div class="credit"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span><b>© 2026 ${who()}</b> · A personal portfolio planned, researched, designed and built by ${who()}. <span class="xs muted">(click the name for a short profile)</span></span></div>
        <div>Law and news as of ${S.LAW_ASOF} · always confirm current law and company rules before real use. <a href="#sources">See sources & method</a> · <a href="#sources/lawcheck">Law-change check</a> · <a href="#guide">User guide</a></div>`)
-      + (S.isPhone() ? `<div class="view-row">${viewLink()}</div>` : '');
+      + (S.isPhone() ? `<div class="view-row">${viewLink()}</div>` : '')
+      /* 현재 버전 — 업데이트 현황(패치노트)으로 이어진다. 번호는 bump.py가 스크립트 ?v=와 함께 올린다 */
+      + (S.buildInfo ? (() => { const b = S.buildInfo(); return `<div class="ver">SHE Master <b class="mono">${S.esc(b.v)}</b> · ${S.T(`공개 업데이트 ${b.n}회 · 최근 ${b.last}`, `${b.n} public updates · latest ${b.last}`)} · <a href="#updates">${S.T('업데이트 현황(패치노트)', 'Update history (patch notes)')}</a></div>`; })() : '');
   };
 
   /* 모바일에서 머리글이 있는 표는 한 줄씩 카드로 보여 준다 — 칸마다 머리글을 data-label로 붙여 두고 CSS(html.m)가 배치를 바꾼다.

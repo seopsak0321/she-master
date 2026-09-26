@@ -61,6 +61,16 @@
       return;
     }
 
+    /* 단계 표시기 — 단계 이동은 표시만 바꾸고, ‘모두 펼쳐 보기’ 전환은 다시 그린다 */
+    const sg = e.target.closest('[data-step-go]');
+    if (sg) {
+      const [key, n] = sg.dataset.stepGo.split(':'); S.save('step.' + key, n); S.stepApply(key);
+      const nav = document.querySelector(`.stepper[data-stepper="${key}"]`);
+      if (nav && sg.closest('.step-nav')) S.reveal(nav);
+      return;
+    }
+    const sa = e.target.closest('[data-step-all]');
+    if (sa) { const k = sa.dataset.stepAll; S.save('step.' + k + '.all', !S.load('step.' + k + '.all', false)); S.refresh(); return; }
     /* 왼쪽 메뉴 대분류 접기·펼치기 — 화면 상태(aria-expanded)를 기준으로 뒤집고, 접은 그룹은 nav.fold에 기억 */
     const nf = e.target.closest('[data-nav-fold]');
     if (nf) {

@@ -121,7 +121,9 @@
             <div class="field"><label for="tp-first">${T('특별교육 대상 작업 최초 종사일', 'First day on special-training work')}</label><input type="date" id="tp-first"></div>
           </div>
           <fieldset style="border:0;padding:0;margin:0"><legend class="lbl">${T('특별교육 대상 작업 (별표5 제1호라목)', 'Special-training work (Annex 5, 1(d))')}</legend>
-            <div class="stack" style="gap:4px">${SP.map((n) => `<label class="check"><input type="checkbox" data-sp="${n}"> <span class="small">${T(`제${n}호`, `No. ${n}`)} ${esc(L(S.SPECIAL_EDU[n]))}</span></label>`).join('')}</div></fieldset>
+            ${(() => { const box = (n) => `<label class="check"><input type="checkbox" data-sp="${n}"> <span class="small">${T(`제${n}호`, `No. ${n}`)} ${esc(L(S.SPECIAL_EDU[n]))}</span></label>`;
+              return `<div class="stack" style="gap:4px">${SP.filter((n) => S.SPECIAL_EDU[n].rel).map(box).join('')}</div>
+              <details style="margin-top:6px"><summary class="small">${T(`그 밖의 대상 작업 ${SP.filter((n) => !S.SPECIAL_EDU[n].rel).length}종 (건설·설비 공사 등)`, `Other listed jobs (${SP.filter((n) => !S.SPECIAL_EDU[n].rel).length}, e.g. construction)`)}</summary><div class="stack" style="gap:4px;margin-top:6px">${SP.filter((n) => !S.SPECIAL_EDU[n].rel).map(box).join('')}</div></details>`; })()}</fieldset>
           <label class="check"><input type="checkbox" id="tp-short"> ${T('단기간·간헐적 작업 (특별교육 2시간)', 'Short-term or intermittent work (2 h special training)')}</label>
           <label class="check"><input type="checkbox" id="tp-cca"> ${T('유해화학물질 취급 담당자·관리자·기술인력 (2년 16시간)', 'Hazardous-chemical handler, manager or technical staff (16 h per 2 years)')}</label>
           <div class="row"><button class="btn" type="submit">${T('추가', 'Add')}</button></div>
