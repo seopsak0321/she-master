@@ -226,7 +226,43 @@ table.edit td.calc { font-family: var(--mono); text-align: center; vertical-alig
 .result .big { font-size: calc(22px * var(--fz)); font-weight: 600; font-family: var(--mono); }
 .gauge { position: relative; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
 .gauge i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; }
+.gauge.mini { height: 6px; min-width: 64px; margin-top: 5px; }
 .gauge-labels { display: flex; justify-content: space-between; font-size: calc(11px * var(--fz)); color: var(--muted); font-family: var(--mono); }
+
+/* 비교 막대·로그 점 그래프 (S.ui.bars / S.ui.dots) — 흑백 막대, 강조는 SK 빨강, 상태는 상태색. 0에서 시작, 값은 숫자로 */
+.bars { margin: 0; display: grid; gap: 6px; container-type: inline-size; }
+.bars-cap { font-size: calc(13px * var(--fz)); font-weight: 600; color: var(--ink-2); }
+.bars-list { display: grid; gap: 7px; }
+.bars-row { display: grid; grid-template-columns: minmax(5.5em, 10em) minmax(0, 1fr) minmax(4.5em, max-content); gap: 10px; align-items: center; font-size: calc(13px * var(--fz)); }
+.bars-l { color: var(--ink-2); overflow-wrap: anywhere; line-height: 1.35; }
+.bars-track { position: relative; height: 12px; border-radius: 3px; background: var(--panel-2); box-shadow: inset 0 0 0 1px var(--line); }
+.bars-track > i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--ink-2); }
+.bars-row.t-hi .bars-track > i { background: var(--accent); }
+.bars-row.t-bad .bars-track > i { background: var(--bad); }
+.bars-row.t-warn .bars-track > i { background: var(--warn); }
+.bars-row.t-ok .bars-track > i { background: var(--ok); }
+.bars-row.t-hi .bars-l, .bars-row.t-bad .bars-l { color: var(--ink); font-weight: 600; }
+.bars-ref { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--ink); border-radius: 1px; }
+.bars-v { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; color: var(--ink); text-align: right; }
+.bars-v small { font-weight: 400; color: var(--muted); }
+.bars-v em { font-style: normal; font-weight: 400; color: var(--muted); }
+.bars-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: calc(12px * var(--fz)); color: var(--muted); }
+.bars-ref-key { display: inline-block; width: 2px; height: 12px; margin-right: 6px; vertical-align: -2px; background: var(--ink); }
+.dot-track { background: linear-gradient(var(--line-2), var(--line-2)) center / 100% 1px no-repeat; box-shadow: none; height: 16px; }
+.dot-tick { position: absolute; top: 3px; bottom: 3px; width: 1px; background: var(--line-2); }
+.dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--ink-2); }
+.bars-row.t-hi .dot { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+.bars-row.t-ok .dot { background: var(--ok); }
+.bars-row.t-bad .dot { background: var(--bad); }
+.axis-track { background: none; box-shadow: none; height: 16px; }
+.axis-track span { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--mono); font-size: calc(10.5px * var(--fz)); color: var(--muted); white-space: nowrap; }
+.axis-track span:first-child { transform: none; }
+.axis-track span:last-child { transform: translateX(-100%); }
+@container (max-width: 440px) {
+  .bars-row { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "l v" "t t"; row-gap: 3px; }
+  .bars-l { grid-area: l; } .bars-v { grid-area: v; } .bars-track { grid-area: t; }
+  .dots-axis .bars-l, .dots-axis .bars-v { display: none; }
+}
 
 /* risk matrix */
 .matrix { display: grid; gap: 3px; font-size: calc(12px * var(--fz)); }

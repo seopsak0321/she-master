@@ -118,6 +118,51 @@
       return `<span class="basis" title="${S.T('업계 일반 관행', 'Common industry practice')}">${S.T('관행', 'Practice')}</span>`;
     }
   };
+  /* ---------- 비교 그래프 공통 부품 (가독성 2차 개편 D15) ----------
+     NN/g·FT Visual Vocabulary: 크기 비교는 막대 길이로, 막대는 0에서 시작, 값은 숫자로 함께, 색은 흑백 + 상태색만.
+     값 차이가 수천 배 이상이면 막대 대신 로그 눈금 위의 점(S.ui.dots)으로 — 로그 눈금 막대는 0에서 시작할 수 없어 크기를 왜곡한다 */
+  const niceNum = (v) => { if (v == null || !isFinite(v)) return '–'; const a = Math.abs(v); return a >= 1000 ? Math.round(v).toLocaleString('en-US') : a >= 100 ? String(Math.round(v * 10) / 10) : String(Number(v.toPrecision(3))); };
+  /* rows: [{ label, v, unit, tone: 'bad'|'warn'|'ok'|'hi', note }], o: { max, refs: [{ v, label }], unit, fmt, caption, aria } */
+  S.ui.bars = function (rows, o) {
+    o = o || {};
+    const vals = rows.map((r) => r.v).filter((v) => v != null && isFinite(v) && v >= 0);
+    if (!vals.length) return '';
+    const refs = (o.refs || []).filter((f) => f.v != null && isFinite(f.v));
+    const max = o.max || Math.max(...vals, ...refs.map((f) => f.v)) * 1.06 || 1;
+    const pct = (v) => Math.max(0, Math.min(100, v / max * 100));
+    const fmt = o.fmt || niceNum;
+    return `<figure class="bars"${o.aria ? ` aria-label="${S.esc(o.aria)}"` : ''}>${o.caption ? `<figcaption class="bars-cap">${o.caption}</figcaption>` : ''}
+      <div class="bars-list" role="list">${rows.map((r) => `<div class="bars-row${r.tone ? ' t-' + r.tone : ''}" role="listitem">
+        <span class="bars-l">${r.label}</span>
+        <span class="bars-track" aria-hidden="true">${r.v != null && isFinite(r.v) ? `<i style="width:${pct(Math.max(0, r.v))}%"></i>` : ''}${refs.map((f) => `<b class="bars-ref" style="left:${pct(f.v)}%"></b>`).join('')}</span>
+        <span class="bars-v">${r.v == null || !isFinite(r.v) ? '–' : fmt(r.v)}${r.unit || o.unit ? ` <small>${r.unit || o.unit}</small>` : ''}${r.note ? ` <em>${r.note}</em>` : ''}</span></div>`).join('')}</div>
+      ${refs.length ? `<div class="bars-key">${refs.map((f) => `<span><b class="bars-ref-key" aria-hidden="true"></b>${f.label}</span>`).join('')}</div>` : ''}</figure>`;
+  };
+  /* 로그 눈금 점 그래프 — rows: [{ label, v, tone }], o: { unit, caption } */
+  S.ui.dots = function (rows, o) {
+    o = o || {};
+    const vals = rows.map((r) => r.v).filter((v) => v > 0 && isFinite(v));
+    if (!vals.length) return '';
+    const lo = Math.floor(Math.log10(Math.min(...vals))), hi = Math.ceil(Math.log10(Math.max(...vals))) || lo + 1;
+    const span = Math.max(1, hi - lo), pos = (v) => (Math.log10(v) - lo) / span * 100;
+    const step = span > 6 ? 2 : 1, ticks = []; for (let e = lo; e <= hi; e += step) ticks.push(e);
+    const tl = (e) => (e >= 0 && e <= 6 ? Math.pow(10, e).toLocaleString('en-US') : e < 0 && e >= -3 ? String(Math.pow(10, e)) : '10' + String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]));
+    return `<figure class="bars dots"${o.aria ? ` aria-label="${S.esc(o.aria)}"` : ''}>${o.caption ? `<figcaption class="bars-cap">${o.caption}</figcaption>` : ''}
+      <div class="bars-list" role="list">${rows.map((r) => `<div class="bars-row${r.tone ? ' t-' + r.tone : ''}" role="listitem">
+        <span class="bars-l">${r.label}</span>
+        <span class="bars-track dot-track" aria-hidden="true">${ticks.map((e) => `<b class="dot-tick" style="left:${pos(Math.pow(10, e))}%"></b>`).join('')}${r.v > 0 ? `<i class="dot" style="left:${pos(r.v)}%"></i>` : ''}</span>
+        <span class="bars-v">${r.v == null ? '–' : niceNum(r.v)}${o.unit ? ` <small>${o.unit}</small>` : ''}</span></div>`).join('')}
+        <div class="bars-row dots-axis" aria-hidden="true"><span class="bars-l"></span><span class="bars-track axis-track">${ticks.map((e) => `<span style="left:${pos(Math.pow(10, e))}%">${tl(e)}</span>`).join('')}</span><span class="bars-v"></span></div></div>
+      <div class="bars-key"><span>${S.T('로그 눈금 — 눈금 한 칸마다 10배', 'Log scale — each gridline is 10×')}</span></div></figure>`;
+  };
+  /* 측정값 대 기준 — ratio = 값 ÷ 기준, marks는 기준에 대한 비율(예: 0.5 = 50% 관리선) */
+  S.ui.meter = function (ratio, o) {
+    o = o || {};
+    const top = o.top || 1.5, marks = o.marks || [0.5, 1];
+    const pct = Math.max(0, Math.min(ratio, top)) / top * 100;
+    const col = ratio > 1 ? 'var(--bad)' : ratio > (o.warn || 0.5) ? 'var(--warn)' : 'var(--ok)';
+    return `<div class="gauge" aria-hidden="true"><i style="width:${pct}%;background:${col}"></i>${marks.map((m) => `<i style="left:${m / top * 100}%;width:${m === 1 ? 2 : 1}px;background:var(--ink${m === 1 ? '' : '-2'});${m === 1 ? '' : 'opacity:.5'}"></i>`).join('')}</div>`;
+  };
   /* the search index renders pages with fixed tabs through S._tabOv, without touching saved choices */
   S.tab = (key, def) => { const ov = S._tabOv && S._tabOv[key]; return ov != null ? ov : S.load('tab.' + key, def); };
   S.ICON_HELP = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.7 9.4a2.4 2.4 0 1 1 3.5 2.1c-.8.4-1.2.9-1.2 1.8v.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></svg>';

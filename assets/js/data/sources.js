@@ -75,7 +75,7 @@ SHE.SOURCES = [
     url: 'https://news.skhynix.co.kr/high-efficiency-scrubber/' },
   { id: 'nrLowGwp', type: 'sk', checked: '2026-09-25',
     title: { ko: 'SK하이닉스 뉴스룸 — [넷제로 2050] 소재·장비사와 대체가스 개발 (2024.5.21)', en: 'SK hynix Newsroom — Net Zero 2050: developing replacement gases with suppliers (2024-05-21)' },
-    note: { ko: '식각·챔버 세정에 과불화탄소(PFCs), 증착 공정 세정에 삼불화질소(NF₃) 사용. 지구온난화지수가 낮은 대체가스 개발', en: 'PFCs used for etching and chamber cleaning, NF₃ for cleaning in deposition; developing low-GWP replacement gases' },
+    note: { ko: '식각·챔버 세정에 과불화탄소(PFCs), 증착 공정 세정에 삼불화질소(NF₃) 사용. 식각 공정의 온실가스 고유발 물질을 신규 소재로 대체 적용 중(적용 평가 완료), 10여 종의 핵심 공정가스에 대체가스 적용 검토', en: 'PFCs used for etching and chamber cleaning, NF₃ for cleaning in deposition; replacing high-GWP etch gases with new materials (application testing completed) and reviewing replacements for about ten key process gases' },
     url: 'https://news.skhynix.co.kr/low-gwp-gas/' },
   { id: 'nrCmp', type: 'sk', checked: '2026-09-25',
     title: { ko: 'SK하이닉스 뉴스룸 — 무결점 웨이퍼를 만드는 사람들, C&C기술담당 (2022.1.14)', en: 'SK hynix Newsroom — the Cleaning & CMP technology team (2022-01-14)' },

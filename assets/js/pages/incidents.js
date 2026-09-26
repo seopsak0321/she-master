@@ -113,6 +113,8 @@
             <label class="xs muted" for="rk-al">${T('가능성', 'L')}</label>${sel('rk-al', opt(LIKE), r.al, 'data-rk="al"')}
             <label class="xs muted" for="rk-as">${T('중대성', 'S')}</label>${sel('rk-as', opt(SEV), r.as, 'data-rk="as"')}
             <span class="num big-inline">${after}</span><span class="grade ${ga.g}">${ga.g}</span></div>
+          ${ui.bars([{ label: T('대책 전', 'Before'), v: before, tone: before >= 8 ? 'bad' : before >= 4 ? 'warn' : 'ok' }, { label: T('대책 후', 'After'), v: after, tone: after >= 8 ? 'bad' : after >= 4 ? 'warn' : 'ok' }],
+            { max: 20, unit: T('점', 'pts'), caption: T('위험도 점수 = 가능성 × 중대성 (최대 20)', 'Risk score = likelihood × severity (max 20)'), refs: [{ v: 3, label: T('최저 구간 상한 3점', 'Lowest band ≤ 3') }, { v: 6, label: T('허용 가능 상한 6점', 'Acceptable ≤ 6') }], aria: T('위험도 대책 전후 비교', 'Risk before and after') })}
           <div>${target.replace('class="pill ', 'class="pill wrap ')}</div>
           <p class="xs muted">${T('목표는 “무시 가능한 수준” = SK하이닉스 수준표 최저 구간 1–3점(C, 현재의 안전대책 유지로 작업 가능)입니다. 중대성 4(사망)인 위험은 가능성을 1로 낮춰도 4점이므로, 최저 구간에 들어가려면 위험원 자체를 없애는 설계가 필요합니다.', 'The target (“negligible”) is the lowest SK hynix band, 1–3 (C: continue with current measures). A severity-4 (fatal) hazard still scores 4 at likelihood 1, so reaching the lowest band means designing the hazard out.')}${S.cite('sr2026')}</p>
         </div>

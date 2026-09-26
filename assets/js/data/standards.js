@@ -152,6 +152,9 @@ SHE.CHEMICALS = [
     cobalt: { ko: '별표22는 ‘코발트(분진, 흄)’으로 수록', en: 'Annex 22 lists “cobalt (dust, fume)”' }
   };
   SHE.CHEMICALS.forEach((c) => { const m = META[c.id]; if (m) { c.ic = m[0]; c.rg = m[1]; } if (RGC[c.id]) c.rgc = RGC[c.id]; });
+  /* 지구온난화지수(100년) — 미국 EPA 40 CFR 98 Subpart A 표 A-1 (govinfo 2025년판, src: epaGhg). 반도체 식각·챔버 세정·증착 세정 가스 */
+  const GWP = { cf4: 6630, chf3: 12400, c2f6: 11100, c4f8: 9540, c4f6: 0.003, nf3: 16100, sf6: 23500 };
+  SHE.CHEMICALS.forEach((c) => { if (GWP[c.id] != null) c.gwp = GWP[c.id]; });
 })();
 /* 노출기준(TWA·STEL·C) 중 하나라도 있는 물질 — 수치 판정·호흡보호구·허가서 가스 행에만 쓴다 */
 SHE.hasOel = (c) => !!c && (c.twa != null || c.stel != null || c.c != null);

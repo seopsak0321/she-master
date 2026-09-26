@@ -118,6 +118,23 @@
   const REGF = [['w', T0('작업환경측정 (별표21)', 'Monitoring (Annex 21)')], ['s', T0('특수건강진단 (별표22)', 'Health check (Annex 22)')], ['m', T0('관리대상 (별표12)', 'Controlled (Annex 12)')], ['x', T0('특별관리물질', 'Specially controlled')], ['p', T0('허가대상', 'Licensed')], ['none', T0('국내 노출기준 없음', 'No Korean limit')]];
   function T0(ko, en) { return { ko, en }; }
   const idlhText = (c) => (c.idlh == null ? '–' : c.idlh + (c.idlhUnit && c.idlhUnit !== c.unit ? ' ' + c.idlhUnit : ''));
+  /* 노출기준·IDLH 크기 비교 — 같은 단위일 때만. 막대는 0에서 시작하므로 ‘IDLH는 기준의 몇 배’가 길이로 보인다 */
+  function limitBars(c) {
+    const same = c.idlh != null && (!c.idlhUnit || c.idlhUnit === c.unit);
+    const rows = [['TWA', c.twa], ['STEL', c.stel], [T('최고(C)', 'Ceiling (C)'), c.c], ['IDLH', same ? c.idlh : null]]
+      .filter(([, v]) => v != null).map(([label, v]) => ({ label, v, tone: label === 'IDLH' ? 'bad' : null }));
+    if (rows.length < 2) return '';
+    const base = c.twa != null ? c.twa : c.c;
+    const times = same && base ? Math.round(c.idlh / base) : null;
+    return S.ui.bars(rows, { unit: c.unit, caption: T('크기 비교', 'Side by side') + (times && times >= 2 ? ` — ${T(`IDLH는 ${c.twa != null ? 'TWA' : 'C'}의 ${times.toLocaleString()}배`, `IDLH is ${times.toLocaleString()}× the ${c.twa != null ? 'TWA' : 'ceiling'}`)}` : ''), aria: T('노출기준과 IDLH 크기 비교', 'Exposure limits and IDLH compared') });
+  }
+  /* 불소계 공정가스 지구온난화지수 — 0.003부터 23,500까지라 로그 눈금 점으로 */
+  function gwpDots(hi) {
+    const rows = S.CHEMICALS.filter((x) => x.gwp != null).sort((a, b) => b.gwp - a.gwp).map((x) => ({ label: x.f, v: x.gwp, tone: x.id === hi ? 'hi' : null }));
+    return `<div class="stack" style="gap:6px;margin-top:12px">${S.ui.dots(rows, { caption: T('지구온난화지수 (100년, CO₂ = 1)', 'Global warming potential (100-yr, CO₂ = 1)'), aria: T('불소계 공정가스 지구온난화지수 비교', 'GWP of fluorinated process gases') })}
+      <p class="xs muted keep">${T('미국 EPA 40 CFR 98 표 A-1', 'US EPA 40 CFR 98 Table A-1')}${S.cite('epaGhg')} · ${T('SK하이닉스는 식각 공정의 온실가스 고유발 물질을 신규 소재로 대체 적용 중이며(적용 평가 완료), 10여 종의 핵심 공정가스에 대체가스 적용을 검토하고 있다고 밝혔습니다(2024.5)', 'SK hynix says it is replacing high-GWP etch gases with new materials (application testing completed) and reviewing replacements for about ten key process gases (May 2024)')}${S.cite('nrLowGwp')}</p></div>`;
+  }
+  S.gwpDots = gwpDots;
   /* 공정 카드의 출처 — 없으면 OSHA. 물질의 공정 사용 근거는 물질의 psrc, 없으면 그 물질이 속한 공정 카드의 공정 해설 출처(OSHA·뉴스룸) */
   const pSrc = (p) => p.src || ['oshaSemi'];
   const procSrc = (c) => c.psrc || [...new Set(S.PROCESSES.filter((p) => c.procs.includes(p.id)).flatMap(pSrc).filter((id) => /^(osha|nr)/.test(id)))];
@@ -131,7 +148,8 @@
       title: `${L(c)} (${c.f.replace(/<[^>]+>/g, '')})`,
       body: `
         ${S.hasOel(c) ? `<div class="nums">${num('TWA', c.twa ?? '–')}${num('STEL', c.stel ?? '–')}${num('C', c.c ?? '–')}${num('IDLH', idlhText(c))}</div>
-          <p class="xs muted">${T('단위', 'Unit')}: ${c.unit}${c.idlhNote ? ` · IDLH: ${c.idlhNote}` : ''} · ${T('국내 노출기준', 'Korean limits')}${S.cite('moelOel')} · IDLH${S.cite('nioshIdlh')}</p>`
+          <p class="xs muted">${T('단위', 'Unit')}: ${c.unit}${c.idlhNote ? ` · IDLH: ${c.idlhNote}` : ''} · ${T('국내 노출기준', 'Korean limits')}${S.cite('moelOel')} · IDLH${S.cite('nioshIdlh')}</p>
+          ${limitBars(c)}`
           : `<div class="callout warn small">${T('국내 노출기준(고시 별표1)에 없는 물질입니다. 안전하다는 뜻이 아니므로 질식·화재·부식 위험은 ICSC와 MSDS로 확인하세요.', 'Not in the Korean exposure-limit annex. That does not mean safe — check asphyxiation, fire and corrosion hazards in the ICSC and MSDS.')}${c.idlh != null ? ` IDLH ${idlhText(c)}${S.cite('nioshIdlh')}` : ''}</div>`}
         <dl class="kv">
           <dt>CAS</dt><dd class="num">${c.cas}</dd>
@@ -143,7 +161,8 @@
           ${S.chemLinks(c) ? `<dt>${T('자료', 'Data sheets')}</dt><dd>${S.chemLinks(c)}</dd>` : ''}
           ${procs.length ? `<dt>${T('관련 공정', 'Processes')}</dt><dd>${procs.map((p) => `<a href="#hazards/${p.id}">${S.esc(L(p))}</a>`).join(' · ')}${S.cite(...procSrc(c))}</dd>` : ''}
           ${sops.length ? `<dt>SOP</dt><dd>${sops.map((s) => `<a href="#sop/${s.id}">${S.esc(L(s.t))}</a>`).join('<br>')}</dd>` : ''}
-        </dl>`,
+        </dl>
+        ${c.gwp != null ? gwpDots(c.id) : ''}`,
       foot: S.hasOel(c) ? `<button class="btn sm" type="button" data-judge="${c.id}">${T('이 물질로 수치 판정', 'Check a reading for this substance')} →</button>` : `<span class="xs muted">${T('노출기준이 없어 수치 판정 대상이 아닙니다', 'No limit, so no reading check')}</span>`,
       mount(dr) { const b = dr.querySelector('[data-judge]'); if (b) b.addEventListener('click', () => { S.save('m.chem', { id: b.dataset.judge, twa: '', stel: '', peak: '', segs: [['', '']] }); S.save('tab.measure', 'chem'); location.hash = '#measure'; }); }
     };
@@ -195,7 +214,9 @@
         <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 물질이 없습니다. 영문명·화학식·CAS 번호로도 찾아보세요.', 'No substances match. Try the English name, formula or CAS number.')}</p>
         <p class="xs muted">${T('국내 노출기준', 'Korean limits')}: ${S.cite('moelOel')} · IDLH: ${S.cite('nioshIdlh')} · ${T('위험 특성', 'Hazard notes')}: ${S.cite('icsc')} · ${T('법정 관리 구분', 'Statutory status')}: ${S.cite('lawRule', 'lawStd', 'lawDecree')} · MSDS: ${S.cite('koshaMsds')} · ${T('관련 공정', 'Processes')}: ${S.cite('oshaSemi', 'nrMetal', 'nrDepo', 'nrAld', 'nrScrubber', 'nrWlp', 'epaGhg')}</p>
         <p class="xs muted">${T('IDLH가 ‘–’이면 NIOSH 목록에 없는 물질입니다. 국내 노출기준이 없는 물질(질소·수소·디클로로실란 등)은 고시 별표1에 없다는 뜻이지 안전하다는 뜻이 아닙니다 — 질식·화재·부식 위험은 ICSC와 MSDS로 확인하고, 수치 판정·호흡보호구 선정 목록에서는 뺐습니다. ICSC 링크는 고용노동부·산업안전보건공단이 번역한 한국어판으로 열립니다.', 'A dash for IDLH means the substance is not on the NIOSH list. “No Korean limit” (nitrogen, hydrogen, dichlorosilane, etc.) means it is not in Annex 1, not that it is safe — check asphyxiation, fire and corrosion hazards in the ICSC and MSDS; these substances are left out of the measurement and respirator tools. ICSC links open the Korean edition translated by MOEL and KOSHA in Korean mode.')}</p>
-      </section>`}`;
+      </section>
+      <section class="panel stack" id="anchor-gwp">${ui.title(T('불소계 공정가스 — 지구온난화지수 비교', 'Fluorinated process gases — global warming potential'), T('식각·세정 가스의 환경 영향', 'Environmental impact of etch and clean gases'))}
+        ${gwpDots(null)}</section>`}`;
     },
     mount(root) {
       S.listFilter(root, 'hz');

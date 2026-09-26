@@ -442,7 +442,8 @@
   }
 
   function init() {
-    if (S.QA_FRAME) return;   /* 자체 점검 화면에는 떠 있는 창을 만들지 않는다 */
+    /* 자체 점검 화면에는 떠 있는 창을 만들지 않고, 상단 바 넘침 점검을 위해 시계·버튼만 그린다 */
+    if (S.QA_FRAME) { let lang = null; S.after.push(() => { if (S.state.lang !== lang) { lang = S.state.lang; drawBtns(); tick(); } }); drawBtns(); tick(); return; }
     buildMemo(); buildCalc(); buildUnits();
     let lastLang = null;
     S.after.push(() => { if (S.state.lang !== lastLang) { lastLang = S.state.lang; relabel(); } syncBtns(); });
