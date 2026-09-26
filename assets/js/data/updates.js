@@ -5,11 +5,24 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v68';
+SHE.BUILD = 'v71';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 7, v: SHE.BUILD, date: '2026-09-26',
+    { no: 8, v: SHE.BUILD, date: '2026-09-26',
+      t: B('안전 정보 자료실 확충·국내외 우수 사례 통합', 'Resource library expansion; best practice from home and abroad'),
+      add: [
+        B('안전 정보 자료실 25곳 → 41곳 — 국민안전24 국민행동요령·국가화재정보시스템·한국소방안전원·원자력안전위원회·온실가스종합정보센터·산업안전보건연구원 연구보고서 / NIOSH 대책 위계·ERG 2024·EPA AEGL·PubChem·EU-OSHA·일본 후생노동성 직장 안전 사이트 / 삼성전자 반도체·TSMC·Intel·IOGP', 'Resource library from 25 to 41 sites — Korean public action guides, national fire data, fire-safety institute, nuclear safety commission, GHG centre, OSHRI research / NIOSH hierarchy of controls, ERG 2024, EPA AEGL, PubChem, EU-OSHA, Japan’s workplace safety site / Samsung Semiconductor, TSMC, Intel, IOGP'),
+        B('벤치마킹에 Intel(위험작업 공급사 안전 사전 자격심사·매년 갱신)과 IOGP(생명 보호 규칙 9개) 추가, TSMC에 장비 공급사 현장 인력 직업건강 지침 추가', 'Benchmarks: Intel (safety pre-qualification of hazardous-work suppliers, renewed yearly) and IOGP (nine Life-Saving Rules); TSMC gains its health guideline for equipment suppliers’ on-site staff'),
+        B('상생협력 도급인 법정 의무에 산안법 제61조(적격 수급인 선정) 추가 — 11개', 'Principal’s statutory duties gain OSH Act Art. 61 (choosing capable contractors) — now 11'),
+        B('사고조사의 대책 위계를 NIOSH 5단계(제거 → 대체 → 공학적 → 행정적 → 보호구)로 한눈에 표시', 'Incident investigation shows the NIOSH five-level hierarchy of controls at a glance'),
+        B('불소계 가스 지구온난화지수 비교에 국가 통계 추가 — 2025년 반도체 업종 배출 증가를 +1.3%로 억제(스크러버 고온 분해 등, 온실가스종합정보센터 2026.9.21)', 'GWP panel adds the national figure — chip-sector emissions held to +1.3 % in 2025 (high-temperature scrubbers etc., GIR, 21 Sep 2026)'),
+        B('소방·방재 비상대응 시나리오에 정부 국민행동요령(지진·화재·폭발·화학사고·전기·가스 사고) 연결', 'Fire & emergency scenarios link to the government’s public action guides (earthquake, fire, explosion, chemical, electricity and gas accidents)')
+      ],
+      chg: [B('출처 110 → 115개, README·가이드의 개수 현행화(SOP 22·물질 71·자료실 41·출처 115)', 'Sources 110 → 115; counts in the README and guides brought up to date (22 SOPs, 71 substances, 41 library sites, 115 sources)'),
+        B('자체 점검의 클릭 시연 — 같은 주소로 가는 링크는 언어마다 한 번만 눌러 시간을 줄임(버튼·체크·선택 상자·접힘 제목은 모두)', 'Self-check click test — links to the same address are clicked once per language to save time (every button, checkbox, select and fold is still clicked)')],
+      fix: [B('이용 가이드의 기능 카드 요약이 ‘incl.’ 같은 약어의 마침표에서 잘려 괄호가 열린 채 끝나던 문제', 'Feature cards in the user guide cut their summary at the full stop of abbreviations such as “incl.”, leaving a bracket open')] },
+    { no: 7, v: 'v68', date: '2026-09-26 12:57', commit: 'bd4ed14',
       t: B('검증 도구·법정 목록 전체 보기·패치노트', 'Verification tools, full statutory lists, patch notes'),
       add: [
         B('업데이트 현황(패치노트) 페이지와 바닥글 버전 표시', 'This update-history page and the version in the footer'),
@@ -17,10 +30,11 @@ SHE.BUILD = 'v68';
         B('PSM 규정량 판정 — 시행령 별표13 전체 51종 보기(기본은 반도체 관련 25종)', 'PSM threshold check — all 51 Annex 13 substances (default: 25 chip-related)'),
         B('특별교육 대상 작업 — 시행규칙 별표5 전체 39종(반도체 관련 12종을 먼저, 나머지는 접어서)', 'Special-training jobs — all 39 in Rule Annex 5 (12 fab-related first, the rest folded)'),
         B('위험물 지정수량 계산 — 시행령 별표1 제3·4·6류 품명 23개에서 제1~6류 41개로 확대(제1·2·5류 추가, 원문 대조)', 'Designated-quantity calculator — from 23 categories in Classes 3, 4, 6 to 41 across Classes 1–6 of Decree Annex 1 (Classes 1, 2, 5 added, checked against the original)'),
-        B('포털 자체 점검에 ‘모든 버튼·링크 눌러 보기’와 문구 검사(값 누출·낱말 반복·괄호 짝) 추가', 'Self-check: “click every button and link” and text checks (value leaks, repeated words, brackets)')
+        B('포털 자체 점검에 ‘모든 버튼·링크 눌러 보기’, 문구 검사(값 누출·낱말 반복·괄호 짝·줄표 띄어쓰기), 바닥글 버전과 실제 스크립트 번호 일치 검사 추가', 'Self-check: “click every button and link”, text checks (value leaks, repeated words, brackets, dash spacing) and a footer-version check')
       ],
       chg: [B('수치 원문 대조 — 국내 노출기준 55종(고시 별표1), IDLH 50종(NIOSH 표), PSM 규정량 24종(별표13) 모두 원문과 일치 확인', 'Figures re-checked against the originals — 55 Korean limits (Annex 1), 50 IDLHs (NIOSH table), 24 PSM thresholds (Annex 13) all match')],
-      fix: [] },
+      fix: [B('검색 결과 발췌에서 이웃한 칸의 낱말이 붙어 같은 말이 반복된 것처럼 보이던 문제 — 칸 사이를 ‘ · ’로 구분', 'Search snippets ran neighbouring cells together so words looked doubled — cells are now separated by “ · ”'),
+        B('오프라인 저장(서비스 워커)이 설치될 때 브라우저 캐시의 옛 파일을 담을 수 있던 문제 — 서버에서 새로 받음', 'The offline cache could store old files from the browser cache when installing — it now fetches fresh copies')] },
     { no: 6, v: 'v64', date: '2026-09-26 10:50', commit: '9b0cf39',
       t: B('크기 비교 그래프·8단계 검증·확충 계획', 'Comparison charts; stage-8 verification and expansion plan'),
       add: [
@@ -80,6 +94,7 @@ SHE.BUILD = 'v68';
   SHE.GROWTH = [
     { k: B('물질', 'Substances'), pts: [['v9', 34], ['v25', 63], ['v62', 71]] },
     { k: B('SOP', 'SOPs'), pts: [['v22', 13], ['v25', 19], ['v62', 22]] },
-    { k: B('출처', 'Sources'), pts: [['v22', 83], ['v25', 94], ['v32', 95], ['v62', 110]] }
+    { k: B('출처', 'Sources'), pts: [['v22', 83], ['v25', 94], ['v32', 95], ['v62', 110]] },
+    { k: B('자료실 사이트', 'Library sites'), pts: [['v33', 25]] }
   ];
 })();

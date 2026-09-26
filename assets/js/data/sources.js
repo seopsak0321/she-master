@@ -251,6 +251,10 @@ SHE.SOURCES = [
     title: { ko: '원자력안전위원회 제201회 보고안건 「삼성전자(주) 기흥사업장 방사선피폭사건 조사결과 및 조치계획」 (2024.9.26)', en: 'Nuclear Safety and Security Commission, 201st meeting report — “Investigation results and action plan for the radiation exposure at Samsung Electronics Giheung” (2024-09-26)' },
     note: { ko: '원문 PDF에서 경위·원인·선량·위반사항·재발방지대책 확인', en: 'Sequence, causes, doses, violations and measures read in the original PDF' },
     url: 'https://www.nssc.go.kr/attach/namo/files/000002/20240926174645693_1E891JFD.pdf' },
+  { id: 'girPr0921', type: 'gov', checked: '2026-09-26',
+    title: { ko: '온실가스종합정보센터 보도자료 「2025년도 국가 온실가스 잠정배출량 6억 8,571만톤」 (2026.9.21)', en: 'GIR press release — “2025 provisional national GHG emissions: 685.71 Mt” (2026-09-21)' },
+    note: { ko: '반도체 업종은 생산활동 증가에도 공정 저감효율 개선 등으로 배출량 증가를 억제(+1.3%, +0.04백만톤). 각주: 공정에서 사용된 불소계 온실가스를 스크러버에서 고온으로 분해 처리', en: 'Semiconductors: output rose, but better process abatement held the increase to +1.3 % (+0.04 Mt). Footnote: fluorinated gases used in processes are destroyed at high temperature in scrubbers' },
+    url: 'https://www.gir.go.kr/home/board/read.do?menuId=11&boardId=2034&boardMasterId=4' },
 
   /* ---------- 법원 ---------- */
   { id: 'scourt2021', type: 'court', checked: '2026-09-24',
@@ -337,14 +341,31 @@ SHE.SOURCES = [
   { id: 'nfpa318', type: 'intl', checked: '2026-09-24',
     title: { ko: '미국 NFPA 318 — 반도체 제조시설 보호 표준 (현행 2025년판)', en: 'NFPA 318 — Standard for the Protection of Semiconductor Fabrication Facilities (current edition 2025)' },
     url: 'https://www.nfpa.org/codes-and-standards/nfpa-318-standard-development/318' },
+  { id: 'nioshHoc', type: 'intl', checked: '2026-09-26',
+    title: { ko: '미국 NIOSH — 대책 위계(Hierarchy of Controls) (검토 2024.4.10)', en: 'NIOSH — Hierarchy of Controls (reviewed 2024-04-10)' },
+    note: { ko: '제거·대체·공학적 대책·행정적 대책·개인보호구 5단계 정의. 제거·대체·공학적 대책은 사람의 큰 개입 없이 노출을 통제해 더 효과적이고, 행정적 대책·보호구는 근로자와 감독자의 지속적인 노력이 필요. 다른 효과적인 대책이 있으면 보호구에만 의존하지 말 것', en: 'Five levels defined. Elimination, substitution and engineering control exposure without significant human interaction and are more effective; administrative controls and PPE need ongoing effort by workers and supervisors; do not rely on PPE alone when other effective options exist' },
+    url: 'https://www.cdc.gov/niosh/hierarchy-of-controls/about/index.html' },
+  { id: 'iogpLsr', type: 'intl', checked: '2026-09-26',
+    title: { ko: '국제석유가스생산자협회(IOGP) — 생명 보호 규칙 Life-Saving Rules (Report 459)', en: 'IOGP — Life-Saving Rules (Report 459)' },
+    note: { ko: '회원사 사고 데이터로 고른 9개 규칙(아이콘과 개인이 지킬 행동), 2008~2017년 사망 376명이 규칙 준수로 막을 수 있었을 것, Line of Fire 10개 위험 범주, 작업 시작 전 점검(Report 459-1)', en: 'Nine rules chosen from data reported to IOGP (icon plus individual actions); 376 deaths in 2008–2017 might have been prevented; ten Line of Fire hazard categories; Start-Work Checks (Report 459-1)' },
+    url: 'https://www.iogp.org/workstreams/safety/safety/life-savingrules/' },
 
   /* ---------- 타사 공식 ---------- */
   { id: 'tsmc2023', type: 'peer', checked: '2026-09-23',
     title: { ko: 'TSMC ESG — 협력사 산업안전 디지털 전환·AI 위험 식별 (2023.2.21)', en: 'TSMC ESG — Digital transformation of contractor safety, AI hazard identification (2023-02-21)' },
     url: 'https://esg.tsmc.com/en-US/articles/77' },
-  { id: 'samsung', type: 'peer', checked: '2026-09-23',
+  { id: 'tsmcTsia', type: 'peer', checked: '2026-09-26',
+    title: { ko: 'TSMC ESG — 대만반도체산업협회(TSIA)와 공급망 직업안전보건 강화: 「장비 공급사 현장 서비스 인력 직업건강 관리 지침」 (2017.12.22)', en: 'TSMC ESG — With TSIA: “Occupational Health Management Guidelines for On-site Service Personnel of Semiconductor Equipment Suppliers” (2017-12-22)' },
+    note: { ko: '2017.10.19 발표. 현장 작업 관찰(설치·시험·예방정비·고장수리 중 화학물질·방사선·소음 노출, 보호구 착용), 작업환경측정 기록을 검진 의사에게 제공, 건강검진 이상 시 보호조치 즉시 확인·추적. 출입 전 위험 설명·교육 이수·보호구 확인, 매일 현장 감사', en: 'Issued 2017-10-19. On-site observation of exposure to chemicals, radiation and noise during installation, testing, PM and troubleshooting, and of PPE; monitoring records to examining doctors; anomalies checked and followed up. Hazard briefing, training and PPE before entry; daily on-site audits' },
+    url: 'https://esg.tsmc.com/en-US/articles/232' },
+  { id: 'samsung', type: 'peer', checked: '2026-09-26',
     title: { ko: '삼성전자 반도체 — Making safety a priority for our partners', en: 'Samsung Semiconductor — Making safety a priority for our partners' },
+    note: { ko: '2026-09-26 재확인: 작업중지권 2018 도입, 2021.1 보상 체계, 표준계약 불이익 방지 조항, 2024년 작업중지 4,537건, 협력사 ISO 14001 83%(2024), 2021~2024년 285개사 ISO 45001/KOSHA-MS', en: 'Re-checked 2026-09-26: right to stop work since 2018, compensation from Jan 2021, standard-contract clause, 4,537 stoppages in 2024, 83 % of suppliers ISO 14001 (2024), 285 firms ISO 45001/KOSHA-MS in 2021–2024' },
     url: 'https://semiconductor.samsung.com/sustainability/sustainable-supply-chain/environmentally-responsible-supply-chain/making-safety-a-priority-for-our-partners' },
+  { id: 'intelEhs', type: 'peer', checked: '2026-09-26',
+    title: { ko: 'Intel — 공급사·시공사 환경안전보건(EHS) 요구사항', en: 'Intel — Environmental Health & Safety requirements for suppliers' },
+    note: { ko: '건설 EHS 성과 요구사항·건설 EHS 매뉴얼(전 세계 공장), 공급사 EHS 성과 요구사항. 캠퍼스에서 위험할 수 있는 작업을 하는 공급사는 Highwire 안전 사전 자격심사 — 담당자와 사전 질문 검토, ‘예’면 안전 프로필·프로그램 문서 제출, Intel Global EHS 승인, 출입 유지를 위해 매년 검토·갱신', en: 'Construction EHS performance requirements and manual (all factories), supplier EHS performance requirements. Suppliers doing potentially hazardous work on campus complete Highwire safety pre-qualification — screening questions with the sponsor, a safety profile and programme documents if any answer is yes, approval by Intel Global EHS, annual review and renewal to keep site access' },
+    url: 'https://www.intel.com/content/www/us/en/supplier/environmental-health-safety.html' },
 
   /* ---------- 언론 ---------- */
   { id: 'etnews0601', type: 'press', checked: '2026-09-24',

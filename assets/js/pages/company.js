@@ -94,10 +94,20 @@
       take: { ko: '작업중지를 “건수”로 공개하면 작업중지가 실패가 아니라 정상 행동이 됩니다 → SOP마다 작업중지 기준 배치, 업무판에 작업중지 기록 지표 제안', en: 'Publishing stoppage counts makes stopping normal, not failure → stop-work criteria on every SOP; propose a stop-work log KPI' } },
     { who: 'TSMC', src: 'tsmc2023',
       facts: { ko: ['2022년 하루 협력사 출입 5만 1천 명 이상', '디지털 산업안전 교육과 출입 권한·공사 신청 연동', '고위험 작업·구역 AI 위험 식별 — 천장 작업, 탱크로리 충전 구역 모듈 (Fab 15A)', '협력사 ESH 감독자 소통회의, 현장 작업자에게 불안전 작업 중지 권한 부여 요청', '협력사용 ESH Blue Book 수시 개정'], en: ['Over 51,000 contractor entries per day in 2022', 'Digital safety training linked to access rights and work applications', 'AI hazard identification for high-risk work — ceiling work and tanker-filling modules (Fab 15A)', 'ESH supervisor meetings; front-line workers empowered to stop unsafe work', 'Rolling updates to the contractor ESH Blue Book'] },
+      /* 사실마다 출처가 다른 항목 — 번호를 문장 끝에 붙인다 */
+      more: { ko: ['2017년 대만반도체산업협회(TSIA)를 대표해 업계 첫 「장비 공급사 현장 서비스 인력 직업건강 관리 지침」 발표 — 설치·예방정비·고장수리 중 화학물질·방사선·소음 노출 파악, 작업환경측정 기록을 검진 의사에게 제공, 출입 전 위험 설명·교육·보호구 확인'], en: ['In 2017, for the Taiwan Semiconductor Industry Association, the industry’s first occupational-health guideline for equipment suppliers’ on-site service staff — exposure to chemicals, radiation and noise during installation, PM and troubleshooting; monitoring records shared with examining doctors; hazard briefing, training and PPE checked before entry'] }, moreSrc: 'tsmcTsia',
       take: { ko: '교육 이수와 출입·작업 신청을 연결하는 구조 → 상생협력 모듈의 “작업 전 5분 카드 + 협력사교육시스템 연계”', en: 'Tying training completion to access and work requests → the partner module’s 5-minute card plus link to the partner education system' } },
     { who: { ko: '미국 OSHA', en: 'US OSHA' }, src: 'osha146',
       facts: { ko: ['허가 필요 밀폐공간의 위험 분위기: 가연성 가스가 LFL의 10% 초과, 산소 19.5% 미만 또는 23.5% 초과 등', '반도체 공정별 유해위험을 공정 단위로 정리해 공개'], en: ['Hazardous atmosphere in permit spaces: flammable gas > 10 % of LFL, O₂ < 19.5 % or > 23.5 %, etc.', 'Publishes semiconductor hazards step by step'] },
-      take: { ko: '국내 기준과 나란히 비교해 보여주면 판단 근거가 분명해짐 → 밀폐공간 판정기에 한·미 기준 병기', en: 'Showing Korean and US limits side by side makes judgments clearer → dual criteria in the confined-space checker' } }
+      take: { ko: '국내 기준과 나란히 비교해 보여주면 판단 근거가 분명해짐 → 밀폐공간 판정기에 한·미 기준 병기', en: 'Showing Korean and US limits side by side makes judgments clearer → dual criteria in the confined-space checker' } },
+    { who: 'Intel', src: 'intelEhs',
+      facts: { ko: ['캠퍼스에서 위험할 수 있는 작업을 하는 공급사는 모두 안전 사전 자격심사(Highwire)를 거침', 'Intel 담당자와 작업 범위에 따른 사전 질문을 검토 → 하나라도 “예”면 온라인 안전 프로필·프로그램 문서 제출 → Intel Global EHS가 승인 여부 결정', '출입 자격을 유지하려면 매년 프로필 검토·갱신', '건설 EHS 성과 요구사항·건설 EHS 매뉴얼을 전 세계 공장에 공통 적용'],
+        en: ['Every supplier doing potentially hazardous work on campus goes through safety pre-qualification (Highwire)', 'Screening questions reviewed with the Intel sponsor by scope → any “yes” means an online safety profile and programme documents → Intel Global EHS decides on approval', 'The profile is reviewed and renewed every year to keep site access', 'Construction EHS performance requirements and manual apply to every factory worldwide'] },
+      take: { ko: '산안법 제61조(적격 수급인 선정 의무)를 “사전 심사 → 승인 → 매년 갱신” 절차로 운영하는 예 → 상생협력의 도급인 법정 의무에 제61조를 넣고, 협력사 SHE 평가표를 선정 전 심사에도 쓰도록 안내', en: 'Runs “contract only with capable contractors” (OSH Act Art. 61) as pre-screen → approval → yearly renewal → Art. 61 added to the principal’s duties, and the contractor scorecard framed for pre-selection too' } },
+    { who: 'IOGP', src: 'iogpLsr',
+      facts: { ko: ['사망으로 이어지기 쉬운 작업을 회원사 사고 데이터로 골라 만든 9개 생명 보호 규칙(Report 459) — 규칙마다 아이콘과 개인이 지킬 행동', '2008~2017년 사망 376명이 규칙을 지켰다면 막을 수 있었을 것으로 분석', 'Line of Fire 10개 위험 범주·질문·행동, 작업 시작 전 점검(Report 459-1), 포스터·작업카드·번역본'],
+        en: ['Nine Life-Saving Rules (Report 459) chosen from fatality data reported to IOGP — each an icon plus actions an individual controls', '376 deaths in 2008–2017 might have been prevented by following them', 'Ten Line of Fire hazard categories with questions and actions, Start-Work Checks (Report 459-1), posters, work cards, translations'] },
+      take: { ko: '규칙을 짧은 행동 문장과 아이콘으로 → SOP 5분 카드의 ‘해야 할 것·하면 안 되는 것’과 작업중지 기준도 같은 방식으로 짧게 유지', en: 'Short action sentences with icons → the SOP five-minute card’s do/don’t lists and stop-work criteria stay just as short' } }
   ];
 
   /* 3단계 — 한·미 규제 비교. 각 칸은 원문을 확인한 조항만 적는다(한국: 국가법령정보센터 현행본, 미국: OSHA 표준 원문, 2026-09-24).
@@ -161,7 +171,7 @@
         <p class="xs muted">${T('포털 반영: 작업허가서에 C-C-49 모니터링·절차 평가(OSHA PSM 준수감사와 같은 방향), 밀폐공간 SOP에 E-G-18 환기량·2년 평가, 판정 도구에 한·미 기준 병기.', 'Applied here: C-C-49 monitoring and system audit in the permit tool (in line with the OSHA PSM compliance audit), E-G-18 ventilation and two-yearly review in the confined-space SOP, and Korean and US criteria side by side in the checkers.')}</p>`
       : `<section class="grid g3">${BENCH.map((b) => `<div class="panel stack">
         <h3 style="font-size:calc(16px * var(--fz))">${typeof b.who === 'string' ? b.who : L(b.who)}${S.cite(b.src)}</h3>
-        <ul class="facts">${L(b.facts).map((f) => `<li>${f}</li>`).join('')}</ul>
+        <ul class="facts">${L(b.facts).map((f) => `<li>${f}</li>`).join('')}${b.more ? L(b.more).map((f) => `<li>${f}${S.cite(b.moreSrc)}</li>`).join('') : ''}</ul>
         <div class="callout ok small"><b>${T('포털 반영', 'Applied here')}</b> — ${L(b.take)}</div>
       </div>`).join('')}</section>`}`;
     }

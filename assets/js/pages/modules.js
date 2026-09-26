@@ -512,6 +512,14 @@
   const SAPA_ST = () => [['', T('미확인', 'Unchecked')], ['ok', T('이행', 'In place')], ['part', T('보완 중', 'Improving')], ['ng', T('미흡', 'Gap')]];
 
   const HIER = () => [['elim', T('제거·대체', 'Eliminate / substitute')], ['eng', T('공학적 대책', 'Engineering controls')], ['adm', T('행정적 대책', 'Administrative controls')], ['ppe', T('개인보호구', 'PPE')]];
+  /* NIOSH 대책 위계 5단계 — 고른 최상위 대책이 어디쯤인지 한눈에 (왼쪽일수록 효과적, 사람의 행동에 덜 기댐) */
+  const hierStrip = (level) => {
+    const steps = [['elim', T('제거', 'Elimination')], ['elim', T('대체', 'Substitution')], ['eng', T('공학적 대책', 'Engineering')], ['adm', T('행정적 대책', 'Administrative')], ['ppe', T('개인보호구', 'PPE')]];
+    return `<div class="hier" role="img" aria-label="${T('NIOSH 대책 위계 — 왼쪽일수록 효과적', 'NIOSH hierarchy of controls — most effective on the left')}">
+      <ol class="hier-row">${steps.map(([k, l]) => `<li class="${k === level ? 'on' : ''}">${l}</li>`).join('')}</ol>
+      <div class="hier-cap xs muted"><span>${T('← 효과 높음 · 사람의 행동에 덜 기댐', '← more effective · less reliant on people')}</span><span>${T('지속적인 노력 필요 →', 'needs ongoing effort →')}</span></div>
+      <p class="xs keep">${T('NIOSH: 제거·대체·공학적 대책은 사람의 큰 개입 없이 노출을 통제해 더 효과적이고, 다른 효과적인 대책이 있으면 보호구에만 의존하지 않습니다.', 'NIOSH: elimination, substitution and engineering controls work without much human interaction and are more effective; do not rely on PPE alone when other effective options exist.')}${S.cite('nioshHoc')}</p></div>`;
+  };
 
   S.pages.prevent = {
     render() {
@@ -590,6 +598,7 @@
             ${draft.why.map((w, i) => `<div class="field"><label for="inc-why${i}">${T('왜?', 'Why?')} ${i + 1}</label><input type="text" id="inc-why${i}" data-why="${i}" value="${S.esc(w)}"></div>`).join('')}
             <fieldset style="border:0;padding:0;margin:0"><legend class="lbl">${T('4M 원인 분류', '4M cause categories')}</legend><div class="row">${M4().map(([v, l]) => `<label class="check"><input type="checkbox" data-m4="${v}" ${draft.m4.includes(v) ? 'checked' : ''}> ${l}</label>`).join('')}</div></fieldset>
             <div class="form-grid"><div class="field"><label for="inc-level">${T('대책 위계 (최상위)', 'Highest control level')}</label><select id="inc-level">${HIER().map(([v, l]) => `<option value="${v}" ${draft.level === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+            ${hierStrip(draft.level)}
             <div class="field"><label for="inc-fix">${T('재발방지 대책', 'Corrective actions')}</label><textarea id="inc-fix">${S.esc(draft.fix)}</textarea></div>
             ${draft.level === 'ppe' || draft.level === 'adm' ? `<div class="callout warn small">${T('보호구·행정적 대책만으로는 근본 대책이 되기 어렵습니다. 제거·대체 → 공학적 → 행정적 → 보호구 순으로 검토하세요 (SK하이닉스 작업환경관리지수의 기본 원칙).', 'PPE or administrative controls alone rarely fix the root cause. Work down the order: eliminate/substitute → engineering → administrative → PPE (the principle behind SK hynix’s work-environment index).')}${S.cite('sr2026')}</div>` : ''}
             <div class="callout small">${T('사고·아차사고가 발생하면 해당 작업은 <b>수시 위험성평가</b> 대상입니다 (SK하이닉스 공개 운영 기준).', 'After an accident or near miss, the job needs an <b>ad-hoc risk assessment</b> (SK hynix disclosed practice).')}${S.cite('sr2026')} <a href="#risk">${T('위험성평가 열기', 'Open risk assessment')} →</a></div>
@@ -803,6 +812,7 @@
 
   /* ======================= 상생협력 ======================= */
   const DUTIES = [
+    { id: 'd10', t: { ko: '적격 수급인 선정 — 산업재해 예방 조치를 할 수 있는 능력을 갖춘 사업주에게 도급 (선정 전 안전보건 수준 평가)', en: 'Choose capable contractors — contract only with employers able to take injury-prevention measures (assess safety before selection)' }, b: { ko: '법 제61조', en: 'Act 61' } },
     { id: 'd0', t: { ko: '안전보건총괄책임자 지정 — 관계수급인 근로자가 도급인 사업장에서 일하면 안전보건관리책임자를 지정 (상시근로자 100명 이상 사업)', en: 'Appoint a general safety & health manager — when contractors’ workers work at the principal’s site, the site safety & health head takes the role (businesses with 100+ workers)' }, b: { ko: '법 제62조, 시행령 제52조', en: 'Act 62, Decree 52' } },
     { id: 'd1', t: { ko: '안전·보건 협의체 구성·운영 (도급인·수급인 전원, 매월 1회 이상 정기회의, 결과 기록·보존)', en: 'Safety council with the principal and all contractors; monthly meetings, minutes kept' }, b: { ko: '법 제64조①1, 규칙 제79조', en: 'Act 64(1)1, Rule 79' } },
     { id: 'd2', t: { ko: '작업장 순회점검 — 제조업 2일에 1회 이상', en: 'Site rounds — manufacturing: at least every 2 days' }, b: { ko: '법 제64조①2, 규칙 제80조', en: 'Act 64(1)2, Rule 80' } },
@@ -814,7 +824,7 @@
     { id: 'd8', t: { ko: '유해 화학설비 개조·분해·해체 등 도급 시 작업 전 안전·보건 정보 문서 제공과 조치 확인', en: 'Written safety information before contracted work on hazardous-chemical equipment; confirm measures' }, b: { ko: '법 제65조', en: 'Act 65' } },
     { id: 'd9', t: { ko: '수급인 조치능력·기술 평가기준, 안전·보건 관리비용 기준 마련과 반기 1회 이상 점검', en: 'Criteria for contractors’ capability and S&H budget; check at least half-yearly' }, b: { ko: '중처법 시행령 제4조 제9호', en: 'SAPA Decree 4(9)' } }
   ];
-  const DUTY_DEFAULT = { d0: true, d1: true, d2: true, d3: true, d4: true, d6: false, d7: true, d8: false, d9: false };
+  const DUTY_DEFAULT = { d10: true, d0: true, d1: true, d2: true, d3: true, d4: true, d6: false, d7: true, d8: false, d9: false };
   S.PARTNER_DUTIES = DUTIES; S.PARTNER_DUTY_DEFAULT = DUTY_DEFAULT;
   const CRIT = [
     { id: 'sys', w: 20, t: { ko: '안전보건 관리체계 (방침·조직·ISO 45001/KOSHA-MS)', en: 'S&H management system (policy, organisation, ISO 45001/KOSHA-MS)' } },
@@ -874,7 +884,8 @@
             <td class="n"><b>${S.fmt(s, 0)}</b></td><td>${s >= 80 ? ui.pill('ok', T('우수', 'Good')) : s >= 60 ? ui.pill('warn', T('개선 권고', 'Improve')) : ui.pill('bad', T('개선계획 제출', 'Action plan required'))}</td></tr>`; }).join('')}
         </tbody></table></div>
         <form class="row" id="vForm" style="margin-top:10px"><input type="text" id="v-name" placeholder="${T('협력사명·작업', 'Contractor & scope')}" style="flex:1;min-width:200px" required><button class="btn" type="submit">${T('추가', 'Add')}</button></form>
-        <p class="xs muted" style="margin-top:6px">${T('각 항목 0–5점 × 배점/5. 등급 구간(80·60점)도 포털 예시입니다. SK하이닉스는 신규 협력사 100%에 SHE 적격성 평가(인권노동·환경·안전)를 적용한다고 공개했습니다.', 'Each item 0–5 × weight/5. The 80/60 bands are portal examples too. SK hynix states that 100 % of new suppliers pass an SHE qualification review (human rights/labour, environment, safety).')}${S.cite('sr2026', 'lawSapa')}</p>
+        <p class="xs muted" style="margin-top:6px">${T('각 항목 0–5점 × 배점/5. 등급 구간(80·60점)도 포털 예시입니다. SK하이닉스는 신규 협력사 100%에 SHE 적격성 평가(인권노동·환경·안전)를 적용한다고 공개했습니다.', 'Each item 0–5 × weight/5. The 80/60 bands are portal examples too. SK hynix states that 100 % of new suppliers pass an SHE qualification review (human rights/labour, environment, safety).')}${S.cite('sr2026', 'lawSapa')}
+          ${T('선정 전에도 쓸 수 있습니다 — 산안법 제61조는 산업재해 예방 조치 능력을 갖춘 사업주에게 도급하도록 정하고, Intel은 위험작업 공급사에 안전 사전 자격심사와 매년 갱신을 요구합니다.', 'Use it before selection too — OSH Act Art. 61 requires contracting only with employers able to prevent injuries, and Intel requires safety pre-qualification, renewed yearly, from suppliers doing hazardous work.')}${S.cite('lawAct', 'intelEhs')} <a href="#bench">${T('벤치마킹', 'Benchmarks')} →</a></p>
       </section>
       <section class="grid g2">
         <div class="panel stack" style="gap:14px">${ui.title(T('SK하이닉스 협력사 지원 체계', 'SK hynix partner support'))}
@@ -1039,6 +1050,7 @@
           <div><b class="small">${T('나. 재해자 구호', 'b. Rescue and care for casualties')}</b><ul class="facts" style="margin-top:6px">${L(ss.b).map((x) => `<li>${x}</li>`).join('')}</ul></div>
           <div><b class="small">${T('다. 추가 피해 방지', 'c. Prevent further harm')}</b><ul class="facts" style="margin-top:6px">${L(ss.c).map((x) => `<li>${x}</li>`).join('')}</ul></div>
         </div>
+        <div class="callout small">${T('대피 안내·교육 자료는 정부 표준 문구와 맞추면 좋습니다 — 행정안전부 국민안전24의 국민행동요령(지진·화재·폭발·화학사고재난·전기·가스 사고·사업장 재난·심폐소생술).', 'Align evacuation notices and training with government wording — the Safety Korea 24 public action guides (earthquake, fire, explosion, chemical accidents, electricity and gas accidents, workplace disasters, CPR).')} <a href="#resources/safekorea">${T('자료실에서 보기', 'See in the library')} →</a></div>
         <p class="xs muted">${T('중대산업재해 대비 매뉴얼은 반기 1회 이상 조치 이행을 점검해야 합니다. ERT 역할은 회사 공개 내용, 세부 행동은 포털 예시입니다.', 'The serious-accident manual must be checked at least half-yearly. ERT roles are as disclosed; the detailed actions are portal examples.')}${S.cite('lawSapa', 'sr2026')}</p>
       </section>
       <section class="panel">${ui.title(T('소방훈련·교육 기록', 'Fire drill & training log'), T('연 1회 이상 · 기록 2년 보관', 'At least yearly · keep 2 years'))}

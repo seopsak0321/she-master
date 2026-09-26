@@ -956,3 +956,12 @@ html.m .upd-body { padding-left: 16px; padding-right: 16px; }
 html.m details.upd > summary { padding: 12px 16px; }
 html.m .upd-kind { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 @media (max-width: 560px) { .upd-kind { grid-template-columns: minmax(0, 1fr); gap: 6px; } .upd-body { padding-left: 16px; } }
+/* 대책 위계 띠 (NIOSH 5단계) — 고른 최상위 대책을 진하게, 왼쪽이 효과 높음 */
+.hier { display: grid; gap: 4px; }
+.hier-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; }
+.hier-row li { text-align: center; font-size: calc(12.5px * var(--fz)); line-height: 1.35; padding: 7px 4px; border: 1px solid var(--line-2); background: var(--panel-2); color: var(--ink-2); overflow-wrap: anywhere; }
+.hier-row li:first-child { border-radius: 8px 0 0 8px; }
+.hier-row li:last-child { border-radius: 0 8px 8px 0; }
+.hier-row li.on { background: var(--ink); border-color: var(--ink); color: var(--panel); font-weight: 600; }
+.hier-cap { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 420px) { .hier-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .hier-row li:first-child, .hier-row li:last-child { border-radius: 0; } }

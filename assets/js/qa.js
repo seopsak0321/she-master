@@ -203,15 +203,25 @@
     const routes = F.NAV.flatMap((g) => g.items.map((i) => i[0]));
     const wait = () => new Promise((r) => W.setTimeout(r, 0));
     const label = (el) => (el.getAttribute('aria-label') || el.innerText || el.value || el.title || el.getAttribute('href') || el.tagName).trim().replace(/\s+/g, ' ').slice(0, 40);
-    let clicks = 0;
+    let clicks = 0, skipped = 0;
+    /* 같은 주소로 가는 링크는 누르면 똑같이 동작하므로 언어마다 한 번만(내부 주소는 링크 점검도 따로 한다),
+       외부 링크는 가로채 막으므로 화면·탭마다 한 번만 눌러 본다. 버튼·체크·선택 상자·접힘 제목은 모두 누른다 */
+    const seenHref = new Set();
     for (const r of routes) {
       W.history.replaceState(null, '', '#' + r); F.render();
       const tabs = [...D.querySelectorAll('#view [data-tabs]')].map((b) => [b.dataset.tabs, b.dataset.val]);
       for (const [k, v] of (tabs.length ? tabs : [[null, null]])) {
         const setup = () => { if (F.guide) F.guide.close(true); if (k) { F.save('tab.' + k, v); F.state.refreshing = true; } W.history.replaceState(null, '', '#' + r); F.render(); F.state.refreshing = false; };
         setup();
-        const n = D.querySelectorAll(CLICK_SEL).length;
+        /* 처음 그린 화면에서 요소마다 링크 주소를 미리 읽어, 이미 누른 주소면 다시 그리지 않고 건너뛴다 */
+        const hrefs = [...D.querySelectorAll(CLICK_SEL)].map((e) => (e.tagName === 'A' ? e.getAttribute('href') || '' : null));
+        const n = hrefs.length;
         for (let i = 0; i < n; i++) {
+          if (hrefs[i] != null) {
+            const key = hrefs[i].startsWith('#') ? hrefs[i] : `ext · #${r} · ${k || ''}=${v || ''}`;
+            if (seenHref.has(key)) { skipped++; continue; }
+            seenHref.add(key);
+          }
           setup();
           const el = D.querySelectorAll(CLICK_SEL)[i];
           if (!el) break;
@@ -235,7 +245,7 @@
       }
     }
     if (F.guide) F.guide.close(true);
-    add('info', T('눌러 본 요소', 'Elements clicked'), lang, String(clicks));
+    add('info', T('눌러 본 요소', 'Elements clicked'), lang, `${clicks} (${T('같은 주소 링크 건너뜀', 'repeat links skipped')} ${skipped})`);
   }
 
   async function run(opts, prog) {
@@ -297,7 +307,7 @@
           T('데이터 참조 — 출처 id·SOP id·물질 id·KOSHA 번호·경로, 중복 id, 동향 날짜 순서, 출처 URL·확인일 형식', 'Data references — source, SOP and substance ids, KOSHA codes, routes, duplicate ids, news order, source URL and date format'),
           T('바닥글 버전과 실제 스크립트 번호(?v=)의 일치, 패치노트 번호·날짜 순서', 'Footer version matches the loaded script number (?v=); patch-note numbering and date order'),
           T('문구 — 값 누출(undefined·NaN 등), 같은 낱말 반복, 괄호 짝, 줄표(—) 띄어쓰기', 'Wording — value leaks (undefined, NaN…), repeated words, unbalanced brackets, dash spacing'),
-          T('선택 시 — 글자 130%에서의 넘침, 모든 버튼·링크를 실제로 눌러 스크립트 오류·빈 화면·빈 옆 창 확인', 'Optional — overflow at 130 % text; actually clicking every button and link to catch script errors, empty screens and empty side panels'),
+          T('선택 시 — 글자 130%에서의 넘침, 모든 버튼·체크·선택 상자·접힘 제목과 링크(같은 주소는 한 번)를 실제로 눌러 스크립트 오류·빈 화면·빈 옆 창 확인', 'Optional — overflow at 130 % text; actually clicking every button, checkbox, select, fold and link (each address once) to catch script errors, empty screens and empty side panels'),
           T('사업장 3곳(공통·이천·청주) 전환 시 각 메뉴 화면', 'Every menu page for all three sites')].map((x) => `<li>${x}</li>`).join('')}</ul>
         <div class="row" style="gap:14px">
           ${WIDTHS.map((w) => `<label class="check"><input type="checkbox" data-qw="${w}" checked> ${w}px</label>`).join('')}

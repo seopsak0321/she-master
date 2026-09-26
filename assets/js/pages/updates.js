@@ -37,7 +37,7 @@
   function growth() {
     const g = S.GROWTH || [];
     const now = live();
-    return `<div class="grid g3 growth">${g.map((m) => {
+    return `<div class="grid ${g.length % 3 ? 'g2' : 'g3'} growth">${g.map((m) => {
       const cur = now.find((x) => x.k === L(m.k));
       const pts = m.pts.slice();
       if (cur && cur.n !== pts[pts.length - 1][1]) pts.push([T('지금', 'now'), cur.n]);

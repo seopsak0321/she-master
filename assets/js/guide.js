@@ -4,7 +4,17 @@
   const rn = (r) => S.routeName(r);
   const ulist = (arr) => (arr && arr.length ? `<ul class="g-list">${arr.map((x) => `<li>${x}</li>`).join('')}</ul>` : '');
   const sec = (title, inner) => (inner ? `<section class="g-sec"><h3>${title}</h3>${inner}</section>` : '');
-  const firstSentence = (s) => { const m = String(s).match(/^.*?[.!?](?=\s|$)/); return m ? m[0] : s; };
+  /* 첫 문장 — 약어(incl.·e.g.·No.·Art. 등) 뒤나 열린 괄호 안의 마침표에서는 자르지 않는다 */
+  const ABBR = /\b(?:incl|e\.g|i\.e|etc|vs|No|Nos|Art|Arts|approx|cf|Fig)\.$/i;
+  const firstSentence = (s) => {
+    s = String(s); const re = /[.!?](?=\s|$)/g; let m;
+    while ((m = re.exec(s))) {
+      const head = s.slice(0, m.index + 1);
+      if (ABBR.test(head) || (head.match(/\(/g) || []).length > (head.match(/\)/g) || []).length) continue;
+      return head;
+    }
+    return s;
+  };
 
   function subBlock(s, open, key) {
     return `<details class="g-sub" data-sub="${key}" ${open ? 'open' : ''}><summary>${L(s.t)}</summary><div class="g-sub-body">

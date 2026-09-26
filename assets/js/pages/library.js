@@ -216,7 +216,8 @@
         <p class="xs muted">${T('IDLH가 ‘–’이면 NIOSH 목록에 없는 물질입니다. 국내 노출기준이 없는 물질(질소·수소·디클로로실란 등)은 고시 별표1에 없다는 뜻이지 안전하다는 뜻이 아닙니다 — 질식·화재·부식 위험은 ICSC와 MSDS로 확인하고, 수치 판정·호흡보호구 선정 목록에서는 뺐습니다. ICSC 링크는 고용노동부·산업안전보건공단이 번역한 한국어판으로 열립니다.', 'A dash for IDLH means the substance is not on the NIOSH list. “No Korean limit” (nitrogen, hydrogen, dichlorosilane, etc.) means it is not in Annex 1, not that it is safe — check asphyxiation, fire and corrosion hazards in the ICSC and MSDS; these substances are left out of the measurement and respirator tools. ICSC links open the Korean edition translated by MOEL and KOSHA in Korean mode.')}</p>
       </section>
       <section class="panel stack" id="anchor-gwp">${ui.title(T('불소계 공정가스 — 지구온난화지수 비교', 'Fluorinated process gases — global warming potential'), T('식각·세정 가스의 환경 영향', 'Environmental impact of etch and clean gases'))}
-        ${gwpDots(null)}</section>`}`;
+        ${gwpDots(null)}
+        <div class="callout small">${T('국가 통계로 본 반도체 업종 — 2025년 생산이 늘었지만(반도체 생산지수 160.1 → 180.7) 공정 저감효율 개선으로 배출 증가를 <b>+1.3%</b>(+0.04백만톤)로 억제했습니다. 공정에서 쓴 불소계 온실가스를 스크러버에서 고온으로 분해한 효과가 포함됩니다(온실가스종합정보센터, 2026.9.21 잠정 발표).', 'National statistics for the chip sector — output rose in 2025 (production index 160.1 → 180.7), yet better process abatement held the emissions increase to <b>+1.3 %</b> (+0.04 Mt), including high-temperature scrubber destruction of fluorinated gases used in processes (GIR provisional release, 21 Sep 2026).')}${S.cite('girPr0921')}</div></section>`}`;
     },
     mount(root) {
       S.listFilter(root, 'hz');

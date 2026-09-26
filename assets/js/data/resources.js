@@ -1,4 +1,4 @@
-/* 안전 정보 자료실 — 포털을 만들며 직접 확인한 공식 사이트 25곳 (확인일 2026-09-24)
+/* 안전 정보 자료실 — 포털을 만들며 직접 확인한 공식 사이트 41곳 (확인일 2026-09-24, 10단계 추가 16곳은 2026-09-26)
    - 각 항목의 설명은 해당 사이트의 공식 페이지에서 확인한 내용만 적는다.
    - type: 자료유형 1개, subj: 주제분야 1~3개, use: 이 자료가 쓰인 포털 화면, src: 포털 출처 목록(SHE.SOURCES)의 id */
 window.SHE = window.SHE || {};
@@ -24,7 +24,7 @@ window.SHE = window.SHE || {};
     culture: B('교육·경영시스템', 'Training & management systems'),
     stats: B('통계·지표', 'Statistics & KPIs')
   };
-  SHE.RES_LANG = { KO: B('한국어', 'Korean'), EN: B('영어', 'English'), 'KO·EN': B('한국어·영어', 'Korean & English'), multi: B('다국어 (한국어 포함)', 'Many languages incl. Korean') };
+  SHE.RES_LANG = { KO: B('한국어', 'Korean'), EN: B('영어', 'English'), 'KO·EN': B('한국어·영어', 'Korean & English'), multi: B('다국어 (한국어 포함)', 'Many languages incl. Korean'), 'EN+': B('영어 외 여러 언어', 'English and other languages'), JA: B('일본어', 'Japanese') };
   SHE.RES_ACCESS = { free: B('무료', 'Free'), login: B('무료 · 일부 기능 로그인', 'Free · some features need login'), paid: B('원문 유료 · 개요 무료', 'Full text paid · overview free') };
 
   SHE.RESOURCES = [
@@ -182,6 +182,108 @@ window.SHE = window.SHE || {};
       url: 'https://www.nfpa.org/codes-and-standards/nfpa-318-standard-development/318',
       desc: B(['클린룸이 있는 반도체 제조시설을 화재와 관련 위험에서 보호하기 위한 요건 — 현행 2025년판', '유해화학물질을 사용·저장·취급하는 연구개발 구역도 적용 대상 — 소방·방재 페이지와 함께 참고'],
         ['Requirements to protect semiconductor fabs with cleanrooms from fire and related hazards — current edition 2025', 'Also covers R&D areas that use, store and handle hazardous chemicals — read with the fire & emergency page']),
-      use: ['fire'], src: 'nfpa318' }
+      use: ['fire'], src: 'nfpa318' },
+
+    /* ---------- 10단계 추가 (2026-09-26 확인) — 국내 공공기관 ---------- */
+    { id: 'safekorea', type: 'gov', subj: ['fire'], lang: 'KO', access: 'free', checked: '2026-09-26',
+      name: B('국민안전24 — 국민행동요령', 'Safety Korea 24 — public action guides'), org: B('행정안전부', 'Ministry of the Interior and Safety'),
+      url: 'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/nationalActionTips.do?menuSn=4',
+      desc: B(['재난 유형별 국민행동요령 — 지진·화재·폭발·화학사고재난·전기·가스 사고·사업장 재난·정전, 심폐소생술·응급처치', '비상대피·비상대처 교육 자료를 만들 때 정부 표준 문구로 활용'],
+        ['Action guides by hazard — earthquake, fire, explosion, chemical accidents, electricity and gas accidents, workplace disasters, blackouts, CPR and first aid', 'Government wording to reuse when preparing evacuation and emergency training']),
+      use: ['fire', 'culture'] },
+    { id: 'nfds', type: 'data', subj: ['fire', 'stats'], lang: 'KO', access: 'free', checked: '2026-09-26',
+      name: B('국가화재정보시스템', 'National Fire Data System'), org: B('소방청', 'National Fire Agency'),
+      url: 'https://www.nfds.go.kr/',
+      desc: B(['국가 화재통계 검색, 화재조사, 화재 사례와 추세 분석', '화재예방 자료(소화기 사용법·심폐소생술·생활 속 화재안전)'],
+        ['National fire statistics search, fire investigation, cases and trend analysis', 'Prevention material (using extinguishers, CPR, everyday fire safety)']),
+      use: ['fire'] },
+    { id: 'kfsi', type: 'gov', subj: ['fire', 'culture'], lang: 'KO', access: 'login', checked: '2026-09-26',
+      name: B('한국소방안전원', 'Korea Fire Safety Institute'), org: B('한국소방안전원', 'Korea Fire Safety Institute'),
+      url: 'https://www.kfsi.or.kr/',
+      desc: B(['소방안전관리자 강습·실무교육·사이버교육과 시험 접수(소방안전24)', '화재안전진단, 각종 서식·자료'],
+        ['Fire-safety manager courses, refresher and online training, exam registration', 'Fire-safety diagnostics, forms and material']),
+      use: ['fire', 'training'] },
+    { id: 'nssc', type: 'gov', subj: ['law', 'incident'], lang: 'KO', access: 'free', checked: '2026-09-26',
+      name: B('원자력안전위원회', 'Nuclear Safety and Security Commission'), org: B('원자력안전위원회', 'Nuclear Safety and Security Commission'),
+      url: 'https://www.nssc.go.kr/',
+      desc: B(['방사선안전관리 관련 정보, 생활주변방사선 정보서비스, 원자력안전규제 용어사전', '반도체 X선 분석장비 등 방사선 발생장치 사고의 조사결과·조치계획(위원회 보고안건) 원문'],
+        ['Radiation safety management information, everyday radiation service, regulatory glossary', 'Original investigation reports and action plans for radiation-device incidents, such as X-ray tools in fabs']),
+      use: ['sop', 'cases'], src: 'nsscSamsung' },
+    { id: 'gir', type: 'gov', subj: ['chem', 'stats'], lang: 'KO', access: 'free', checked: '2026-09-26',
+      name: B('온실가스종합정보센터', 'Greenhouse Gas Inventory and Research Center'), org: B('기후에너지환경부 소속', 'Ministry of Climate, Energy and Environment'),
+      url: 'https://www.gir.go.kr/',
+      desc: B(['국가 온실가스 통계·연구보고서·보도자료','2025년 잠정배출량 발표(2026.9.21): 반도체 업종은 생산이 늘었지만 공정 저감효율 개선(불소계 가스 스크러버 고온 분해 등)으로 배출 증가를 +1.3%로 억제'],
+        ['National GHG statistics, research reports and press releases','2025 provisional emissions (21 Sep 2026): semiconductor output rose, but better abatement (high-temperature scrubber destruction of fluorinated gases) held the emissions increase to +1.3 %']),
+      use: ['hazards'], src: 'girPr0921' },
+    { id: 'koshaResearch', type: 'data', subj: ['chem', 'risk', 'stats'], lang: 'KO', access: 'free', checked: '2026-09-26',
+      name: B('산업안전보건연구원 연구보고서', 'OSHRI research reports'), org: B('안전보건공단 산업안전보건연구원', 'KOSHA Occupational Safety and Health Research Institute'),
+      url: 'https://portal.kosha.or.kr/archive/research/Research-Data-Report1/Research-Data',
+      desc: B(['산업안전포털 ‘연구보고서 및 실태조사자료’ — 연구주제·연구분야·기간으로 상세 검색', '작업환경·화학물질·업종별 실태조사 원문을 찾을 때'],
+        ['KOSHA portal “Research reports and surveys” — search by topic, field and period', 'For original studies on work environments, chemicals and industry surveys']),
+      use: ['hazards', 'measure'] },
+
+    /* ---------- 10단계 추가 — 해외 공공기관·데이터베이스 ---------- */
+    { id: 'nioshHoc', type: 'gov', subj: ['risk'], lang: 'EN', access: 'free', checked: '2026-09-26',
+      name: B('NIOSH 대책 위계 (Hierarchy of Controls)', 'NIOSH Hierarchy of Controls'), org: B('미국 CDC 국립산업안전보건연구원', 'US CDC / NIOSH'),
+      url: 'https://www.cdc.gov/niosh/hierarchy-of-controls/about/index.html',
+      desc: B(['제거 → 대체 → 공학적 대책 → 행정적 대책 → 개인보호구의 5단계와 단계별 정의 (검토 2024.4.10)', '제거·대체·공학적 대책은 사람의 행동에 크게 기대지 않아 더 효과적이고, 행정적 대책·보호구는 근로자와 감독자의 지속적인 노력이 필요 — 다른 효과적인 대책이 있으면 보호구에만 의존하지 말 것'],
+        ['Five levels — elimination, substitution, engineering, administrative, PPE — with definitions (reviewed 10 Apr 2024)', 'Elimination, substitution and engineering work without much human interaction and are more effective; administrative controls and PPE need ongoing effort by workers and supervisors — do not rely on PPE alone when other effective options exist']),
+      use: ['prevent', 'risk'], src: 'nioshHoc' },
+    { id: 'ergPhmsa', type: 'std', subj: ['chem', 'fire'], lang: 'EN', access: 'free', checked: '2026-09-26',
+      name: B('비상대응지침서 ERG 2024', 'Emergency Response Guidebook (ERG 2024)'), org: B('미국 교통부 PHMSA', 'US DOT PHMSA'),
+      url: 'https://www.phmsa.dot.gov/training/hazmat/erg/emergency-response-guidebook-erg',
+      desc: B(['위험물 수송 사고 초기 대응용 지침서 — 영어·프랑스어·스페인어 PDF, 웹 버전(CANUTEC), 모바일 앱', '초기 이격·방호 거리 표의 산정 방법 문서와 개정 요약 제공'],
+        ['Guidebook for the first phase of hazmat transport incidents — English, French and Spanish PDFs, web version (CANUTEC), mobile app', 'Also documents how the isolation and protective-action distance table is derived, plus a summary of changes']),
+      use: ['gas'], src: 'erg2024' },
+    { id: 'aegl', type: 'data', subj: ['chem', 'fire'], lang: 'EN', access: 'free', checked: '2026-09-26',
+      name: B('급성노출지침 AEGL', 'Acute Exposure Guideline Levels (AEGLs)'), org: B('미국 환경보호청 EPA', 'US EPA'),
+      url: 'https://www.epa.gov/aegl',
+      desc: B(['일생에 한 번 또는 드물게 공기 중 화학물질에 노출될 때의 건강 영향 기준', '물질명·CAS 번호·확정 단계로 AEGL 값 조회 — 가스 경보·비상 이격 판단의 참고값'],
+        ['Health-effect levels for once-in-a-lifetime or rare airborne exposures', 'Look up values by name, CAS number or status — reference points for gas alarms and emergency distances']),
+      use: ['gas'], src: 'epaAegl' },
+    { id: 'pubchem', type: 'data', subj: ['chem'], lang: 'EN', access: 'free', checked: '2026-09-26',
+      name: B('PubChem', 'PubChem'), org: B('미국 국립보건원 NIH', 'US National Institutes of Health'),
+      url: 'https://pubchem.ncbi.nlm.nih.gov/',
+      desc: B(['NIH의 공개 화학 데이터베이스 — 구조·식별자·물리화학 성질과 건강·안전·독성 자료', '정부기관·시약사·학술지 등 수백 곳의 자료를 모음'],
+        ['NIH open chemistry database — structures, identifiers, properties and health, safety and toxicity data', 'Pulls together hundreds of sources: agencies, vendors, journals']),
+      use: ['hazards'] },
+    { id: 'euosha', type: 'gov', subj: ['risk', 'chem', 'culture'], lang: 'EN+', access: 'free', checked: '2026-09-26',
+      name: B('유럽 산업안전보건청 EU-OSHA', 'European Agency for Safety and Health at Work (EU-OSHA)'), org: B('유럽연합', 'European Union'),
+      url: 'https://osha.europa.eu/en',
+      desc: B(['위험성평가 도구 OiRA, 지식 사전 OSHwiki, 위험물질(REACH·CLP) 안내, 건강한 일터 캠페인', '유럽 사업장 안전보건 관리 조사(ESENER)와 OSH Barometer 통계'],
+        ['OiRA risk-assessment tool, the OSHwiki, dangerous-substances guidance (REACH, CLP), Healthy Workplaces campaigns', 'ESENER enterprise survey and OSH Barometer statistics']),
+      use: ['risk', 'hazards'] },
+    { id: 'jpAnzen', type: 'gov', subj: ['incident', 'chem', 'stats'], lang: 'JA', access: 'free', checked: '2026-09-26',
+      name: B('일본 職場のあんぜんサイト (직장 안전 사이트)', 'Japan “Workplace Safety Site”'), org: B('일본 후생노동성', 'Japan Ministry of Health, Labour and Welfare'),
+      url: 'https://anzeninfo.mhlw.go.jp/',
+      desc: B(['노동재해 통계, 재해 사례·사망재해 데이터베이스, 아차사고(히야리·핫토) 사례집', '화학물질 GHS 모델 라벨·SDS와 위험성평가 지원, 외국인 근로자용 다국어 교육영상'],
+        ['Injury statistics, accident and fatality databases, near-miss case collections', 'GHS model labels and SDSs, risk-assessment support, multilingual training videos for foreign workers']),
+      use: ['cases', 'hazards'] },
+
+    /* ---------- 10단계 추가 — 기업·산업계 ---------- */
+    { id: 'samsungSemi', type: 'corp', subj: ['company', 'culture'], lang: 'KO·EN', access: 'free', checked: '2026-09-26',
+      name: B('삼성전자 반도체 — 협력사 안전', 'Samsung Semiconductor — partner safety'), org: B('삼성전자', 'Samsung Electronics'),
+      url: 'https://semiconductor.samsung.com/sustainability/sustainable-supply-chain/environmentally-responsible-supply-chain/making-safety-a-priority-for-our-partners/',
+      desc: B(['협력사 작업중지권 — 2018년 도입, 2021년 1월 협력사·작업자 보상 체계 마련, 표준계약에 작업중지로 인한 불이익 방지 조항, 2024년 작업중지 4,537건', '협력사 ISO 14001 인증 83%(2024), 2021~2024년 285개사 ISO 45001/KOSHA-MS 인증'],
+        ['Partner right to stop work — introduced 2018; compensation for suppliers and workers from Jan 2021; a standard-contract clause against penalties for stopping; 4,537 stoppages in 2024','83 % of suppliers ISO 14001-certified (2024); 285 firms certified to ISO 45001/KOSHA-MS in 2021–2024']),
+      use: ['bench', 'partner'], src: 'samsung' },
+    { id: 'tsmcEsg', type: 'corp', subj: ['company', 'culture'], lang: 'EN+', access: 'free', checked: '2026-09-26',
+      name: B('TSMC ESG — 협력사 안전보건', 'TSMC ESG — supply-chain safety and health'), org: B('TSMC', 'TSMC'),
+      url: 'https://esg.tsmc.com/en-US/articles/232',
+      desc: B(['TSMC가 대만반도체산업협회(TSIA)를 대표해 발표한 업계 첫 「장비 공급사 현장 서비스 인력 직업건강 관리 지침」(2017.10.19)', '설치·시험·예방정비·고장수리 중 화학물질·방사선·소음 노출 파악과 보호구 확인, 작업환경측정 기록을 검진 의사에게 제공, 이상 시 추적 관리'],
+        ['The industry’s first occupational-health guideline for equipment suppliers’ on-site service staff, issued by TSMC for the Taiwan Semiconductor Industry Association (19 Oct 2017)', 'Exposure to chemicals, radiation and noise during installation, testing, PM and troubleshooting; PPE checks; monitoring records shared with examining doctors; follow-up of anomalies']),
+      use: ['bench', 'partner'], src: 'tsmcTsia' },
+    { id: 'intelEhs', type: 'corp', subj: ['company', 'culture'], lang: 'EN', access: 'free', checked: '2026-09-26',
+      name: B('Intel — 공급사·시공사 EHS 요구사항', 'Intel — supplier and contractor EHS requirements'), org: B('Intel', 'Intel'),
+      url: 'https://www.intel.com/content/www/us/en/supplier/environmental-health-safety.html',
+      desc: B(['건설 EHS 성과 요구사항·건설 EHS 매뉴얼(전 세계 공장 공통 최소 기대치), 장비·설비 공급사 EHS 성과 요구사항', '캠퍼스에서 위험작업을 하는 공급사는 안전 사전 자격심사를 마치고 매년 갱신해야 출입 — “무재해·무사고 현장” 기대'],
+        ['Construction EHS performance requirements and manual (minimum expectations for every factory); EHS performance requirements for equipment and facilities suppliers', 'Suppliers doing hazardous work on campus must pass safety pre-qualification and renew it yearly for site access — an “injury-free, incident-free” job site is expected']),
+      use: ['bench', 'partner'], src: 'intelEhs' },
+    { id: 'iogpLsr', type: 'std', subj: ['culture', 'risk'], lang: 'EN+', access: 'free', checked: '2026-09-26',
+      name: B('IOGP 생명 보호 규칙 (Life-Saving Rules)', 'IOGP Life-Saving Rules'), org: B('국제석유가스생산자협회 IOGP', 'International Association of Oil & Gas Producers'),
+      url: 'https://www.iogp.org/workstreams/safety/safety/life-savingrules/',
+      desc: B(['사망으로 이어지기 쉬운 작업을 사고 데이터로 골라 만든 9개 규칙(Report 459) — 아이콘과 개인이 지킬 행동으로 구성, 2008~2017년 사망 376명이 규칙 준수로 막을 수 있었다고 분석', 'Line of Fire 10개 위험 범주, 작업 시작 전 점검(Report 459-1), 포스터·작업카드·영상·번역본 무료 제공'],
+        ['Nine rules (Report 459) chosen from fatality data — each an icon plus actions an individual controls; IOGP estimates 376 deaths in 2008–2017 might have been prevented', 'Ten Line of Fire hazard categories, Start-Work Checks (Report 459-1), free posters, work cards, videos and translations']),
+      use: ['sop', 'culture', 'bench'], src: 'iogpLsr' }
   ];
 })();
