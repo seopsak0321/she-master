@@ -46,7 +46,12 @@
     const low = lite(raw);
     let i = -1; for (const t of tks) { i = low.indexOf(t); if (i >= 0) break; }
     const len = n || 150, start = Math.max(0, (i < 0 ? 0 : i) - Math.round(len / 3));
-    return (start > 0 ? '…' : '') + markText(raw.slice(start, start + len), tks) + (start + len < raw.length ? '…' : '');
+    /* 잘린 쪽 끝에 칸 구분자(·)가 걸리면 떼어 낸다 — ‘…· 화기작업’처럼 보이지 않게 */
+    const cutL = start > 0, cutR = start + len < raw.length;
+    let s = raw.slice(start, start + len);
+    if (cutL) s = s.replace(/^[\s·]+/, '');
+    if (cutR) s = s.replace(/[\s·]+$/, '');
+    return (cutL ? '…' : '') + markText(s, tks) + (cutR ? '…' : '');
   }
 
   /* ---------- index ---------- */
@@ -73,7 +78,7 @@
       if (parts.length && b !== prev && !/[.:;!?·—–,→]\s*$/.test(parts[parts.length - 1]) && !/^\s*[.,:;)\]·—–→]/.test(v)) parts.push('·');
       parts.push(v); prev = b;
     }
-    return clean(parts.join(' ')).replace(/ ([,.)\]:;!?])/g, '$1').replace(/([([]) /g, '$1');
+    return clean(parts.join(' ')).replace(/([^·]) ([,.)\]:;!?])/g, '$1$2').replace(/([([]) /g, '$1');
   };
   const strip = (box) => { box.querySelectorAll('script,style,svg,select,textarea,button,input,.src,.ex-flag,.sr,.tabs').forEach((e) => e.remove()); return box; };
   const draw = (r) => { const box = document.createElement('div'); box.innerHTML = S.pages[r].render(''); return box; };

@@ -137,6 +137,9 @@
       /* 줄표(—)는 앞뒤를 띄어 쓴다 — 템플릿에서 값을 이어 붙이다 빠진 공백을 잡는다 */
       const dash = txt.match(/[^\n]{0,20}(?:[가-힣A-Za-z0-9]—|—[가-힣A-Za-z0-9])[^\n]{0,20}/);
       if (dash) add('warn', T('줄표 띄어쓰기', 'Dash spacing'), where, dash[0].trim());
+      /* 가운뎃점(·)은 양쪽을 붙이거나(가·나) 양쪽을 띄운다(가 · 나) — 한쪽만 띄운 곳은 빠진 공백 */
+      const dot = txt.match(/[^\n]{0,20}(?:[^\s·]\s·[^\s·]|[^\s·]·\s[^\s·])[^\n]{0,20}/);
+      if (dot) add('warn', T('가운뎃점 띄어쓰기', 'Middle-dot spacing'), where, dot[0].trim());
       const de = D.documentElement, CW = de.clientWidth;
       if (de.scrollWidth > CW + 1) {
         /* 가로 스크롤이 의도된 곳(표·탭·목차·분류 칩)은 빼고, 본문 밖 고정 요소(아래 탭 막대 등)도 본다 */
@@ -306,7 +309,7 @@
           T('깨진 내부 링크, 없는 앵커, 없는 인쇄 양식, 눌러도 변화 없는(같은 화면으로 가는) 링크', 'Broken internal links, missing anchors, missing print docs, links that lead back to the same screen'),
           T('데이터 참조 — 출처 id·SOP id·물질 id·KOSHA 번호·경로, 중복 id, 동향 날짜 순서, 출처 URL·확인일 형식', 'Data references — source, SOP and substance ids, KOSHA codes, routes, duplicate ids, news order, source URL and date format'),
           T('바닥글 버전과 실제 스크립트 번호(?v=)의 일치, 패치노트 번호·날짜 순서', 'Footer version matches the loaded script number (?v=); patch-note numbering and date order'),
-          T('문구 — 값 누출(undefined·NaN 등), 같은 낱말 반복, 괄호 짝, 줄표(—) 띄어쓰기', 'Wording — value leaks (undefined, NaN…), repeated words, unbalanced brackets, dash spacing'),
+          T('문구 — 값 누출(undefined·NaN 등), 같은 낱말 반복, 괄호 짝, 줄표(—)·가운뎃점(·) 띄어쓰기', 'Wording — value leaks (undefined, NaN…), repeated words, unbalanced brackets, dash and middle-dot spacing'),
           T('선택 시 — 글자 130%에서의 넘침, 모든 버튼·체크·선택 상자·접힘 제목과 링크(같은 주소는 한 번)를 실제로 눌러 스크립트 오류·빈 화면·빈 옆 창 확인', 'Optional — overflow at 130 % text; actually clicking every button, checkbox, select, fold and link (each address once) to catch script errors, empty screens and empty side panels'),
           T('사업장 3곳(공통·이천·청주) 전환 시 각 메뉴 화면', 'Every menu page for all three sites')].map((x) => `<li>${x}</li>`).join('')}</ul>
         <div class="row" style="gap:14px">

@@ -643,18 +643,26 @@
           <div class="stack">
             <label class="check"><input type="checkbox" data-rep="leak" ${rep.leak ? 'checked' : ''}> ${T('화학물질이 유출·누출됐다 (화재·폭발 포함)', 'A chemical was released (including fire or explosion)')}</label>
             <div class="form-grid">
-              <div class="field"><label for="rep-chem">${T('물질 (즉시 신고 기준량)', 'Substance (reporting threshold)')}</label><select id="rep-chem" data-rep="chem" ${rep.leak ? '' : 'disabled'}>${S.CHEM_REPORT.map((c) => `<option value="${c.id}" ${c.id === ev.sub.id ? 'selected' : ''}>${S.esc(L(c))}${c.q != null ? ` — ${c.q} kg·L` : ''}</option>`).join('')}</select></div>
+              <div class="field"><label for="rep-chem">${T('물질 (즉시 신고 기준량)', 'Substance (reporting threshold)')}</label><select id="rep-chem" data-rep="chem" ${rep.leak ? '' : 'disabled'}>${(() => { const opt = (c) => `<option value="${c.id}" ${c.id === ev.sub.id ? 'selected' : ''}>${S.esc(L(c))}${c.q != null ? ` — ${c.q} kg·L` : ''}</option>`;
+                return `<optgroup label="${T('반도체 사업장에서 쓰는 물질', 'Used in fabs')}">${S.CHEM_REPORT.filter((c) => c.rel && c.g).map(opt).join('')}</optgroup>`
+                  + `<optgroup label="${T('별표1의 그 밖의 물질', 'Other Annex 1 substances')}">${S.CHEM_REPORT.filter((c) => !c.rel).map(opt).join('')}</optgroup>`
+                  + `<optgroup label="${T('표에 없는 물질', 'Not in the table')}">${S.CHEM_REPORT.filter((c) => c.rel && !c.g).map(opt).join('')}</optgroup>`; })()}</select></div>
               <div class="field"><label for="rep-qty">${T('유출·누출량 (kg 또는 L)', 'Quantity released (kg or L)')}</label><input type="number" min="0" step="any" id="rep-qty" data-rep="qty" value="${S.esc(rep.qty)}" ${rep.leak ? '' : 'disabled'}></div>
             </div>
             <label class="check"><input type="checkbox" data-rep="hurt" ${rep.hurt ? 'checked' : ''} ${rep.leak ? '' : 'disabled'}> ${T('인명 피해가 있다 (병원 입원 또는 진단서로 확인)', 'Someone was harmed (hospital admission or a medical certificate)')}</label>
             <label class="check"><input type="checkbox" data-rep="urgent" ${rep.urgent ? 'checked' : ''} ${rep.leak ? '' : 'disabled'}> ${T('중상·인명구조·누출 확대 방지 긴급조치 때문에 지금 신고할 수 없다', 'Serious injury, rescue or emergency containment prevents reporting right now')}</label>
             <div class="result stack" style="gap:6px"><b class="small">${T('화학사고 신고 (즉시 신고 규정 별표1)', 'Chemical accident report (Annex 1 criteria)')}</b>
               ${ev.chem ? `${ui.pill(ev.chem.level, ev.chem.t)} <span class="xs muted">${T(`별표1 제1호 ${ev.chem.row}목`, `Annex 1, item 1(${S.rowEn(ev.chem.row)})`)}${ev.sub.q != null ? T(` · 기준량 ${ev.sub.q} kg·L`, ` · threshold ${ev.sub.q} kg or L`) : ''}</span>
-                ${ev.chem.waive ? `<span class="xs">${T('1kg·L 미만이고 인명·환경 피해 없이 방재 조치를 마쳤다면 신고하지 않을 수 있습니다(사고대비물질은 제외).', 'Under 1 kg or L with no harm to people or the environment and clean-up complete, a report may be skipped (not for accident-preparedness substances).')}</span>` : ''}
+                ${ev.chem.waive ? `<span class="xs">${T('1kg·L 미만(실험실은 100g·mL 미만)이고 인명·환경 피해 없이 방재 조치를 마쳤다면 신고하지 않을 수 있습니다(사고대비물질은 제외, 별표1 비고).', 'Under 1 kg or L (labs: 100 g or mL) with no harm to people or the environment and clean-up complete, a report may be skipped (not for accident-preparedness substances; Annex 1 note).')}</span>` : ''}
                 <ul class="clean xs"><li>${T('신고처 — 관할 지방자치단체, 지방환경관서, 국가경찰관서, 소방관서 또는 지방고용노동관서 (법 제43조②)', 'Report to — the local government, regional environment office, police, fire service or regional labour office (Act 43(2))')}</li>
                 <li>${T('신고 내용 — 발생 시간·장소, 사고 내용·원인, 피해 현황, 신고자·사업장 책임자 연락처 (규정 제4조)', 'Contents — time and place, what happened and why, damage, contact details of the reporter and the site manager (Rules Art. 4)')}</li>
                 <li>${T('즉시 화학사고예방관리계획서에 따라 응급조치, 중대·시급하면 취급시설 가동 중단 (법 제43조①)', 'Take emergency measures under the prevention plan at once; stop the facility if the accident is serious and urgent (Act 43(1))')}</li></ul>`
                 : `<span class="small muted">${T('유출·누출이 없으면 해당 없음', 'Not applicable without a release')}</span>`}</div>
+            ${ui.fine(`<div class="table-wrap"><table class="data"><thead><tr><th>${T('물질군', 'Group')}</th><th class="n">${T('기준량 (kg·L)', 'Threshold (kg or L)')}</th><th>${T('물질 [CAS]', 'Substance [CAS]')}</th></tr></thead><tbody>
+              ${Object.keys(S.CHEM_REPORT_GROUPS).flatMap((g) => [...new Set(S.CHEM_REPORT.filter((c) => c.g === g).map((c) => c.q))].map((q) => `<tr><td>${L(S.CHEM_REPORT_GROUPS[g])}</td><td class="n">${q}</td><td class="small">${S.CHEM_REPORT.filter((c) => c.g === g && c.q === q).map((c) => `${S.esc(L(c))} <span class="mono xs muted">[${c.cas}]</span>`).join(', ')}</td></tr>`)).join('')}
+              <tr><td>${T('그 밖의 유해화학물질', 'Other hazardous chemicals')}</td><td class="n">5</td><td class="small">${T('표에 이름이 없는 유해화학물질 (제2호 가목)', 'Hazardous chemicals not named in the table (item 2(a))')}</td></tr></tbody></table></div>
+              <p class="xs">${T(`별표1 제2호 나목은 ${S.CHEM_REPORT.filter((c) => c.g).length}종을 이름으로 정합니다. 물질명은 별표 표기 그대로입니다.`, `Annex 1 item 2(b) names ${S.CHEM_REPORT.filter((c) => c.g).length} substances; names follow the Annex (English added).`)}${S.cite('mceReport')}</p>`,
+              T(`별표1 기준량 전체 ${S.CHEM_REPORT.filter((c) => c.g).length}종 보기`, `All ${S.CHEM_REPORT.filter((c) => c.g).length} Annex 1 thresholds`))}
           </div>
           <div class="stack">
             <label class="check"><input type="checkbox" data-rep="gas" ${rep.gas ? 'checked' : ''}> ${T('고압가스(특정고압가스 포함) 시설·용기와 관련된 사고다', 'The accident involves high-pressure gas facilities or cylinders (incl. specified gases)')}</label>

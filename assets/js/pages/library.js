@@ -130,9 +130,12 @@
   }
   /* 불소계 공정가스 지구온난화지수 — 0.003부터 23,500까지라 로그 눈금 점으로 */
   function gwpDots(hi) {
-    const rows = S.CHEMICALS.filter((x) => x.gwp != null).sort((a, b) => b.gwp - a.gwp).map((x) => ({ label: x.f, v: x.gwp, tone: x.id === hi ? 'hi' : null }));
+    /* 물질 DB의 가스 + DB 밖(EPA 표 I-21, 유해성 정보 없음) 가스 — 값이 큰 순서 */
+    const rows = S.CHEMICALS.filter((x) => x.gwp != null).map((x) => ({ label: x.f, v: x.gwp, tone: x.id === hi ? 'hi' : null }))
+      .concat((S.GWP_EXTRA || []).map((x) => ({ label: `${x.f} <small class="muted" title="${S.esc(x.name)} · CAS ${x.cas}">${T('표 I-21', 'Table I-21')}</small>`, v: x.gwp, tone: null })))
+      .sort((a, b) => b.v - a.v);
     return `<div class="stack" style="gap:6px;margin-top:12px">${S.ui.dots(rows, { caption: T('지구온난화지수 (100년, CO₂ = 1)', 'Global warming potential (100-yr, CO₂ = 1)'), aria: T('불소계 공정가스 지구온난화지수 비교', 'GWP of fluorinated process gases') })}
-      <p class="xs muted keep">${T('미국 EPA 40 CFR 98 표 A-1', 'US EPA 40 CFR 98 Table A-1')}${S.cite('epaGhg')} · ${T('SK하이닉스는 식각 공정의 온실가스 고유발 물질을 신규 소재로 대체 적용 중이며(적용 평가 완료), 10여 종의 핵심 공정가스에 대체가스 적용을 검토하고 있다고 밝혔습니다(2024.5)', 'SK hynix says it is replacing high-GWP etch gases with new materials (application testing completed) and reviewing replacements for about ten key process gases (May 2024)')}${S.cite('nrLowGwp')}</p></div>`;
+      <p class="xs muted keep">${T('미국 EPA 40 CFR 98 표 A-1', 'US EPA 40 CFR 98 Table A-1')}${S.cite('epaGhg')} · ${T(`‘표 I-21’ 표시 ${(S.GWP_EXTRA || []).length}종(${(S.GWP_EXTRA || []).map((x) => x.f).join('·')})은 EPA가 전자산업 제조에 쓰인다고 예시한 가스로, 국제화학물질안전카드(ICSC)가 없어 물질 DB에는 넣지 않고 비교에만 표시합니다`, `The ${(S.GWP_EXTRA || []).length} gases marked “Table I-21” (${(S.GWP_EXTRA || []).map((x) => x.f).join(', ')}) are EPA’s examples of gases used in electronics manufacturing; they have no ICSC card, so they appear only in this comparison, not in the substance DB`)} · ${T('SK하이닉스는 식각 공정의 온실가스 고유발 물질을 신규 소재로 대체 적용 중이며(적용 평가 완료), 10여 종의 핵심 공정가스에 대체가스 적용을 검토하고 있다고 밝혔습니다(2024.5)', 'SK hynix says it is replacing high-GWP etch gases with new materials (application testing completed) and reviewing replacements for about ten key process gases (May 2024)')}${S.cite('nrLowGwp')}</p></div>`;
   }
   S.gwpDots = gwpDots;
   /* 공정 카드의 출처 — 없으면 OSHA. 물질의 공정 사용 근거는 물질의 psrc, 없으면 그 물질이 속한 공정 카드의 공정 해설 출처(OSHA·뉴스룸) */

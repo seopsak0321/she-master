@@ -155,6 +155,14 @@ SHE.CHEMICALS = [
   /* 지구온난화지수(100년) — 미국 EPA 40 CFR 98 Subpart A 표 A-1 (govinfo 2025년판, src: epaGhg). 반도체 식각·챔버 세정·증착 세정 가스 */
   const GWP = { cf4: 6630, chf3: 12400, c2f6: 11100, c4f8: 9540, c4f6: 0.003, nf3: 16100, sf6: 23500 };
   SHE.CHEMICALS.forEach((c) => { if (GWP[c.id] != null) c.gwp = GWP[c.id]; });
+  /* 물질 DB 밖 — 미국 EPA 40 CFR 98 표 I-21(전자산업 제조에 쓰이는 불소계 온실가스 예시)에 있지만 ILO ICSC 카드가 없어
+     유해성 정보는 싣지 않고 지구온난화지수 비교에만 쓰는 가스. GWP·CAS·이름은 표 A-1 표기 그대로 (src: epaGhg) */
+  SHE.GWP_EXTRA = [
+    { f: 'C₃F₈', cas: '76-19-7', gwp: 8900, name: 'PFC-218 (Perfluoropropane)' },
+    { f: 'c-C₄F₈O', cas: '773-14-8', gwp: 13900, name: 'Perfluorotetrahydrofuran' },
+    { f: 'c-C₅F₈', cas: '559-40-0', gwp: 2, name: 'PFC C-1418' },
+    { f: 'CH₂F₂', cas: '75-10-5', gwp: 677, name: 'HFC-32' }
+  ];
 })();
 /* 노출기준(TWA·STEL·C) 중 하나라도 있는 물질 — 수치 판정·호흡보호구·허가서 가스 행에만 쓴다 */
 SHE.hasOel = (c) => !!c && (c.twa != null || c.stel != null || c.c != null);
@@ -186,26 +194,57 @@ SHE.HPG = {
   sif4: { ko: '사불화규소', en: 'silicon tetrafluoride', b: 'decree' }
 };
 
-/* 화학사고 즉시 신고 기준 — 「화학사고 즉시 신고에 관한 규정」 별표1 (기후에너지환경부예규 제4호, 원문 PDF 확인, src: mceReport)
-   q = 제2호의 기준 유출·누출량(kg 또는 L). 표에 따로 없는 유해화학물질은 5. 반도체 사업장 관련 물질만 추림 */
+/* 화학사고 즉시 신고 기준 — 「화학사고 즉시 신고에 관한 규정」 별표1 (기후에너지환경부예규 제4호, 원문 PDF 확인 2026-09-26, src: mceReport)
+   q = 제2호 나목의 기준 유출·누출량(kg 또는 L), g = 별표의 물질군. 별표에 이름이 없는 유해화학물질은 제2호 가목 5.
+   rel: 반도체 사업장에서 쓰는 물질(기본 목록). 나머지는 ‘별표1 전체’에서 함께 보인다. 물질명은 별표 표기 그대로 */
+SHE.CHEM_REPORT_GROUPS = { acid: { ko: '산', en: 'Acids' }, base: { ko: '염기', en: 'Bases' }, gas: { ko: '가스', en: 'Gases' }, solv: { ko: '유기용제', en: 'Organic solvents' }, etc: { ko: '기타', en: 'Other' } };
 SHE.CHEM_REPORT = [
-  { id: 'hf', ko: '불산', en: 'Hydrofluoric acid', cas: '7664-39-3', q: 50 },
-  { id: 'hcl', ko: '염산', en: 'Hydrochloric acid', cas: '7647-01-0', q: 50 },
-  { id: 'hno3', ko: '질산', en: 'Nitric acid', cas: '7697-37-2', q: 500 },
-  { id: 'h2so4', ko: '황산', en: 'Sulfuric acid', cas: '7664-93-9', q: 500 },
-  { id: 'h2o2', ko: '과산화수소', en: 'Hydrogen peroxide', cas: '7722-84-1', q: 500 },
-  { id: 'naoh', ko: '수산화나트륨', en: 'Sodium hydroxide', cas: '1310-73-2', q: 500 },
-  { id: 'koh', ko: '수산화칼륨', en: 'Potassium hydroxide', cas: '1310-58-3', q: 500 },
-  { id: 'nh4oh', ko: '수산화암모늄(암모니아수)', en: 'Ammonium hydroxide', cas: '1336-21-6', q: 500 },
-  { id: 'cl2', ko: '염소', en: 'Chlorine', cas: '7782-50-5', q: 5 },
-  { id: 'f2', ko: '플루오린(불소)', en: 'Fluorine', cas: '7782-41-4', q: 5 },
-  { id: 'nh3', ko: '암모니아', en: 'Ammonia', cas: '7664-41-7', q: 50 },
-  { id: 'h2s', ko: '황화수소', en: 'Hydrogen sulfide', cas: '7783-06-4', q: 50 },
-  { id: 'ph3', ko: '포스핀', en: 'Phosphine', cas: '7803-51-2', q: 50 },
-  { id: 'ash3', ko: '아르신', en: 'Arsine', cas: '7784-42-1', q: 50 },
-  { id: 'b2h6', ko: '디보란', en: 'Diborane', cas: '19287-45-7', q: 50 },
-  { id: 'other', ko: '그 밖의 유해화학물질', en: 'Other hazardous chemicals', cas: '', q: 5 },
-  { id: 'none', ko: '유해화학물질이 아닌 물질', en: 'Not a hazardous chemical', cas: '', q: null }
+  { id: 'hf', ko: '불산', en: 'Hydrofluoric acid', cas: '7664-39-3', q: 50, g: 'acid', rel: true },
+  { id: 'hcl', ko: '염산', en: 'Hydrochloric acid', cas: '7647-01-0', q: 50, g: 'acid', rel: true },
+  { id: 'hso3cl', ko: '클로로설폰산', en: 'Chlorosulfonic acid', cas: '7790-94-5', q: 500, g: 'acid' },
+  { id: 'hno3', ko: '질산', en: 'Nitric acid', cas: '7697-37-2', q: 500, g: 'acid', rel: true },
+  { id: 'h2so4', ko: '황산', en: 'Sulfuric acid', cas: '7664-93-9', q: 500, g: 'acid', rel: true },
+  { id: 'nbuam', ko: '노말-뷰틸아민', en: 'n-Butylamine', cas: '109-73-9', q: 500, g: 'base' },
+  { id: 'naoh', ko: '수산화나트륨', en: 'Sodium hydroxide', cas: '1310-73-2', q: 500, g: 'base', rel: true },
+  { id: 'koh', ko: '수산화칼륨', en: 'Potassium hydroxide', cas: '1310-58-3', q: 500, g: 'base', rel: true },
+  { id: 'pyridine', ko: '피리딘', en: 'Pyridine', cas: '110-86-1', q: 500, g: 'base' },
+  { id: 'nh4oh', ko: '수산화암모늄(암모니아수)', en: 'Ammonium hydroxide', cas: '1336-21-6', q: 500, g: 'base', rel: true },
+  { id: 'cl2', ko: '염소', en: 'Chlorine', cas: '7782-50-5', q: 5, g: 'gas', rel: true },
+  { id: 'f2', ko: '플루오린(불소)', en: 'Fluorine', cas: '7782-41-4', q: 5, g: 'gas', rel: true },
+  { id: 'cocl2', ko: '포스겐', en: 'Phosgene', cas: '75-44-5', q: 5, g: 'gas' },
+  { id: 'sarin', ko: '사린', en: 'Sarin', cas: '107-44-8', q: 5, g: 'gas' },
+  { id: 'eo', ko: '산화에틸렌', en: 'Ethylene oxide', cas: '75-21-8', q: 5, g: 'gas' },
+  { id: 'h2s', ko: '황화수소', en: 'Hydrogen sulfide', cas: '7783-06-4', q: 50, g: 'gas', rel: true },
+  { id: 'nh3', ko: '암모니아', en: 'Ammonia', cas: '7664-41-7', q: 50, g: 'gas', rel: true },
+  { id: 'ph3', ko: '포스핀', en: 'Phosphine', cas: '7803-51-2', q: 50, g: 'gas', rel: true },
+  { id: 'ash3', ko: '아르신', en: 'Arsine', cas: '7784-42-1', q: 50, g: 'gas', rel: true },
+  { id: 'b2h6', ko: '디보란', en: 'Diborane', cas: '19287-45-7', q: 50, g: 'gas', rel: true },
+  { id: 'mma', ko: '메틸아민', en: 'Methylamine', cas: '74-89-5', q: 50, g: 'gas' },
+  { id: 'tmam', ko: '트라이메틸아민', en: 'Trimethylamine', cas: '75-50-3', q: 50, g: 'gas' },
+  { id: 'hcho', ko: '폼알데하이드', en: 'Formaldehyde', cas: '50-00-0', q: 50, g: 'gas' },
+  { id: 'benzene', ko: '벤젠', en: 'Benzene', cas: '71-43-2', q: 5, g: 'solv' },
+  { id: 'chcl3', ko: '클로로포름', en: 'Chloroform', cas: '67-66-3', q: 5, g: 'solv' },
+  { id: 'bcee', ko: '다이클로로에틸이스', en: 'Bis(2-chloroethyl) ether', cas: '111-44-4', q: 5, g: 'solv' },
+  { id: 'mvk', ko: '메틸 비닐 케톤', en: 'Methyl vinyl ketone', cas: '78-94-4', q: 5, g: 'solv' },
+  { id: 'mekp', ko: '메틸에틸케톤 과산화물', en: 'Methyl ethyl ketone peroxide', cas: '1338-23-4', q: 5, g: 'solv' },
+  { id: 'tdi', ko: '톨루엔-2,4-디이소시아네이트', en: 'Toluene-2,4-diisocyanate', cas: '584-84-9', q: 50, g: 'solv' },
+  { id: 'allylalc', ko: '알릴 알코올', en: 'Allyl alcohol', cas: '107-18-6', q: 50, g: 'solv' },
+  { id: 'phsh', ko: '벤젠 싸이올', en: 'Benzenethiol', cas: '108-98-5', q: 50, g: 'solv' },
+  { id: 'bzcl', ko: '염화 벤질', en: 'Benzyl chloride', cas: '100-44-7', q: 50, g: 'solv' },
+  { id: 'clphenol', ko: '클로로페놀', en: 'Chlorophenol', cas: '95-57-8', q: 50, g: 'solv' },
+  { id: 'pxyl', ko: 'p-자이렌', en: 'p-Xylene', cas: '106-42-3', q: 50, g: 'solv' },
+  { id: 'mcresol', ko: 'm-크레졸', en: 'm-Cresol', cas: '108-39-4', q: 50, g: 'solv' },
+  { id: 'phenol', ko: '페놀', en: 'Phenol', cas: '108-95-2', q: 500, g: 'solv' },
+  { id: 'toluene', ko: '톨루엔', en: 'Toluene', cas: '108-88-3', q: 500, g: 'solv' },
+  { id: 'allylcl', ko: '알릴 클로라이드', en: 'Allyl chloride', cas: '107-05-1', q: 500, g: 'solv' },
+  { id: 'nitrobz', ko: '니트로벤젠', en: 'Nitrobenzene', cas: '98-95-3', q: 500, g: 'solv' },
+  { id: 'oxyl', ko: 'O-자이렌', en: 'o-Xylene', cas: '95-47-6', q: 500, g: 'solv' },
+  { id: 'mxyl', ko: 'm-자이렌', en: 'm-Xylene', cas: '108-38-3', q: 500, g: 'solv' },
+  { id: 'pnt', ko: 'p-니트로톨루엔', en: 'p-Nitrotoluene', cas: '99-99-0', q: 500, g: 'solv' },
+  { id: 'h2o2', ko: '과산화수소', en: 'Hydrogen peroxide', cas: '7722-84-1', q: 500, g: 'etc', rel: true },
+  { id: 'pcl3', ko: '삼염화인', en: 'Phosphorus trichloride', cas: '7719-12-2', q: 500, g: 'etc' },
+  { id: 'other', ko: '그 밖의 유해화학물질', en: 'Other hazardous chemicals', cas: '', q: 5, rel: true },
+  { id: 'none', ko: '유해화학물질이 아닌 물질', en: 'Not a hazardous chemical', cas: '', q: null, rel: true }
 ];
 
 /* 유해화학물질 취급시설 자체 점검 항목 — 화학물질관리법 제26조②1~5호 + 시행규칙 제26조②1~7호 (src: lawCca, lawCcaRule)

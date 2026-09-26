@@ -15,7 +15,8 @@
     { k: T('출처', 'Sources'), n: (S.SOURCES || []).length },
     { k: T('자료실 사이트', 'Library sites'), n: (S.RESOURCES || []).length },
     { k: T('공정 단계', 'Process steps'), n: (S.PROCESSES || []).length },
-    { k: T('사고사례', 'Incident cases'), n: (S.CASES || []).length }
+    { k: T('사고사례', 'Incident cases'), n: (S.CASES || []).length },
+    { k: T('용어', 'Glossary terms'), n: (S.GLOSSARY || []).length }
   ];
   const KINDS = () => [['add', T('추가', 'Added'), 'ok'], ['chg', T('보완·반영', 'Improved'), 'info'], ['fix', T('고침', 'Fixed'), 'warn']];
 

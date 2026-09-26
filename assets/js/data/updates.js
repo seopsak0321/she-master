@@ -5,11 +5,21 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v71';
+SHE.BUILD = 'v76';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 8, v: SHE.BUILD, date: '2026-09-26',
+    { no: 9, v: SHE.BUILD, date: '2026-09-26',
+      t: B('화학사고 신고 기준 전체·용어 사전 확충·전자산업 불소계 가스', 'Full chemical-accident reporting list, glossary expansion, electronics F-gases'),
+      add: [
+        B('화학사고 즉시 신고 판정 — 별표1이 이름으로 정한 44종 전체(산·염기·가스·유기용제·기타), 선택 목록을 ‘반도체 사업장에서 쓰는 물질 / 그 밖의 물질’로 나누고 기준량 전체 표를 접어서 제공', 'Chemical-accident report check — all 44 substances named in Annex 1 (acids, bases, gases, solvents, other); the list is split into “used in fabs” and “other”, with a foldable table of every threshold'),
+        B('용어 사전 36 → 46개 — 유해화학물질·사고대비물질·화학사고·밀폐공간·산소결핍·관리대상 유해물질·근골격계부담작업·물질안전보건자료·작업환경측정·지구온난화지수(법령 정의 조항 기준)', 'Glossary 36 → 46 — hazardous chemical, accident-preparedness substance, chemical accident, confined space, oxygen deficiency, controlled hazardous substance, musculoskeletal-burden work, MSDS, work-environment monitoring, GWP (from the statutory definitions)'),
+        B('지구온난화지수 비교에 미국 EPA 표 I-21의 전자산업 사용 가스 4종(C₃F₈·c-C₄F₈O·c-C₅F₈·CH₂F₂) 추가 — ICSC 카드가 없어 물질 DB에는 넣지 않고 비교에만', 'GWP comparison adds four electronics gases from EPA Table I-21 (C₃F₈, c-C₄F₈O, c-C₅F₈, CH₂F₂) — no ICSC card, so comparison only, not in the substance DB')
+      ],
+      chg: [B('물질 DB의 삼염화인에 별표1 즉시 신고 기준량(500kg·L) 연결, 소량 유출 신고 면제 안내에 실험실 기준(100g·mL) 추가', 'Phosphorus trichloride in the substance DB is linked to its Annex 1 threshold (500 kg or L); the small-release exemption note adds the lab figure (100 g or mL)'),
+        B('자체 점검 문구 검사에 가운뎃점(·) 한쪽 띄어쓰기 검사 추가', 'Self-check wording test now flags lopsided spacing around the middle dot (·)')],
+      fix: [B('검색 결과 발췌의 앞뒤가 칸 구분자(가운뎃점)에서 잘리거나, 구분자가 다음 기호에 붙어 보이던 문제', 'Search snippets could begin or end on a cell separator (middle dot), or run the separator into the next symbol')] },
+    { no: 8, v: 'v71', date: '2026-09-26 15:23', commit: 'a42f51c',
       t: B('안전 정보 자료실 확충·국내외 우수 사례 통합', 'Resource library expansion; best practice from home and abroad'),
       add: [
         B('안전 정보 자료실 25곳 → 41곳 — 국민안전24 국민행동요령·국가화재정보시스템·한국소방안전원·원자력안전위원회·온실가스종합정보센터·산업안전보건연구원 연구보고서 / NIOSH 대책 위계·ERG 2024·EPA AEGL·PubChem·EU-OSHA·일본 후생노동성 직장 안전 사이트 / 삼성전자 반도체·TSMC·Intel·IOGP', 'Resource library from 25 to 41 sites — Korean public action guides, national fire data, fire-safety institute, nuclear safety commission, GHG centre, OSHRI research / NIOSH hierarchy of controls, ERG 2024, EPA AEGL, PubChem, EU-OSHA, Japan’s workplace safety site / Samsung Semiconductor, TSMC, Intel, IOGP'),
@@ -95,6 +105,7 @@ SHE.BUILD = 'v71';
     { k: B('물질', 'Substances'), pts: [['v9', 34], ['v25', 63], ['v62', 71]] },
     { k: B('SOP', 'SOPs'), pts: [['v22', 13], ['v25', 19], ['v62', 22]] },
     { k: B('출처', 'Sources'), pts: [['v22', 83], ['v25', 94], ['v32', 95], ['v62', 110]] },
-    { k: B('자료실 사이트', 'Library sites'), pts: [['v33', 25]] }
+    { k: B('자료실 사이트', 'Library sites'), pts: [['v33', 25]] },
+    { k: B('용어', 'Glossary terms'), pts: [['v64', 36]] }
   ];
 })();
