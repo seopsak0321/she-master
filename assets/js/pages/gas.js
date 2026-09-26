@@ -232,7 +232,9 @@
 
   S.gasApi = { alarmEval, mixEval };
   S.pages.gas = {
-    render() {
+    render(sub) {
+      /* #gas/<도구>로 들어오면 그 탭을 연다 (SOP·사고사례의 ‘다음 업무’ 링크) */
+      if (sub && TOOLS[sub] && !S.state.refreshing) S.save('tab.gas', sub);
       const cur = S.tab('gas', 'alarm');
       const tool = TOOLS[cur] || TOOLS.alarm;
       return `
@@ -241,7 +243,7 @@
         T('반도체 특수가스 설비에서 바로 쓰는 세 가지 계산 — 가스 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 그 폭발하한계, 누출 시 초기 이격·방호 거리를 원문 기준으로 확인합니다.',
           'Three checks for fab specialty-gas systems — whether detector set points meet the KGS codes and KOSHA guidance, whether a gas mixture is flammable and its LEL, and initial isolation and protective distances for a release — all from the original documents.'))}
       ${ui.tabs('gas', Object.keys(TOOLS).map((id) => ({ id, label: TOOLS[id].label() })), cur)}
-      ${tool.render()}
+      <div id="anchor-${cur in TOOLS ? cur : 'alarm'}">${tool.render()}</div>
       <p class="xs muted">${T('근거', 'Basis')}: ${S.cite(tool.basis)} · ${T('입력값은 이 브라우저에만 저장됩니다. 판단 보조 도구이며 사내 기준과 원문을 함께 확인하세요.', 'Inputs are saved in this browser only. A decision aid — check in-house rules and the originals.')}</p>`;
     },
     mount(root) { const cur = S.tab('gas', 'alarm'); (TOOLS[cur] || TOOLS.alarm).mount(root); }

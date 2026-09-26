@@ -23,7 +23,9 @@
     [/^gas\./, { ko: '가스 안전 도구 입력값', en: 'Gas-tool inputs' }, 'gas'],
     [/^ppe$/, { ko: '호흡보호구 선정 입력값', en: 'Respirator-selection inputs' }, 'ppe'],
     [/^quiz\./, { ko: 'SOP 퀴즈 응답', en: 'SOP quiz answers' }, 'sop'],
-    [/^lawchk$/, { ko: '출처·검증 — 법령 변경 점검 기록', en: 'Sources — law-change check log' }, 'sources']
+    [/^lawchk$/, { ko: '출처·검증 — 법령 변경 점검 기록', en: 'Sources — law-change check log' }, 'sources'],
+    [/^memo\.text$/, { ko: '메모장 — 적어 둔 내용', en: 'Notepad — your notes' }],
+    [/^(calc\.hist|units\.last)$/, { ko: '계산기 기록·단위 환산 입력값', en: 'Calculator history, unit-converter inputs' }, 'units']
   ];
   const PREFS = { ko: '화면 설정 — 언어·사업장·탭·검색 기록', en: 'Screen settings — language, site, tabs, search history' };
   const OTHER = { ko: '기타', en: 'Other' };
@@ -75,6 +77,7 @@
     ['psm.*, pt.*, fire.*, sdx.*, cul.*', T('6대 직무 입력값 — PSM 현황·MOC, 도급 의무·평가, 소방 점검·훈련, SDX 이벤트, KPI', 'Six-function inputs — PSM, contractor duties, fire checks and drills, SDX events, KPIs'), ''],
     ['cases.user, case.st.*, moelck', T('사고사례 — 내 사례·대책 진행·정부 점검 자가점검', 'Incidents — my cases, measure progress, self-check'), ''],
     ['gas.*, ppe, quiz.*, lawchk', T('도구 입력값·SOP 퀴즈·법령 변경 점검 기록', 'Tool inputs, SOP quizzes, law-change check log'), ''],
+    ['memo.text, calc.hist, units.last', T('메모장 내용·계산기 기록·단위 환산 입력값 (상단 도구)', 'Notepad text, calculator history, unit-converter inputs (top-bar tools)'), ''],
     ['lang, site, theme, tab.*, search.* …', T('화면 설정 (백업에는 들어가고, 기능별 내보내기에서는 기본 제외)', 'Screen settings (in full backups; left out of feature exports by default)'), '']
   ];
 

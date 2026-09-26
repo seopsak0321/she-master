@@ -15,11 +15,12 @@
       <div class="panel stack" style="gap:14px">
         <div class="row" style="justify-content:space-between;align-items:flex-start">
           <div class="stack" style="gap:2px"><span class="eyebrow">${T('선택한 SOP', 'Selected SOP')}</span><h2 style="font-size:calc(24px * var(--fz));letter-spacing:-.02em">${L(s.t)}</h2><span class="small muted">${L(s.area)}</span></div>
-          <div class="row">${lvl(s.level)}${s.permits.map((p) => `<span class="chip">${L(S.PERMITS[p])}</span>`).join('')}</div>
+          <div class="row">${s.kind === 'emer' ? `<span class="chip">${T('비상 대응', 'Emergency response')}</span>` : ''}${lvl(s.level)}${s.permits.map((p) => `<span class="chip">${L(S.PERMITS[p])}</span>`).join('')}</div>
         </div>
         <div><b class="small">${T('주요 유해·위험요인', 'Key hazards')}</b><ul class="facts cols2" style="margin-top:6px">${L(s.hz).map((h) => `<li>${h}</li>`).join('')}</ul></div>
         ${rel.length ? `<div class="callout warn small"><b>${T('이 작업과 관련된 실제 사고사례', 'Real incidents linked to this job')}</b> — ${rel.map((c) => `<a href="#cases/${c.id}">${S.esc(L(c.dateLabel))} ${S.esc(L(c.t))}</a>`).join(' · ')}</div>` : ''}
-        <div class="row"><a class="btn sm" href="#ptw/new/${s.id}">${T('이 작업으로 작업허가서 작성', 'Start a permit for this job')} →</a><button class="btn ghost sm" type="button" data-to-jsa="${s.id}">${T('위험성평가(JSA)로 보내기', 'Send to risk assessment (JSA)')}</button><button class="btn ghost sm" type="button" data-to-check="${s.id}">${T('체크리스트로 점검하기', 'Check as a checklist')}</button>${S.printLink('sop/' + s.id, T('SOP 인쇄 (교육 확인란 포함)', 'Print SOP (with training sign-off)'))}</div>
+        ${(s.next || []).length ? `<div class="stack" style="gap:6px"><b class="small">${T('다음 업무', 'Next steps')}</b><div class="row">${s.next.map((n) => `<a class="btn ghost sm" href="${n.link}">${L(n.t)} →</a>`).join('')}</div></div>` : ''}
+        <div class="row">${s.permits.length ? `<a class="btn sm" href="#ptw/new/${s.id}">${T('이 작업으로 작업허가서 작성', 'Start a permit for this job')} →</a>` : ''}<button class="btn ghost sm" type="button" data-to-jsa="${s.id}">${T('위험성평가(JSA)로 보내기', 'Send to risk assessment (JSA)')}</button><button class="btn ghost sm" type="button" data-to-check="${s.id}">${T('체크리스트로 점검하기', 'Check as a checklist')}</button>${S.printLink('sop/' + s.id, T('SOP 인쇄 (교육 확인란 포함)', 'Print SOP (with training sign-off)'))}</div>
         <p class="xs muted keep">${ui.ex()} ${T('교육·포트폴리오용 표준 절차 예시입니다. SK하이닉스 사내 SOP가 아니며, 각 단계의 근거를 “법(조문)·지침·관행”으로 구분해 표시했습니다.', 'A teaching example, not an SK hynix internal SOP. Each step shows its basis: law (article), guide, or common practice.')}</p>
       </div>
       ${ui.tabs('sopd', [{ id: 'steps', label: T(`절차 ${s.steps.length}단계`, `${s.steps.length} steps`) }, { id: 'card', label: T('작업 전 5분 카드', '5-minute card') }, { id: 'basis', label: T('근거·물질·교육', 'Basis, substances, training') }, { id: 'quiz', label: T(`이해도 확인 ${answered}/${s.quiz.length}`, `Quiz ${answered}/${s.quiz.length}`) }], dt)}
@@ -43,12 +44,12 @@
         </div></div>`).join('')}</div>
       </div>
       <div class="stack">
-        <div class="panel"><div class="section-title"><h2 style="color:var(--bad)">${T('작업 중지 기준', 'Stop work if…')}</h2></div><ul class="facts" style="margin-top:8px">${L(s.stop).map((x) => `<li>${x}</li>`).join('')}</ul></div>
+        <div class="panel"><div class="section-title"><h2 style="color:var(--bad)">${s.kind === 'emer' ? T('대피·접근 금지 기준', 'Evacuate / keep out if…') : T('작업 중지 기준', 'Stop work if…')}</h2></div><ul class="facts" style="margin-top:8px">${L(s.stop).map((x) => `<li>${x}</li>`).join('')}</ul></div>
         <div class="panel">${ui.title(T('비상 시 행동', 'In an emergency'))}<ul class="facts">${L(s.emer).map((x) => `<li>${x}</li>`).join('')}</ul></div>
       </div>
     </section>` : ''}
       ${dt === 'card' ? `<div class="card5" id="anchor-card">
-        <div class="row" style="justify-content:space-between"><h3 style="font-size:calc(18px * var(--fz))">${T('작업 전 5분 안전카드', '5-minute pre-job card')}</h3><span class="row" style="gap:6px"><span class="chip">${T('협력사·현장용', 'For contractors & field crews')}</span>${S.printLink('card/' + s.id, T('카드 인쇄', 'Print card'))}${S.printLink('card/' + s.id + '/both', T('한·영 병기 인쇄', 'Print KO + EN'))}</span></div>
+        <div class="row" style="justify-content:space-between"><h3 style="font-size:calc(18px * var(--fz))">${s.kind === 'emer' ? T('비상 대응 5분 카드', '5-minute emergency card') : T('작업 전 5분 안전카드', '5-minute pre-job card')}</h3><span class="row" style="gap:6px"><span class="chip">${T('협력사·현장용', 'For contractors & field crews')}</span>${S.printLink('card/' + s.id, T('카드 인쇄', 'Print card'))}${S.printLink('card/' + s.id + '/both', T('한·영 병기 인쇄', 'Print KO + EN'))}</span></div>
         <p style="font-weight:600">${L(s.t)}</p>
         <div class="cols">
           <div class="do"><h4>✓ ${T('이렇게 하세요', 'Do')}</h4><ul>${L(s.card.do).map((x) => `<li>${x}</li>`).join('')}</ul></div>
@@ -67,22 +68,24 @@
   S.pages.sop = {
     render(sub) {
       const sel = S.SOPS.find((s) => s.id === sub) || S.SOPS.find((s) => s.id === S.load('sop.sel', 'confined')) || S.SOPS[0];
-      const pN = {}, lvN = {};
-      S.SOPS.forEach((s) => { s.permits.forEach((p) => { pN[p] = (pN[p] || 0) + 1; }); lvN[s.level] = (lvN[s.level] || 0) + 1; });
+      const pN = {}, lvN = {}, kN = {};
+      const kindOf = (s) => (s.kind === 'emer' ? 'emer' : 'job');
+      S.SOPS.forEach((s) => { s.permits.forEach((p) => { pN[p] = (pN[p] || 0) + 1; }); lvN[s.level] = (lvN[s.level] || 0) + 1; kN[kindOf(s)] = (kN[kindOf(s)] || 0) + 1; });
       const both = (o) => (o == null ? '' : typeof o === 'string' ? o : [].concat(o.ko || '', o.en || '').join(' '));
       return `
       ${ui.head(T('라이브러리', 'Library'), T('SOP·작업 안전', 'SOPs & job safety'),
-        T(`반도체 사업장 고위험 작업 ${S.SOPS.length}종의 표준 절차와 작업 전 5분 카드입니다.`, `Standard procedures and 5-minute pre-job cards for ${S.SOPS.length} high-risk fab jobs.`),
+        T(`반도체 사업장 고위험 작업 ${kN.job || 0}종과 비상 대응 ${kN.emer || 0}종의 표준 절차와 5분 카드입니다.`, `Standard procedures and 5-minute cards for ${kN.job || 0} high-risk fab jobs and ${kN.emer || 0} emergency responses.`),
         T('법령 조문·KOSHA 지침·해외 규제기관 자료로 재구성한 교육용 예시입니다. 카드를 누르면 아래에 안전관리자용 절차(JSA)와 협력사 작업자용 5분 카드가 열립니다.', 'Teaching examples rebuilt from statutes, KOSHA guides and foreign regulators. Click a card to open the manager’s JSA and the contractor’s 5-minute card below.'))}
       <section class="stack" style="gap:14px" aria-label="${T('SOP 목록', 'SOP list')}">
         ${S.listbar({ id: 'sop', ph: T('작업명·위험요인·KOSHA 번호로 찾기 — 예: 밀폐, 가스, LOTO', 'Search by job, hazard or KOSHA number — e.g. confined, gas, LOTO'), total: S.SOPS.length,
-          facets: [{ key: 'p', label: T('작업허가', 'Permit'), opts: Object.keys(S.PERMITS).filter((p) => pN[p]).map((p) => ({ id: p, label: L(S.PERMITS[p]), n: pN[p] })) },
+          facets: [{ key: 'k', label: T('구분', 'Type'), opts: [['job', T('일상 작업', 'Routine jobs')], ['emer', T('비상 대응', 'Emergency response')]].filter(([k]) => kN[k]).map(([k, l]) => ({ id: k, label: l, n: kN[k] })) },
+            { key: 'p', label: T('작업허가', 'Permit'), opts: Object.keys(S.PERMITS).filter((p) => pN[p]).map((p) => ({ id: p, label: L(S.PERMITS[p]), n: pN[p] })) },
             { key: 'lv', label: T('위험 등급', 'Risk'), opts: ['A', 'B'].filter((l) => lvN[l]).map((l) => ({ id: l, label: l === 'A' ? T('고위험', 'High risk') : T('중위험', 'Medium risk'), n: lvN[l] })) }] })}
         <div class="sop-grid">${S.SOPS.map((s) => `<a class="sop-card" href="#sop/${s.id}" ${s.id === sel.id ? 'aria-current="true"' : ''} style="text-decoration:none"
-          data-li="${S.esc([s.id, both(s.t), both(s.area), L(s.hz).join(' '), s.kosha.join(' ')].join(' '))}" data-f-p="${s.permits.join(' ')}" data-f-lv="${s.level}">
+          data-li="${S.esc([s.id, both(s.t), both(s.area), L(s.hz).join(' '), s.kosha.join(' ')].join(' '))}" data-f-p="${s.permits.join(' ')}" data-f-lv="${s.level}" data-f-k="${kindOf(s)}">
           <div class="row" style="justify-content:space-between">${lvl(s.level)}<span class="xs muted">${s.steps.length} ${T('단계', 'steps')}</span></div>
           <h3>${L(s.t)}</h3><span class="small muted">${L(s.area)}</span>
-          <div class="row">${s.permits.map((p) => `<span class="chip">${L(S.PERMITS[p])}</span>`).join('')}</div></a>`).join('')}</div>
+          <div class="row">${s.kind === 'emer' ? `<span class="chip">${T('비상 대응', 'Emergency response')}</span>` : ''}${s.permits.map((p) => `<span class="chip">${L(S.PERMITS[p])}</span>`).join('')}</div></a>`).join('')}</div>
         <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 SOP가 없습니다. 다른 낱말이나 분류로 찾아보세요.', 'No SOPs match. Try another word or filter.')}</p>
       </section>
       ${sopDetail(sel)}`;
@@ -115,6 +118,9 @@
   const REGF = [['w', T0('작업환경측정 (별표21)', 'Monitoring (Annex 21)')], ['s', T0('특수건강진단 (별표22)', 'Health check (Annex 22)')], ['m', T0('관리대상 (별표12)', 'Controlled (Annex 12)')], ['x', T0('특별관리물질', 'Specially controlled')], ['p', T0('허가대상', 'Licensed')], ['none', T0('국내 노출기준 없음', 'No Korean limit')]];
   function T0(ko, en) { return { ko, en }; }
   const idlhText = (c) => (c.idlh == null ? '–' : c.idlh + (c.idlhUnit && c.idlhUnit !== c.unit ? ' ' + c.idlhUnit : ''));
+  /* 공정 카드의 출처 — 없으면 OSHA. 물질의 공정 사용 근거는 물질의 psrc, 없으면 그 물질이 속한 공정 카드의 공정 해설 출처(OSHA·뉴스룸) */
+  const pSrc = (p) => p.src || ['oshaSemi'];
+  const procSrc = (c) => c.psrc || [...new Set(S.PROCESSES.filter((p) => c.procs.includes(p.id)).flatMap(pSrc).filter((id) => /^(osha|nr)/.test(id)))];
   function chemDetail(id) {
     const c = chemById(id); if (!c) return {};
     const procs = S.PROCESSES.filter((p) => c.procs.includes(p.id));
@@ -135,7 +141,7 @@
           ${S.HPG[c.id] ? `<dt>${T('고압가스법', 'HP Gas Act')}</dt><dd>${T('특정고압가스', 'Specified high-pressure gas')} — ${S.esc(L(S.HPG[c.id]))}</dd>` : ''}
           ${c.icsc ? `<dt>${T('위험 특성', 'Hazard notes')}</dt><dd style="color:var(--warn)">${L(c.icsc)}${S.cite('icsc')}</dd>` : ''}
           ${S.chemLinks(c) ? `<dt>${T('자료', 'Data sheets')}</dt><dd>${S.chemLinks(c)}</dd>` : ''}
-          ${procs.length ? `<dt>${T('관련 공정', 'Processes')}</dt><dd>${procs.map((p) => S.esc(L(p))).join(' · ')}${S.cite('oshaSemi')}</dd>` : ''}
+          ${procs.length ? `<dt>${T('관련 공정', 'Processes')}</dt><dd>${procs.map((p) => `<a href="#hazards/${p.id}">${S.esc(L(p))}</a>`).join(' · ')}${S.cite(...procSrc(c))}</dd>` : ''}
           ${sops.length ? `<dt>SOP</dt><dd>${sops.map((s) => `<a href="#sop/${s.id}">${S.esc(L(s.t))}</a>`).join('<br>')}</dd>` : ''}
         </dl>`,
       foot: S.hasOel(c) ? `<button class="btn sm" type="button" data-judge="${c.id}">${T('이 물질로 수치 판정', 'Check a reading for this substance')} →</button>` : `<span class="xs muted">${T('노출기준이 없어 수치 판정 대상이 아닙니다', 'No limit, so no reading check')}</span>`,
@@ -149,6 +155,8 @@
       /* #hazards/<물질 id>로 들어오면 물질 탭에서 그 물질만 보이게 한다 */
       const direct = sub && chemById(sub);
       if (direct && !S.state.refreshing) { S.save('tab.hz', 'chem'); S.save('lb.hz', { q: direct.cas }); }
+      /* #hazards/<공정 id>로 들어오면 공정 탭을 열어 그 카드로 이동한다 */
+      if (sub && !direct && S.PROCESSES.some((p) => p.id === sub) && !S.state.refreshing) S.save('tab.hz', 'proc');
       const tab = S.tab('hz', 'chem');
       const catN = {}; S.CHEMICALS.forEach((c) => { catN[c.cat] = (catN[c.cat] || 0) + 1; });
       const rgOf = (c) => ((c.rg || '').split('').filter((k) => 'wsmxp'.includes(k)).concat(S.hasOel(c) ? [] : ['none'])).join(' ');
@@ -156,16 +164,16 @@
       return `
       ${ui.head(T('라이브러리', 'Library'), T('공정·물질 위험', 'Process & chemical hazards'),
         T('주요 물질의 국내 노출기준·IDLH와 공정 단계별 유해위험을 찾아봅니다.', 'Find exposure limits and IDLH values for key substances, and hazards by process step.'),
-        T('물질 이름을 누르면 비고·법정 관리 구분·위험 특성·ICSC·MSDS·관련 공정과 SOP가 옆 창에 열리고, 거기서 바로 수치 판정으로 이어집니다. 공정 단계별 유해위험은 미국 OSHA 정리를 따릅니다.', 'Click a substance name to open its notes, statutory status, hazard notes, ICSC and MSDS links, processes and SOPs in a side panel, and go straight to a reading check. Hazards by process step follow the US OSHA compilation.'))}
+        T('물질 이름을 누르면 비고·법정 관리 구분·위험 특성·ICSC·MSDS·관련 공정과 SOP가 옆 창에 열리고, 거기서 바로 수치 판정으로 이어집니다. 공정 단계별 유해위험은 미국 OSHA 정리와 SK하이닉스 뉴스룸 공정 해설, KOSHA 지침을 따르고 카드마다 출처를 붙였습니다.', 'Click a substance name to open its notes, statutory status, hazard notes, ICSC and MSDS links, processes and SOPs in a side panel, and go straight to a reading check. Hazards by process step follow the US OSHA compilation, SK hynix Newsroom process articles and KOSHA guides, with sources on each card.'))}
       ${ui.tabs('hz', [{ id: 'chem', label: T(`물질 ${S.CHEMICALS.length}`, `Substances ${S.CHEMICALS.length}`) }, { id: 'proc', label: T(`공정 단계 ${S.PROCESSES.length}`, `Process steps ${S.PROCESSES.length}`) }], tab)}
       ${tab === 'proc' ? `
       <section class="grid g2" style="align-items:center">
         ${S.photo('cleanroom')}
-        <div class="stack"><p>${T('웨이퍼는 클린룸에서 산화·세정·포토·식각·감광액 제거·도핑·증착 공정을 거칩니다. 공정마다 쓰는 가스·약품과 에너지가 달라 유해위험도 다릅니다.', 'In the cleanroom a wafer goes through oxidation, cleaning, photolithography, etching, resist stripping, doping and deposition. Each step uses different gases, chemicals and energy, so the hazards differ too.')}</p>
-          <p class="small muted">${T('아래는 미국 OSHA 정리 기준입니다. 실제 공정은 사업장마다 다르므로 출발점으로만 쓰세요.', 'The cards below follow OSHA’s compilation. Real processes differ by site, so use them only as a starting point.')}${S.cite('oshaSemi')}</p></div>
+        <div class="stack"><p>${T('웨이퍼는 클린룸에서 산화·세정·포토·식각·감광액 제거·도핑·증착·금속배선·CMP 공정을 거치고, 웨이퍼 레벨 패키지 같은 후공정으로 이어집니다. 공정마다 쓰는 가스·약품과 에너지가 달라 유해위험도 다릅니다.', 'In the cleanroom a wafer goes through oxidation, cleaning, photolithography, etching, resist stripping, doping, deposition, metallization and CMP, then on to back-end steps such as wafer-level packaging. Each step uses different gases, chemicals and energy, so the hazards differ too.')}</p>
+          <p class="small muted">${T('앞의 7개는 미국 OSHA 정리, 금속배선·CMP·웨이퍼 레벨 패키지는 SK하이닉스 뉴스룸 공정 해설을 바탕으로 KOSHA·OSHA 원문에 있는 유해위험만 적었습니다. 실제 공정은 사업장마다 다르므로 출발점으로만 쓰세요.', 'The first seven follow OSHA’s compilation; metallization, CMP and wafer-level packaging are based on SK hynix Newsroom process articles, listing only hazards found in KOSHA and OSHA texts. Real processes differ by site, so use them only as a starting point.')}${S.cite('oshaSemi', 'nrMetal', 'nrCmp', 'nrWlp')}</p></div>
       </section>
-      <section class="proc-cards">${S.PROCESSES.map((p) => `<article class="panel stack" style="gap:10px">
-          <h3 style="font-size:calc(17px * var(--fz))">${L(p)}</h3>
+      <section class="proc-cards">${S.PROCESSES.map((p) => `<article class="panel stack" style="gap:10px" id="anchor-${p.id}">
+          <h3 style="font-size:calc(17px * var(--fz))">${L(p)}${S.cite(...pSrc(p))}</h3>
           <p class="small">${L(p.d)}</p>
           <ul class="facts">${L(p.hz).map((h) => `<li>${h}</li>`).join('')}</ul>
           <div class="row" style="gap:6px">${S.CHEMICALS.filter((c) => c.procs.includes(p.id)).map((c) => `<button type="button" class="chip" data-chem="${c.id}" title="${S.esc(L(c))}">${c.f}</button>`).join('')}</div>
@@ -185,7 +193,7 @@
             <td class="nowrap">${S.hasOel(c) ? `<button class="btn ghost sm" type="button" data-judge="${c.id}">${T('판정', 'Check')}</button>` : ''}</td></tr>`).join('')}
         </tbody></table></div>
         <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 물질이 없습니다. 영문명·화학식·CAS 번호로도 찾아보세요.', 'No substances match. Try the English name, formula or CAS number.')}</p>
-        <p class="xs muted">${T('국내 노출기준', 'Korean limits')}: ${S.cite('moelOel')} · IDLH: ${S.cite('nioshIdlh')} · ${T('위험 특성', 'Hazard notes')}: ${S.cite('icsc')} · ${T('법정 관리 구분', 'Statutory status')}: ${S.cite('lawRule', 'lawStd', 'lawDecree')} · MSDS: ${S.cite('koshaMsds')} · ${T('관련 공정', 'Processes')}: ${S.cite('oshaSemi')}</p>
+        <p class="xs muted">${T('국내 노출기준', 'Korean limits')}: ${S.cite('moelOel')} · IDLH: ${S.cite('nioshIdlh')} · ${T('위험 특성', 'Hazard notes')}: ${S.cite('icsc')} · ${T('법정 관리 구분', 'Statutory status')}: ${S.cite('lawRule', 'lawStd', 'lawDecree')} · MSDS: ${S.cite('koshaMsds')} · ${T('관련 공정', 'Processes')}: ${S.cite('oshaSemi', 'nrMetal', 'nrDepo', 'nrAld', 'nrScrubber', 'nrWlp', 'epaGhg')}</p>
         <p class="xs muted">${T('IDLH가 ‘–’이면 NIOSH 목록에 없는 물질입니다. 국내 노출기준이 없는 물질(질소·수소·디클로로실란 등)은 고시 별표1에 없다는 뜻이지 안전하다는 뜻이 아닙니다 — 질식·화재·부식 위험은 ICSC와 MSDS로 확인하고, 수치 판정·호흡보호구 선정 목록에서는 뺐습니다. ICSC 링크는 고용노동부·산업안전보건공단이 번역한 한국어판으로 열립니다.', 'A dash for IDLH means the substance is not on the NIOSH list. “No Korean limit” (nitrogen, hydrogen, dichlorosilane, etc.) means it is not in Annex 1, not that it is safe — check asphyxiation, fire and corrosion hazards in the ICSC and MSDS; these substances are left out of the measurement and respirator tools. ICSC links open the Korean edition translated by MOEL and KOSHA in Korean mode.')}</p>
       </section>`}`;
     },

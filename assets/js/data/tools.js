@@ -114,7 +114,9 @@ window.SHE = window.SHE || {};
      aerosol: mg/m³ 기준 미스트·분진 → 방진 필터, none: 고시 6종에 대응 종류 없음 */
   SHE.RESP_MAP = {
     ipa: 'org', acetone: 'org', pgme: 'org', teos: 'org', nh3: 'nh3', h2s: 'h2s', hcn: 'hcn', cl2: 'hal',
-    h2so4: 'aerosol', h3po4: 'aerosol', naoh: 'aerosol', koh: 'aerosol', tmah: 'aerosol', as: 'aerosol'
+    h2so4: 'aerosol', h3po4: 'aerosol', naoh: 'aerosol', koh: 'aerosol', tmah: 'aerosol', as: 'aerosol',
+    /* mg/m³ 기준 금속 분진·흄 (수은은 증기라 제외, 트라이메틸알루미늄은 자연발화성 액체라 대응 종류 없음으로 둠) */
+    cu: 'aerosol', cobalt: 'aerosol', w: 'aerosol', ta: 'aerosol', sb: 'aerosol', b2o3: 'aerosol'
   };
 
   /* 전체환기 필요환기량 — 안전보건규칙 제430조 산식, 물성은 NIOSH NPG. annex12: 별표12 관리대상 유기화합물 여부 */

@@ -171,7 +171,7 @@
   };
 
   /* which saved keys are the user's own work (as opposed to screen preferences) — used by backup and the dashboard reminder */
-  S.PREF_KEYS = /^(lang|site|theme|view|fz|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
+  S.PREF_KEYS = /^(lang|site|theme|view|fz|nav\.fold|fp\..*|calc\.(mode|angle)|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
 
   /* ---------- 늘어나는 목록의 공통 도구막대: 검색 + 분류 칩(건수) + ‘n / 전체’ ----------
      S.listbar({ id, ph, facets: [{ key, label, opts: [{ id, label, n }] }] })을 목록 위에 두고, mount에서 S.listFilter(root, id)를 부른다.
@@ -254,37 +254,48 @@
   S.pages = {};
   S.after = [];   /* functions run after every render (search jump, guide drawer) */
   S.NAV = [
-    { g: { ko: '업무', en: 'Workspace' }, items: [
+    { g: { ko: '업무', en: 'Workspace' }, ic: 'work', items: [
       ['home', { ko: '안전관리자 업무판', en: 'SHE manager dashboard' }],
       ['training', { ko: '교육 이수 관리', en: 'Training records' }],
       ['guide', { ko: '이용 가이드', en: 'User guide' }],
       ['data', { ko: '데이터 백업·복원', en: 'Backup & restore' }] ] },
-    { g: { ko: '6대 직무', en: 'Six SHE functions' }, items: [
+    { g: { ko: '6대 직무', en: 'Six SHE functions' }, ic: 'shield', items: [
       ['psm', { ko: '공정안전 (PSM)', en: 'Process safety (PSM)' }],
       ['prevent', { ko: '예방안전', en: 'Preventive safety' }],
       ['sdx', { ko: 'SDX', en: 'SDX' }],
       ['partner', { ko: '상생협력', en: 'Contractor partnership' }],
       ['fire', { ko: '소방·방재', en: 'Fire & emergency' }],
       ['culture', { ko: '안전문화', en: 'Safety culture' }] ] },
-    { g: { ko: '사고 학습', en: 'Learning from incidents' }, items: [
+    { g: { ko: '사고 학습', en: 'Learning from incidents' }, ic: 'alert', items: [
       ['cases', { ko: '사고사례 분석·재발방지', en: 'Incident analysis & prevention' }],
       ['news', { ko: '최신 안전 동향', en: 'Latest safety updates' }] ] },
-    { g: { ko: '판정·평가 도구', en: 'Tools' }, items: [
+    { g: { ko: '판정·평가 도구', en: 'Tools' }, ic: 'tools', items: [
       ['measure', { ko: '수치 판정', en: 'Measurement check' }],
       ['risk', { ko: '위험성평가 워크벤치', en: 'Risk assessment workbench' }],
       ['ptw', { ko: '작업허가서 작성기', en: 'Permit-to-work builder' }],
       ['gas', { ko: '가스 안전 도구', en: 'Gas safety tools' }],
-      ['ppe', { ko: '호흡보호구 선정', en: 'Respirator selection' }] ] },
-    { g: { ko: '라이브러리', en: 'Library' }, items: [
+      ['ppe', { ko: '호흡보호구 선정', en: 'Respirator selection' }],
+      ['units', { ko: '단위 환산', en: 'Unit converter' }] ] },
+    { g: { ko: '라이브러리', en: 'Library' }, ic: 'book', items: [
       ['sop', { ko: 'SOP·작업 안전', en: 'SOPs & job safety' }],
       ['hazards', { ko: '공정·물질 위험', en: 'Process & chemical hazards' }],
       ['resources', { ko: '안전 정보 자료실', en: 'Resource library' }] ] },
-    { g: { ko: '회사·근거', en: 'Company & evidence' }, items: [
+    { g: { ko: '회사·근거', en: 'Company & evidence' }, ic: 'org', items: [
       ['company', { ko: 'SK하이닉스 이해', en: 'Understanding SK hynix' }],
       ['sites', { ko: '사업장 (공통·이천·청주)', en: 'Sites (company-wide, Icheon, Cheongju)' }],
       ['bench', { ko: '벤치마킹', en: 'Benchmarks' }],
       ['sources', { ko: '출처·검증', en: 'Sources & verification' }] ] }
   ];
+  /* 대분류 아이콘 — 글자 앞에 두어 그룹을 빨리 알아보게 하는 보조 신호 (왼쪽 메뉴·가이드 목차) */
+  const NAV_ICON = {
+    work: '<path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/>',
+    shield: '<path d="M12 3 5 6v6c0 4.2 2.9 7.3 7 9 4.1-1.7 7-4.8 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    alert: '<path d="M12 4 2.8 20h18.4z"/><path d="M12 10v4.5M12 17.4v.1"/>',
+    tools: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+    book: '<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19M9 7h6"/>',
+    org: '<path d="M4 21V6l8-3v18M12 21h8V10l-8-2.5M3 21h18M7.5 9v.1M7.5 13v.1M7.5 17v.1M16 13v.1M16 17v.1"/>'
+  };
+  S.navIcon = (k) => (NAV_ICON[k] ? `<svg class="gi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${NAV_ICON[k]}</svg>` : '');
   /* page name in the current language (pages outside the menu fall back to a fixed label) */
   S.routeName = function (r) {
     for (const g of S.NAV) for (const [id, l] of g.items) if (id === r) return S.L(l);
@@ -324,8 +335,17 @@
       <div class="row" style="gap:8px"><span class="lbl">${S.T('글자 크기', 'Text size')}</span>${S.fzCtl()}</div>
       ${S.isPhone() ? `<div>${viewLink()}</div>` : ''}</div>`;
     const fzBox = document.getElementById('fzCtl'); if (fzBox) fzBox.innerHTML = S.fzCtl();
-    document.getElementById('sidenav').innerHTML = prefs + S.NAV.map((grp) => `<div class="nav-group"><h4>${S.L(grp.g)}</h4>${grp.items.map(([id, l]) =>
-      `<a href="#${id}" data-route="${id}" ${S.state.route === id ? 'aria-current="page"' : ''}>${S.L(l)}</a>`).join('')}</div>`).join('');
+    /* 왼쪽 메뉴 — 대분류는 아이콘+굵은 제목 버튼(눌러 접고 펼침, 상태 기억), 그룹 사이는 구분선, 항목은 들여쓰고 세로 안내선.
+       지금 보고 있는 화면의 그룹은 항상 펼치고 제목을 강조색으로 (Material 3 내비게이션 드로어·IBM Carbon 왼쪽 패널·NN/g 메뉴 설계 기준) */
+    const fold = S.load('nav.fold', []);
+    document.getElementById('sidenav').innerHTML = prefs + S.NAV.map((grp) => {
+      const here = grp.items.some(([id]) => id === S.state.route);
+      const open = here || !fold.includes(grp.ic);
+      return `<section class="nav-group${here ? ' here' : ''}${open ? '' : ' folded'}">
+        <button type="button" class="nav-head" data-nav-fold="${grp.ic}" aria-expanded="${open}" aria-controls="navg-${grp.ic}">${S.navIcon(grp.ic)}<span class="nav-title">${S.L(grp.g)}</span><span class="nav-n" aria-hidden="true">${grp.items.length}</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="nav-items" id="navg-${grp.ic}" ${open ? '' : 'hidden'}>${grp.items.map(([id, l]) =>
+          `<a href="#${id}" data-route="${id}" ${S.state.route === id ? 'aria-current="page"' : ''}>${S.L(l)}</a>`).join('')}</div></section>`;
+    }).join('');
     /* 모바일 아래 탭 막대 — 현장에서 자주 여는 네 곳과 전체 메뉴 */
     let bar = document.getElementById('mTabbar');
     if (!bar) { bar = document.createElement('nav'); bar.id = 'mTabbar'; bar.className = 'm-tabbar'; document.body.appendChild(bar); }

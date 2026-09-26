@@ -31,7 +31,7 @@
       if (Array.isArray(o)) { o.forEach((v, i) => walk(v, path + '[' + i + ']', depth + 1)); return; }
       Object.keys(o).forEach((k) => {
         const v = o[k];
-        if (k === 'src' && (typeof v === 'string' || Array.isArray(v))) [].concat(v).forEach((id) => { if (id && !src.has(id)) add('bad', T('없는 출처 id', 'Unknown source id'), path + '.src', id); });
+        if ((k === 'src' || k === 'psrc') && (typeof v === 'string' || Array.isArray(v))) [].concat(v).forEach((id) => { if (id && !src.has(id)) add('bad', T('없는 출처 id', 'Unknown source id'), path + '.' + k, id); });
         else if (k === 'sops' && Array.isArray(v)) v.forEach((id) => { if (!sops.has(id)) add('bad', T('없는 SOP id', 'Unknown SOP id'), path + '.sops', id); });
         else if (k === 'kosha' && Array.isArray(v)) v.forEach((c) => { if (!S.koshaInfo(c)) add('bad', T('없는 KOSHA 번호', 'Unknown KOSHA code'), path + '.kosha', c); });
         else if (k === 'link' && typeof v === 'string' && v.startsWith('#')) { const r = v.slice(1).split('/')[0]; if (!S.pages[r]) add('bad', T('없는 경로', 'Unknown route'), path + '.link', v); }
@@ -71,6 +71,7 @@
     if (ITEM[r]) return F[ITEM[r]].some((x) => x.id === rest[0]) || (r === 'cases' && rest[0] === 'selfcheck') ? '' : T('없는 항목', 'unknown item');
     if (r === 'guide') return F.GUIDES[rest[0]] || rest[0] === 'terms' || rest[0] === 'search' ? '' : T('없는 가이드', 'unknown guide');
     if (r === 'print') return (F.printDocs || []).includes(rest[0]) ? '' : T('없는 인쇄 양식', 'unknown print doc');
+    if (r === 'hazards') return F.CHEMICALS.some((x) => x.id === rest[0]) || F.PROCESSES.some((x) => x.id === rest[0]) ? '' : T('없는 물질·공정', 'unknown substance or process');
     return '';
   }
 

@@ -593,5 +593,105 @@ SHE.SOPS = [
       { q: B('KOSHA 기준으로 굴착작업 허가가 필요한 깊이는?', 'KOSHA: an excavation permit is needed from what depth?'), o: [B('30cm 이상', '30 cm'), B('1m 이상', '1 m'), B('2m 이상', '2 m')], a: 0 },
       { q: B('별표11의 ‘그 밖의 흙’ 굴착면 기울기는?', 'Annex 11 slope for “other soil”?'), o: [B('1 : 0.5', '1 : 0.5'), B('1 : 1.2', '1 : 1.2'), B('1 : 1.8', '1 : 1.8')], a: 1 }
     ]
+  },
+
+  /* 6단계(2026-09-25) — kind: 'emer'는 비상 대응 절차: 작업허가서 대신 next(다음 업무 화면)로 연결한다 */
+  {
+    id: 'gas-alarm', kind: 'emer', level: 'A', edu: [], permits: [], chems: ['ash3', 'ph3', 'sih4', 'b2h6', 'cl2', 'f2'],
+    t: B('가스 누출 경보 대응 (비상)', 'Responding to a gas-leak alarm (emergency)'),
+    area: B('가스 캐비닛·가스룸·가스 감지기가 있는 Fab 구역', 'Gas cabinets, gas rooms and fab areas with gas detectors'),
+    hz: B(['독성 가스 흡입 — 아르신 등은 증상이 늦게 나타날 수 있음', '자연발화성·인화성 가스의 화재·폭발', '가스 종류를 모른 채 접근', '환기가 나쁜 곳에서 가스 누출에 의한 산소 결핍'], ['Toxic gas inhalation — arsine and others can have delayed symptoms', 'Fire or explosion of pyrophoric and flammable gases', 'Approaching without knowing the gas', 'Oxygen deficiency from a leak in a poorly ventilated space']),
+    legal: [B('산안법 제51조·제52조 — 산업재해가 발생할 급박한 위험이 있으면 작업을 중지하고 대피. 대피한 근로자는 지체 없이 관리감독자 등에게 보고하고, 합리적 이유로 대피한 근로자에게 불리한 처우 금지', 'OSH Act Arts. 51–52 — stop work and evacuate when an accident is imminent; evacuated workers report to their supervisor without delay; no detriment for evacuating on reasonable grounds'),
+            B('안전보건규칙 제299조 — 급성 독성물질 누출을 감지·경보하는 설비, 취급 설비 연결 부분 매월 1회 이상 점검, 이상 방출 시 저장·포집·처리 설비로 회수', 'Standards Rules Art. 299 — detection and alarms for acutely toxic releases; monthly checks of joints; capture or treatment systems for abnormal releases'),
+            B('KOSHA P-139-2013 5.2 — 누출 가스를 먼저 파악하고, 식별할 수 없으면 독성·인화성·자연발화성·부식성으로 간주. 양압식 공기호흡기 등 적절한 보호구 없이 접근 금지, 개방된 곳의 독성 가스는 바람이 불어오는 쪽으로 벗어남, 국소배기되는 공간이나 처리설비로 배출 중이면 표시해 두고 추가 긴급조치 없이 둘 수 있음, 인화성 가스는 환기·점화원 제거', 'KOSHA P-139-2013 5.2 — identify the gas first; if you cannot, treat it as toxic, flammable, pyrophoric and corrosive. No approach without positive-pressure SCBA and suitable PPE; move upwind of toxic gas in the open; a leak inside an exhausted enclosure or into a treatment system can be labelled and left without further urgent action; ventilate and remove ignition sources for flammable gas'),
+            B('KOSHA P-139-2013 5.1 — 화재에 노출된 용기는 안전한 거리에서 물로 냉각하고, 진화 후 최소 24시간 접근하지 않고 냉각·감시', 'KOSHA P-139-2013 5.1 — cool fire-exposed cylinders with water from a safe distance; after the fire is out, stay away at least 24 hours while cooling and watching'),
+            B('고압가스 안전관리법 제26조 — 특정고압가스 사용신고자는 가스 누출로 폭발·화재, 부상·중독, 인명대피·공급중단이 생기면 즉시 한국가스안전공사에 통보', 'High-Pressure Gas Act Art. 26 — specified-gas users notify the Korea Gas Safety Corporation at once when a leak causes explosion or fire, injury or poisoning, evacuation or supply stoppage'),
+            B('고용노동부(2026.9.20) — 청주 가스룸 사고는 사전점검 미실시·허가 없는 가스 작업 개시에 따른 사고로 확인', 'MOEL (2026-09-20) — the Cheongju gas-room events followed skipped pre-checks and gas work started without a permit')],
+    src: ['lawAct', 'lawStd', 'lawHpg', 'moel0920', 'icsc', 'nioshIdlh'], kosha: ['P-139-2013', 'C-C-87-2026', 'C-C-55-2026'],
+    next: [{ link: '#prevent/report', t: B('사고 보고 의무 판정 (가스사고 통보 포함)', 'Accident-reporting check (including gas-accident notice)') }, { link: '#gas/alarm', t: B('가스 감지 경보 설정 기준', 'Gas-alarm set points') }, { link: '#gas/erg', t: B('ERG 초기 이격·보호 거리', 'ERG initial isolation distances') }, { link: '#cases/cj-2026-gasroom', t: B('청주 가스룸 사고 분석', 'Cheongju gas-room case') }],
+    steps: [
+      { s: B('경보 — 작업 중지·대피', 'Alarm — stop and evacuate'), h: B('경보를 무시하거나 리셋하고 작업 계속', 'Ignoring or resetting the alarm and carrying on'), c: B('작업을 멈추고 지정 대피로로 구역을 벗어남. 개방된 곳이면 바람이 불어오는 쪽으로', 'Stop work and leave by the designated route; in the open, move upwind'), b: 'law:산안법 제52조①|OSH Act Art. 52(1)' },
+      { s: B('보고', 'Report'), h: B('보고가 늦어 대응 지연', 'A late report delays the response'), c: B('관리감독자·방재센터(ERT)에 위치·가스명·경보 단계·인원을 지체 없이 알림', 'Tell the supervisor and the emergency centre (ERT) the location, gas, alarm level and people involved without delay'), b: 'law:산안법 제52조②|OSH Act Art. 52(2)' },
+      { s: B('인원 확인·출입 통제', 'Head count and exclusion'), h: B('구역 안 잔류자, 무단 재진입', 'People left inside, unauthorised re-entry'), c: B('집결지에서 인원을 확인하고 구역 출입을 막음', 'Count people at the muster point and close off the area'), b: 'gp' },
+      { s: B('가스 식별', 'Identify the gas'), h: B('모르는 가스에 접근', 'Approaching an unknown gas'), c: B('감지기 표시·캐비닛 라벨·가스 목록으로 확인. 식별할 수 없으면 독성·인화성·자연발화성·부식성으로 간주', 'Identify it from the detector, cabinet label and gas list; if unknown, treat it as toxic, flammable, pyrophoric and corrosive'), b: 'kosha:P-139-2013 5.2' },
+      { s: B('보호구 갖춘 대응팀만 접근', 'Only equipped responders approach'), h: B('보호구 없는 접근·구조', 'Approach or rescue without PPE'), c: B('양압식 공기호흡기와 적절한 보호구를 착용하고 훈련받은 대응팀만 접근', 'Only trained responders in positive-pressure SCBA and suitable PPE go in'), b: 'kosha:P-139-2013 5.2' },
+      { s: B('차단·배기 유지', 'Isolate and keep exhaust running'), h: B('누출 확산', 'Spreading release'), c: B('긴급 차단 작동을 확인하고 캐비닛·처리설비 배기를 유지. 배기되는 캐비닛 안 누출이면 표시해 두고 추가 조치는 대응팀이 판단', 'Confirm the emergency shut-off and keep cabinet and abatement exhaust running; a leak inside an exhausted cabinet can be labelled and left for the team to decide'), b: 'kosha:P-139-2013 5.2' },
+      { s: B('인화성·자연발화성 가스', 'Flammable or pyrophoric gas'), h: B('착화·폭발', 'Ignition, explosion'), c: B('환기를 유지하고 점화원을 없앰. 불이 나면 안전한 거리에서 용기를 물로 냉각하고 진화 후 최소 24시간 접근 금지', 'Keep ventilating and remove ignition sources; in a fire, cool cylinders with water from a safe distance and stay away at least 24 hours after it is out'), b: 'kosha:P-139-2013 5.1·5.2' },
+      { s: B('통보·보고 판정', 'Notifications'), h: B('법정 통보 누락', 'Missed statutory notice'), c: B('인명대피·공급중단·부상 등이 생기면 한국가스안전공사에 즉시 통보. 산업재해 보고 여부는 사고 보고 판정으로 확인', 'Notify the Korea Gas Safety Corporation at once if people evacuated, supply stopped or anyone was hurt; check injury reporting with the accident-reporting tool'), b: 'law:고압가스법 제26조|HP Gas Act Art. 26' },
+      { s: B('재진입·복구', 'Re-entry and recovery'), h: B('잔류 가스', 'Residual gas'), c: B('측정으로 정상 농도를 확인한 뒤 책임자가 재진입을 허가하고, 원인 조사와 기록을 남김', 'Re-enter only after readings are normal and the person in charge allows it; investigate the cause and keep records'), b: 'gp' }
+    ],
+    stop: B(['가스 경보가 울림', '가스를 식별할 수 없음', '양압식 공기호흡기 등 보호구가 없음', '쓰러진 사람이 보여도 보호구가 없음'], ['A gas alarm sounds', 'The gas cannot be identified', 'No positive-pressure SCBA or suitable PPE', 'Someone is down but you have no PPE']),
+    emer: B(['쓰러진 사람이 있어도 보호구 없이 들어가지 않고 대응팀을 부름 (P-139 5.2)', '아르신 등은 증상이 늦게 나타날 수 있어 노출 의심자는 증상이 없어도 의료기관에 인계 (ICSC)', '환기가 나쁜 곳에서는 어떤 가스든 산소 결핍 위험 — 산소 농도 확인 전 출입 금지 (P-139 5.2)'], ['Even if someone is down, do not go in without PPE — call the response team (P-139 5.2)', 'Arsine and similar gases can have delayed symptoms — send suspected exposures to medical care even without symptoms (ICSC)', 'In poorly ventilated places any gas can cause oxygen deficiency — no entry until oxygen is checked (P-139 5.2)']),
+    card: { do: B(['경보가 울리면 멈추고 바로 벗어나기', '바람이 불어오는 쪽·지정 대피로로', '위치·가스명·인원을 바로 알리기'], ['Stop and leave the moment the alarm sounds', 'Go upwind or by the designated route', 'Report location, gas and people at once']),
+            dont: B(['경보를 리셋하고 작업 계속', '보호구 없이 쓰러진 사람 구하러 들어가기', '가스를 모르는 채 다가가기'], ['Reset the alarm and carry on', 'Go in to rescue someone without PPE', 'Approach without knowing the gas']) },
+    quiz: [
+      { q: B('식별할 수 없는 가스가 샐 때 KOSHA P-139의 가정은?', 'KOSHA P-139: how do you treat an unidentified leaking gas?'), o: [B('불활성 가스로 본다', 'As inert'), B('독성·인화성·자연발화성·부식성으로 본다', 'As toxic, flammable, pyrophoric and corrosive'), B('측정할 때까지 판단을 미룬다', 'No assumption until measured')], a: 1 },
+      { q: B('개방된 곳에서 독성 가스가 새면 어느 쪽으로 이동하나?', 'Toxic gas leaking in the open — which way do you move?'), o: [B('바람이 불어가는 쪽', 'Downwind'), B('바람이 불어오는 쪽', 'Upwind'), B('가장 가까운 문', 'Nearest door')], a: 1 },
+      { q: B('대피한 근로자가 해야 할 일은? (산안법 제52조②)', 'What must an evacuated worker do? (OSH Act 52(2))'), o: [B('지체 없이 관리감독자 등에게 보고', 'Report to the supervisor without delay'), B('다음 날 서면 보고', 'Written report next day'), B('보고 의무 없음', 'No duty to report')], a: 0 },
+      { q: B('화재에 노출된 가스 용기는 진화 후 최소 얼마 동안 접근하지 않나? (P-139)', 'After a fire, how long do you keep away from fire-exposed cylinders? (P-139)'), o: [B('1시간', '1 hour'), B('24시간', '24 hours'), B('7일', '7 days')], a: 1 }
+    ]
+  },
+  {
+    id: 'chem-spill', kind: 'emer', level: 'A', edu: [], permits: [], chems: ['hf', 'h2so4', 'hno3', 'hcl', 'nh3', 'tmah'],
+    t: B('화학물질 누출 초기 대응 (비상)', 'First response to a chemical spill (emergency)'),
+    area: B('케미컬 공급실·웨트 장비·하역장·폐액 설비', 'Chemical supply rooms, wet benches, unloading bays and waste systems'),
+    hz: B(['피부·눈 접촉 — 불화수소는 피부로 흡수되고 증상이 늦게 나타날 수 있음', '증기·미스트 흡입', '서로 다른 약품이 섞여 반응', '누출액 확산·미끄러짐'], ['Skin and eye contact — HF absorbs through skin and effects can be delayed', 'Vapour and mist inhalation', 'Reactions when different chemicals mix', 'Spreading liquid, slips']),
+    legal: [B('화학물질관리법 제43조① — 화학사고가 발생하거나 우려가 있으면 즉시 화학사고예방관리계획서에 따라 위해방제 응급조치, 중대·시급하면 취급시설 가동 중단', 'Chemicals Control Act Art. 43(1) — on an accident or threat, take emergency containment measures at once under the accident-prevention plan; stop the facility if serious and urgent'),
+            B('같은 법 제43조② — 즉시 관할 지방자치단체·지방환경관서·경찰·소방·지방고용노동관서에 신고 (즉시 신고 규정: 인명 피해나 기준량 이상 누출은 15분 이내)', 'Art. 43(2) — report at once to the local government, environment office, police, fire service or labour office (reporting rules: within 15 minutes if people are harmed or the threshold is exceeded)'),
+            B('산안법 제51조·제52조 — 급박한 위험 시 작업중지·대피, 지체 없이 보고', 'OSH Act Arts. 51–52 — stop and evacuate when danger is imminent; report without delay'),
+            B('ICSC 0283 — 불화수소는 모든 접촉을 피하고, 노출 시 특이 치료가 필요', 'ICSC 0283 — HF: avoid all contact; specific treatment is needed'),
+            B('KOSHA C-C-16-2026 — 세안설비·긴급 샤워의 성능과 설치, C-C-55-2026 — 비상조치계획 수립', 'KOSHA C-C-16-2026 — eyewash and safety-shower performance and installation; C-C-55-2026 — emergency response planning')],
+    src: ['lawCca', 'mceReport', 'lawAct', 'icsc', 'moelOel'], kosha: ['C-C-55-2026', 'C-C-16-2026', 'P-167-2020'],
+    next: [{ link: '#prevent/chemreport', t: B('화학사고 즉시 신고 판정 (15분)', 'Chemical-accident report check (15 minutes)') }, { link: '#sop/eyewash', t: B('비상샤워·세안설비 점검 SOP', 'Shower and eyewash check SOP') }, { link: '#gas/erg', t: B('ERG 초기 이격·보호 거리', 'ERG initial isolation distances') }],
+    steps: [
+      { s: B('멈추고 알리기', 'Stop and raise the alarm'), h: B('혼자 수습하려다 노출', 'Exposure while cleaning up alone'), c: B('작업을 멈추고 주변에 알린 뒤 관리감독자·방재센터에 위치·물질·양을 보고', 'Stop, warn people nearby and report location, chemical and amount to the supervisor and emergency centre'), b: 'law:산안법 제52조|OSH Act Art. 52' },
+      { s: B('노출자 세척', 'Flush anyone exposed'), h: B('세척 지연', 'Delayed flushing'), c: B('오염된 옷을 벗기고 긴급 샤워·세안기로 다량의 물로 씻은 뒤 의료기관 인계 (불화수소는 증상이 없어도)', 'Remove contaminated clothing, flush with plenty of water at the safety shower or eyewash, then hand over to medical care (for HF, even without symptoms)'), b: 'guide' },
+      { s: B('대피·구역 통제', 'Evacuate and control the area'), h: B('증기 흡입, 2차 노출', 'Vapour inhalation, secondary exposure'), c: B('누출 지점에서 벗어나 방류벽 밖으로, 출입을 막음', 'Move away from the spill and outside the bund; keep people out'), b: 'law:산안법 제51조|OSH Act Art. 51' },
+      { s: B('물질 확인', 'Identify the chemical'), h: B('물·중화제를 잘못 써서 반응', 'Wrong use of water or neutraliser'), c: B('라벨·배관 표지·MSDS로 물질과 양을 확인하고 MSDS의 누출 사고 시 대처방법을 따름', 'Confirm the chemical and amount from labels, pipe markings and the MSDS, and follow its spill measures'), b: 'guide' },
+      { s: B('응급조치(방제)', 'Emergency containment'), h: B('확산·배수구 유입', 'Spread into drains'), c: B('화학사고예방관리계획서에 따라 차단·확산 방지 등 응급조치, 중대·시급하면 설비 가동 중단', 'Isolate and contain under the accident-prevention plan; stop the facility if serious and urgent'), b: 'law:화학물질관리법 제43조①|Chemicals Control Act Art. 43(1)' },
+      { s: B('보호구 갖춘 대응', 'Respond in PPE'), h: B('보호구 없는 수습', 'Clean-up without PPE'), c: B('물질에 맞는 내화학 보호구와 호흡보호구를 착용한 대응팀이 수습', 'Only a team in chemical-resistant PPE and respirators suited to the chemical cleans up'), b: 'guide' },
+      { s: B('신고', 'Report to authorities'), h: B('법정 신고 지연', 'Late statutory report'), c: B('화학사고면 즉시 신고(인명 피해·기준량 이상은 15분 이내). 해당 여부는 화학사고 신고 판정으로 확인', 'Report a chemical accident at once (within 15 minutes if people are harmed or the threshold is exceeded); check with the chemical-accident report tool'), b: 'law:화학물질관리법 제43조②|Chemicals Control Act Art. 43(2)' },
+      { s: B('정리·기록', 'Clean-up and records'), h: B('오염물 방치', 'Contaminated waste left behind'), c: B('흡착재·오염물을 지정 폐기물로 처리하고 원인 조사와 재발 방지 기록', 'Dispose of absorbents and waste as designated, investigate the cause and record prevention steps'), b: 'gp' }
+    ],
+    stop: B(['약품이 새거나 튐', '물질을 확인할 수 없음', '세척 설비가 작동하지 않음', '맞는 보호구가 없음'], ['A chemical leaks or splashes', 'The chemical cannot be identified', 'Shower or eyewash not working', 'No suitable PPE']),
+    emer: B(['피부 노출: 오염된 옷을 벗고 다량의 물로 씻은 뒤 즉시 의료기관 인계 (ICSC)', '불화수소 노출은 증상이 늦을 수 있어 증상이 없어도 의료 조치', '눈 노출: 몇 분간 충분히 씻고 쉽게 빠지면 콘택트렌즈를 뺀 뒤 의료기관 인계 (ICSC)'], ['Skin: remove clothing, flush with plenty of water, get medical help at once (ICSC)', 'HF effects can be delayed — seek care even without symptoms', 'Eyes: rinse for several minutes, remove contact lenses if easy, then get medical help (ICSC)']),
+    card: { do: B(['새면 멈추고 바로 알리기', '세안기·샤워 위치 알아 두기', '방류벽 밖으로 벗어나기'], ['Stop and report any leak at once', 'Know where the eyewash and shower are', 'Get outside the bund']),
+            dont: B(['혼자 닦아내기', '물질을 모른 채 물·중화제 붓기', '증상이 없다고 불산 노출 넘기기'], ['Clean up alone', 'Pour water or neutraliser without knowing the chemical', 'Ignore HF exposure because you feel fine']) },
+    quiz: [
+      { q: B('화학사고가 나면 화학물질관리법상 먼저 할 일은?', 'Under the Chemicals Control Act, what comes first after an accident?'), o: [B('계획서에 따른 응급조치', 'Emergency measures under the plan'), B('다음 날 보고서 작성', 'Write a report next day'), B('원인 조사부터', 'Investigate the cause first')], a: 0 },
+      { q: B('인명 피해가 있는 화학사고의 신고 시한은? (즉시 신고 규정)', 'Deadline to report a chemical accident with casualties?'), o: [B('15분 이내', 'Within 15 minutes'), B('1시간 이내', 'Within 1 hour'), B('24시간 이내', 'Within 24 hours')], a: 0 },
+      { q: B('불화수소가 피부에 묻었지만 증상이 없으면?', 'HF on the skin but no symptoms — what now?'), o: [B('괜찮다', 'Nothing'), B('그래도 의료 조치를 받는다', 'Still get medical care'), B('다음 날 확인', 'Check tomorrow')], a: 1 }
+    ]
+  },
+  {
+    id: 'solvent-transfer', level: 'A', edu: [35], permits: ['chemical'], chems: ['ipa', 'acetone', 'nbac', 'etoh', 'pgme'],
+    t: B('인화성 용제 이송·충전 (정전기 방지)', 'Transferring and filling flammable solvents (static control)'),
+    area: B('용제 공급실·드럼·탱크 충전, 위험물 저장소', 'Solvent supply rooms, drum and tank filling, hazardous-material stores'),
+    hz: B(['정전기 방전으로 인화성 증기 착화', '인화성 증기 체류', '누출·비산', '지정수량 이상 저장'], ['Static discharge igniting flammable vapour', 'Vapour build-up', 'Leaks and splashes', 'Storing at or above the designated quantity']),
+    legal: [B('안전보건규칙 제325조① — 위험물을 드럼 등에 주입하는 설비, 위험물 저장설비, 압축공기 등으로 인화성 액체를 분무·이송하는 설비 등은 정전기 위험이 있으면 확실한 접지, 도전성 재료, 제전장치 등으로 정전기를 억제·제거', 'Standards Rules Art. 325(1) — equipment that fills drums with dangerous substances, stores them, or sprays or transfers flammable liquids by compressed air etc. must be reliably earthed, made of conductive material or fitted with static eliminators where static could ignite'),
+            B('같은 조 ② — 인체 대전 위험이 있으면 대전방지용 안전화·제전복 착용, 제전용구 사용, 작업장 바닥 도전성 확보', 'Art. 325(2) — where charge on people is a risk: anti-static footwear and clothing, static-dissipating tools, conductive floors'),
+            B('KOSHA C-C-65-2026 5.1 — 유기용제는 울타리식 후드나 국소배기장치가 있는 곳에서 취급, 용기·공급 밸브에 물질명 표시 후 사용 시 확인, 섞여 반응할 수 있는 것은 같은 곳에서 동시에 쓰지 않음, 폐기 용기·장소 지정', 'KOSHA C-C-65-2026 5.1 — handle organic solvents in enclosing hoods or with local exhaust; label containers and supply valves and check before use; do not use reactive combinations at the same place at the same time; designate waste containers and places'),
+            B('위험물안전관리법 제5조① — 지정수량 이상의 위험물은 저장소·제조소등이 아닌 곳에서 저장·취급 금지 (아이소프로필알코올은 알코올류, 지정수량 400L — 시행령 별표1)', 'Dangerous Substances Act Art. 5(1) — no storing or handling at or above the designated quantity outside licensed facilities (IPA is an alcohol, designated quantity 400 L — Decree Annex 1)')],
+    src: ['lawStd', 'lawDg', 'lawDgDecree', 'moelOel', 'icsc'], kosha: ['C-C-65-2026'],
+    next: [{ link: '#psm/dg', t: B('위험물 지정수량 배수 계산', 'Designated-quantity calculator') }, { link: '#measure/vent', t: B('전체환기 필요환기량 계산', 'General ventilation calculator') }],
+    steps: [
+      { s: B('물질·용기 확인', 'Check chemical and container'), h: B('오충전·혼합 반응', 'Wrong fill, mixing reactions'), c: B('용기·공급 밸브의 물질명 표시를 사용 전에 확인하고, 섞여 반응할 수 있는 약품은 같은 곳에서 동시에 쓰지 않음', 'Check the labels on containers and supply valves before use; do not use reactive combinations together'), b: 'kosha:C-C-65-2026 5.1' },
+      { s: B('국소배기 확인', 'Check local exhaust'), h: B('증기 체류', 'Vapour build-up'), c: B('울타리식 후드나 국소배기장치가 있는 곳에서 작업하고 작동을 확인', 'Work at an enclosing hood or local exhaust and confirm it runs'), b: 'kosha:C-C-65-2026 5.1' },
+      { s: B('점화원 제거', 'Remove ignition sources'), h: B('증기 착화', 'Vapour ignition'), c: B('주변의 화기·불꽃이 나는 작업을 멈추게 함', 'Stop hot work or spark-producing work nearby'), b: 'gp' },
+      { s: B('접지·본딩', 'Earth and bond'), h: B('정전기 방전', 'Static discharge'), c: B('주입 설비·드럼·탱크를 확실히 접지하고 도전성 재료를 쓰며, 필요하면 제전장치 사용', 'Earth the filling equipment, drums and tanks reliably, use conductive materials and static eliminators where needed'), b: 'law:안전보건규칙 제325조①|Standards Rules Art. 325(1)' },
+      { s: B('인체 대전 방지', 'Stop charge on people'), h: B('사람 몸의 정전기', 'Charge on the body'), c: B('대전방지용 안전화·제전복을 착용하고 바닥 도전성을 확인', 'Wear anti-static footwear and clothing and check the floor is conductive'), b: 'law:안전보건규칙 제325조②|Standards Rules Art. 325(2)' },
+      { s: B('주입', 'Fill'), h: B('튀김·거품으로 대전 증가', 'Splashing and foaming build charge'), c: B('천천히 주입하고 액면 위에서 떨어뜨리지 않음', 'Fill slowly and do not let liquid fall from above the surface'), b: 'gp' },
+      { s: B('누출 대비', 'Be ready for leaks'), h: B('누출 확산', 'Spreading leak'), c: B('방류턱·흡착재를 준비하고, 새면 화학물질 누출 초기 대응 절차를 따름', 'Have bunds and absorbents ready; if it leaks, follow the chemical-spill first-response procedure'), b: 'gp' },
+      { s: B('마감·보관', 'Finish and store'), h: B('지정수량 이상 보관', 'Storing over the designated quantity'), c: B('용기를 닫고, 저장량을 지정수량 배수로 관리해 허가된 저장소에만 둠', 'Close containers and keep stock within the designated-quantity multiple, only in licensed stores'), b: 'law:위험물안전관리법 제5조①|Dangerous Substances Act Art. 5(1)' }
+    ],
+    stop: B(['접지·본딩 선이 빠졌거나 끊김', '용제 냄새가 강함(배기 이상)', '주변에서 화기 작업', '라벨이 다름'], ['Earth or bonding lead missing or broken', 'Strong solvent smell (exhaust fault)', 'Hot work nearby', 'Label mismatch']),
+    emer: B(['불이 나면 이송을 멈추고 대피, 소화는 훈련받은 사람이 알맞은 소화기로', '새면 점화원을 없애고 환기한 뒤 흡착재로 확산을 막고 화학물질 누출 초기 대응 절차를 따름', '피부·눈에 닿으면 다량의 물로 씻음'], ['In a fire, stop the transfer and evacuate; only trained people fight it with a suitable extinguisher', 'If it leaks, remove ignition sources, ventilate, contain with absorbent and follow the chemical-spill procedure', 'Rinse skin or eyes with plenty of water']),
+    card: { do: B(['접지·본딩 먼저 연결', '대전방지 신발·옷 착용', '천천히 주입'], ['Connect earth and bonding first', 'Wear anti-static shoes and clothing', 'Fill slowly']),
+            dont: B(['접지 없이 주입', '높은 곳에서 떨어뜨려 붓기', '주변 화기 작업 허용'], ['Fill without earthing', 'Pour from a height', 'Allow hot work nearby']) },
+    quiz: [
+      { q: B('안전보건규칙 제325조가 드는 정전기 대책은?', 'What static controls does Art. 325 name?'), o: [B('확실한 접지·도전성 재료·제전장치', 'Reliable earthing, conductive materials, static eliminators'), B('용기 크기 제한', 'Container size limits'), B('작업시간 단축', 'Shorter shifts')], a: 0 },
+      { q: B('사람 몸의 정전기를 막는 대책은? (제325조②)', 'How do you stop charge on people? (Art. 325(2))'), o: [B('대전방지용 안전화·제전복', 'Anti-static footwear and clothing'), B('면장갑', 'Cotton gloves'), B('방진마스크', 'Dust mask')], a: 0 },
+      { q: B('아이소프로필알코올(알코올류)의 위험물 지정수량은?', 'Designated quantity for IPA (alcohols)?'), o: [B('200L', '200 L'), B('400L', '400 L'), B('1,000L', '1,000 L')], a: 1 }
+    ]
   }
 ];

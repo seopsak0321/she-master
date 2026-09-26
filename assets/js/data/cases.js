@@ -76,7 +76,7 @@ window.SHE = window.SHE || {};
         { k: B('재점검 시 동일 지적', 'Repeat findings on re-inspection'), target: B('0건', '0') }
       ],
       lesson: B('작은 누출(6.1)이 11일 뒤 같은 작업 유형의 화재(6.12)로 이어졌습니다. 첫 사고를 “경고등”으로 받아들여 동일 작업을 멈추고 원인을 확정하는 것이 재발방지의 출발점입니다.', 'A small release (1 June) was followed 11 days later by a fire in the same kind of job (12 June). Treating the first event as a warning light — stopping the same work until the cause is known — is where recurrence prevention starts.'),
-      sops: ['gas-cylinder', 'hot-work'], src: ['moel0920', 'etnews0601', 'mbc0612']
+      sops: ['gas-cylinder', 'hot-work', 'gas-alarm'], src: ['moel0920', 'etnews0601', 'mbc0612']
     },
     {
       id: 'ic-2026-hno3', site: 'icheon', date: '2026-09-20', dateLabel: B('2026 (9.20 발표)', '2026 (announced 20 Sep)'),

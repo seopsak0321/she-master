@@ -656,7 +656,7 @@
       </section>
 
       <section class="panel stack" id="anchor-tbm">${ui.title(T('TBM 시트 (작업 전 안전점검회의)', 'TBM sheet (pre-job toolbox meeting)'), T('허가 대상 밖 Gray Zone 작업에도 사용', 'Also for grey-zone jobs outside the permit scope'))}
-        <div class="row"><label class="lbl" for="tbm-sop">${T('작업', 'Job')}</label><select id="tbm-sop" style="max-width:min(340px,100%)">${S.SOPS.map((s) => `<option value="${s.id}" ${s.id === tbmSop.id ? 'selected' : ''}>${S.esc(L(s.t))}</option>`).join('')}</select></div>
+        <div class="row"><label class="lbl" for="tbm-sop">${T('작업', 'Job')}</label><select id="tbm-sop" style="max-width:min(340px,100%)">${S.SOPS.filter((s) => s.kind !== 'emer').map((s) => `<option value="${s.id}" ${s.id === tbmSop.id ? 'selected' : ''}>${S.esc(L(s.t))}</option>`).join('')}</select></div>
         <div class="grid g3">
           <div><b class="small">${T('오늘의 위험', 'Today’s hazards')}</b><ul class="facts" style="margin-top:6px">${L(tbmSop.hz).slice(0, 3).map((x) => `<li>${x}</li>`).join('')}</ul></div>
           <div><b class="small" style="color:var(--bad)">${T('이럴 땐 멈춘다', 'We stop if')}</b><ul class="facts" style="margin-top:6px">${L(tbmSop.stop).map((x) => `<li>${x}</li>`).join('')}</ul></div>

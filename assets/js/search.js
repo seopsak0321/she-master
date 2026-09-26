@@ -146,8 +146,8 @@
     S.CHEMICALS.forEach((c) => add({ k: 'chem', title: `${L(c)} (${c.f})`, crumb: rn('hazards') + ' · CAS ' + c.cas, href: '#hazards/' + c.id,
       text: `TWA ${c.twa ?? '–'} · STEL ${c.stel ?? '–'} · C ${c.c ?? '–'} ${c.unit} · IDLH ${c.idlh ?? '–'} · ${L(S.CHEM_CATS[c.cat])} ${L(c.note) || ''} ${L(c.icsc) || ''}`,
       alt: both(c) + ' ' + c.f + ' ' + c.cas + ' ' + c.id, at: both(c) + ' ' + c.f }));
-    S.PROCESSES.forEach((p) => add({ k: 'sec', title: L(p), crumb: rn('hazards') + ' › ' + T('공정 단계', 'Process steps'), href: '#hazards',
-      go: { save: { 'tab.hz': 'proc' }, jump: L(p) }, text: L(p.d) + ' ' + L(p.hz).join(' '), alt: both(p) }));
+    S.PROCESSES.forEach((p) => add({ k: 'sec', title: L(p), crumb: rn('hazards') + ' › ' + T('공정 단계', 'Process steps'), href: '#hazards/' + p.id,
+      text: L(p.d) + ' ' + L(p.hz).join(' '), alt: both(p) }));
     S.RESOURCES.forEach((x) => add({ k: 'res', title: L(x.name), crumb: rn('resources') + ' · ' + L(x.org), href: '#resources/' + x.id,
       text: L(x.desc).join(' ') + ' · ' + L(S.RES_TYPES[x.type]) + ' · ' + x.subj.map((s) => L(S.RES_SUBJECTS[s])).join(', ') + ' · ' + x.url, alt: both(x.name) + ' ' + both(x.org), at: both(x.name) }));
     S.SOURCES.forEach((s, i) => add({ k: 'src', title: L(s.title), crumb: rn('sources') + ' · [' + (i + 1) + ']', href: '#sources/' + s.id, text: L(s.note) || '', alt: both(s.title) }));

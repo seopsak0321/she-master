@@ -165,7 +165,7 @@
   S.pages.guide = {
     render(sub) {
       const cur = sub === 'terms' || (sub && S.GUIDES[sub]) ? sub : 'start';
-      const groups = S.NAV.map((g) => ({ g: g.g, items: g.items.filter(([id]) => S.GUIDES[id]) })).filter((x) => x.items.length);
+      const groups = S.NAV.map((g) => ({ g: g.g, ic: g.ic, items: g.items.filter(([id]) => S.GUIDES[id]) })).filter((x) => x.items.length);
       const opts = [['start', T('시작하기', 'Getting started')]].concat(groups.flatMap((x) => x.items.map(([id, l]) => [id, L(l)])), [['search', T('검색', 'Search')], ['terms', T('용어 사전', 'Glossary')]]);
       /* 지금 보고 있는 항목은 링크 없이 표시만 한다 (눌러도 변화 없는 링크 방지) */
       const link = (id, label) => (cur === id ? `<a aria-current="page">${S.esc(label)}</a>` : `<a href="${id === 'start' ? '#guide' : '#guide/' + id}">${S.esc(label)}</a>`);
@@ -176,7 +176,7 @@
       <div class="guide-layout">
         <nav class="guide-toc" aria-label="${T('가이드 목차', 'Guide contents')}">
           <div>${link('start', T('시작하기', 'Getting started'))}</div>
-          ${groups.map(({ g, items }) => `<div><h4>${L(g)}</h4>${items.map(([id, l]) => link(id, L(l))).join('')}</div>`).join('')}
+          ${groups.map(({ g, ic, items }) => `<div><h4>${S.navIcon(ic)}${L(g)}</h4>${items.map(([id, l]) => link(id, L(l))).join('')}</div>`).join('')}
           <div><h4>${T('도움말', 'Help')}</h4>${link('search', T('검색', 'Search'))}${link('terms', T('용어 사전', 'Glossary'))}</div>
         </nav>
         <div class="guide-main stack">

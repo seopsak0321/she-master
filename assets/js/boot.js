@@ -61,6 +61,15 @@
       return;
     }
 
+    /* 왼쪽 메뉴 대분류 접기·펼치기 — 화면 상태(aria-expanded)를 기준으로 뒤집고, 접은 그룹은 nav.fold에 기억 */
+    const nf = e.target.closest('[data-nav-fold]');
+    if (nf) {
+      const k = nf.dataset.navFold, open = nf.getAttribute('aria-expanded') !== 'true';
+      const g = nf.closest('.nav-group'), box = g && g.querySelector('.nav-items');
+      nf.setAttribute('aria-expanded', String(open)); if (g) g.classList.toggle('folded', !open); if (box) box.hidden = !open;
+      const f = S.load('nav.fold', []).filter((x) => x !== k); if (!open) f.push(k); S.save('nav.fold', f);
+      return;
+    }
     const nav = document.getElementById('sidenav');
     if (e.target.closest('#menuBtn') || e.target.closest('[data-open-menu]')) {
       const open = !nav.classList.contains('open');
@@ -87,6 +96,8 @@
   const sub = S.state.sub;
   const target = sub && document.getElementById('anchor-' + sub);
   if (target) S.reveal(target);
+  /* 상단 도구(시계·메모장·계산기·단위 환산) — 본문 밖에 한 번 만들어 페이지를 옮겨도 유지 */
+  if (S.utilsInit) S.utilsInit();
 
   /* 화면 폭이 바뀌어 PC·모바일 배치가 달라지면 다시 그린다 (창 크기 조절, 기기 회전) */
   const relayout = () => { const was = document.documentElement.classList.contains('m'); if (S.applyView() !== was) S.refresh(); };

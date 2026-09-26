@@ -44,11 +44,11 @@
     card(id, opt) {
       const s = S.SOPS.find((x) => x.id === id); if (!s) return notFound();
       const one = (lang) => `<div class="doc-card">
-        <div class="doc-card-top"><span>${esc(Lx({ ko: '작업 전 5분 안전카드', en: '5-minute pre-job card' }, lang))}</span><span>${esc(Lx({ ko: '협력사·현장용', en: 'For contractors & field crews' }, lang))}</span></div>
+        <div class="doc-card-top"><span>${esc(Lx(s.kind === 'emer' ? { ko: '비상 대응 5분 카드', en: '5-minute emergency card' } : { ko: '작업 전 5분 안전카드', en: '5-minute pre-job card' }, lang))}</span><span>${esc(Lx({ ko: '협력사·현장용', en: 'For contractors & field crews' }, lang))}</span></div>
         <h2>${esc(Lx(s.t, lang))}</h2><p class="doc-sub">${esc(Lx(s.area, lang))}</p>
         <div class="doc-card-cols"><div class="do"><h3>✓ ${esc(Lx({ ko: '이렇게 하세요', en: 'Do' }, lang))}</h3>${ul(Lx(s.card.do, lang))}</div>
           <div class="dont"><h3>✕ ${esc(Lx({ ko: '절대 하지 마세요', en: 'Never' }, lang))}</h3>${ul(Lx(s.card.dont, lang))}</div></div>
-        <div class="doc-card-cols"><div><h3>${esc(Lx({ ko: '이럴 땐 작업을 멈춘다', en: 'Stop work if' }, lang))}</h3>${ul(Lx(s.stop, lang))}</div>
+        <div class="doc-card-cols"><div><h3>${esc(Lx(s.kind === 'emer' ? { ko: '이럴 땐 벗어나고 들어가지 않는다', en: 'Evacuate / keep out if' } : { ko: '이럴 땐 작업을 멈춘다', en: 'Stop work if' }, lang))}</h3>${ul(Lx(s.stop, lang))}</div>
           <div><h3>${esc(Lx({ ko: '비상 시', en: 'In an emergency' }, lang))}</h3>${ul(Lx(s.emer, lang))}</div></div>
         <p class="doc-card-foot"><b>${esc(Lx({ ko: '이상하면 멈추고 알리세요.', en: 'If something seems wrong, stop and tell someone.' }, lang))}</b> · SHE Master</p></div>`;
       return (opt === 'both' ? one('ko') + '<div class="doc-cut" aria-hidden="true"></div>' + one('en') : one(S.state.lang)) + foot(s.src);
@@ -57,12 +57,12 @@
     sop(id) {
       const s = S.SOPS.find((x) => x.id === id); if (!s) return notFound();
       return head({ kind: 'SOP', title: L(s.t), sub: L(s.area), approve: true,
-        meta: [[T('위험 등급', 'Risk level'), s.level === 'A' ? T('고위험', 'High') : T('중위험', 'Medium')], [T('작업허가 유형', 'Permits'), s.permits.map((p) => L(S.PERMITS[p])).join(', ')], [T('사업장', 'Site'), siteName()], [T('개정일', 'Revised'), '']] })
+        meta: [[T('위험 등급', 'Risk level'), s.level === 'A' ? T('고위험', 'High') : T('중위험', 'Medium')], [T('작업허가 유형', 'Permits'), s.permits.length ? s.permits.map((p) => L(S.PERMITS[p])).join(', ') : s.kind === 'emer' ? T('해당 없음 — 비상 대응 절차', 'None — emergency response procedure') : T('해당 없음', 'None')], [T('사업장', 'Site'), siteName()], [T('개정일', 'Revised'), '']] })
         + sec(T('주요 유해·위험요인', 'Key hazards'), ul(L(s.hz)))
         + sec(T('법령·지침 근거', 'Legal and guidance basis'), ul(s.legal.map(L)) + `<p class="doc-small">KOSHA GUIDE: ${esc(s.kosha.map((k) => `${k} ${L(S.KOSHA[k] || '')}`).join(' · '))}</p>`)
         + sec(T('단계별 절차 (JSA)', 'Step-by-step (JSA)'), `<table class="doc-table"><thead><tr><th class="n">#</th><th>${esc(T('단계', 'Step'))}</th><th>${esc(T('위험', 'Hazard'))}</th><th>${esc(T('대책', 'Control'))}</th><th>${esc(T('근거', 'Basis'))}</th></tr></thead><tbody>
           ${s.steps.map((st, i) => `<tr><td class="n">${i + 1}</td><td><b>${esc(L(st.s))}</b></td><td>${esc(L(st.h))}</td><td>${esc(L(st.c))}</td><td class="doc-small">${esc(basisText(st.b))}</td></tr>`).join('')}</tbody></table>`)
-        + `<div class="doc-two">${sec(T('작업 중지 기준', 'Stop work if'), ul(L(s.stop)))}${sec(T('비상 시 행동', 'In an emergency'), ul(L(s.emer)))}</div>`
+        + `<div class="doc-two">${sec(s.kind === 'emer' ? T('대피·접근 금지 기준', 'Evacuate / keep out if') : T('작업 중지 기준', 'Stop work if'), ul(L(s.stop)))}${sec(T('비상 시 행동', 'In an emergency'), ul(L(s.emer)))}</div>`
         + ((s.edu || []).length ? sec(T('관련될 수 있는 특별교육 (산안법 시행규칙 별표5)', 'Special training that may apply (OSH Rule Annex 5)'), ul(s.edu.map((no) => T(`제${no}호 `, `No. ${no} `) + L(S.SPECIAL_EDU[no])))) : '')
         + sec(T('교육 확인', 'Training record'), `<table class="doc-meta"><tbody>${pairs([[T('교육 일시', 'Date'), ''], [T('교육자', 'Trainer'), ''], [T('장소', 'Place'), ''], [T('교육 시간', 'Hours'), '']])}</tbody></table>`
           + blankRows([T('성명', 'Name'), T('소속', 'Company / team'), T('서명', 'Signature')], 10, true), 'keep')

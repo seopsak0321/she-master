@@ -207,7 +207,7 @@ SHE.CYCLES = [
   { id: 'hpg-edu', mod: 'culture', t: { ko: '특정고압가스 사용신고시설 안전관리책임자 전문교육', en: 'Specialist training for the safety officer of a specified-gas facility' }, every: { ko: '신규 종사 후 6개월 이내, 이후 3년이 되는 해마다 1회', en: 'Within 6 months of starting, then once every third year' }, days: 1095, basis: { ko: '고압가스 안전관리법 제23조, 시행규칙 제51조·별표31 (별표31 개정분 2027.7.1 시행 — 시행 전 주기 재확인)', en: 'High-Pressure Gas Act Art. 23; Rule Art. 51, Annex 31 (revised Annex 31 from 2027-07-01 — recheck the interval before then)' }, src: ['lawHpg', 'lawHpgRule'] }
 ];
 
-/* 반도체 공정별 유해위험 (미국 OSHA 반도체 페이지 기반, src: oshaSemi) */
+/* 반도체 공정별 유해위험 — src가 없으면 미국 OSHA 반도체 페이지(oshaSemi). 6단계에 더한 3개는 SK하이닉스 뉴스룸 공정 해설과 KOSHA·OSHA 원문에 있는 것만 적는다 */
 SHE.PROCESSES = [
   { id: 'ox', ko: '산화 (열산화)', en: 'Oxidation (thermal)',
     d: { ko: '약 1200°C 퍼니스에서 건식(산소+염화수소) 또는 습식(산소+수소→수증기) 방식으로 SiO₂ 층을 성장', en: 'Grows SiO₂ in a ~1200 °C furnace, dry (O₂ + HCl) or wet (O₂ + H₂ → steam)' },
@@ -229,7 +229,17 @@ SHE.PROCESSES = [
     hz: { ko: ['X선 방사', '인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스·액체', '반응 부산물 잔류물(비소·아르신·포스핀)', '고전압 전기', 'RF·IR, 레이저, 화상'], en: ['X-ray radiation', 'Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases and liquids', 'Reaction-product residues (arsenic, arsine, phosphine)', 'High-voltage electricity', 'RF/IR, lasers, burns'] }, sops: ['implant', 'gas-cylinder'] },
   { id: 'dep', ko: '증착 (CVD·에피택시)', en: 'Deposition (CVD, epitaxy)',
     d: { ko: '실란·사염화규소·암모니아·아산화질소 등 원료가스와 아르신·포스핀·디보란 등 도펀트 가스로 500–1100°C에서 막을 형성', en: 'Source gases (silane, SiCl₄, ammonia, N₂O) and dopants (arsine, phosphine, diborane) form films at 500–1100 °C' },
-    hz: { ko: ['인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스', '반응 부산물 잔류물(HCl·아르신·포스핀)', '전기, RF·IR, 화상'], en: ['Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases', 'Reaction-product residues (HCl, arsine, phosphine)', 'Electricity, RF/IR, burns'] }, sops: ['gas-cylinder', 'pm-chamber', 'pump-scrubber', 'line-break'] }
+    hz: { ko: ['인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스', '반응 부산물 잔류물(HCl·아르신·포스핀)', '전기, RF·IR, 화상'], en: ['Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases', 'Reaction-product residues (HCl, arsine, phosphine)', 'Electricity, RF/IR, burns'] }, sops: ['gas-cylinder', 'pm-chamber', 'pump-scrubber', 'line-break'] },
+  /* 6단계(2026-09-25) */
+  { id: 'metal', ko: '금속배선 (금속 증착·스퍼터)', en: 'Metallization (metal deposition, sputtering)', src: ['nrMetal', 'nrDepo', 'koshaGuide', 'lawRule'],
+    d: { ko: '소자를 잇는 금속 배선을 만든다. 알루미늄 배선, 깊은 구멍은 텅스텐으로 채우고(갭필) 티타늄·코발트를 먼저 입히며, 구리 배선은 산화막으로도 확산하므로 탄탈륨으로 경계를 짓는다 (SK하이닉스 뉴스룸)', en: 'Builds the metal lines that connect devices: aluminium lines, tungsten gap-fill for deep holes, titanium or cobalt applied first, and tantalum barriers because copper diffuses even into oxide (SK hynix Newsroom)' },
+    hz: { ko: ['X선 발생 장치 — 차폐 덮개 (KOSHA C-C-65-2026)', '고주파 전원 — 도어·플라즈마 발생실 개방 시 고주파 차단 인터락 (같은 지침)', '고압 콘덴서 잔류 전하 — 방전용 단락봉 (같은 지침)', '구리·코발트·텅스텐 — 국내 노출기준이 있고 작업환경측정·특수건강진단 대상 물질 (시행규칙 별표21·22)'], en: ['X-ray generators — shielding covers (KOSHA C-C-65-2026)', 'RF power — interlocks that cut RF when doors or plasma chambers open (same guide)', 'Residual charge in high-voltage capacitors — shorting bars to discharge them (same guide)', 'Copper, cobalt and tungsten — have Korean exposure limits and are monitoring and health-check agents (Rule Annexes 21, 22)'] }, sops: ['pm-chamber', 'loto'] },
+  { id: 'cmp', ko: 'CMP (화학·기계적 평탄화)', en: 'CMP (chemical-mechanical planarization)', src: ['nrCmp', 'lawStd'],
+    d: { ko: '슬러리(연마액)를 접촉면에 분포한 상태에서 패드로 화학·기계적으로 연마해 웨이퍼 표면을 평탄하게 한 뒤, 브러시 습식세정과 건조를 한다 (SK하이닉스 뉴스룸)', en: 'Polishes the wafer flat chemically and mechanically with a pad while slurry covers the contact surface, then brush wet-cleans and dries it (SK hynix Newsroom)' },
+    hz: { ko: ['슬러리·세정 약품 접촉 — 제품마다 성분이 달라 MSDS로 유해성과 보호구를 확인', '장비 정비 중 끼임 — 운전 정지·잠금 후 작업 (안전보건규칙 제92조)'], en: ['Contact with slurry and cleaning chemicals — contents vary by product, so check hazards and PPE in the MSDS', 'Caught-in during maintenance — stop and lock out first (Standards Rules Art. 92)'] }, sops: ['wet-bench', 'loto'] },
+  { id: 'wlp', ko: '웨이퍼 레벨 패키지 (후공정)', en: 'Wafer-level packaging (back-end)', src: ['nrWlp', 'oshaSemiFs'],
+    d: { ko: '웨이퍼 상태에서 패키지 배선을 만든다: 스퍼터링 금속 박막 → 두꺼운 포토레지스트 → 구리 전해도금 → 포토레지스트 제거 → 박막 식각 → 플럭스·솔더볼·리플로우. TSV는 실리콘을 깊게 식각하고, 웨이퍼 뒷면을 백그라인딩한다 (SK하이닉스 뉴스룸)', en: 'Builds package wiring at wafer level: sputtered metal film → thick photoresist → copper electroplating → resist strip → thin-film etch → flux, solder balls and reflow. TSV etches deep into silicon, and the wafer back is ground (SK hynix Newsroom)' },
+    hz: { ko: ['포토·감광액 제거·식각·금속배선과 같은 단위 공정을 쓰므로 그 카드의 유해위험이 함께 적용', '구리 전해도금 — 구리 국내 노출기준 대상', '미국 OSHA: 후공정(조립·테스트)과 장비 정비는 전공정과 유해위험이 다르므로 따로 평가'], en: ['Uses the same unit steps as photolithography, resist strip, etching and metallization, so those cards’ hazards apply too', 'Copper electroplating — copper has a Korean exposure limit', 'US OSHA: back-end (assembly and test) and equipment maintenance carry different hazards from the front end, so assess them separately'] }, sops: ['photo', 'wet-bench'] }
 ];
 
 /* 안전문화 캠페인 캘린더 — 포털 제안 (기념일은 법정·공식 기념일) */
