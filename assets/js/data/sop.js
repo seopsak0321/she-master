@@ -306,23 +306,30 @@ SHE.SOPS = [
     t: B('고소작업 (반송 레일·천장·고소작업대)', 'Work at height (transport rails, ceiling, aerial platforms)'),
     area: B('Fab 천장부 자동반송(OHT) 레일, 덕트·배관 상부, 건설 현장', 'Fab ceiling transport (OHT) rails, above ducts and pipes, construction'),
     hz: B(['추락 (SK하이닉스 3대 사고 유형 중 하나로 관리)', '반송 설비 충돌·끼임', '낙하물'], ['Falls (managed by SK hynix as one of the top-3 accident types)', 'Collision or caught-in by transport systems', 'Falling objects']),
-    legal: [B('SK하이닉스 — 위험도 6 이상이면서 추락·끼임·부딪힘 유형인 단위작업은 현장 이행 확인·컨설팅 대상', 'SK hynix — unit tasks rated 6+ in fall, caught-in or struck-by types get field verification and consulting'),
+    legal: [B('안전보건규칙 제42조①② — 추락 위험 장소는 비계 등으로 작업발판을 설치하고, 곤란하면 추락방호망, 그것도 곤란하면 안전대 착용 등 추락 방지 조치', 'Standards Rules Art. 42(1)(2) — provide working platforms (e.g. scaffolds) where falls are possible; if not practicable, safety nets; failing that, harnesses or other measures'),
+            B('제42조④ (2024.6.28 신설) — 작업발판·추락방호망이 곤란할 때만 버팀대 3개 이상으로 스스로 서는 이동식 사다리 사용: 평탄·견고·미끄럽지 않은 바닥, 넘어짐 방지(시설물 고정·아웃트리거·다른 근로자 지지 중 하나 이상), 최대사용하중 이내, 바닥에서 3.5m 이하, 최상부 발판과 그 아래 디딤대에 올라서지 않음(1m 이하 사다리 제외), 안전모(2m 이상은 안전대도), 사용 전 점검', 'Art. 42(4) (added 2024-06-28) — only where platforms and nets are impracticable, a self-supporting ladder with three or more legs may be used: on level, firm, non-slip ground; with at least one anti-tip measure (tied to a structure, outriggers, or held by another worker); within the rated load; working no higher than 3.5 m; never standing on the top step or the one below it (ladders up to 1 m excepted); hard hat, plus harness from 2 m; checked before use'),
+            B('제68조 — 이동식비계: 바퀴를 브레이크·쐐기로 고정하고 시설물 고정·아웃트리거 등, 승강용 사다리 견고, 최상부 작업 시 안전난간, 작업발판 수평·난간이나 받침대·사다리를 딛지 않음, 작업발판 최대적재하중 250kg 이하 / 제32조①1·2 — 추락 위험 작업은 안전모, 높이 2m 이상은 안전대', 'Art. 68 — mobile scaffolds: lock the wheels with brakes or wedges and tie to a structure or fit outriggers; secure access ladders; guardrails when working on the top; keep the platform level and never stand on rails, stools or ladders on it; platform load no more than 250 kg / Art. 32(1)1–2 — hard hats where falls are possible, harnesses from 2 m'),
+            B('SK하이닉스 — 위험도 6 이상이면서 추락·끼임·부딪힘 유형인 단위작업은 현장 이행 확인·컨설팅 대상', 'SK hynix — unit tasks rated 6+ in fall, caught-in or struck-by types get field verification and consulting'),
             B('TSMC — 천장 작업 AI 위험 식별 모듈 도입 (벤치마크)', 'TSMC — AI hazard-identification module for ceiling work (benchmark)')],
-    src: ['sr2025', 'tsmc2023', 'koshaGuide'], kosha: ['C-74-2015', 'X-44-2016', 'A-G-4-2025'],
+    src: ['lawStd', 'moelRpt', 'sr2025', 'tsmc2023', 'koshaGuide'], kosha: ['C-74-2015', 'X-44-2016', 'A-G-4-2025'],
     steps: [
       { s: B('작업계획·허가', 'Plan and permit'), h: B('동시 작업 충돌', 'Clashing activities'), c: B('고소작업 허가, 하부 작업 조정', 'Height permit; coordinate work below'), b: 'gp' },
       { s: B('반송 설비 정지 구간', 'Isolate transport zone'), h: B('OHT 충돌', 'OHT strike'), c: B('작업 구간 반송 정지·차단 설정 및 잠금', 'Stop and block transport in the zone; lock out'), b: 'gp' },
-      { s: B('장비 점검', 'Inspect equipment'), h: B('작업대 전도·파손', 'Platform tip-over or failure'), c: B('고소작업대·사다리 작업 전 점검', 'Pre-use check of platforms and ladders'), b: 'guide' },
-      { s: B('추락 방지', 'Fall protection'), h: B('추락', 'Fall'), c: B('안전대 체결 위치 확보 후 작업', 'Secure an anchor for the harness before working'), b: 'guide' },
+      { s: B('작업발판 먼저', 'Platforms first'), h: B('추락', 'Fall'), c: B('비계를 조립하는 등으로 작업발판을 먼저 설치하고, 곤란하면 추락방호망, 그것도 곤란하면 안전대 체결점을 확보', 'First provide a working platform, e.g. by erecting a scaffold; if not practicable, safety nets; failing that, secure a harness anchor'), b: 'law:안전보건규칙 제42조①②|Standards Rules Art. 42(1)(2)' },
+      { s: B('이동식 사다리는 조건부로', 'Ladders only on conditions'), h: B('사다리 넘어짐·추락', 'Ladder tipping, falls'), c: B('평탄한 바닥에 세우고 넘어짐 방지(고정·아웃트리거·지지자) 1가지 이상, 3.5m 이하에서만, 최상부 발판과 그 아래 디딤대에는 올라서지 않음, 사용 전 점검', 'Stand it on level ground with at least one anti-tip measure (tie, outriggers or a second person); only up to 3.5 m; never on the top step or the one below it; check before use'), b: 'law:안전보건규칙 제42조④|Standards Rules Art. 42(4)' },
+      { s: B('이동식비계 점검', 'Check mobile scaffolds'), h: B('비계 이동·전도, 난간 없는 상부', 'Scaffold moving or tipping; no guardrails on top'), c: B('바퀴 브레이크·쐐기 고정과 아웃트리거(또는 시설물 고정), 최상부 안전난간, 작업발판 수평, 발판 위 사다리·받침대 사용 금지, 250kg 이하', 'Wheels braked or wedged plus outriggers (or tied in); guardrails on top; level platform; no ladders or stools on it; 250 kg maximum'), b: 'law:안전보건규칙 제68조|Standards Rules Art. 68' },
+      { s: B('보호구', 'PPE'), h: B('머리 부상·추락', 'Head injury, falls'), c: B('안전모를 쓰고, 높이 2m 이상은 안전대를 체결한 뒤 작업', 'Wear a hard hat; from 2 m, clip on a harness before working'), b: 'law:안전보건규칙 제32조①1·2, 제42조④6|Standards Rules Arts. 32(1)1–2, 42(4)6' },
       { s: B('하부 통제', 'Control below'), h: B('낙하물', 'Dropped objects'), c: B('하부 출입 통제, 공구 낙하 방지', 'Barricade below; tether tools'), b: 'gp' },
       { s: B('복구', 'Restore'), h: B('반송 재가동 사고', 'Restart accident'), c: B('인원 철수 확인 후 반송 재가동', 'Confirm everyone is clear before restarting transport'), b: 'gp' }
     ],
-    stop: B(['반송 정지 확인 불가', '안전대 체결점 없음', '하부 통제 불가'], ['Transport stop not confirmed', 'No anchor point', 'Area below not controlled']),
+    stop: B(['반송 정지 확인 불가', '안전대 체결점 없음', '하부 통제 불가', '경사진 바닥에 사다리', '난간·아웃트리거 없는 이동식비계'], ['Transport stop not confirmed', 'No anchor point', 'Area below not controlled', 'Ladder on sloping ground', 'Mobile scaffold without guardrails or outriggers']),
     emer: B(['추락자 발생 시 2차 사고 방지 후 구조, 무리한 이동 금지', '매달린 상태는 즉시 구조 요청 (시간이 지날수록 위험)'], ['After a fall, prevent secondary accidents; do not move the casualty unnecessarily', 'If someone is suspended, call rescue at once — time matters']),
     card: { do: B(['반송 정지 표시 확인', '안전대 먼저 걸고 이동', '공구에 끈 달기'], ['Check the transport-stop sign', 'Clip on before moving', 'Tether tools']),
             dont: B(['난간 넘어 작업', '작업대 위 사다리 올리기', '하부 통제 없이 작업'], ['Lean over guardrails', 'Put a ladder on a platform', 'Work without a barricade below']) },
     quiz: [
-      { q: B('SK하이닉스가 관리하는 3대 사고 유형은?', 'SK hynix’s top-3 accident types are…'), o: [B('추락·끼임·부딪힘', 'Falls, caught-in, struck-by'), B('화재·폭발·누출', 'Fire, explosion, leak'), B('감전·화상·질식', 'Shock, burns, asphyxiation')], a: 0 }
+      { q: B('SK하이닉스가 관리하는 3대 사고 유형은?', 'SK hynix’s top-3 accident types are…'), o: [B('추락·끼임·부딪힘', 'Falls, caught-in, struck-by'), B('화재·폭발·누출', 'Fire, explosion, leak'), B('감전·화상·질식', 'Shock, burns, asphyxiation')], a: 0 },
+      { q: B('이동식 사다리로 작업할 수 있는 높이 한도는? (제42조④)', 'Height limit for working from a ladder? (Art. 42(4))'), o: [B('바닥에서 3.5m 이하', 'Up to 3.5 m from the floor'), B('5m 이하', 'Up to 5 m'), B('제한 없음', 'No limit')], a: 0 },
+      { q: B('이동식비계 작업발판의 최대적재하중은? (제68조)', 'Maximum load on a mobile-scaffold platform? (Art. 68)'), o: [B('150kg', '150 kg'), B('250kg', '250 kg'), B('400kg', '400 kg')], a: 1 }
     ]
   },
   {

@@ -5,11 +5,20 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v77';
+SHE.BUILD = 'v78';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 10, v: SHE.BUILD, date: '2026-09-26',
+    { no: 11, v: SHE.BUILD, date: '2026-09-26',
+      t: B('안전보건표지 새 화면·추락 사례·고소작업 SOP 보강', 'New safety-sign page, fall cases, stronger work-at-height SOP'),
+      add: [
+        B('새 화면 ‘안전보건표지’(라이브러리) — 시행규칙 별표6~9의 표지 43종(금지 8·경고 15·지시 9·안내 8·출입금지 3)을 번호·용도·설치 장소 예시·KS S ISO 7010 대체 코드로 찾기, 색도기준(별표8), 설치·제작 의무(법 제37조·규칙 제38~40조)', 'New page “Safety signs” (Library) — the 43 signs of Rule Annexes 6–9 (8 prohibition, 15 warning, 9 mandatory, 8 guidance, 3 no-entry) searchable by number, use, example location and KS S ISO 7010 code; colour standards (Annex 8); duties for putting up and making signs (Act Art. 37, Rule Arts. 38–40)'),
+        B('사고사례 12 → 13건 — 정부 재해조사보고서 떨어짐 사망 2건(강원 영월 이동식 사다리 약 1.5m, 대구 달성 이동식비계 약 1.8m): 보고서의 경위·원인·권고와 조문 근거 재발방지 대책', 'Incident cases 12 → 13 — two fatal falls from government reports (a ladder at about 1.5 m in Yeongwol, a mobile scaffold at about 1.8 m in Dalseong): sequence, causes and recommendations from the reports, with law-based measures'),
+        B('용어 사전에 ‘안전보건표지’ 추가(법 제37조① 정의)', 'Glossary adds “safety and health sign” (definition in Act Art. 37(1))')
+      ],
+      chg: [B('고소작업 SOP 보강 — 작업발판 우선(제42조①②), 이동식 사다리 7가지 조건(제42조④, 2024.6.28 신설), 이동식비계 기준(제68조), 안전모·안전대(제32조①) 단계와 퀴즈 2문항, 작업중지 기준 2개 추가', 'Work-at-height SOP strengthened — platforms first (Art. 42(1)(2)), the seven ladder conditions (Art. 42(4), added 2024-06-28), mobile-scaffold rules (Art. 68), hard hats and harnesses (Art. 32(1)) as steps, plus two quiz questions and two stop-work criteria')],
+      fix: [] },
+    { no: 10, v: 'v77', date: '2026-09-26 20:02', commit: '53bddc9',
       t: B('SOP 3종 추가 — 기밀시험·소음·중량물', 'Three new SOPs — pressure testing, noise, manual lifting'),
       add: [
         B('SOP 22 → 25종 — 가스 배관·용기 기밀시험(안전보건규칙 제300조, KOSHA C-C-65-2026 4.1(2)), 소음 작업·청력보존(제512~517조, KOSHA C-C-87-2026 6.1(4)), 중량물 인력 운반(제663~666조, 근골격계부담작업 고시 제3조) — 단계마다 조문 근거, 5분 카드·퀴즈·작업중지 기준', 'SOPs 22 → 25 — pressure testing of gas lines and vessels (Standards Rules Art. 300; KOSHA C-C-65-2026 4.1(2)), noisy work and hearing conservation (Arts. 512–517; KOSHA C-C-87-2026 6.1(4)), manual lifting (Arts. 663–666; MSD-burden notice Art. 3) — each step with its legal basis, five-minute card, quiz and stop-work criteria'),

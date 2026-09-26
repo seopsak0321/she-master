@@ -965,3 +965,10 @@ html.m .upd-kind { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 .hier-row li.on { background: var(--ink); border-color: var(--ink); color: var(--panel); font-weight: 600; }
 .hier-cap { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 @media (max-width: 420px) { .hier-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .hier-row li:first-child, .hier-row li:last-child { border-radius: 0; } }
+/* 안전보건표지 — 기본모형 그림, 종류 카드, 표지 목록 */
+.sign-ico { flex: none; }
+.sign-cat b { font-size: calc(16px * var(--fz)); }
+.sign-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 8px; }
+.sign-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); min-width: 0; }
+.sign-row[hidden] { display: none; }
+.sign-sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--line-2); vertical-align: -2px; }

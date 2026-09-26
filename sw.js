@@ -3,7 +3,7 @@
    - 화면(index.html)은 네트워크 우선 → 실패하면 캐시. 버전 번호가 붙은 자산은 캐시 우선.
    - Google Fonts는 받아 둔 것을 먼저 쓰고 뒤에서 갱신한다(오프라인이면 시스템 글꼴).
    index.html의 ?v= 번호를 올릴 때 VERSION도 같은 번호로 올린다(이전 캐시 정리용). */
-const VERSION = 'v77';
+const VERSION = 'v78';
 const CACHE = 'she-master-' + VERSION;
 const FONTS = 'she-master-fonts';
 const CORE = ['./', './manifest.webmanifest', './assets/icons/icon.svg', './assets/icons/icon-192.png', './assets/icons/icon-512.png',

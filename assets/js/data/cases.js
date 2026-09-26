@@ -529,6 +529,51 @@ window.SHE = window.SHE || {};
       ],
       lesson: B('안전장치를 끄는 결정도 위험성평가 대상입니다. 민원은 다른 방법으로 풀고, 굴착기 반경은 비워 두세요.', 'Switching off a safety device is itself a change to assess. Solve complaints another way, and keep the slew radius clear.'),
       sops: ['excavation'], src: ['moelRpt', 'lawStd']
+    },
+    {
+      id: 'gov-2024-falls', site: 'common', peer: B('정부 재해조사보고서 · 태양광 설치·조경 도장 공사', 'Government investigation reports · solar-panel installation and landscape painting'), date: '2024-11-25', dateLabel: B('2024.7.30 · 11.25 (2026.5.26 공개)', '30 Jul & 25 Nov 2024 (published 26 May 2026)'),
+      types: ['fall'], official: true,
+      t: B('[정부 보고서] 2m가 안 되는 높이의 떨어짐 사망 2건 — 이동식 사다리 1.5m, 이동식비계 1.8m', '[Government reports] Two fatal falls from under 2 m — a 1.5 m ladder and a 1.8 m mobile scaffold'),
+      impact: B('작업자 2명 사망', 'Two workers died'),
+      facts: [
+        { t: B('2024.7.30 강원 영월 개인주택 태양광 패널 설치: 재해자가 A형 이동식 사다리의 위에서 세 번째 디딤대(약 1.5m)에 혼자 올라 모듈 하부 보강재의 볼트를 조이다 중심을 잃고 지면에 놓인 공구 위로 떨어져 흉부를 부딪혔고 당일 사망', 'Yeongwol, 30 Jul 2024, solar panels on a house: working alone on the third step from the top of an A-frame ladder (about 1.5 m) to bolt a brace, the victim lost balance, fell onto tools on the ground, struck his chest and died that day'), src: ['moelRpt'] },
+        { t: B('사다리는 먼저 세운 패널 기둥에 임시로 기대어 경사진 지면에 세워져 디딤대가 약 0.9~1.8° 기울었고, 재해자는 한 손에 충전식 드릴 드라이버를 든 채 경사 방향으로 약 0.63m 몸을 내민 상태였던 것으로 추정됨', 'The ladder leaned temporarily on a post on sloping ground, its steps tilted about 0.9–1.8°; he was thought to be leaning about 0.63 m towards the slope with a cordless driver in one hand'), src: ['moelRpt'] },
+        { t: B('2024.11.25 대구 달성군 파고라 도장 공사: 재해자가 1단 이동식비계(약 1.8m) 위에서 높이 약 3.1~3.3m의 내부 보를 물걸레로 닦다 균형을 잃고 바닥으로 떨어져 12.2 사망. 공사 첫날이었음', 'Dalseong, Daegu, 25 Nov 2024, pergola painting: wiping beams about 3.1–3.3 m high from a one-tier mobile scaffold (about 1.8 m), the victim lost balance and fell; he died on 2 Dec. It was the first day of the job'), src: ['moelRpt'] },
+        { t: B('비계 최상부에 안전난간과 아웃트리거가 없었고 바퀴 브레이크 고정 여부는 확인할 수 없었음. 재해자는 안전모를 쓰지 않았음(현장소장은 지급했다고 진술). 현장이 보존되지 않아 CCTV와 진술로 조사', 'The top had no guardrails and no outriggers; whether the wheel brakes were set could not be confirmed. He wore no hard hat (the site manager said one was issued). The scene was not preserved, so the investigation relied on CCTV and statements'), src: ['moelRpt'] }
+      ],
+      officialFindings: [
+        { t: B('영월 원인(조사자 의견): 평탄·견고하지 않은 경사 지면에 사다리 설치, 넘어짐 방지 조치(견고한 시설물 고정·다른 근로자 지지·아웃트리거) 미실시. 권고: 비계 등 작업발판이나 추락방호망을 먼저, 곤란할 때만 사다리 수칙을 지켜 사용, 경사면은 깔목 등으로 바닥을 평탄하게', 'Yeongwol causes (investigator): ladder set on sloping, unstable ground; no anti-tip measure (tying to a structure, a second person holding it, outriggers). Recommendations: platforms or nets first; ladders only where they are impracticable and by the rules; level sloping ground, e.g. with packing'), src: ['moelRpt'] },
+        { t: B('대구 원인: 이동식비계 조립기준 미준수(상부 안전난간 2단·아웃트리거 미설치), 안전모 미착용. 권고: 작업발판 단부 안전난간, 바퀴를 브레이크·쐐기로 고정하고 시설물 고정 또는 아웃트리거, 안전모 착용', 'Daegu causes: scaffold not built to standard (no two-rail guardrail or outriggers on top); no hard hat. Recommendations: guardrails at platform edges; wheels braked or wedged and the scaffold tied in or fitted with outriggers; hard hats'), src: ['moelRpt'] }
+      ],
+      why: [
+        { k: 'off', t: B('왜 떨어졌나? → 사다리·비계 위에서 몸을 내밀거나 균형을 잃었다', 'Why the fall? → Leaning out or losing balance on a ladder or scaffold') },
+        { k: 'off', t: B('왜 버티지 못했나? → 경사진 바닥에 선 사다리에는 넘어짐 방지 조치가, 비계 상부에는 안전난간이 없었다', 'Why nothing held? → The ladder on a slope had no anti-tip measure; the scaffold top had no guardrails') },
+        { k: 'off', t: B('왜 그렇게 설치했나? → 사다리는 먼저 세운 기둥에 임시로 기대 세웠고, 비계는 난간·아웃트리거 없이 조립했다', 'Why set up like that? → The ladder was temporarily leaned on a post, and the scaffold was built without rails or outriggers') },
+        { k: 'an', t: B('근본 원인 → 높이 1.5m·1.8m는 ‘낮은 작업’으로 여겨져 추락 방지 조치 없이 진행됐다 (포털 분석)', 'Root cause → 1.5 m and 1.8 m were treated as “low work”, so fall protection was skipped (portal analysis)') }
+      ],
+      m4: {
+        man: B('한 손에 공구를 들고 몸을 내민 자세, 안전모 미착용 (보고서)', 'Leaning out with a tool in one hand; no hard hat (reports)'),
+        machine: B('기대 세운 A형 사다리, 난간·아웃트리거 없는 이동식비계 (보고서)', 'A leaned A-frame ladder; a mobile scaffold with no rails or outriggers (reports)'),
+        media: B('경사진 지면, 바닥에 놓인 공구 (보고서)', 'Sloping ground; tools lying below (reports)'),
+        management: B('단독 사다리 작업(영월), 이동식비계 조립기준 미준수(대구) (보고서)', 'Working alone on the ladder (Yeongwol); scaffold not built to standard (Daegu) (reports)')
+      },
+      barriers: { held: B(['동료가 소리를 듣고 곧바로 발견해 119 신고'], ['Co-workers heard the fall and called 119 at once']), failed: B(['작업발판 우선 원칙', '사다리 넘어짐 방지', '비계 안전난간·아웃트리거', '안전모'], ['Platforms-first rule', 'Ladder anti-tip measures', 'Scaffold guardrails and outriggers', 'Hard hat']) },
+      exposure: null,
+      risk: { before: { l: 3, s: 4 }, after: { l: 1, s: 4 }, why: B('전: 짧은 고소 작업을 사다리·간이 비계로 반복(가능성 3), 떨어짐 사망(중대성 4). 후: 작업발판 우선·사다리 조건·비계 조립기준 점검으로 가능성 1', 'Before: short jobs at height routinely done from ladders and bare scaffolds (L3), fatal fall (S4). After: platforms first, ladder conditions and scaffold checks for L1') },
+      actions: [
+        { lvl: 'eng', t: B('사다리 대신 비계 등 작업발판을 먼저 쓰고, 곤란할 때 추락방호망·안전대', 'Use platforms such as scaffolds before ladders; nets or harnesses where they are impracticable'), b: 'law:안전보건규칙 제42조①②|Standards Rules Art. 42(1)(2)' },
+        { lvl: 'eng', t: B('이동식비계는 바퀴 고정과 아웃트리거(또는 시설물 고정), 최상부 안전난간을 갖춘 뒤에만 사용', 'Use mobile scaffolds only with locked wheels, outriggers (or ties) and top guardrails'), b: 'law:안전보건규칙 제68조|Standards Rules Art. 68' },
+        { lvl: 'adm', t: B('이동식 사다리 7가지 조건(평탄 바닥·넘어짐 방지·최대사용하중·3.5m 이하·최상부 2단 금지·보호구·사용 전 점검)을 작업 전 점검표로', 'Turn the seven ladder conditions (level ground, anti-tip, rated load, ≤ 3.5 m, not the top two steps, PPE, pre-use check) into a pre-job checklist'), b: 'law:안전보건규칙 제42조④|Standards Rules Art. 42(4)' },
+        { lvl: 'adm', t: B('2m 미만 작업도 위험성평가와 작업 전 점검 대상에 포함', 'Include work below 2 m in risk assessments and pre-job checks'), b: 'guide' },
+        { lvl: 'ppe', t: B('안전모 착용 확인, 높이 2m 이상은 안전대 체결', 'Check hard hats are worn; harnesses from 2 m'), b: 'law:안전보건규칙 제32조①1·2|Standards Rules Art. 32(1)1–2' }
+      ],
+      lateral: B(['Fab 유지보수·협력사 작업의 사다리·이동식비계 보유 현황과 아웃트리거·난간 상태 점검', '경사·단차가 있는 작업 바닥 파악', '짧은 작업에서도 추락 방지를 확인하는 절차 점검'], ['Survey ladders and mobile scaffolds used in fab maintenance and contractor work, with their outriggers and guardrails', 'Map sloping or uneven work floors', 'Check how fall protection is verified even on short jobs']),
+      verify: [
+        { k: B('난간·아웃트리거 없는 이동식비계 사용', 'Mobile scaffolds used without rails or outriggers'), target: B('0건', '0') },
+        { k: B('사다리 최상부·그 아래 디딤대 작업(불시 점검)', 'Work from the top two ladder steps (spot checks)'), target: B('0건', '0') }
+      ],
+      lesson: B('두 사람 모두 2m가 안 되는 높이에서 떨어져 숨졌습니다. 높이가 낮다고 추락 방지를 건너뛰지 마세요.', 'Both workers died falling from less than 2 m. A low height is no reason to skip fall protection.'),
+      sops: ['height'], src: ['moelRpt', 'lawStd']
     }
   ];
 

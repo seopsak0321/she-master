@@ -448,6 +448,16 @@ window.SHE = window.SHE || {};
       related: ['guide', 'resources']
     },
 
+    signs: {
+      what: B('산업안전보건법 시행규칙 별표6~9가 정한 안전보건표지 43종(금지 8·경고 15·지시 9·안내 8·출입금지 3)을 번호·용도·설치 장소 예시·색으로 찾는 참고 화면입니다.', 'A reference for the 43 safety and health signs in Annexes 6–9 of the OSH Rule (8 prohibition, 15 warning, 9 mandatory, 8 guidance, 3 no-entry) — by number, use, example location and colour.'),
+      when: B(['현장 순회 때 표지가 알맞게 붙어 있는지 확인할 때', '새 설비·작업 구역에 어떤 표지를 붙일지 정할 때', '외국 표지(KS S ISO 7010)로 바꿔도 되는지 확인할 때'], ['On site rounds, to check the right signs are up', 'To choose signs for new equipment or work areas', 'To see whether an ISO 7010 sign may be used instead']),
+      steps: B(['맨 위 종류 카드에서 금지·경고·지시·안내·출입금지 표지의 모양과 색채 규칙을 봅니다. 화학물질 경고(인화성·산화성·폭발성·급성독성·부식성·발암성 등)는 빨간 테두리 마름모입니다.', '‘표지 목록’에서 이름·용도·장소로 찾거나 종류 칩으로 좁힙니다. 번호는 별표6 일람표 번호입니다.', 'KS S ISO 7010 코드가 적힌 28종은 한국산업표준 표지로 대체할 수 있습니다.', '아래에서 색도기준(별표8)과 설치·제작 의무(법 제37조, 규칙 제38~40조)를 확인합니다.'],
+        ['The type cards at the top show the shape and colour rules for each type; chemical warnings (flammable, oxidising, explosive, acutely toxic, corrosive, carcinogenic etc.) are red-framed diamonds.', 'Search the list by name, use or place, or narrow it with the type chips. Numbers are the Annex 6 numbers.', 'The 28 signs with a KS S ISO 7010 code may be replaced by those standard signs.', 'Below are the colour standards (Annex 8) and the duties for putting up and making signs (Act Art. 37, Rule Arts. 38–40).']),
+      tips: B(['화면의 그림은 기본모형의 모양과 색만 단순하게 그린 것입니다. 실제 표지의 그림·부호는 별표6 원문을 따르세요.', '외국인근로자를 쓰는 사업장은 표지를 그 근로자의 모국어로 작성해야 합니다(법 제37조①).', '색 견본은 화면 근삿값이며 기준은 먼셀 표기입니다.'],
+        ['The drawings only show the basic shape and colour; use the pictograms in Annex 6 for real signs.', 'Workplaces employing foreign workers must make signs in the workers’ mother tongue (Act Art. 37(1)).', 'Colour swatches are screen approximations; the Munsell values are the standard.']),
+      related: ['hazards', 'sop', 'ppe']
+    },
+
     updates: {
       what: B('포털의 역사를 적은 패치노트입니다. 공개 업데이트마다 버전·날짜와 함께 무엇을 추가하고, 보완하고, 고쳤는지 적고, 물질·SOP·출처 수가 어떻게 늘었는지 그래프로 보여 줍니다.',
         'Patch notes that record the portal’s history: for each public update, the version and date and what was added, improved and fixed, plus charts of how substances, SOPs and sources grew.'),
@@ -553,6 +563,8 @@ window.SHE = window.SHE || {};
       d: B('분류기준에 해당하는 화학물질·혼합물을 제조·수입하는 자가 제품명, 유해 성분의 명칭과 함유량, 안전·보건상의 취급 주의 사항, 건강·환경 유해성과 물리적 위험성 등을 적어 작성·제출하는 자료입니다(산업안전보건법 제110조).', 'The sheet that makers and importers of classified chemicals and mixtures prepare and submit — product name, names and contents of hazardous components, handling precautions, health, environmental and physical hazards and more (OSH Act Art. 110).') },
     { id: 'wem', t: B('작업환경측정', 'Work-environment monitoring'), link: 'measure', src: ['lawAct'],
       d: B('작업환경 실태를 파악하기 위해 해당 근로자 또는 작업장에 대해 사업주가 유해인자 측정계획을 세운 뒤 시료를 채취하고 분석·평가하는 것입니다(산업안전보건법 제2조 제13호).', 'The employer plans measurements of hazardous agents for the workers or workplace concerned, then samples, analyses and evaluates them to understand working conditions (OSH Act Art. 2(13)).') },
+    { id: 'signs', t: B('안전보건표지', 'Safety and health sign'), link: 'signs', src: ['lawAct', 'lawRuleSigns'],
+      d: B('유해하거나 위험한 장소·시설·물질에 대한 경고, 비상시에 대처하기 위한 지시·안내, 그 밖에 근로자의 안전·보건 의식을 고취하기 위한 사항을 그림·기호·글자로 나타낸 표지입니다(산업안전보건법 제37조①). 종류·형태·색채는 시행규칙 별표6~9가 정합니다.', 'Signs using pictures, symbols and words to warn of hazardous places, equipment and substances, to direct and guide action in emergencies, and to raise safety and health awareness (OSH Act Art. 37(1)); types, forms and colours are set by Annexes 6–9 of the Rule.') },
     { id: 'gwp', t: B('지구온난화지수 (GWP)', 'Global warming potential (GWP)'), link: 'hazards', src: ['epaGhg'],
       d: B('어떤 기체 1kg을 한 번에 배출했을 때의 복사강제력 누적값을 기준 기체인 이산화탄소 1kg과 비교한 비율입니다(미국 40 CFR 98.6). 포털은 100년 기준 표 A-1 값을 씁니다(CF₄ 6,630, SF₆ 23,500 등).', 'The ratio of the time-integrated radiative forcing from releasing 1 kg of a gas to that of 1 kg of the reference gas, CO₂ (US 40 CFR 98.6). The portal uses the 100-year values in Table A-1 (CF₄ 6,630, SF₆ 23,500 and so on).') }
   ];
