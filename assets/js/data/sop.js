@@ -693,5 +693,95 @@ SHE.SOPS = [
       { q: B('사람 몸의 정전기를 막는 대책은? (제325조②)', 'How do you stop charge on people? (Art. 325(2))'), o: [B('대전방지용 안전화·제전복', 'Anti-static footwear and clothing'), B('면장갑', 'Cotton gloves'), B('방진마스크', 'Dust mask')], a: 0 },
       { q: B('아이소프로필알코올(알코올류)의 위험물 지정수량은?', 'Designated quantity for IPA (alcohols)?'), o: [B('200L', '200 L'), B('400L', '400 L'), B('1,000L', '1,000 L')], a: 1 }
     ]
+  },
+  /* ---------- 10단계(업데이트 #10) — 안전보건규칙 원문 조문과 KOSHA 조항으로 구성 (2026-09-26 확인) ---------- */
+  {
+    id: 'leak-test', level: 'A', edu: [], permits: ['gas'], chems: ['n2', 'co2'],
+    t: B('가스 배관·용기 기밀시험 (불활성가스 가압)', 'Pressure (leak-tightness) testing of gas lines and vessels with inert gas'),
+    area: B('가스·케미컬 배관 설치(훅업)·개조 뒤, 설비 재가동 전 기밀 확인', 'Tightness checks after hooking up or modifying gas and chemical lines, before restart'),
+    hz: B(['과압·불량한 작업방법으로 인한 배관·연결부 파열', '시험가스(질소 등) 분출', '시험 뒤 설비 내부에 남은 불활성가스로 인한 산소결핍', '가압 중 연결부 이탈'], ['Line or fitting rupture from over-pressure or poor methods', 'Test-gas (e.g. nitrogen) release', 'Oxygen deficiency from inert gas left inside after the test', 'Fittings blowing off under pressure']),
+    legal: [B('안전보건규칙 제300조① — 질소·이산화탄소 등 불활성가스 압력으로 배관·용기 등의 기밀시험을 할 때 지나친 압력 주입·불량한 작업방법으로 인한 파열을 막기 위해 국가교정기관에서 교정받은 압력계를 설치하고 내부압력을 수시로 확인', 'Standards Rules Art. 300(1) — when testing pipes, vessels and other equipment with inert-gas pressure (nitrogen, CO₂), fit a pressure gauge calibrated by a national calibration body and check the internal pressure frequently, to prevent rupture from over-pressure or poor methods'),
+            B('같은 조 ② — 압력계는 내부압력을 항상 확인할 수 있도록 작업자가 보기 쉬운 곳에 설치 / ④ — 시험장비를 주입압력에 충분히 견디도록 견고하게 설치하고, 이상압력으로 인한 연결파이프 등의 파열 방지 조치를 미리 확인', 'Art. 300(2) — mount the gauge where workers can always see it / (4) — fix the test rig firmly enough for the injection pressure and check beforehand the measures against connecting pipes bursting from abnormal pressure'),
+            B('같은 조 ③ — 시험을 마친 뒤 설비 내부를 점검할 때는 반드시 환기하고 불활성가스가 남아 있는지 측정해 안전을 확인한 뒤 점검 (산소결핍: 산소농도 18% 미만, 제618조)', 'Art. 300(3) — before inspecting inside after the test, ventilate and measure for remaining inert gas to confirm it is safe (oxygen deficiency: below 18 % O₂, Art. 618)'),
+            B('KOSHA C-C-65-2026 4.1(2) — 가스 공급 설비는 질소 등 불활성가스로 퍼지할 수 있는 구조(마), 가스 누설검사를 할 수 없는 곳의 배관은 이음새로 연결하지 않음(사), 유량·압력 계측장치를 알맞은 위치에 설치(아)', 'KOSHA C-C-65-2026 4.1(2) — gas supply systems must be purgeable with inert gas such as nitrogen (e); piping where leak checks are impossible must not use joints (g); flow and pressure instruments at suitable points (h)')],
+    src: ['lawStd'], kosha: ['C-C-65-2026'],
+    next: [{ link: '#measure/confined', t: B('산소·유해가스 측정 판정', 'Oxygen and gas test check') }],
+    steps: [
+      { s: B('시험 계획·허가', 'Plan and permit'), h: B('대상·압력 착오', 'Wrong section or pressure'), c: B('시험 구간·시험압력·시험가스를 정하고 작업허가를 받음. 다른 계통과 분리됐는지 확인', 'Set the test section, pressure and gas, get a permit, and confirm isolation from other systems'), b: 'gp' },
+      { s: B('압력계 설치', 'Fit the gauge'), h: B('압력을 모른 채 가압', 'Pressurising blind'), c: B('국가교정기관에서 교정받은 압력계를 작업자가 보기 쉬운 곳에 설치', 'Fit a gauge calibrated by a national body where the worker can easily see it'), b: 'law:안전보건규칙 제300조①②|Standards Rules Art. 300(1)(2)' },
+      { s: B('장비·연결부 고정', 'Secure the rig'), h: B('연결파이프 파열·이탈', 'Hose or pipe burst or blow-off'), c: B('시험장비를 주입압력에 견디게 견고히 설치하고, 이상압력에 대비한 파열 방지 조치를 가압 전에 확인', 'Fix the rig firmly for the injection pressure and confirm the anti-burst measures for abnormal pressure before pressurising'), b: 'law:안전보건규칙 제300조④|Standards Rules Art. 300(4)' },
+      { s: B('구역 통제', 'Control the area'), h: B('파열 시 주변 인원 부상', 'People hurt if something bursts'), c: B('가압 중 배관 주변 출입을 제한하고 표지', 'Restrict and sign the area around the line while it is under pressure'), b: 'gp' },
+      { s: B('단계적 가압', 'Pressurise in steps'), h: B('지나친 압력 주입', 'Over-pressurising'), c: B('천천히 가압하며 내부압력을 수시로 확인하고 시험압력을 넘기지 않음', 'Raise pressure slowly, check it frequently and never exceed the test pressure'), b: 'law:안전보건규칙 제300조①|Standards Rules Art. 300(1)' },
+      { s: B('누설 확인·기록', 'Leak check and record'), h: B('미세 누설 놓침', 'Missing small leaks'), c: B('유지 시간 동안 압력 변화와 연결부 누설을 확인하고 결과를 기록', 'Watch pressure over the hold time, check the joints and record the result'), b: 'gp' },
+      { s: B('감압·배출', 'Depressurise and vent'), h: B('시험가스 분출·체류', 'Test-gas jet or build-up'), c: B('시험가스는 사람이 없는 안전한 곳으로 천천히 배출', 'Vent the test gas slowly to a safe place away from people'), b: 'gp' },
+      { s: B('내부 점검 전 환기·측정', 'Ventilate and test before going in'), h: B('불활성가스 잔류로 질식', 'Asphyxiation from leftover inert gas'), c: B('설비 내부를 점검하기 전에 환기하고 불활성가스 잔류(산소농도)를 측정해 안전을 확인', 'Before any inspection inside, ventilate and measure for leftover inert gas (oxygen level) to confirm it is safe'), b: 'law:안전보건규칙 제300조③|Standards Rules Art. 300(3)' }
+    ],
+    stop: B(['압력계가 없거나 교정되지 않음', '압력이 시험압력을 넘거나 원인 모를 변화', '연결부 이상음·움직임', '내부 산소농도 18% 미만'], ['No gauge or an uncalibrated one', 'Pressure above the test value or changing for no known reason', 'Noise or movement at fittings', 'Oxygen below 18 % inside']),
+    emer: B(['파열·분출 시 가압을 멈추고 공급 밸브를 닫은 뒤 대피', '질식이 의심되면 공기호흡기·송기마스크 없이 들어가지 않고 구조를 요청 (안전보건규칙 제643조)'], ['On a burst or jet, stop pressurising, close the supply valve and evacuate', 'If asphyxiation is suspected, do not go in without SCBA or an airline respirator — call for rescue (Standards Rules Art. 643)']),
+    card: { do: B(['교정된 압력계를 보며 천천히 가압', '가압 전 연결부 고정 확인', '내부 점검 전 환기·산소 측정'], ['Pressurise slowly while watching a calibrated gauge', 'Check fittings are secured before pressurising', 'Ventilate and test oxygen before looking inside']),
+            dont: B(['시험압력 초과', '가압 중 연결부 조이기', '측정 없이 설비 내부에 머리 넣기'], ['Exceed the test pressure', 'Tighten fittings under pressure', 'Put your head inside without testing']) },
+    quiz: [
+      { q: B('기밀시험에 쓰는 압력계의 법적 요건은? (제300조①)', 'What must the test gauge be? (Art. 300(1))'), o: [B('국가교정기관에서 교정받은 것', 'Calibrated by a national calibration body'), B('디지털 압력계', 'Digital'), B('설비에 원래 달린 것', 'The one already on the equipment')], a: 0 },
+      { q: B('기밀시험을 마치고 설비 내부를 점검하기 전에 할 일은?', 'Before inspecting inside after the test?'), o: [B('환기하고 불활성가스 잔류를 측정', 'Ventilate and measure for leftover inert gas'), B('바로 들어가 확인', 'Go straight in'), B('시험가스를 더 넣음', 'Add more test gas')], a: 0 },
+      { q: B('산소결핍의 기준은? (제618조)', 'Oxygen deficiency means… (Art. 618)'), o: [B('산소 18% 미만', 'Below 18 % oxygen'), B('산소 21% 미만', 'Below 21 %'), B('산소 23.5% 초과', 'Above 23.5 %')], a: 0 }
+    ]
+  },
+  {
+    id: 'noise', level: 'B', edu: [], permits: [], chems: [],
+    t: B('소음 작업·청력보존', 'Noisy work and hearing conservation'),
+    area: B('소음이 큰 설비실, 장비 설치·예방정비·고장수리 현장 (TSMC 협력사 지침도 장비 작업 중 소음 노출을 관리 대상으로 둠)', 'Noisy plant rooms and tool installation, PM and troubleshooting (TSMC’s supplier guideline also lists noise exposure during tool work)'),
+    hz: B(['소음성 난청', '충격소음', '소음 때문에 가스 경보를 듣지 못함', '의사소통 곤란'], ['Noise-induced hearing loss', 'Impulse noise', 'Missing gas alarms because of noise', 'Poor communication']),
+    legal: [B('안전보건규칙 제512조 — 소음작업: 1일 8시간 기준 85dB 이상. 강렬한 소음작업: 90dB 8시간·95dB 4시간·100dB 2시간·105dB 1시간·110dB 30분·115dB 15분 이상. 충격소음작업: 120dB 초과 1일 1만 회·130dB 초과 1천 회·140dB 초과 1백 회 이상', 'Standards Rules Art. 512 — noisy work: 85 dB or more over 8 h. Very noisy work: 90 dB for 8 h, 95 dB 4 h, 100 dB 2 h, 105 dB 1 h, 110 dB 30 min or 115 dB 15 min. Impulse-noise work: over 120 dB 10,000 times, over 130 dB 1,000 times or over 140 dB 100 times a day'),
+            B('제513조 — 강렬한 소음·충격소음 장소는 기계·기구 대체, 시설의 밀폐·흡음·격리 등 소음 감소 조치 / 제514조 — 소음 수준, 인체 영향과 증상, 보호구 선정·착용방법을 근로자에게 알림', 'Art. 513 — reduce noise at very noisy and impulse-noise places by substituting machines, enclosing, absorbing or isolating / Art. 514 — tell workers the noise level, effects and symptoms, and how to choose and wear protectors'),
+            B('제516조 — 청력보호구를 근로자 개인 전용으로 지급하고 착용하게 함 / 제517조·제512조제5호 — 청력보존 프로그램(노출 평가, 공학적 대책, 보호구 지급·착용, 교육, 정기 청력검사, 기록·관리) / 제515조 — 난청 발생·우려 시 원인 조사, 대책, 이행 확인, 의사 소견에 따른 작업전환', 'Art. 516 — issue personal hearing protectors and make workers wear them / Arts. 517, 512(5) — a hearing conservation programme (exposure assessment, engineering controls, protectors, training, regular audiometry, records) / Art. 515 — if hearing loss occurs or is feared: investigate, set and check measures, move work on medical advice'),
+            B('KOSHA C-C-87-2026 6.1(4) — 경보장치 설치 지역의 작업소음(70dB 이상이 1일 8시간 이상)으로 경보를 듣기 어려우면 시각 경보기 설치를 검토(바닥에서 2~2.5m)', 'KOSHA C-C-87-2026 6.1(4) — where work noise (70 dB or more for 8 h a day) makes alarms hard to hear, consider visual alarms (2–2.5 m above the floor)')],
+    src: ['lawStd', 'moelOel', 'tsmcTsia'], kosha: ['C-C-87-2026'],
+    next: [{ link: '#measure/noise', t: B('소음 노출 판정', 'Noise exposure check') }, { link: '#measure/impulse', t: B('충격소음 판정', 'Impulse-noise check') }, { link: '#gas/alarm', t: B('가스 경보 설정 검토', 'Gas alarm review') }],
+    steps: [
+      { s: B('소음 수준 확인·알림', 'Know and tell the level'), h: B('위험을 모른 채 노출', 'Exposure without knowing'), c: B('작업 장소의 소음 수준, 인체 영향과 증상, 보호구 선정·착용방법을 작업자에게 알림', 'Tell workers the noise level, its effects and symptoms, and how to choose and wear protectors'), b: 'law:안전보건규칙 제514조|Standards Rules Art. 514' },
+      { s: B('작업 구분', 'Classify the work'), h: B('기준 착오', 'Wrong criteria'), c: B('1일 8시간 85dB 이상이면 소음작업, 90dB 8시간~115dB 15분 이상이면 강렬한 소음작업, 충격소음은 횟수 기준으로 구분', 'Noisy work from 85 dB over 8 h; very noisy work from 90 dB 8 h up to 115 dB 15 min; impulse noise by count'), b: 'law:안전보건규칙 제512조|Standards Rules Art. 512' },
+      { s: B('소음 줄이기 먼저', 'Reduce noise first'), h: B('보호구에만 의존', 'Relying on protectors alone'), c: B('강렬한 소음·충격소음 장소는 기계·기구 대체, 밀폐·흡음·격리로 먼저 줄임', 'At very noisy or impulse-noise places, first substitute machines or enclose, absorb or isolate the noise'), b: 'law:안전보건규칙 제513조|Standards Rules Art. 513' },
+      { s: B('청력보호구 착용', 'Wear hearing protection'), h: B('남이 쓰던 보호구·잘못된 착용', 'Shared or badly fitted protectors'), c: B('개인 전용 청력보호구를 지급받아 바르게 착용', 'Use your own issued hearing protectors and fit them properly'), b: 'law:안전보건규칙 제516조|Standards Rules Art. 516' },
+      { s: B('경보가 들리는지 확인', 'Make sure alarms are heard'), h: B('소음으로 가스 경보를 놓침', 'Missing gas alarms in the noise'), c: B('작업소음으로 경보를 듣기 어려운 곳은 시각 경보기 위치를 확인하고, 없으면 설치 검토를 요청', 'Where noise masks alarms, check where the visual alarm is; if there is none, ask for one to be considered'), b: 'kosha:C-C-87-2026 6.1(4)|C-C-87-2026 6.1(4)' },
+      { s: B('청력보존 프로그램', 'Hearing conservation programme'), h: B('관리 누락', 'Gaps in management'), c: B('노출 평가·공학적 대책·보호구·교육·정기 청력검사·기록을 한 계획으로 운영', 'Run exposure assessment, engineering controls, protectors, training, regular audiometry and records as one programme'), b: 'law:안전보건규칙 제517조, 제512조제5호|Standards Rules Arts. 517, 512(5)' },
+      { s: B('난청 발생 시 조치', 'If hearing loss appears'), h: B('재발', 'Recurrence'), c: B('원인을 조사하고 청력손실 감소·재발 방지 대책을 세워 이행을 확인하며, 의사 소견에 따라 작업을 전환', 'Investigate, set and check measures to reduce loss and prevent recurrence, and move work on medical advice'), b: 'law:안전보건규칙 제515조|Standards Rules Art. 515' }
+    ],
+    stop: B(['청력보호구 없이 강렬한 소음 구역 작업', '경보가 들리지 않고 시각 경보도 없음', '귀 통증·이명·먹먹함'], ['Very noisy work without hearing protection', 'Alarms inaudible and no visual alarm', 'Ear pain, ringing or muffled hearing']),
+    emer: B(['갑자기 잘 안 들리거나 이명이 생기면 작업을 멈추고 진료를 받음', '소음 구역에서는 경보를 놓칠 수 있으니 시각 신호와 동료 간 신호를 미리 정함'], ['If hearing drops suddenly or ringing starts, stop and get medical care', 'In noisy areas agree visual and buddy signals in advance, since alarms can be missed']),
+    card: { do: B(['소음 수준 표지 확인', '개인 청력보호구 바르게 착용', '시각 경보 위치 확인'], ['Check the noise-level sign', 'Fit your own hearing protectors properly', 'Know where the visual alarm is']),
+            dont: B(['남의 귀마개 사용', '대화하려고 보호구 빼기', '이명을 참고 계속 작업'], ['Use someone else’s earplugs', 'Take protectors out to talk', 'Carry on with ringing ears']) },
+    quiz: [
+      { q: B('‘소음작업’의 기준은? (제512조)', 'What counts as “noisy work”? (Art. 512)'), o: [B('1일 8시간 85dB 이상', '85 dB or more over 8 h'), B('1일 8시간 70dB 이상', '70 dB over 8 h'), B('순간 100dB 이상', 'A 100 dB peak')], a: 0 },
+      { q: B('청력보호구는 어떻게 지급해야 하나? (제516조)', 'How must hearing protectors be issued? (Art. 516)'), o: [B('근로자 개인 전용', 'Personal to each worker'), B('작업장 공용', 'Shared at the workplace'), B('요청할 때만', 'Only on request')], a: 0 },
+      { q: B('110dB 소음이 하루 몇 분 이상이면 ‘강렬한 소음작업’인가?', 'At 110 dB, how long a day makes it “very noisy work”?'), o: [B('15분', '15 min'), B('30분', '30 min'), B('1시간', '1 h')], a: 1 }
+    ]
+  },
+  {
+    id: 'manual-lifting', level: 'B', edu: [], permits: [], chems: [],
+    t: B('중량물 인력 운반', 'Manual lifting and carrying'),
+    area: B('약품 용기·장비 부품·자재를 사람이 들어 옮기는 작업', 'Lifting and carrying chemical containers, tool parts and materials by hand'),
+    hz: B(['허리·목 등 근골격계 질환', '떨어뜨림·끼임', '미끄러짐·넘어짐', '반복 들기로 인한 누적 부담'], ['Back, neck and other musculoskeletal injury', 'Dropping or trapping', 'Slips and trips', 'Cumulative strain from repeated lifting']),
+    legal: [B('안전보건규칙 제663조 — 과도한 무게로 목·허리 등 근골격계에 무리한 부담을 주지 않도록 최대한 노력 / 제664조 — 물품의 중량·취급빈도·운반거리·운반속도 등에 따라 작업시간과 휴식시간을 적정하게 배분', 'Standards Rules Art. 663 — do everything possible to avoid excessive loads on the neck, back and other body parts / Art. 664 — share out work and rest time according to weight, frequency, distance and speed'),
+            B('제665조 — 5kg 이상 중량물을 인력으로 들 때 주로 취급하는 물품의 중량·무게중심을 작업장 주변에 안내표시하고, 취급하기 곤란한 물품은 손잡이·갈고리·진공빨판 등 보조도구 활용 / 제666조 — 무게중심을 낮추거나 몸에 밀착하는 등 부담을 줄이는 자세를 알림', 'Art. 665 — for manual lifts of 5 kg or more, post the weight and centre of gravity of the items mainly handled, and use handles, hooks, vacuum lifters or other aids for awkward items / Art. 666 — teach postures that reduce strain, such as lowering the centre of gravity and holding the load close'),
+            B('근골격계부담작업 고시(고용노동부고시 제2020-12호) 제3조 — 하루 10회 이상 25kg 이상을 드는 작업(8호), 하루 25회 이상 10kg 이상을 무릎 아래·어깨 위·팔을 뻗은 상태에서 드는 작업(9호), 하루 총 2시간 이상 분당 2회 이상 4.5kg 이상을 드는 작업(10호) 등 — 단기간·간헐적 작업은 제외. 해당하면 3년마다 유해요인조사(안전보건규칙 제657조)', 'MSD notice (MOEL Notice No. 2020-12) Art. 3 — lifting 25 kg or more 10+ times a day (item 8); 10 kg or more 25+ times a day from below the knees, above the shoulders or at arm’s length (item 9); 4.5 kg or more twice a minute for 2 h in total a day (item 10), among others — short-term and intermittent work excepted. Where it applies, survey the hazards every three years (Standards Rules Art. 657)')],
+    src: ['lawStd', 'moelMsd'], kosha: [],
+    next: [{ link: '#home/cycles', t: B('근골격계 유해요인조사 주기(3년)', 'MSD hazard survey cycle (3 years)') }],
+    steps: [
+      { s: B('무게·무게중심 확인', 'Know the weight'), h: B('예상보다 무거운 짐', 'A heavier load than expected'), c: B('5kg 이상 들 물품은 중량·무게중심 안내표시를 확인하고, 없으면 표시를 요청', 'For items of 5 kg or more, check the posted weight and centre of gravity; ask for signs where missing'), b: 'law:안전보건규칙 제665조제1호|Standards Rules Art. 665(1)' },
+      { s: B('기계·보조도구 먼저', 'Machines and aids first'), h: B('무리한 인력 운반', 'Overloading people'), c: B('운반기구를 먼저 쓰고, 취급하기 곤란한 물품은 손잡이·갈고리·진공빨판 등 보조도구를 씀', 'Use handling equipment first, and handles, hooks or vacuum lifters for awkward items'), b: 'law:안전보건규칙 제663조, 제665조제2호|Standards Rules Arts. 663, 665(2)' },
+      { s: B('경로 확보', 'Clear the route'), h: B('걸려 넘어짐', 'Trips'), c: B('운반 경로의 장애물·물기를 치우고 시야를 가리지 않게 나눠 옮김', 'Clear obstacles and wet spots and split loads so you can see ahead'), b: 'gp' },
+      { s: B('바른 자세로 들기', 'Lift with good posture'), h: B('허리 부상', 'Back injury'), c: B('무게중심을 낮추고 짐을 몸에 밀착해 들며, 들면서 몸을 비틀지 않음', 'Lower your centre of gravity, hold the load close and do not twist while lifting'), b: 'law:안전보건규칙 제666조|Standards Rules Art. 666' },
+      { s: B('작업·휴식 배분', 'Share work and rest'), h: B('반복 누적 부담', 'Cumulative strain'), c: B('무게·횟수·거리·속도에 따라 작업시간과 휴식을 나누고, 필요하면 2인 1조로', 'Split work and rest by weight, frequency, distance and speed; work in pairs where needed'), b: 'law:안전보건규칙 제664조|Standards Rules Art. 664' },
+      { s: B('부담작업 해당 여부 점검', 'Check if it is MSD-burden work'), h: B('유해요인조사 누락', 'Missing the hazard survey'), c: B('하루 25kg 이상 10회, 10kg 이상 25회(무릎 아래·어깨 위·팔 뻗어), 4.5kg 이상 분당 2회·총 2시간 등에 해당하면 3년 주기 유해요인조사 대상으로 관리', 'If it meets e.g. 25 kg ×10 a day, 10 kg ×25 from awkward heights, or 4.5 kg twice a minute for 2 h, manage it under the three-yearly hazard survey'), b: 'law:근골격계부담작업 고시 제3조, 안전보건규칙 제657조|MSD notice Art. 3; Standards Rules Art. 657' }
+    ],
+    stop: B(['무게를 모르거나 혼자 들기 버거운 짐', '보조도구·운반기구 고장', '허리·어깨 통증'], ['Unknown weight or too heavy for one person', 'Broken lifting aids or trolleys', 'Back or shoulder pain']),
+    emer: B(['통증이 생기면 작업을 멈추고 보고한 뒤 진료를 받음', '짐에 끼이거나 깔리면 주변에 알려 함께 들어 올리고 구조를 요청'], ['If pain starts, stop, report it and get medical care', 'If someone is trapped under a load, raise the alarm, lift together and call for help']),
+    card: { do: B(['무게 표시 확인', '운반기구·보조도구 먼저', '몸에 붙여 무릎 굽혀 들기'], ['Check the weight sign', 'Use trolleys and aids first', 'Hold it close and bend your knees']),
+            dont: B(['들면서 몸 비틀기', '시야를 가리는 짐 운반', '버거운 짐을 혼자 들기'], ['Twist while lifting', 'Carry loads that block your view', 'Lift a too-heavy load alone']) },
+    quiz: [
+      { q: B('중량·무게중심을 안내표시해야 하는 인력 들기 중량 기준은? (제665조)', 'From what weight must manual lifts be signed with weight and centre of gravity? (Art. 665)'), o: [B('5kg 이상', '5 kg or more'), B('10kg 이상', '10 kg or more'), B('25kg 이상', '25 kg or more')], a: 0 },
+      { q: B('부담을 줄이는 들기 자세는? (제666조)', 'Which posture reduces strain? (Art. 666)'), o: [B('무게중심을 낮추고 몸에 밀착', 'Lower centre of gravity, load held close'), B('허리를 굽혀 빠르게', 'Bend at the waist and lift fast'), B('팔을 뻗어 들기', 'Lift at arm’s length')], a: 0 },
+      { q: B('근골격계부담작업: 하루 10회 이상 몇 kg 이상을 드는 작업인가? (고시 제3조제8호)', 'MSD-burden work: lifting how many kg 10+ times a day? (Notice Art. 3(8))'), o: [B('10kg', '10 kg'), B('25kg', '25 kg'), B('40kg', '40 kg')], a: 1 }
+    ]
   }
 ];

@@ -5,11 +5,19 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v76';
+SHE.BUILD = 'v77';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 9, v: SHE.BUILD, date: '2026-09-26',
+    { no: 10, v: SHE.BUILD, date: '2026-09-26',
+      t: B('SOP 3종 추가 — 기밀시험·소음·중량물', 'Three new SOPs — pressure testing, noise, manual lifting'),
+      add: [
+        B('SOP 22 → 25종 — 가스 배관·용기 기밀시험(안전보건규칙 제300조, KOSHA C-C-65-2026 4.1(2)), 소음 작업·청력보존(제512~517조, KOSHA C-C-87-2026 6.1(4)), 중량물 인력 운반(제663~666조, 근골격계부담작업 고시 제3조) — 단계마다 조문 근거, 5분 카드·퀴즈·작업중지 기준', 'SOPs 22 → 25 — pressure testing of gas lines and vessels (Standards Rules Art. 300; KOSHA C-C-65-2026 4.1(2)), noisy work and hearing conservation (Arts. 512–517; KOSHA C-C-87-2026 6.1(4)), manual lifting (Arts. 663–666; MSD-burden notice Art. 3) — each step with its legal basis, five-minute card, quiz and stop-work criteria'),
+        B('출처·월간 법령 점검에 근골격계부담작업 고시(고용노동부고시 제2020-12호) 추가 — 점검 대상 30건', 'Sources and the monthly law check gain the MSD-burden notice (MOEL Notice No. 2020-12) — 30 items checked'),
+        B('수치 판정의 소음 결과에서 소음 작업·청력보존 SOP로 바로 이동', 'The noise result in the measurement check links straight to the noise SOP')
+      ],
+      chg: [], fix: [] },
+    { no: 9, v: 'v76', date: '2026-09-26 17:35', commit: '63f54a0',
       t: B('화학사고 신고 기준 전체·용어 사전 확충·전자산업 불소계 가스', 'Full chemical-accident reporting list, glossary expansion, electronics F-gases'),
       add: [
         B('화학사고 즉시 신고 판정 — 별표1이 이름으로 정한 44종 전체(산·염기·가스·유기용제·기타), 선택 목록을 ‘반도체 사업장에서 쓰는 물질 / 그 밖의 물질’로 나누고 기준량 전체 표를 접어서 제공', 'Chemical-accident report check — all 44 substances named in Annex 1 (acids, bases, gases, solvents, other); the list is split into “used in fabs” and “other”, with a foldable table of every threshold'),
