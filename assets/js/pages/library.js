@@ -144,10 +144,22 @@
   /* 환경 법령 — 대기법 시행규칙 별표2·물환경법 시행규칙 별표3 항목과 이름이 분명히 일치하는 물질만 (data/env.js) */
   const envRow = (c) => {
     if (!S.ENV_OF) return '';
-    const e = S.ENV_OF(c.id), parts = [];
+    const e = S.ENV_OF(c.id), parts = [], go = [], G = S.ENV_GHG, g = G && G.ids[c.id];
     if (e.air.length) parts.push(`<span class="chip">${T('특정대기유해물질', 'Specified air pollutant')} ${e.air.map((n) => T(`${n}호`, `No. ${n}`)).join('·')}</span>${S.cite('envAirRule')}`);
     if (e.water.length) parts.push(`<span class="chip">${T('특정수질유해물질', 'Specified water pollutant')} ${e.water.map((n) => T(`${n}호`, `No. ${n}`)).join('·')}</span>${S.cite('envWaterRule')}`);
-    return parts.length ? `<dt>${T('환경 법령', 'Environmental law')}</dt><dd>${parts.join(' ')} <a class="xs" href="#env/pollut">${T('환경 법정 의무', 'Environmental duties')} →</a></dd>` : '';
+    if (parts.length) go.push(`<a class="xs" href="#env/pollut">${T('특정 유해물질', 'Specified pollutants')} →</a>`);
+    /* 화학물질 배출량조사 — 고시 제2025-52호 별표2 그룹·번호 */
+    const pr = S.ENV_PRTR && S.ENV_PRTR.ids[c.id];
+    if (pr) {
+      parts.push(`<span class="chip">${T('배출량조사', 'Release survey')} ${pr.map(([g, no]) => T(`${g === 'I' ? 'Ⅰ' : 'Ⅱ'}그룹 ${no}번`, `group ${g} No. ${no}`)).join('·')}</span>${S.cite('envPrtr')}`);
+      go.push(`<a class="xs" href="#env/prtr">${T('배출량조사', 'Release survey')} →</a>`);
+    }
+    /* 온실가스 — 탄소중립기본법 제2조제5호 (NF₃는 2026.10.8부터, 목표관리·배출권거래제에서는 제외) */
+    if (g) {
+      parts.push(`<span class="chip">${T('온실가스', 'Greenhouse gas')} ${g}</span>${g === 'NF₃' ? ` <span class="xs muted">${T('기본법 2026.10.8부터 · 목표관리·배출권거래제 제외', 'Framework Act from 2026-10-08 · outside target management and the ETS')}</span>` : ''}${S.cite('cnAct')}`);
+      go.push(`<a class="xs" href="#env/ghg">${T('온실가스·배출권', 'GHG & emissions trading')} →</a>`);
+    }
+    return parts.length ? `<dt>${T('환경 법령', 'Environmental law')}</dt><dd>${parts.join(' ')} ${go.join(' ')}</dd>` : '';
   };
   function chemDetail(id) {
     const c = chemById(id); if (!c) return {};
@@ -229,7 +241,8 @@
       </section>
       <section class="panel stack" id="anchor-gwp">${ui.title(T('불소계 공정가스 — 지구온난화지수 비교', 'Fluorinated process gases — global warming potential'), T('식각·세정 가스의 환경 영향', 'Environmental impact of etch and clean gases'))}
         ${gwpDots(null)}
-        <div class="callout small">${T('국가 통계로 본 반도체 업종 — 2025년 생산이 늘었지만(반도체 생산지수 160.1 → 180.7) 공정 저감효율 개선으로 배출 증가를 <b>+1.3%</b>(+0.04백만톤)로 억제했습니다. 공정에서 쓴 불소계 온실가스를 스크러버에서 고온으로 분해한 효과가 포함됩니다(온실가스종합정보센터, 2026.9.21 잠정 발표).', 'National statistics for the chip sector — output rose in 2025 (production index 160.1 → 180.7), yet better process abatement held the emissions increase to <b>+1.3 %</b> (+0.04 Mt), including high-temperature scrubber destruction of fluorinated gases used in processes (GIR provisional release, 21 Sep 2026).')}${S.cite('girPr0921')}</div></section>`}`;
+        <div class="callout small">${T('국가 통계로 본 반도체 업종 — 2025년 생산이 늘었지만(반도체 생산지수 160.1 → 180.7) 공정 저감효율 개선으로 배출 증가를 <b>+1.3%</b>(+0.04백만톤)로 억제했습니다. 공정에서 쓴 불소계 온실가스를 스크러버에서 고온으로 분해한 효과가 포함됩니다(온실가스종합정보센터, 2026.9.21 잠정 발표).', 'National statistics for the chip sector — output rose in 2025 (production index 160.1 → 180.7), yet better process abatement held the emissions increase to <b>+1.3 %</b> (+0.04 Mt), including high-temperature scrubber destruction of fluorinated gases used in processes (GIR provisional release, 21 Sep 2026).')}${S.cite('girPr0921')}</div>
+        <p class="xs"><a href="#env/ghg">${T('법에 적힌 온실가스와 배출권거래제 — NF₃는 2026.10.8부터 기본법상 온실가스', 'Greenhouse gases in law and emissions trading — NF₃ under the Framework Act from 2026-10-08')} →</a></p></section>`}`;
     },
     mount(root) {
       S.listFilter(root, 'hz');

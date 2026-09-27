@@ -13,7 +13,7 @@
   const EXAMPLE_AGO = { council: 20, rounds: 1, joint: 70, sapa3: 150, sapa5: 190, sapa7: 40, sapa8: 100, sapa9: 170, fireop: 300, firefull: 120, drill: 380, edu: 60, supedu: 200, ra: 250,
     oshc: 40, 'sapa-law': 120, 'sapa-edu': 90, wem: 150, she: 200, inspect: 500, 'psm-eval': 900, disclose: 55, mgredu: 400,
     'cca-self': 3, 'cca-insp': 200, 'cca-plan': 900, 'cca-notice': 150, 'cca-edu': 100, 'cca-edu2': 300, 'hpg-insp': 335, 'hpg-edu': 500,
-    'dg-check': 280, 'dg-edu': 400, msd: 800, 'psm-audit': 320, aed: 20, 'ip-report': 68, erp: 120 };
+    'dg-check': 280, 'dg-edu': 400, msd: 800, 'psm-audit': 320, aed: 20, 'ip-report': 68, erp: 120, 'ets-report': 186, 'ets-surrender': 38, prtr: 156 };
   /* 매년 정해진 날짜까지 하는 의무(예: 4월 30일 공시, 7월 31일 연간 보고서)는 최근 실시일이 속한 해의 다음 해 그 날짜를 기한으로 본다.
      (기한 전에 마친 올해 분을 ‘며칠 뒤 기한’으로 다시 세지 않도록 — 4/20에 공시했으면 다음 기한은 다음 해 4/30) */
   const nextFixed = (from, md, years) => {
@@ -26,7 +26,8 @@
     council: 'partner', rounds: 'partner', joint: 'partner', sapa3: 'prevent/sapa', sapa5: 'prevent/sapa', sapa7: 'prevent/sapa', sapa8: 'prevent/sapa', sapa9: 'partner/score',
     fireop: 'fire/schedule', firefull: 'fire/schedule', drill: 'fire', edu: 'training', supedu: 'training', ra: 'risk', 'sapa-law': 'prevent/sapa', 'sapa-edu': 'training',
     wem: 'measure/wem', she: 'measure/wem', 'psm-audit': 'psm/audit', 'psm-eval': 'psm/eval', 'cca-self': 'print/chem', 'cca-insp': 'psm/chem', 'cca-plan': 'psm/chem', 'cca-notice': 'psm/chem',
-    'cca-edu': 'training', 'cca-edu2': 'training', 'hpg-insp': 'psm/chem', 'hpg-edu': 'psm/chem', 'dg-check': 'psm/dg', 'dg-edu': 'psm/dg', aed: 'sop/cardiac-arrest', 'ip-report': 'env/ip', erp: 'env/erp'
+    'cca-edu': 'training', 'cca-edu2': 'training', 'hpg-insp': 'psm/chem', 'hpg-edu': 'psm/chem', 'dg-check': 'psm/dg', 'dg-edu': 'psm/dg', aed: 'sop/cardiac-arrest', 'ip-report': 'env/ip', erp: 'env/erp',
+    'ets-report': 'env/ghg', 'ets-surrender': 'env/ghg', prtr: 'env/prtr'
   };
   S.CYCLE_GO = CYCLE_GO;
   const validDate = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T00:00:00'));

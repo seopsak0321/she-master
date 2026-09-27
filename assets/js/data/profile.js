@@ -7,8 +7,8 @@ window.SHE = window.SHE || {};
   SHE.AUTHOR = B('이성호', 'Sung-Ho Lee');
   SHE.PROFILE = {
     photo: 'assets/img/profile.jpg',
-    lead: B('안전공학을 전공하고 산업안전·위험물·소방·대기환경 분야 국가기술자격을 취득했습니다. 이 포털은 기획부터 자료 조사·검증, 디자인, 개발까지 직접 만들었습니다.',
-      'A safety-engineering graduate with Korean national technical qualifications in industrial safety, hazardous materials, fire protection and air quality. I planned, researched, verified, designed and built this portal myself.'),
+    lead: B('안전공학을 전공하고 산업안전·위험물·소방·대기환경 분야 국가기술자격을 취득했습니다. 이 포털은 제가 기획하고 작업 원칙·검증 기준을 정해, AI 코딩 에이전트(Claude Code)와 함께 원문 조사·개발·자체 점검을 거쳐 만들었습니다.',
+      'A safety-engineering graduate with Korean national technical qualifications in industrial safety, hazardous materials, fire protection and air quality. I planned this portal and set its working and verification rules, then built it with an AI coding agent (Claude Code) through source research, development and self-checks.'),
     interests: B(['소방안전', '환경안전', '기계안전'], ['Fire safety', 'Environmental safety', 'Machine safety']),
     edu: [
       { t: B('서울과학기술대학교 안전공학과 졸업 (공학사)', 'Seoul National University of Science and Technology — B.Eng., Safety Engineering'), d: '2018.3 – 2024.8' }

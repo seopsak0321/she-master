@@ -104,6 +104,79 @@ window.SHE = window.SHE || {};
     dl2: [[200, '2026-05-31'], [100, '2027-05-31'], [50, '2028-05-31'], [30, '2029-05-31']],
     dl3: [[300, '2030-05-31'], [200, '2031-05-31'], [100, '2032-05-31'], [50, '2033-05-31'], [30, '2034-05-31']]
   };
+  /* 화학물질 배출량조사 — 화학물질관리법 제11조, 시행령 제6조, 시행규칙 제5조, 「화학물질의 배출량조사 및 산정계수에 관한 규정」
+     (기후에너지환경부고시 제2025-52호, 2025.12.15) 제3·5·6·8·10·12·13조, 별표1·2 (src: lawCca, lawCcaDecree, lawCcaRule, envPrtr)
+     물질 연결 = 별표2 본표 CAS 일치, 또는 ‘X 및 그 화합물’ 물질군 주의 CAS 목록. 물질군은 목록에 없는 화합물도 해당(각 주 머리말)이라
+     원소가 분명한 sbh3·b2h6·h2se도 연결. c-C₄F₆는 주24 과불화탄소 목록에 없어 두지 않음 */
+  SHE.ENV_PRTR = {
+    cut: { I: 1, II: 10 },   /* 제3조② 단서 — 물질별 연간 제조·사용량(톤)이 이 값 미만이면 제외 */
+    due: '04-30',            /* 제12조① — 전년도 자료로 조사표 */
+    semi: ['26111', '26112', '26121', '26129'],   /* 별표1 중 반도체 소자 (메모리·비메모리 집적회로, 발광다이오드, 기타 반도체소자) */
+    grp: {
+      15: B('수은 및 그 화합물', 'Mercury and its compounds'), 17: B('비소 및 그 화합물', 'Arsenic and its compounds'),
+      381: B('알루미늄 및 그 화합물', 'Aluminium and its compounds'), 382: B('안티몬 및 그 화합물', 'Antimony and its compounds'),
+      384: B('붕소 및 그 화합물', 'Boron and its compounds'), 385: B('코발트 및 그 화합물', 'Cobalt and its compounds'),
+      386: B('구리 및 그 화합물', 'Copper and its compounds'), 388: B('셀레늄 및 그 화합물', 'Selenium and its compounds'),
+      392: B('무기시안화합물', 'Inorganic cyanide compounds'), 394: B('수소화불화탄소', 'Hydrofluorocarbons'), 395: B('과불화탄소', 'Perfluorocarbons')
+    },
+    /* 물질 DB id → [[그룹, 별표2 번호, 조사대상범위(무게함유율 % 이상)], …] — 두 항목에 걸리면 둘 다 */
+    ids: {
+      as: [['I', 17, 0.1]], ash3: [['I', 17, 0.1]], hg: [['I', 15, 1]],
+      hf: [['II', 274, 1]], hcl: [['II', 272, 1]], h2so4: [['II', 276, 1]], hno3: [['II', 278, 1]], h2o2: [['II', 282, 1]], naoh: [['II', 227, 1]], koh: [['II', 226, 1]],
+      nh3: [['II', 275, 1]], ph3: [['II', 293, 1]], bf3: [['II', 271, 1], ['II', 384, 1]], hbr: [['II', 304, 1]], cl2: [['II', 288, 1]], sf6: [['II', 252, 1]],
+      ipa: [['II', 27, 1]], co: [['II', 213, 0.1]], h2s: [['II', 289, 1]], hcn: [['II', 38, 1], ['II', 392, 1]], acoh: [['II', 24, 1]], pocl3: [['II', 300, 1]],
+      pcl3: [['II', 281, 1]], xylene: [['II', 233, 1]], egeea: [['II', 146, 0.1]],
+      sb: [['II', 382, 0.1]], sbh3: [['II', 382, 0.1]], b2h6: [['II', 384, 1]], bcl3: [['II', 384, 1]], b2o3: [['II', 384, 1]], cu: [['II', 386, 1]], cobalt: [['II', 385, 0.1]],
+      tma: [['II', 381, 1]], h2se: [['II', 388, 1]], chf3: [['II', 394, 1]], cf4: [['II', 395, 1]], c2f6: [['II', 395, 1]], c4f8: [['II', 395, 1]]
+    },
+    /* 제5조② 점오염원 조사대상에서 빼는 화학물질 */
+    excl: [B('시험·연구·검사용으로 제한된 장소에서 연구자만 쓰는 화학물질', 'Chemicals used only by researchers in restricted places for testing, research or inspection'),
+      B('구입해 쓰는 기계·장치에 내장된 화학물질(축전지 등)', 'Chemicals built into purchased machines or devices, such as batteries'),
+      B('시설 도색 페인트·건축자재처럼 시설 자체의 일부인 화학물질', 'Chemicals that are part of the facility itself, such as building paint or construction materials'),
+      B('사업장에서 운행·가동하는 기기·장비의 가동과 유지에 쓰는 화학물질', 'Chemicals used to run and maintain on-site vehicles and equipment'),
+      B('사무기기·약·화장품 등 종업원이 개인 용도로 쓰는 화학물질', 'Chemicals employees use personally, such as office supplies, medicine and cosmetics'),
+      B('조경시설 유지용 살충제·비료', 'Pesticides and fertilisers for landscaping'),
+      B('고유 형상을 유지한 고체 상태로 취급하며 녹거나 증발·용해되지 않는 중금속과 그 화합물', 'Solid heavy metals and compounds handled in their own shape without melting, evaporating or dissolving'),
+      B('난방용 연료', 'Heating fuel'),
+      B('화학물질등록평가법 시행령 제2조제1호의 비분리중간체', 'Non-isolated intermediates (Chemical Registration and Evaluation Decree Art. 2(1))')],
+    methods: [B('직접측정', 'Direct measurement'), B('물질수지', 'Mass balance'), B('배출계수', 'Emission factors'), B('공학적 계산', 'Engineering calculation')],
+    /* 화학물질종합정보시스템(ICIS) 화학물질 배출·이동량 정보공개 — 업체별 검색 2024년, kg/년 (2026-09-27 조회, src: icisPrtr) */
+    sk: {
+      year: 2024,
+      sites: [[B('이천', 'Icheon'), 18773, 108827249], [B('이천 스마트에너지센터', 'Icheon Smart Energy Center'), 2610, 0], [B('청주 1공장', 'Cheongju Plant 1'), 85, 83540],
+        [B('청주 2공장', 'Cheongju Plant 2'), 0, 98], [B('청주 3공장', 'Cheongju Plant 3'), 1561, 8519189], [B('청주 4공장', 'Cheongju Plant 4'), 5857, 26554990]],
+      icheon: { air: 18773, ww: 56522211, waste: 52305038 },
+      /* 이천 — 배출(모두 대기) 상위, 이동 상위 [이름, kg/년, 물질 DB id] */
+      rel: [[B('과불화탄소', 'Perfluorocarbons'), 8640, ''], [B('암모니아', 'Ammonia'), 3891, 'nh3'], [B('2-프로판올', '2-Propanol'), 1685, 'ipa'],
+        [B('프로필렌', 'Propylene'), 1362, ''], [B('육플루오르화황', 'Sulphur hexafluoride'), 1304, 'sf6'], [B('염소', 'Chlorine'), 968, 'cl2']],
+      move: [[B('황산', 'Sulphuric acid'), 61362238, 'h2so4'], [B('2-프로판올', '2-Propanol'), 15262847, 'ipa'], [B('과산화수소', 'Hydrogen peroxide'), 14554285, 'h2o2'],
+        [B('플루오르화수소', 'Hydrogen fluoride'), 4239036, 'hf'], [B('수산화나트륨', 'Sodium hydroxide'), 3729959, 'naoh']]
+    }
+  };
+  /* 온실가스·배출권거래제 — 탄소중립기본법 제2조제5호(2026.10.8부터 NF₃ 추가)·제27조①(관리업체 목표관리, NF₃ 제외 2026.4.7)·부칙 제3조(법률 제21527호),
+     배출권거래법 제2조제1호(NF₃ 제외, 2026.4.7), 제8·24·25·27·28조, 시행령 제39·44·45조, 보고·인증 지침 제29·37조 (src: cnAct, ets, etsDecree, etsMrv) */
+  SHE.ENV_GHG = {
+    /* 법에 이름이 적힌 온실가스 — nf3 는 2026-10-08부터 기본법 제2조제5호에 포함, 목표관리(제27조)·배출권거래법에서는 제외 */
+    gases: [['CO₂', B('이산화탄소', 'Carbon dioxide')], ['CH₄', B('메탄', 'Methane')], ['N₂O', B('아산화질소', 'Nitrous oxide')], ['HFCs', B('수소불화탄소', 'Hydrofluorocarbons')], ['PFCs', B('과불화탄소', 'Perfluorocarbons')], ['SF₆', B('육불화황', 'Sulphur hexafluoride')], ['NF₃', B('삼불화질소', 'Nitrogen trifluoride')]],
+    nf3From: '2026-10-08', nf3Out: '2026-04-07',
+    /* 물질 DB id → 법에 적힌 분류 (이름·분자식이 분명히 일치하는 것만: PFC는 CF₄·C₂F₆·c-C₄F₈, HFC는 HFC-23) */
+    ids: { co2: 'CO₂', n2o: 'N₂O', sf6: 'SF₆', cf4: 'PFCs', c2f6: 'PFCs', c4f8: 'PFCs', chf3: 'HFCs', nf3: 'NF₃' },
+    /* 배출권거래법 제8조①1 — 최근 3년 연평균 */
+    coTotal: 125000, siteTotal: 25000,
+    /* 차입 한도 — 시행령 제45조②1 (계획기간 1차 이행연도, 제출해야 할 수량 대비 %) */
+    borrow1: 15,
+    /* SK하이닉스 지속가능경영보고서 2026 p.102 — Scope 1 가스별 배출량(tCO₂eq, GWP AR5, 범위 이천·청주·분당·서울·우시·충칭),
+       PRISM 목표 관리용 시장 기반 Scope 1&2, p.18·20 목표·성과(만 톤, 다롄·키파운드리 미반영) */
+    sk: {
+      years: [2022, 2023, 2024, 2025],
+      s1: [['CO₂', [197807, 1165172, 2569211, 2968321]], ['CH₄', [10150, 10434, 8908, 11412]], ['N₂O', [71954, 45438, 28198, 30345]], ['HFCs', [252547, 42789, 54642, 55440]],
+        ['PFCs', [1020389, 184136, 171793, 159543]], ['SF₆', [228907, 41874, 48098, 52414]], ['NF₃', [1161003, 848248, 881732, 973051]]],
+      s1Total: [2942757, 2338090, 3762584, 4250526],
+      mb: [7173550, 5415283, 5502136, 5555285],
+      fghg: 1376496,   /* EPEAT 기준 2025년 공정 F-온실가스 (IPCC Tier 2a·DRE 측정 방법론, AR5) */
+      goal: { t2025: 567, a2025: 556, t2026: 599 }
+    }
+  };
   /* 보관창고 표지 — 시행규칙 별표5 9) */
   SHE.ENV_WASTE_SIGN = {
     size: B('가로 60cm 이상 × 세로 40cm 이상 (드럼 등 소형 용기에 붙이면 가로 15cm × 세로 10cm 이상)', 'At least 60 × 40 cm (at least 15 × 10 cm on drums and other small containers)'),

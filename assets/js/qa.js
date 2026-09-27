@@ -59,6 +59,26 @@
     });
     /* 환경 법령 목록의 물질 연결이 물질 DB에 있는지 */
     [['ENV_AIR', S.ENV_AIR], ['ENV_WATER', S.ENV_WATER], ['ENV_WASTE', S.ENV_WASTE]].forEach(([k, arr]) => (arr || []).forEach((x) => (x.ids || x.ex || []).forEach((id) => { if (!chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), k + '.' + (x.no || x.id), id); })));
+    /* 배출량조사 — 물질 연결, 그룹(I·II)·번호 범위(Ⅰ 1~20, Ⅱ 1~395), 물질군(Ⅰ 14~20·Ⅱ 379~395) 이름, 대상 판정 경계값(Ⅰ 1톤·Ⅱ 10톤) */
+    const PR = S.ENV_PRTR;
+    if (PR) {
+      Object.keys(PR.ids).forEach((id) => { if (!chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), 'ENV_PRTR.ids', id);
+        PR.ids[id].forEach(([g, no, pct]) => { if (!(g === 'I' ? no >= 1 && no <= 20 : g === 'II' && no >= 1 && no <= 395) || !(pct > 0)) add('bad', T('배출량조사 항목', 'Release-survey entry'), 'ENV_PRTR.ids.' + id, `${g} ${no} ${pct}`); if ((g === 'I' ? no >= 14 : no >= 379) && !PR.grp[no]) add('bad', T('배출량조사 물질군 이름', 'Release-survey group name'), 'ENV_PRTR.grp', String(no)); }); });
+      const PE = S.envApi && S.envApi.prtrEval;
+      if (PE) [[{ sec: 'semi', fac: 'y', id: 'hg', q: '1' }, 'bad'], [{ sec: 'semi', fac: 'y', id: 'hg', q: '0.99' }, 'ok'], [{ sec: 'semi', fac: 'y', id: 'hf', q: '9.99' }, 'ok'], [{ sec: 'semi', fac: 'y', id: 'hf', q: '10' }, 'bad'], [{ sec: 'semi', fac: 'n', id: 'hf', q: '10' }, 'info'], [{ sec: 'none', fac: 'y', id: 'hf', q: '10' }, 'ok']]
+        .forEach(([st, lv]) => { const r = PE(st); if (r.lv !== lv) add('bad', T('판정 경계값', 'Threshold check'), 'prtrEval ' + JSON.stringify(st), r.lv); });
+    }
+    /* 온실가스 — 물질 연결, 법에 적힌 분류와 일치, 보고서 표(p.102) 가스별 합이 합계와 같은지, 할당대상업체 판정 경계값 */
+    const GH = S.ENV_GHG;
+    if (GH) {
+      const cls = new Set(GH.gases.map(([f]) => f));
+      Object.keys(GH.ids).forEach((id) => { if (!chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), 'ENV_GHG.ids', id); if (!cls.has(GH.ids[id])) add('bad', T('온실가스 분류', 'GHG class'), 'ENV_GHG.ids.' + id, GH.ids[id]); });
+      /* 보고서 값은 가스별로 반올림돼 합이 합계와 몇 톤 다를 수 있다(2023년 +1, 2024년 −2) — 7개 값 반올림 오차 범위(±3) 밖이면 옮겨 적기 오류 */
+      GH.sk.years.forEach((y, i) => { const sum = GH.sk.s1.reduce((a, [, v]) => a + v[i], 0); if (Math.abs(sum - GH.sk.s1Total[i]) > 3) add('bad', T('보고서 표 합계 불일치', 'Report table total mismatch'), 'ENV_GHG.sk ' + y, `${sum} ≠ ${GH.sk.s1Total[i]}`); });
+      const E = S.envApi && S.envApi.etsEval;
+      if (E) [[{ co: '125000', site: '', prev: 'y' }, 'bad'], [{ co: '124999', site: '24999', prev: 'y' }, 'ok'], [{ co: '', site: '25000', prev: 'n' }, 'warn'], [{ co: '', site: '', prev: 'y' }, 'none']]
+        .forEach(([st, lv]) => { const r = E(st); if (r.lv !== lv) add('bad', T('판정 경계값', 'Threshold check'), 'etsEval ' + JSON.stringify(st), r.lv); });
+    }
     /* 계산 도구 — 원문 계산 예와 같은 결과가 나오는지 (P-179 부록5, C-C-85 부록1~3·4.1(2)) */
     const G = S.gasApi;
     if (G && G.purgeEval) {
@@ -79,6 +99,16 @@
   }
 
   /* ---------- 검사용 화면 ---------- */
+  /* 검사용 화면 안의 지연 0 타이머 — 창이 가려져 있으면 브라우저가 약 1초 단위로 늦춰 클릭 시연(요소마다 두 번 대기)이 몇 시간 걸린다.
+     검사용 화면에서만 MessageChannel 한 줄 큐로 돌려, 앱이 미뤄 둔 작업(포커스·펼치기 등)과 점검의 대기가 넣은 순서대로 바로 실행되게 한다 */
+  function fastTimers(W) {
+    if (W.__qaFast) return; W.__qaFast = true;
+    const q = [], ch = new W.MessageChannel(), dead = new Set(); let seq = 0;
+    ch.port1.onmessage = () => { const it = q.shift(); if (it && !dead.delete(it[0])) it[1].apply(W, it[2]); };
+    const ot = W.setTimeout.bind(W), oc = W.clearTimeout.bind(W);
+    W.setTimeout = (fn, ms, ...a) => { if (ms > 0 || typeof fn !== 'function') return ot(fn, ms, ...a); const id = -(++seq); q.push([id, fn, a]); ch.port2.postMessage(0); return id; };
+    W.clearTimeout = (id) => { if (typeof id === 'number' && id < 0) dead.add(id); else oc(id); };
+  }
   function openFrame(w, fz) {
     return new Promise((resolve, reject) => {
       const f = document.createElement('iframe');
@@ -89,7 +119,7 @@
       const to = setTimeout(() => reject(new Error('timeout')), 20000);
       f.addEventListener('load', () => {
         clearTimeout(to);
-        try { if (!f.contentWindow.SHE || !f.contentWindow.SHE.render) throw new Error('no app'); resolve(f); } catch (e) { reject(e); }
+        try { if (!f.contentWindow.SHE || !f.contentWindow.SHE.render) throw new Error('no app'); fastTimers(f.contentWindow); resolve(f); } catch (e) { reject(e); }
       });
       document.body.appendChild(f);
     });
