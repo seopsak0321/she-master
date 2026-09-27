@@ -4,7 +4,8 @@
 
   const MOD = {
     psm: { ko: '공정안전', en: 'PSM' }, prevent: { ko: '예방안전', en: 'Prevention' }, sdx: { ko: 'SDX', en: 'SDX' },
-    partner: { ko: '상생협력', en: 'Partners' }, fire: { ko: '소방·방재', en: 'Fire' }, culture: { ko: '안전문화', en: 'Culture' }
+    partner: { ko: '상생협력', en: 'Partners' }, fire: { ko: '소방·방재', en: 'Fire' }, culture: { ko: '안전문화', en: 'Culture' },
+    env: { ko: '환경', en: 'Environment' }
   };
   S.MOD = MOD;
 
@@ -12,12 +13,12 @@
   const EXAMPLE_AGO = { council: 20, rounds: 1, joint: 70, sapa3: 150, sapa5: 190, sapa7: 40, sapa8: 100, sapa9: 170, fireop: 300, firefull: 120, drill: 380, edu: 60, supedu: 200, ra: 250,
     oshc: 40, 'sapa-law': 120, 'sapa-edu': 90, wem: 150, she: 200, inspect: 500, 'psm-eval': 900, disclose: 55, mgredu: 400,
     'cca-self': 3, 'cca-insp': 200, 'cca-plan': 900, 'cca-notice': 150, 'cca-edu': 100, 'cca-edu2': 300, 'hpg-insp': 335, 'hpg-edu': 500,
-    'dg-check': 280, 'dg-edu': 400, msd: 800, 'psm-audit': 320, aed: 20 };
-  /* 매년 정해진 날짜까지 하는 의무(예: 4월 30일 공시)는 최근 실시일 다음에 오는 그 날짜를 기한으로 본다 */
-  const nextFixed = (from, md) => {
+    'dg-check': 280, 'dg-edu': 400, msd: 800, 'psm-audit': 320, aed: 20, 'ip-report': 68, erp: 120 };
+  /* 매년 정해진 날짜까지 하는 의무(예: 4월 30일 공시, 7월 31일 연간 보고서)는 최근 실시일이 속한 해의 다음 해 그 날짜를 기한으로 본다.
+     (기한 전에 마친 올해 분을 ‘며칠 뒤 기한’으로 다시 세지 않도록 — 4/20에 공시했으면 다음 기한은 다음 해 4/30) */
+  const nextFixed = (from, md, years) => {
     const [m, d] = md.split('-').map(Number);
-    const x = new Date(from.getFullYear(), m - 1, d);
-    return x > from ? x : new Date(from.getFullYear() + 1, m - 1, d);
+    return new Date(from.getFullYear() + (years || 1), m - 1, d);   /* years: 5년마다 같은 날짜까지(예: 배출저감계획서 5월 31일) */
   };
   const CYC_SHOW = 10;
   /* 주기 업무를 실제로 하는 화면 — 관련 기능이 없는 업무(위원회·공시 등)는 연결하지 않는다 */
@@ -25,7 +26,7 @@
     council: 'partner', rounds: 'partner', joint: 'partner', sapa3: 'prevent/sapa', sapa5: 'prevent/sapa', sapa7: 'prevent/sapa', sapa8: 'prevent/sapa', sapa9: 'partner/score',
     fireop: 'fire/schedule', firefull: 'fire/schedule', drill: 'fire', edu: 'training', supedu: 'training', ra: 'risk', 'sapa-law': 'prevent/sapa', 'sapa-edu': 'training',
     wem: 'measure/wem', she: 'measure/wem', 'psm-audit': 'psm/audit', 'psm-eval': 'psm/eval', 'cca-self': 'print/chem', 'cca-insp': 'psm/chem', 'cca-plan': 'psm/chem', 'cca-notice': 'psm/chem',
-    'cca-edu': 'training', 'cca-edu2': 'training', 'hpg-insp': 'psm/chem', 'hpg-edu': 'psm/chem', 'dg-check': 'psm/dg', 'dg-edu': 'psm/dg', aed: 'sop/cardiac-arrest'
+    'cca-edu': 'training', 'cca-edu2': 'training', 'hpg-insp': 'psm/chem', 'hpg-edu': 'psm/chem', 'dg-check': 'psm/dg', 'dg-edu': 'psm/dg', aed: 'sop/cardiac-arrest', 'ip-report': 'env/ip', erp: 'env/erp'
   };
   S.CYCLE_GO = CYCLE_GO;
   const validDate = (s) => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T00:00:00'));
@@ -37,7 +38,7 @@
       /* items with legal alternatives (e.g. 1–4-year inspections) keep the interval the user picked */
       const days = c.choices && c.choices.some(([d]) => d === Number(picked[c.id])) ? Number(picked[c.id]) : c.days;
       const last = userDate ? new Date(userDate + 'T00:00:00') : S.addDays(t, -(EXAMPLE_AGO[c.id] || 30));
-      const due = c.fixed ? nextFixed(last, c.fixed) : S.addDays(last, days);
+      const due = c.fixed ? nextFixed(last, c.fixed, c.years) : S.addDays(last, days);
       const left = S.daysBetween(t, due);
       const warnWindow = Math.max(1, Math.round(days * 0.15));
       const level = left < 0 ? 'bad' : left <= warnWindow ? 'warn' : 'ok';

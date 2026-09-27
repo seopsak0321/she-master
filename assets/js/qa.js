@@ -57,6 +57,8 @@
       if (u.commit && !/^[0-9a-f]{7,40}$/.test(u.commit)) add('bad', T('패치노트 커밋', 'Patch-note commit'), 'UPDATES[' + i + ']', u.commit);
       if (!((u.add || []).length + (u.chg || []).length + (u.fix || []).length)) add('warn', T('패치노트 내용', 'Patch-note content'), 'UPDATES[' + i + ']', '–');
     });
+    /* 환경 법령 목록의 물질 연결이 물질 DB에 있는지 */
+    [['ENV_AIR', S.ENV_AIR], ['ENV_WATER', S.ENV_WATER], ['ENV_WASTE', S.ENV_WASTE]].forEach(([k, arr]) => (arr || []).forEach((x) => (x.ids || x.ex || []).forEach((id) => { if (!chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), k + '.' + (x.no || x.id), id); })));
     /* 계산 도구 — 원문 계산 예와 같은 결과가 나오는지 (P-179 부록5, C-C-85 부록1~3·4.1(2)) */
     const G = S.gasApi;
     if (G && G.purgeEval) {

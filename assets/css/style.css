@@ -977,3 +977,7 @@ html.m .upd-kind { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 .ghs-label > b:first-child, .ghs-label > .row, .ghs-label .ghs-signal { justify-self: center; }
 .ghs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 8px; }
 .ghs-card { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); min-width: 0; }
+/* 지정폐기물 보관표지 — 노란 바탕·검은 선·검은 글자 (폐기물관리법 시행규칙 별표5) */
+.waste-sign { background: #F5CE00; color: #1A1A1A; border: 2px solid #1A1A1A; border-radius: 4px; padding: 12px 16px; max-width: 360px; font-size: calc(13px * var(--fz)); }
+.waste-sign b { display: block; text-align: center; border-bottom: 2px solid #1A1A1A; padding-bottom: 6px; margin-bottom: 6px; }
+.waste-sign ol { margin: 0; padding-left: 1.4em; display: grid; gap: 3px; }

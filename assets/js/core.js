@@ -360,6 +360,7 @@
       ['sop', { ko: 'SOP·작업 안전', en: 'SOPs & job safety' }],
       ['hazards', { ko: '공정·물질 위험', en: 'Process & chemical hazards' }],
       ['signs', { ko: '안전보건표지·경고표지', en: 'Signs & chemical labels' }],
+      ['env', { ko: '환경 법정 의무', en: 'Environmental duties' }],
       ['resources', { ko: '안전 정보 자료실', en: 'Resource library' }] ] },
     { g: { ko: '회사·근거', en: 'Company & evidence' }, ic: 'org', items: [
       ['company', { ko: 'SK하이닉스 이해', en: 'Understanding SK hynix' }],

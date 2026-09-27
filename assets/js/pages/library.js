@@ -74,7 +74,7 @@
       const both = (o) => (o == null ? '' : typeof o === 'string' ? o : [].concat(o.ko || '', o.en || '').join(' '));
       return `
       ${ui.head(T('라이브러리', 'Library'), T('SOP·작업 안전', 'SOPs & job safety'),
-        T(`반도체 사업장 고위험 작업 ${kN.job || 0}종과 비상 대응 ${kN.emer || 0}종의 표준 절차와 5분 카드입니다.`, `Standard procedures and 5-minute cards for ${kN.job || 0} high-risk fab jobs and ${kN.emer || 0} emergency responses.`),
+        T(`반도체 사업장 작업 ${kN.job || 0}종(고위험·중위험)과 비상 대응 ${kN.emer || 0}종의 표준 절차와 5분 카드입니다.`, `Standard procedures and 5-minute cards for ${kN.job || 0} fab jobs (high and medium risk) and ${kN.emer || 0} emergency responses.`),
         T('법령 조문·KOSHA 지침·해외 규제기관 자료로 재구성한 교육용 예시입니다. 카드를 누르면 아래에 안전관리자용 절차(JSA)와 협력사 작업자용 5분 카드가 열립니다.', 'Teaching examples rebuilt from statutes, KOSHA guides and foreign regulators. Click a card to open the manager’s JSA and the contractor’s 5-minute card below.'))}
       <section class="stack" style="gap:14px" aria-label="${T('SOP 목록', 'SOP list')}">
         ${S.listbar({ id: 'sop', ph: T('작업명·위험요인·KOSHA 번호로 찾기 — 예: 밀폐, 가스, LOTO', 'Search by job, hazard or KOSHA number — e.g. confined, gas, LOTO'), total: S.SOPS.length,
@@ -141,6 +141,14 @@
   /* 공정 카드의 출처 — 없으면 OSHA. 물질의 공정 사용 근거는 물질의 psrc, 없으면 그 물질이 속한 공정 카드의 공정 해설 출처(OSHA·뉴스룸) */
   const pSrc = (p) => p.src || ['oshaSemi'];
   const procSrc = (c) => c.psrc || [...new Set(S.PROCESSES.filter((p) => c.procs.includes(p.id)).flatMap(pSrc).filter((id) => /^(osha|nr)/.test(id)))];
+  /* 환경 법령 — 대기법 시행규칙 별표2·물환경법 시행규칙 별표3 항목과 이름이 분명히 일치하는 물질만 (data/env.js) */
+  const envRow = (c) => {
+    if (!S.ENV_OF) return '';
+    const e = S.ENV_OF(c.id), parts = [];
+    if (e.air.length) parts.push(`<span class="chip">${T('특정대기유해물질', 'Specified air pollutant')} ${e.air.map((n) => T(`${n}호`, `No. ${n}`)).join('·')}</span>${S.cite('envAirRule')}`);
+    if (e.water.length) parts.push(`<span class="chip">${T('특정수질유해물질', 'Specified water pollutant')} ${e.water.map((n) => T(`${n}호`, `No. ${n}`)).join('·')}</span>${S.cite('envWaterRule')}`);
+    return parts.length ? `<dt>${T('환경 법령', 'Environmental law')}</dt><dd>${parts.join(' ')} <a class="xs" href="#env/pollut">${T('환경 법정 의무', 'Environmental duties')} →</a></dd>` : '';
+  };
   function chemDetail(id) {
     const c = chemById(id); if (!c) return {};
     const procs = S.PROCESSES.filter((p) => c.procs.includes(p.id));
@@ -160,6 +168,7 @@
           ${L(c.note) ? `<dt>${T('비고', 'Notes')}</dt><dd>${S.esc(L(c.note))}</dd>` : ''}
           <dt>${T('법정 관리', 'Statutory status')}</dt><dd>${S.regChips(c)}${S.cite('lawRule', 'lawStd', 'lawDecree')}</dd>
           ${S.HPG[c.id] ? `<dt>${T('고압가스법', 'HP Gas Act')}</dt><dd>${T('특정고압가스', 'Specified high-pressure gas')} — ${S.esc(L(S.HPG[c.id]))}</dd>` : ''}
+          ${envRow(c)}
           ${c.icsc ? `<dt>${T('위험 특성', 'Hazard notes')}</dt><dd style="color:var(--warn)">${L(c.icsc)}${S.cite('icsc')}</dd>` : ''}
           ${S.chemLinks(c) ? `<dt>${T('자료', 'Data sheets')}</dt><dd>${S.chemLinks(c)}</dd>` : ''}
           ${procs.length ? `<dt>${T('관련 공정', 'Processes')}</dt><dd>${procs.map((p) => `<a href="#hazards/${p.id}">${S.esc(L(p))}</a>`).join(' · ')}${S.cite(...procSrc(c))}</dd>` : ''}
