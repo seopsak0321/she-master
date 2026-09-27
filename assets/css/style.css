@@ -972,3 +972,8 @@ html.m .upd-kind { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 .sign-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); min-width: 0; }
 .sign-row[hidden] { display: none; }
 .sign-sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--line-2); vertical-align: -2px; }
+/* 화학물질 경고표지(GHS) — 양식 틀, 그림문자 카드 */
+.ghs-label { display: grid; gap: 4px; justify-items: start; border: 2px solid #1A1A1A; background: #fff; color: #1A1A1A; padding: 12px 14px; border-radius: 4px; font-size: calc(13px * var(--fz)); max-width: 360px; }
+.ghs-label > b:first-child, .ghs-label > .row, .ghs-label .ghs-signal { justify-self: center; }
+.ghs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 8px; }
+.ghs-card { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); min-width: 0; }

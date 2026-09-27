@@ -63,6 +63,36 @@ window.SHE = window.SHE || {};
     S_(502, 'entry', '석면취급 및 해체·제거', 'Asbestos handling and removal', B('석면 제조, 사용, 해체·제거 작업장', 'Workplaces making, using, dismantling or removing asbestos'), B('출입구 (실외 또는 출입구가 없을 때는 근로자가 보기 쉬운 장소)', 'The entrance (outdoors or without an entrance: where workers can easily see it)')),
     S_(503, 'entry', '금지유해물질 취급', 'Prohibited hazardous substances', B('금지유해물질 제조·사용설비가 설치된 장소', 'Places with equipment making or using prohibited hazardous substances'), B('출입구 (실외 또는 출입구가 없을 때는 근로자가 보기 쉬운 장소)', 'The entrance (outdoors or without an entrance: where workers can easily see it)'))
   ];
+  /* ---------- 화학물질 경고표지 (GHS) ----------
+     고용노동부고시 「화학물질의 분류·표시 및 물질안전보건자료에 관한 기준」 제2026-26호(시행 2026.4.24) 제5~8조·별표2·별표3 (src: moelGhs)
+     그림문자 9종의 영문 이름과 해당 유해성은 미국 OSHA 그림문자 요약카드(OSHA 3491-08R 2024, src: oshaPicto) — GHS 공통 그림문자 */
+  SHE.GHS_PICTOS = [
+    { id: 'flame', en: 'Flame', ko: '불꽃', hz: B(['인화성', '자연발화성', '자기발열성', '물과 반응해 인화성 가스 발생', '자기반응성', '유기과산화물', '둔감화된 폭발성'], ['Flammables', 'Pyrophorics', 'Self-heating', 'Emits flammable gas', 'Self-reactives', 'Organic peroxides', 'Desensitized explosives']) },
+    { id: 'flameCircle', en: 'Flame Over Circle', ko: '원 위의 불꽃', hz: B(['산화성'], ['Oxidizers']) },
+    { id: 'bomb', en: 'Exploding Bomb', ko: '폭발하는 폭탄', hz: B(['폭발성', '자기반응성', '유기과산화물'], ['Explosives', 'Self-reactives', 'Organic peroxides']) },
+    { id: 'gas', en: 'Gas Cylinder', ko: '가스 실린더', hz: B(['고압가스', '압력을 받는 화학물질'], ['Gases under pressure', 'Chemicals under pressure']) },
+    { id: 'corrosion', en: 'Corrosion', ko: '부식성', hz: B(['피부 부식성·화상', '눈 손상', '금속 부식성'], ['Skin corrosion/burns', 'Eye damage', 'Corrosive to metals']) },
+    { id: 'skull', en: 'Skull and Crossbones', ko: '해골과 Ⅹ자형 뼈', hz: B(['급성독성(치명적·독성)'], ['Acute toxicity (fatal or toxic)']) },
+    { id: 'exclaim', en: 'Exclamation Mark', ko: '감탄부호(!)', hz: B(['피부·눈 자극성', '피부 과민성', '급성독성(유해)', '마취 작용', '호흡기 자극', '달리 분류되지 않은 유해성(미국 선택)', '오존층 유해성(미국 선택)'], ['Irritant (skin and eye)', 'Skin sensitizer', 'Acute toxicity (harmful)', 'Narcotic effects', 'Respiratory tract irritant', 'Hazard not otherwise classified (US, non-mandatory)', 'Hazardous to ozone layer (US, non-mandatory)']) },
+    { id: 'health', en: 'Health Hazard', ko: '건강 유해성', hz: B(['발암성', '생식세포 변이원성', '생식독성', '호흡기 과민성', '특정표적장기 독성', '흡인 유해성'], ['Carcinogen', 'Mutagenicity', 'Reproductive toxicity', 'Respiratory sensitizer', 'Target organ toxicity', 'Aspiration toxicity']) },
+    { id: 'env', en: 'Environment', ko: '환경', hz: B(['수생 독성 (미국 HCS에서는 선택)'], ['Aquatic toxicity (non-mandatory under the US HCS)']) }
+  ];
+  /* 고시 별표2 제1장의 유해성·위험성 분류 — 물리적 16·건강 10·환경 2 (표기 그대로) */
+  SHE.GHS_CLASSES = {
+    phys: { t: B('물리적 위험성', 'Physical hazards'), items: ['폭발성 물질', '인화성 가스', '에어로졸', '산화성 가스', '고압가스', '인화성 액체', '인화성 고체', '자기반응성 물질 및 혼합물', '자연발화성 액체', '자연발화성 고체', '자기발열성 물질 및 혼합물', '물반응성 물질 및 혼합물', '산화성 액체', '산화성 고체', '유기과산화물', '금속부식성 물질'],
+      en: ['Explosives', 'Flammable gases', 'Aerosols', 'Oxidizing gases', 'Gases under pressure', 'Flammable liquids', 'Flammable solids', 'Self-reactive substances and mixtures', 'Pyrophoric liquids', 'Pyrophoric solids', 'Self-heating substances and mixtures', 'Substances which emit flammable gases in contact with water', 'Oxidizing liquids', 'Oxidizing solids', 'Organic peroxides', 'Corrosive to metals'] },
+    health: { t: B('건강 유해성', 'Health hazards'), items: ['급성 독성', '피부 부식성/피부 자극성', '심한 눈 손상성/눈 자극성', '호흡기 또는 피부 과민성', '생식세포 변이원성', '발암성', '생식독성', '특정표적장기 독성 - 1회 노출', '특정표적장기 독성 - 반복 노출', '흡인 유해성'],
+      en: ['Acute toxicity', 'Skin corrosion/irritation', 'Serious eye damage/eye irritation', 'Respiratory or skin sensitization', 'Germ cell mutagenicity', 'Carcinogenicity', 'Reproductive toxicity', 'Specific target organ toxicity – single exposure', 'Specific target organ toxicity – repeated exposure', 'Aspiration hazard'] },
+    env: { t: B('환경 유해성', 'Environmental hazards'), items: ['수생환경 유해성', '오존층 유해성'], en: ['Hazardous to the aquatic environment', 'Hazardous to the ozone layer'] }
+  };
+  /* 고시 별표3 — 용기·포장 용량별 경고표지(인쇄·표찰) 크기 */
+  SHE.GHS_LABEL_SIZES = [
+    [B('500L 이상', '500 L or more'), B('450㎠ 이상', '≥ 450 cm²')],
+    [B('200L 이상 500L 미만', '200 L to < 500 L'), B('300㎠ 이상', '≥ 300 cm²')],
+    [B('50L 이상 200L 미만', '50 L to < 200 L'), B('180㎠ 이상', '≥ 180 cm²')],
+    [B('5L 이상 50L 미만', '5 L to < 50 L'), B('90㎠ 이상', '≥ 90 cm²')],
+    [B('5L 미만', 'Under 5 L'), B('용기·포장의 상하 면적을 뺀 전체 표면적의 5% 이상', '≥ 5 % of the surface area excluding top and bottom')]
+  ];
   /* 별표8 색도기준 — 먼셀 표기(허용 오차 H±2, V±0.3, C±1). hex는 화면 표시용 근삿값이며 기준이 아님 */
   SHE.SIGN_COLORS = [
     { k: B('빨간색', 'Red'), m: '7.5R 4/14', hex: '#C8102E', use: B('금지 — 정지신호, 소화설비 및 그 장소, 유해행위의 금지 / 경고 — 화학물질 취급장소에서의 유해·위험 경고', 'Prohibition — stop signals, fire equipment and its location, forbidden acts / Warning — hazards where chemicals are handled') },

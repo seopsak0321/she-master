@@ -1,4 +1,4 @@
-/* 가스 안전 도구 — 경보 설정값 검토(KGS FU211·FU212, KOSHA C-C-87), 혼합가스 폭발성·폭발하한계(KOSHA P-179), 비상 이격거리(ERG 2024) */
+/* 가스 안전 도구 — 경보 설정값 검토(KGS FU211·FU212, KOSHA C-C-87), 혼합가스 폭발성·폭발하한계(KOSHA P-179), 비상 이격거리(ERG 2024), 불활성가스 치환(KOSHA C-C-85) */
 (function () {
   const S = window.SHE, T = S.T, L = S.L, ui = S.ui, esc = S.esc;
   const num = (v) => (v === '' || v == null || isNaN(Number(v)) ? null : Number(v));
@@ -71,6 +71,45 @@
   const ergRow = (id) => S.ERG.find((r) => r.id === id);
   const ergGuide = (id) => S.ERG_GUIDE.find((r) => r.id === id);
   const km = (v, plus) => `${Number(v).toFixed(1)}${plus ? '+' : ''} km`;   /* one decimal, as printed in the ERG */
+
+  /* ---------- 4. 불활성가스 치환 (KOSHA C-C-85-2026) ---------- */
+  const ATM_KPA = 101.325, ATM_KGF = 1.03323, RG = 0.082057, M_N2 = 28.0134;   /* 1 atm = 101.325 kPa = 1.03323 kgf/cm², R [L·atm/(mol·K)], N₂ [g/mol] */
+  const PURGE0 = { m: 'vac', v: '3.8', t: '25', y0: '21', yf: '1', yfu: 'ppm', pl: '20', plu: 'mmHg', ph: '5.5', phu: 'kgf', c1: '21', c2: '1.25', c0: '0.01', moc: '', mon: true, z: '', lel: '' };
+  function purgeEval(st) {
+    const V = num(st.v), out = { V, err: null };
+    if (V == null || V <= 0) { out.err = 'input'; return out; }
+    if (st.m === 'siphon') { out.q = V; return out; }                          /* 9.2 */
+    if (st.m === 'sweep') {
+      const c1 = num(st.c1), c2 = num(st.c2), c0 = num(st.c0);
+      if (c1 == null || c2 == null || c0 == null || c0 < 0) { out.err = 'input'; return out; }
+      if (!(c1 > c2 && c2 > c0)) { out.err = 'order'; return out; }
+      out.q = V * Math.log((c1 - c0) / (c2 - c0));                              /* 식 (12) */
+      out.qPure = c0 > 0 ? V * Math.log(c1 / c2) : null;
+      return out;
+    }
+    const t = num(st.t), y0 = num(st.y0), yv = num(st.yf);
+    const yf = yv == null ? null : st.yfu === 'ppm' ? yv / 10000 : yv;          /* % */
+    let PH, PL;
+    if (st.m === 'vac') { const p = num(st.pl); PH = 1; PL = p == null ? null : st.plu === 'kPa' ? p / ATM_KPA : p / 760; }
+    else { const p = num(st.ph); PL = 1; PH = p == null ? null : st.phu === 'MPa' ? (p * 1000 + ATM_KPA) / ATM_KPA : (p + ATM_KGF) / ATM_KGF; }
+    if ([t, y0, yf, PH, PL].some((x) => x == null) || y0 <= 0 || yf <= 0 || t <= -273.15) { out.err = 'input'; return out; }
+    if (!(PL > 0 && PH > PL)) { out.err = 'press'; return out; }
+    const j = Math.log(yf / y0) / Math.log(PL / PH);                            /* 식 (9) */
+    const n = Math.max(0, Math.ceil(j - 1e-9));
+    Object.assign(out, { PH, PL, y0, yf, j, n, yEnd: y0 * Math.pow(PL / PH, n),
+      mol: n * (PH - PL) * V * 1000 / (RG * (t + 273.15)),                      /* 식 (10) */
+      m3: n * (PH - PL) * V });                                                 /* 같은 온도·1기압 기준 부피 */
+    out.kg = out.mol * M_N2 / 1000;
+    return out;
+  }
+  /* <표1> 불활성화 제어농도 + 4.1(1) 설정점(권장제어농도보다 1% 낮게) */
+  function mocCtl(moc, mon) {
+    if (moc == null || moc <= 0) return null;
+    const hi = moc >= (mon ? 5 : 7.5);
+    const ctl = hi ? moc - (mon ? 2 : 4.5) : moc * (mon ? 0.6 : 0.4);
+    return { ctl, rel: hi ? 'eq' : mon ? 'lt' : 'le', set: ctl - 1 };
+  }
+  const o2 = (pct) => (pct >= 0.1 ? `${S.fmt(pct, 2)} %` : `${S.fmt(pct * 10000, pct * 10000 >= 1 ? 1 : 2)} ppm`);
 
   const TOOLS = {
     alarm: {
@@ -227,10 +266,121 @@
         [['#eg-id', 'id'], ['#eg-size', 'size'], ['#eg-time', 'time'], ['#eg-wind', 'wind']].forEach(([s, k]) => { const el = root.querySelector(s); if (el) el.addEventListener('change', () => { st[k] = el.value; up(); }); });
       },
       basis: ['erg2024']
+    },
+
+    purge: {
+      label: () => T('불활성가스 치환', 'Inert-gas purging'),
+      render() {
+        const st = Object.assign({}, PURGE0, S.load('gas.purge', PURGE0));
+        const ev = purgeEval(st), mc = mocCtl(num(st.moc), st.mon);
+        const est = num(st.z) != null && num(st.lel) != null ? num(st.z) * num(st.lel) : null;   /* 식 (1) */
+        const cyc = st.m === 'vac' || st.m === 'pres';
+        const M = {
+          vac: [T('진공 치환 (6장)', 'Vacuum purging (ch. 6)'), T('원하는 진공도까지 배기 → 불활성가스를 대기압까지 주입 → 원하는 산소농도가 될 때까지 반복. 진공에 견디도록 설계된 반응기에 통상 쓰며, 저압에만 견디는 큰 저장용기에는 쓸 수 없습니다 (6.1).', 'Evacuate to the chosen vacuum → fill with inert gas to atmospheric → repeat until the target oxygen is reached. Usual for reactors designed for vacuum; not for large storage vessels built only for low pressure (6.1).')],
+          pres: [T('압력 치환 (7장)', 'Pressure purging (ch. 7)'), T('불활성가스를 원하는 압력까지 주입 → 용기 안에서 충분히 확산되면 대기로 방출 → 반복. 진공 치환보다 시간이 크게 짧지만 가스를 많이 쓰며, 압력은 용기 설계압력을 고려해 정합니다 (7.1).', 'Pressurise with inert gas → vent to atmosphere once it has diffused → repeat. Much faster than vacuum purging but uses more gas; set the pressure with the vessel’s design pressure in mind (7.1).')],
+          sweep: [T('스위프 치환 (8장)', 'Sweep-through purging (ch. 8)'), T('한 개구부로 불활성가스를 넣고 다른 개구부로 대기·스크러버 등에 방출합니다. 가압·진공을 할 수 없는 용기에 주로 쓰며 가스가 많이 들어, 대형 저장용기는 사이펀 치환 뒤 상부 잔류 산소를 없앨 때 쓰는 것이 바람직합니다 (8.1).', 'Inert gas goes in at one opening and the mixture leaves at another, to atmosphere or a scrubber. Mainly for vessels that cannot be pressurised or evacuated; it uses a lot of gas, so for large storage vessels it is best used to clear the head space after siphon purging (8.1).')],
+          siphon: [T('사이펀 치환 (9장)', 'Siphon purging (ch. 9)'), T('용기에 물 등 비인화성·비반응성 액체를 채운 뒤, 액체를 뽑아내면서 증기층에 불활성가스를 넣습니다. 주입량을 최소로 할 때 쓰며 산소농도를 매우 낮게 줄일 수 있습니다 (9.1).', 'Fill the vessel with water or another suitable non-flammable, non-reactive liquid, then inject inert gas into the vapour space as the liquid is drained. Used to minimise gas use; it can bring oxygen very low (9.1).')]
+        };
+        const ex = { vac: T('부록2 진공 치환 예 불러오기', 'Load the Annex 2 vacuum example'), pres: T('부록2 압력 치환 예 불러오기', 'Load the Annex 2 pressure example'), sweep: T('부록3 스위프 치환 예 불러오기', 'Load the Annex 3 sweep example') }[st.m];
+        const inp = (id, k, l, unit) => `<div class="field"><label for="${id}">${l}</label><div class="row"><input type="number" step="any" id="${id}" value="${esc(st[k])}" style="flex:1;min-width:0">${unit || ''}</div></div>`;
+        const sel = (id, k, opts, l) => `<select id="${id}" aria-label="${esc(l)}" style="max-width:130px">${opts.map(([v, t]) => `<option value="${v}" ${st[k] === v ? 'selected' : ''}>${t}</option>`).join('')}</select>`;
+        const errMsg = ev.err === 'press' ? (st.m === 'vac' ? T('진공 절대압은 0보다 크고 대기압(760 mmHg, 101.3 kPa)보다 낮아야 합니다.', 'The vacuum (absolute) must be above 0 and below atmospheric (760 mmHg, 101.3 kPa).') : T('치환 압력(게이지압)은 0보다 커야 합니다.', 'The purge pressure (gauge) must be above 0.'))
+          : ev.err === 'order' ? T('산소농도는 ‘치환 전 > 치환 후 목표 > 공급 가스 속 산소’ 순이어야 합니다.', 'Oxygen must run “before > target after > oxygen in the supply gas”.')
+          : ev.err ? T('값을 모두 넣으세요 (부피는 0보다 커야 합니다).', 'Fill in every value (the volume must be above 0).') : '';
+        const note = st.m === 'vac' && st.v === '3.8' && st.pl === '20' && st.plu === 'mmHg' && st.yf === '1' && st.yfu === 'ppm'
+          ? T('부록2 원문: j = 3.37 → 4회, 605.4 mol = 16.95 kg. 원문은 P<sub>L</sub>을 0.026 atm, 온도를 298 K, 질소를 28 g/mol로 반올림해 계산했고, 이 도구는 반올림 없이 계산해 몰수가 조금 다릅니다.', 'Annex 2: j = 3.37 → 4 cycles, 605.4 mol = 16.95 kg. The guide rounds P<sub>L</sub> to 0.026 atm, T to 298 K and N₂ to 28 g/mol; this tool does not round, so the moles differ slightly.')
+          : st.m === 'pres' && st.v === '3.8' && st.ph === '5.5' && st.phu === 'kgf' && st.yf === '1' && st.yfu === 'ppm'
+          ? T('부록2 원문: 7회, 5,787 mol = 162.04 kg. 원문은 P<sub>H</sub>를 6.32 atm, 온도를 298 K, 질소를 28 g/mol로 반올림했고, 이 도구는 1 atm = 1.03323 kgf/cm²로 반올림 없이 계산합니다.', 'Annex 2: 7 cycles, 5,787 mol = 162.04 kg. The guide rounds P<sub>H</sub> to 6.32 atm, T to 298 K and N₂ to 28 g/mol; this tool uses 1 atm = 1.03323 kgf/cm² without rounding.')
+          : st.m === 'sweep' && st.v === '28' && st.c1 === '21' && st.c2 === '1.25' && st.c0 === '0.01'
+          ? T('부록3 원문: 산소 0.01%가 든 질소 79.2 m³, 순수 질소라면 79 m³.', 'Annex 3: 79.2 m³ of nitrogen containing 0.01 % oxygen, or 79 m³ of pure nitrogen.') : '';
+        return `<div class="grid g2">
+          <div class="panel stack">
+            <div class="field"><label for="pg-m">${T('치환 방법', 'Purging method')}</label><select id="pg-m">${Object.keys(M).map((k) => `<option value="${k}" ${st.m === k ? 'selected' : ''}>${M[k][0]}</option>`).join('')}</select></div>
+            <p class="xs muted">${M[st.m][1]}</p>
+            <div class="form-grid">
+              ${inp('pg-v', 'v', T('용기 부피', 'Vessel volume'), '<span class="small">m³</span>')}
+              ${cyc ? `${inp('pg-t', 't', T('온도', 'Temperature'), '<span class="small">℃</span>')}
+              ${inp('pg-y0', 'y0', T('처음 산소농도', 'Starting oxygen'), '<span class="small">%</span>')}
+              ${inp('pg-yf', 'yf', T('목표 산소농도', 'Target oxygen'), sel('pg-yfu', 'yfu', [['pct', '%'], ['ppm', 'ppm']], T('목표 단위', 'Target unit')))}
+              ${st.m === 'vac' ? inp('pg-pl', 'pl', T('진공도 (절대압)', 'Vacuum (absolute)'), sel('pg-plu', 'plu', [['mmHg', 'mmHg'], ['kPa', 'kPa']], T('진공 단위', 'Vacuum unit')))
+                : inp('pg-ph', 'ph', T('치환 압력 (게이지압)', 'Purge pressure (gauge)'), sel('pg-phu', 'phu', [['kgf', 'kgf/cm²G'], ['MPa', 'MPa G']], T('압력 단위', 'Pressure unit')))}` : ''}
+              ${st.m === 'sweep' ? `${inp('pg-c1', 'c1', T('치환 전 산소농도 C₁', 'Oxygen before, C₁'), '<span class="small">%</span>')}
+              ${inp('pg-c2', 'c2', T('치환 후 목표 C₂', 'Target after, C₂'), '<span class="small">%</span>')}
+              ${inp('pg-c0', 'c0', T('공급 가스 속 산소 C₀', 'Oxygen in the supply gas, C₀'), '<span class="small">%</span>')}` : ''}
+            </div>
+            ${ex ? `<div class="row"><button class="btn ghost sm" type="button" id="pg-ex">${ex}</button></div>` : ''}
+            <p class="xs muted">${cyc ? T('식 (9) y<sub>j</sub> = y<sub>0</sub>(P<sub>L</sub>/P<sub>H</sub>)<sup>j</sup>, 식 (10) Δn = j(P<sub>H</sub>−P<sub>L</sub>)V/(R<sub>g</sub>T). 진공 치환은 P<sub>H</sub>가 대기압, 압력 치환은 P<sub>L</sub>이 대기압입니다 (6.2·7.2).', 'Eq. (9) y<sub>j</sub> = y<sub>0</sub>(P<sub>L</sub>/P<sub>H</sub>)<sup>j</sup>, Eq. (10) Δn = j(P<sub>H</sub>−P<sub>L</sub>)V/(R<sub>g</sub>T). For vacuum purging P<sub>H</sub> is atmospheric; for pressure purging P<sub>L</sub> is (6.2, 7.2).')
+              : st.m === 'sweep' ? T('식 (12) Q<sub>V</sub>t = V ln((C<sub>1</sub>−C<sub>0</sub>)/(C<sub>2</sub>−C<sub>0</sub>)) — 용기 안이 완전히 섞이고 온도·압력이 일정하다는 가정입니다 (8.2).', 'Eq. (12) Q<sub>V</sub>t = V ln((C<sub>1</sub>−C<sub>0</sub>)/(C<sub>2</sub>−C<sub>0</sub>)) — assumes perfect mixing at constant temperature and pressure (8.2).')
+              : T('불활성가스량은 용기 부피와 같고, 불활성화 속도는 액체를 빼내는 용적속도와 같습니다 (9.2).', 'The inert gas needed equals the vessel volume, and the inerting rate equals the liquid drain rate (9.2).')}${S.cite('koshaCC85')}</p>
+          </div>
+          <div class="result stack" aria-live="polite">
+            ${errMsg ? `<p class="small" style="color:var(--warn)">${errMsg}</p>`
+            : cyc ? `<div class="row" style="justify-content:space-between"><span class="lbl">${T('필요한 치환 횟수 (식 9)', 'Cycles needed (Eq. 9)')}</span>${ev.n === 0 ? ui.pill('ok', T('이미 목표 이하', 'Already at target')) : ui.pill('info', `j = ${S.fmt(ev.j, 2)} → ${T('올림', 'round up')}`)}</div>
+              <div class="big">${ev.n}${T('회', ev.n === 1 ? ' cycle' : ' cycles')}</div>
+              <div class="grid g2"><div class="kpi"><span class="k">${T(`${ev.n}회 뒤 산소농도`, `Oxygen after ${ev.n} ${ev.n === 1 ? 'cycle' : 'cycles'}`)}</span><span class="v">${o2(ev.yEnd)}</span></div>
+              <div class="kpi"><span class="k">${T('질소 사용량 (식 10)', 'Nitrogen used (Eq. 10)')}</span><span class="v">${S.fmt(ev.kg, 2)} kg</span></div></div>
+              <ul class="clean small"><li>${T('몰수', 'Moles')}: <b class="num">${S.fmt(ev.mol, 1)} mol</b></li>
+                <li>${T('같은 온도·1기압 기준 부피', 'Volume at 1 atm and the same temperature')}: <b class="num">${S.fmt(ev.m3, 2)} m³</b></li>
+                <li class="xs muted">P<sub>H</sub> ${S.fmt(ev.PH, 3)} atm · P<sub>L</sub> ${S.fmt(ev.PL, 4)} atm (${T('절대압', 'absolute')}) · ${T('목표', 'target')} ${o2(ev.yf)}</li></ul>`
+            : st.m === 'sweep' ? `<span class="lbl">${T('필요한 불활성가스량 Q<sub>V</sub>t (식 12)', 'Inert gas needed, Q<sub>V</sub>t (Eq. 12)')}</span>
+              <div class="big">${S.fmt(ev.q, 1)} m³</div>
+              <ul class="clean small"><li>${T('용기 부피의', 'That is')} <b class="num">${S.fmt(ev.q / ev.V, 2)}</b>${T('배', ' × the vessel volume')}</li>
+                ${ev.qPure != null ? `<li>${T('산소가 없는 순수한 질소라면', 'With oxygen-free nitrogen')}: <b class="num">${S.fmt(ev.qPure, 1)} m³</b></li>` : ''}</ul>`
+            : `<span class="lbl">${T('필요한 불활성가스량 (9.2)', 'Inert gas needed (9.2)')}</span><div class="big">${S.fmt(ev.q, 2)} m³</div><p class="small">${T('용기 부피와 같습니다. 주입 속도는 액체를 빼내는 속도에 맞춥니다.', 'Equal to the vessel volume; match the injection rate to the drain rate.')}</p>`}
+            ${note ? `<p class="xs muted">${note}</p>` : ''}
+            <p class="xs muted">${cyc ? T('계산은 이상기체 가정입니다 (6.2(1)). ', 'The maths assumes an ideal gas (6.2(1)). ') : ''}${T('실제 산소농도는 산소분석기로 측정해 확인하세요.', 'Confirm the actual oxygen level with an analyser.')}</p>
+          </div></div>
+          <section class="panel" style="margin-top:14px">${ui.title(T('목표 산소농도 정하기 — 최소산소농도(MOC)와 권장제어농도', 'Setting the target — minimum oxygen concentration (MOC) and control level'))}
+            <div class="grid g2">
+              <div class="stack">
+                <div class="form-grid">${inp('pg-moc', 'moc', T('실제 최소산소농도 (MOC)', 'Actual MOC'), '<span class="small">vol%</span>')}</div>
+                <label class="check"><input type="checkbox" id="pg-mon" ${st.mon ? 'checked' : ''}> ${T('산소농도를 지속적으로 모니터링한다', 'Oxygen is monitored continuously')}</label>
+                ${mc ? `<div class="grid g2"><div class="kpi"><span class="k">${T('권장제어농도 (표1)', 'Control level (Table 1)')}</span><span class="v">${mc.rel === 'lt' ? '&lt; ' : mc.rel === 'le' ? '≤ ' : ''}${S.fmt(mc.ctl, 2)} %</span></div>
+                  <div class="kpi"><span class="k">${T('설정점 — 1% 낮게 (4.1(1))', 'Set point — 1 % lower (4.1(1))')}</span><span class="v">${mc.set > 0 ? S.fmt(mc.set, 2) + ' %' : '–'}</span></div></div>
+                  ${mc.set > 0 && st.m !== 'siphon' ? `<div class="row"><button class="btn sm" type="button" id="pg-use">${T('설정점을 목표 산소농도로 쓰기', 'Use the set point as the target')}</button></div>` : ''}
+                  ${mc.set > 0 ? '' : `<p class="xs" style="color:var(--warn)">${T('설정점이 0 이하가 됩니다 — MOC를 다시 확인하세요.', 'The set point falls to zero or below — check the MOC.')}</p>`}` : `<p class="small muted">${T('MOC를 넣으면 권장제어농도와 설정점을 보여줍니다.', 'Enter an MOC to see the control level and set point.')}</p>`}
+                <div class="table-wrap"><table class="data"><thead><tr><th>${T('조건', 'Condition')}</th><th>${T('실제 MOC', 'Actual MOC')}</th><th>${T('권장제어농도', 'Control level')}</th></tr></thead><tbody>
+                  <tr ${mc && st.mon && num(st.moc) >= 5 ? 'class="sel"' : ''}><td rowspan="2" class="small">${T('산소농도를 지속적으로 모니터링', 'Oxygen monitored continuously')}</td><td>≥ 5%</td><td class="small">${T('MOC보다 2% 낮은 농도', '2 % below the MOC')}</td></tr>
+                  <tr ${mc && st.mon && num(st.moc) < 5 ? 'class="sel"' : ''}><td>&lt; 5%</td><td class="small">${T('MOC의 60% 미만', 'Below 60 % of the MOC')}</td></tr>
+                  <tr ${mc && !st.mon && num(st.moc) >= 7.5 ? 'class="sel"' : ''}><td rowspan="2" class="small">${T('지속적으로 모니터링하지 않음', 'Not monitored continuously')}</td><td>≥ 7.5%</td><td class="small">${T('MOC보다 4.5% 낮은 농도', '4.5 % below the MOC')}</td></tr>
+                  <tr ${mc && !st.mon && num(st.moc) < 7.5 ? 'class="sel"' : ''}><td>&lt; 7.5%</td><td class="small">${T('MOC의 40% 이하', 'No more than 40 % of the MOC')}</td></tr>
+                </tbody></table></div>
+                <p class="xs muted">${T('예 (4.1(2)): 실제 MOC가 5% 이하면 질소 주입은 3%에서 시작하고 2% 아래에서 멈춥니다. 불활성화 제어시스템은 산소분석기가 연속 감시해 권장제어농도 이상이면 자동으로 불활성가스를 넣어야 하며, 보수·정비 때는 수동으로 할 수 있습니다 (4.1(5)).', 'Example (4.1(2)): with an actual MOC of 5 % or less, start nitrogen at 3 % and stop below 2 %. The inerting control system should have an analyser watching continuously and inject inert gas automatically at or above the control level; manual control is allowed during maintenance (4.1(5)).')}</p>
+              </div>
+              <div class="stack">
+                <span class="lbl">${T('MOC 추정 (식 1) = 산소의 화학양론계수 × 폭발하한계', 'Estimating the MOC (Eq. 1) = oxygen stoichiometric coefficient × LEL')}</span>
+                <div class="form-grid">${inp('pg-z', 'z', T('산소 화학양론계수 (연료 1몰당 O₂ 몰수)', 'O₂ coefficient (mol O₂ per mol fuel)'))}${inp('pg-lel', 'lel', T('폭발하한계', 'LEL'), '<span class="small">vol%</span>')}</div>
+                ${est != null ? `<div class="kpi"><span class="k">${T('추정 MOC', 'Estimated MOC')}</span><span class="v">${S.fmt(est, 2)} vol%</span></div>` : ''}
+                <div class="row">${est != null && est > 0 ? `<button class="btn ghost sm" type="button" id="pg-est">${T('추정값을 MOC 칸에 넣기', 'Put the estimate in the MOC box')}</button>` : ''}<button class="btn ghost sm" type="button" id="pg-bu">${T('부록1 부탄 예 (13/2 × 1.6)', 'Annex 1 butane (13/2 × 1.6)')}</button></div>
+                <p class="xs muted">${T('부록1: 부탄 C₄H₁₀ + 13/2 O₂ → 4CO₂ + 5H₂O, 폭발하한계 1.6 vol%이므로 MOC는 10.4 vol%로 추정합니다. 폭발하한계는 혼합가스 탭에서 확인할 수 있습니다.', 'Annex 1: butane C₄H₁₀ + 13/2 O₂ → 4CO₂ + 5H₂O with an LEL of 1.6 vol%, so the MOC is estimated at 10.4 vol%. LELs are in the gas-mixture tab.')}</p>
+              </div>
+            </div>
+          </section>
+          <div class="callout warn small" style="margin-top:14px">${T('치환을 마친 용기 안은 산소결핍 상태입니다. 사람이 들어가야 하면 환기한 뒤 산소 18% 이상 23.5% 미만의 적정공기를 측정해 확인하고 밀폐공간 작업 절차를 따르세요 (안전보건규칙 제618조·제619조의2·제620조).', 'A purged vessel is oxygen-deficient. Before anyone enters, ventilate, measure acceptable air (O₂ ≥ 18 % and < 23.5 %) and follow the confined-space procedure (OSH Standards Rules Art. 618, 619-2 and 620).')}
+            <a href="#measure/confined">${T('적정공기 판정', 'Acceptable-air check')}</a> · <a href="#sop/confined">${T('밀폐공간 SOP', 'Confined-space SOP')}</a></div>
+          <p class="xs muted">${T('이 지침은 화학설비를 점검·정비하려고 불활성가스를 넣는 작업에 적용하는 KOSHA 기술지원규정(권고)입니다 (1·2장). 가스 캐비닛·공급배관의 퍼지 절차는 설비 제조사와 사내 기준을 따르세요.', 'This KOSHA technical guide (advisory) covers injecting inert gas to inspect or maintain chemical plant (ch. 1–2). For gas-cabinet and supply-line purging, follow the equipment maker and in-house procedures.')}</p>`;
+      },
+      mount(root) {
+        const st = Object.assign({}, PURGE0, S.load('gas.purge', PURGE0));
+        const up = () => { S.save('gas.purge', st); S.refresh(); };
+        [['#pg-m', 'm'], ['#pg-v', 'v'], ['#pg-t', 't'], ['#pg-y0', 'y0'], ['#pg-yf', 'yf'], ['#pg-yfu', 'yfu'], ['#pg-pl', 'pl'], ['#pg-plu', 'plu'], ['#pg-ph', 'ph'], ['#pg-phu', 'phu'], ['#pg-c1', 'c1'], ['#pg-c2', 'c2'], ['#pg-c0', 'c0'], ['#pg-moc', 'moc'], ['#pg-z', 'z'], ['#pg-lel', 'lel']]
+          .forEach(([s, k]) => { const el = root.querySelector(s); if (el) el.addEventListener('change', () => { st[k] = el.value; up(); }); });
+        const on = (s, f) => { const el = root.querySelector(s); if (el) el.addEventListener(el.type === 'checkbox' ? 'change' : 'click', f); };
+        on('#pg-mon', (e) => { st.mon = e.target.checked; up(); });
+        on('#pg-ex', () => {
+          if (st.m === 'sweep') Object.assign(st, { v: '28', c1: '21', c2: '1.25', c0: '0.01' });
+          else Object.assign(st, { v: '3.8', t: '25', y0: '21', yf: '1', yfu: 'ppm' }, st.m === 'vac' ? { pl: '20', plu: 'mmHg' } : { ph: '5.5', phu: 'kgf' });
+          up();
+        });
+        on('#pg-use', () => { const mc = mocCtl(num(st.moc), st.mon); if (!mc) return; const v = String(Number(mc.set.toFixed(4))); if (st.m === 'sweep') st.c2 = v; else { st.yf = v; st.yfu = 'pct'; } up(); });
+        on('#pg-est', () => { st.moc = String(Number((num(st.z) * num(st.lel)).toFixed(4))); up(); });
+        on('#pg-bu', () => { Object.assign(st, { z: '6.5', lel: '1.6', moc: '10.4' }); up(); });
+      },
+      basis: ['koshaCC85', 'lawStd']
     }
   };
 
-  S.gasApi = { alarmEval, mixEval };
+  S.gasApi = { alarmEval, mixEval, purgeEval, mocCtl };
   S.pages.gas = {
     render(sub) {
       /* #gas/<도구>로 들어오면 그 탭을 연다 (SOP·사고사례의 ‘다음 업무’ 링크) */
@@ -239,9 +389,9 @@
       const tool = TOOLS[cur] || TOOLS.alarm;
       return `
       ${ui.head(T('판정·평가 도구', 'Tools'), T('가스 안전 도구', 'Gas safety tools'),
-        T('특수가스 설비의 경보 설정값·혼합가스 인화성·누출 이격거리를 확인합니다.', 'Check detector set points, mixture flammability and release distances for specialty gases.'),
-        T('반도체 특수가스 설비에서 바로 쓰는 세 가지 계산 — 가스 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 그 폭발하한계, 누출 시 초기 이격·방호 거리를 원문 기준으로 확인합니다.',
-          'Three checks for fab specialty-gas systems — whether detector set points meet the KGS codes and KOSHA guidance, whether a gas mixture is flammable and its LEL, and initial isolation and protective distances for a release — all from the original documents.'))}
+        T('특수가스 설비의 경보 설정값·혼합가스 인화성·누출 이격거리·불활성가스 치환량을 확인합니다.', 'Check detector set points, mixture flammability, release distances and inert-gas purging for specialty gases.'),
+        T('반도체 특수가스 설비에서 바로 쓰는 네 가지 계산 — 가스 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 그 폭발하한계, 누출 시 초기 이격·방호 거리, 점검·정비 전 불활성가스 치환 횟수와 가스량을 원문 기준으로 확인합니다.',
+          'Four checks for fab specialty-gas systems — whether detector set points meet the KGS codes and KOSHA guidance, whether a gas mixture is flammable and its LEL, initial isolation and protective distances for a release, and the purge cycles and inert gas needed before maintenance — all from the original documents.'))}
       ${ui.tabs('gas', Object.keys(TOOLS).map((id) => ({ id, label: TOOLS[id].label() })), cur)}
       <div id="anchor-${cur in TOOLS ? cur : 'alarm'}">${tool.render()}</div>
       <p class="xs muted">${T('근거', 'Basis')}: ${S.cite(tool.basis)} · ${T('입력값은 이 브라우저에만 저장됩니다. 판단 보조 도구이며 사내 기준과 원문을 함께 확인하세요.', 'Inputs are saved in this browser only. A decision aid — check in-house rules and the originals.')}</p>`;

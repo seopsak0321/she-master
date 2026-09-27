@@ -61,7 +61,7 @@
   S.drop = function (k) { drop0(k); dirty = true; };
 
   const CUSTOM = { sop: 1, cases: 1, hazards: 1, sources: 1, news: 1, resources: 1, guide: 1 };
-  const TABKEY = { measure: 'measure', risk: 'risk', fire: 'scen', gas: 'gas', bench: 'bench', psm: 'psm' };
+  const TABKEY = { measure: 'measure', risk: 'risk', fire: 'scen', gas: 'gas', bench: 'bench', psm: 'psm', signs: 'signs' };
   const VARIANTS = { sites: ['common', 'icheon', 'cheongju'] };
   const FILTERS = {};
   /* text of an element with a space between separate text pieces (textContent would glue labels together).

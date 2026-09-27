@@ -57,6 +57,23 @@
       if (u.commit && !/^[0-9a-f]{7,40}$/.test(u.commit)) add('bad', T('패치노트 커밋', 'Patch-note commit'), 'UPDATES[' + i + ']', u.commit);
       if (!((u.add || []).length + (u.chg || []).length + (u.fix || []).length)) add('warn', T('패치노트 내용', 'Patch-note content'), 'UPDATES[' + i + ']', '–');
     });
+    /* 계산 도구 — 원문 계산 예와 같은 결과가 나오는지 (P-179 부록5, C-C-85 부록1~3·4.1(2)) */
+    const G = S.gasApi;
+    if (G && G.purgeEval) {
+      const near = (a, b, tol) => a != null && Math.abs(a - b) <= tol;
+      const chk = (ok, what, got) => { if (!ok) add('bad', T('계산 예 불일치', 'Worked example mismatch'), what, String(got)); };
+      const mx = G.mixEval([['h2', '2'], ['ch4', '6'], ['ar', '27'], ['he', '65']]);
+      chk(mx.flammable && near(mx.lel, 48.05, 0.02), 'P-179 부록5 LEL 48.05 vol%', mx.lel);
+      const base = { v: '3.8', t: '25', y0: '21', yf: '1', yfu: 'ppm' };
+      const vac = G.purgeEval(Object.assign({ m: 'vac', pl: '20', plu: 'mmHg' }, base));
+      chk(vac.n === 4 && near(vac.j, 3.37, 0.005) && near(vac.kg, 16.95, 0.01), 'C-C-85 부록2 진공 4회·16.95 kg', `${vac.n} / ${vac.j} / ${vac.kg}`);
+      const pr = G.purgeEval(Object.assign({ m: 'pres', ph: '5.5', phu: 'kgf' }, base));
+      chk(pr.n === 7 && near(pr.mol, 5787, 5), 'C-C-85 부록2 압력 7회·5,787 mol', `${pr.n} / ${pr.mol}`);
+      const sw = G.purgeEval({ m: 'sweep', v: '28', c1: '21', c2: '1.25', c0: '0.01' });
+      chk(near(sw.q, 79.2, 0.05) && near(sw.qPure, 79, 0.05), 'C-C-85 부록3 스위프 79.2 m³', `${sw.q} / ${sw.qPure}`);
+      const mc = G.mocCtl(5, true), bu = G.mocCtl(6.5 * 1.6, true);
+      chk(mc && near(mc.ctl, 3, 1e-9) && near(mc.set, 2, 1e-9) && bu && near(bu.ctl, 8.4, 1e-9), 'C-C-85 표1·4.1(2) 3%·2%, 부탄 8.4%', mc && `${mc.ctl} / ${mc.set} / ${bu && bu.ctl}`);
+    }
   }
 
   /* ---------- 검사용 화면 ---------- */

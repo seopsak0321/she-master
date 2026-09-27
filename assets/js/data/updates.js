@@ -5,11 +5,26 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v78';
+SHE.BUILD = 'v80';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 11, v: SHE.BUILD, date: '2026-09-26',
+    { no: 12, v: SHE.BUILD, date: '2026-09-27',
+      t: B('화학물질 경고표지·심정지 대응·불활성가스 치환 계산', 'Chemical labels, cardiac-arrest response, inert-gas purge calculator'),
+      add: [
+        B('안전보건표지 화면에 ‘화학물질 경고표지(GHS)’ 탭 — 고용노동부고시 제2026-26호의 경고표지 6가지 항목, 그림문자 생략 규칙·신호어·소량(100g·mL)·자체 반제품용기 예외·색상·위치, 용기 용량별 크기(별표3), 유해성·위험성 분류 28가지(별표2), 그림문자 9종(미국 OSHA 요약카드)', 'The safety-sign page gains a “Chemical labels (GHS)” tab — from MOEL Notice No. 2026-26: the six label elements, rules for dropping pictograms, signal words, small-quantity (100 g or mL) and in-house intermediate-container exceptions, colour and position, label size by container (Annex 3), the 28 hazard classes (Annex 2), and the nine pictograms (US OSHA quick card)'),
+        B('비상 대응 SOP ‘심정지 대응 — 심폐소생술·AED’ (SOP 25 → 26종) — 국민안전24(소방청) 행동요령 순서, 응급의료법 제47조의2(상시근로자 300명 이상 사업장 AED 구비·신고·매월 점검·안내표지), 업무판 법정 주기에 ‘AED 월 점검’ 추가(35 → 36개)', 'Emergency SOP “Cardiac arrest — CPR and AED” (SOPs 25 → 26) — steps from the Safety Korea (National Fire Agency) guide; Emergency Medical Service Act Art. 47-2 (AEDs at workplaces with 300 or more workers: install, register, check monthly, sign); the dashboard adds a monthly AED check (35 → 36 cycles)'),
+        B('가스 안전 도구 네 번째 탭 ‘불활성가스 치환’ — KOSHA C-C-85-2026의 진공·압력 치환 횟수(식 9)와 질소 사용량(식 10), 스위프 치환 가스량(식 12), 사이펀 치환, 최소산소농도 추정(식 1)과 권장제어농도(표1)·설정점. 부록1~3 계산 예로 검증', 'Fourth gas-safety tab, “Inert-gas purging” — from KOSHA C-C-85-2026: vacuum and pressure purge cycles (Eq. 9) and nitrogen use (Eq. 10), sweep-purge gas (Eq. 12), siphon purging, the MOC estimate (Eq. 1) with the Table 1 control level and set point; checked against the Annex 1–3 worked examples'),
+        B('용어 사전 47 → 49개 — ‘경고표시’(산안법 제115조), ‘최소산소농도(MOC)’(KOSHA C-C-85)', 'Glossary 47 → 49 — “warning label” (OSH Act Art. 115) and “minimum oxygen concentration (MOC)” (KOSHA C-C-85)'),
+        B('최신 동향 3건 — SK하이닉스 용수 절감(9.10), 고용노동부 작업장 안전디자인 현장 방문(9.16), 협력사 ThanksFULL Day(9.17). 안전보건표지 화면에 ‘작업장 안전디자인’ 패널(정의·쓰임·클린사업장 지원)', 'Three news items — SK hynix water savings (10 Sep), MOEL workplace-safety-design visit (16 Sep), partner ThanksFULL Day (17 Sep); the safety-sign page adds a workplace-safety-design panel (definition, uses, Clean Workplace support)')
+      ],
+      chg: [
+        B('기밀시험 SOP — KOSHA M-150-2022(절차서·게이지 눈금·설계압력 25% 이하·50% 후 10%씩 승압·15분 유지 거품시험·보고서)와 C-C-17-2026(구 D-54: 안전밸브 설정·10m 통제구역·서서히 감압)으로 ‘관행’ 4단계를 조항 근거로 바꿈, 단계 8 → 9, 퀴즈 3 → 5문항, 작업중지 기준 1개 추가', 'Leak-test SOP — KOSHA M-150-2022 (procedure, gauge range, ≤ 25 % of design pressure, 50 % then 10 % steps, 15-minute bubble test, report) and C-C-17-2026 (formerly D-54: relief-valve setting, 10 m exclusion zone, slow depressurising) turn four “practice” steps into clause-based ones; steps 8 → 9, quiz 3 → 5, one more stop-work criterion'),
+        B('월간 법령 점검 30 → 32건 — 응급의료법, 화학물질의 분류·표시 및 물질안전보건자료에 관한 기준(고시 제2026-26호)', 'Monthly law check 30 → 32 — the Emergency Medical Service Act and the chemical classification, labelling and MSDS standard (Notice No. 2026-26)'),
+        B('자체 점검 무결성 검사에 원문 계산 예 5건(P-179 부록5, C-C-85 부록1~3·4.1(2))을 넣어 계산식이 바뀌면 바로 잡히게 함', 'The self-check integrity test now reruns five worked examples (P-179 Annex 5; C-C-85 Annexes 1–3 and 4.1(2)) so any change to the formulas is caught')
+      ],
+      fix: [] },
+    { no: 11, v: 'v78', date: '2026-09-26 23:24', commit: 'c4b24c9',
       t: B('안전보건표지 새 화면·추락 사례·고소작업 SOP 보강', 'New safety-sign page, fall cases, stronger work-at-height SOP'),
       add: [
         B('새 화면 ‘안전보건표지’(라이브러리) — 시행규칙 별표6~9의 표지 43종(금지 8·경고 15·지시 9·안내 8·출입금지 3)을 번호·용도·설치 장소 예시·KS S ISO 7010 대체 코드로 찾기, 색도기준(별표8), 설치·제작 의무(법 제37조·규칙 제38~40조)', 'New page “Safety signs” (Library) — the 43 signs of Rule Annexes 6–9 (8 prohibition, 15 warning, 9 mandatory, 8 guidance, 3 no-entry) searchable by number, use, example location and KS S ISO 7010 code; colour standards (Annex 8); duties for putting up and making signs (Act Art. 37, Rule Arts. 38–40)'),
