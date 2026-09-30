@@ -96,6 +96,27 @@
       const mc = G.mocCtl(5, true), bu = G.mocCtl(6.5 * 1.6, true);
       chk(mc && near(mc.ctl, 3, 1e-9) && near(mc.set, 2, 1e-9) && bu && near(bu.ctl, 8.4, 1e-9), 'C-C-85 표1·4.1(2) 3%·2%, 부탄 8.4%', mc && `${mc.ctl} / ${mc.set} / ${bu && bu.ctl}`);
     }
+    /* 소음 — KOSHA W-23-2016 부록2 노출량(%) ↔ TWA 표, 6.2(13)(14) 노출량 식, 부록1 노출기준 (#18) */
+    if (S.noiseTwa && S.noiseEval) {
+      const near = (a, b, tol) => a != null && Math.abs(a - b) <= tol;
+      const chk = (ok, what, got) => { if (!ok) add('bad', T('계산 예 불일치', 'Worked example mismatch'), what, String(got)); };
+      [[10, 73.4], [25, 80.0], [50, 85.0], [80, 88.4], [90, 89.2]].forEach(([d, tw]) => chk(near(S.noiseTwa(d), tw, 0.05), `W-23 부록2 ${d}% → ${tw} dB(A)`, S.noiseTwa(d).toFixed(2)));
+      const one = S.noiseEval([['95', '4']]);
+      chk(near(one.D, 100, 1e-9) && near(one.twa, 90, 1e-9), 'W-23 6.2(13)·부록1 95dB 4h → 100%·90dB', `${one.D} / ${one.twa}`);
+      const mix = S.noiseEval([['90', '4'], ['95', '2'], ['78', '2']]);
+      chk(near(mix.D, 100, 1e-9) && mix.intense.length === 0, 'W-23 6.2(14) 90dB 4h + 95dB 2h(+78dB 역치 미만) → 100%', `${mix.D}`);
+    }
+    /* 판정 경계값 — 유해위험방지계획서(시행령 제42조: 300kW·31m·3만㎡·10m), 가스감지기 적합성(E-187 4.1(2)(3)·4.4) (#17·#18) */
+    if (S.hpEval) {
+      const H = (o) => S.hpEval(Object.assign({ ind: 'semi', kw: '', whole: false, eq: {}, h: '', area: '', dig: '' }, o)).out.join(',');
+      [[{ kw: '300', whole: true }, 'mfg'], [{ kw: '299', whole: true }, ''], [{ ind: 'none', kw: '5000', whole: true }, ''], [{ h: '31' }, 'build'], [{ h: '30.9' }, ''], [{ area: '30000' }, 'build'], [{ area: '29999' }, ''], [{ dig: '10' }, 'build'], [{ eq: { gasweld: true } }, 'equip']]
+        .forEach(([o, want]) => { const got = H(o); if (got !== want) add('bad', T('판정 경계값', 'Threshold check'), 'hpEval ' + JSON.stringify(o), got); });
+    }
+    if (S.gasApi && S.gasApi.detEval) {
+      const D = (o) => S.gasApi.detEval(Object.assign({ range: 'low', inert: false, poison: false, steam: false, oxy: false }, o)).map((r) => r.lv).join(',');
+      [[{}, 'ok,ok,bad,ok'], [{ inert: true }, 'bad,ok,bad,ok'], [{ poison: true }, 'warn,ok,bad,ok'], [{ range: 'high' }, 'bad,ok,ok,bad']]
+        .forEach(([o, want]) => { const got = D(o); if (got !== want) add('bad', T('판정 경계값', 'Threshold check'), 'detEval ' + JSON.stringify(o), got); });
+    }
   }
 
   /* ---------- 검사용 화면 ---------- */

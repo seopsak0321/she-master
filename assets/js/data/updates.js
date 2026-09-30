@@ -5,11 +5,22 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v88';
+SHE.BUILD = 'v89';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 17, v: SHE.BUILD, date: '2026-10-01',
+    { no: 18, v: SHE.BUILD, date: '2026-10-01',
+      t: B('유해위험방지계획서 대상·제출 판정(Fab 신·증설)과 소음 계산의 원문 대조', 'Hazard-prevention plans for new or expanded fabs, and the noise calculation checked against KOSHA'),
+      add: [
+        B('상생협력 화면 새 패널 ‘유해위험방지계획서 대상·제출 판정’ — 산안법 제42·43조, 시행령 제42조(반도체 제조업·전자부품 제조업 등 13개 업종 × 전기 계약용량 300kW 이상, 대상 설비 5종, 건설공사 지상높이 31m·연면적 3만㎡·굴착 10m 등), 시행규칙 제42~46조(작업 시작 15일 전·착공 전날까지 공단에 2부, 서식·첨부서류, 건설안전 자격자 의견, 15일 이내 심사·3단계 판정, 시운전 단계·6개월마다 확인), 공정안전보고서 제출 설비는 제출 간주(법 제42조③) — 현행 본문(2026.8.1 시행) 확인', 'New contractor-page panel “Hazard-prevention plan — who files and when” — OSH Act Arts. 42–43, Decree Art. 42 (13 industries including semiconductors and electronic components × 300 kW contracted power, five equipment types, construction at 31 m height, 30,000 m² floor area or 10 m excavation and more), Rule Arts. 42–46 (two copies to KOSHA 15 days before work starts or by the day before construction starts, forms and attachments, a construction-safety expert’s opinion, review within 15 days with three verdicts, follow-up at commissioning or every 6 months); plants under a PSM report count as filed (Act 42(3)) — checked against the current text (in force 2026-08-01)')
+      ],
+      chg: [
+        B('소음 노출량·8시간 환산 계산을 KOSHA W-23-2016(작업장 소음측정 및 평가방법)과 대조 — 역치 80dB·교환율 5dB·노출량 식이 원문과 같음을 확인하고 ‘포털 가정’이던 80dB 미만 제외를 원문 근거로, 부록2 표 5개 값과 노출량 예 2개를 #qa에서 자동 대조', 'Noise dose and 8-h equivalent checked against KOSHA W-23-2016 (measuring and assessing workplace noise) — the 80 dB threshold, 5 dB exchange rate and dose formula match, so ignoring levels below 80 dB is now sourced rather than a portal assumption; #qa checks five Annex 2 values and two dose examples automatically'),
+        B('자체 점검 판정 경계값에 유해위험방지계획서(300kW·31m·3만㎡·10m)와 가스감지기 방식별 적합성 추가', 'Self-check threshold tests now cover the hazard-prevention plan (300 kW, 31 m, 30,000 m², 10 m) and detector suitability'),
+        B('출처 158 → 159건(KOSHA W-23-2016), 산안법·시행령·시행규칙 확인일 2026-10-01', 'Sources 158 → 159 (KOSHA W-23-2016); OSH Act, Decree and Rule checked 2026-10-01')
+      ],
+      fix: [] },
+    { no: 17, v: 'v88', date: '2026-10-01 02:46', commit: '12debde',
       t: B('가스감지기 선택·사용과 공정별 설비 안전 요건 — KOSHA E-187·C-C-65', 'Gas detector choice and use, and equipment requirements by process — KOSHA E-187 and C-C-65'),
       add: [
         B('가스 안전 도구 다섯 번째 탭 ‘가스감지기 선택·사용’ — KOSHA E-187-2021(폭발위험장소 가스감지기 사용) 4장: 측정 범위와 환경(불활성가스·피독 물질·결로·과잉 산소)에 따라 접촉연소식·적외선식·열전도식·반도체식의 적합성 판단, 사용 주의 7가지(재교정·100 vol% 측정·규소 화합물 피독과 직전·직후 교정·결로·교육과 기록·의심 시 위험 간주·정치형 정기 확인), 정치형 설치 위치(C-C-87-2026 5.1(2)·6.1 — 무거운 가스는 하부, 가벼운 가스는 환기구 부근·상부, 피할 장소), 인터록 방폭대책은 LFL 25% 이하에서만(E-187 2), 안전보건규칙 제232조②', 'Fifth gas-tool tab “Choosing & using detectors” — from KOSHA E-187-2021 (gas detectors in hazardous areas) ch. 4: suitability of catalytic, infrared, thermal-conductivity and semiconductor types by range and conditions (inert gas, poisons, condensation, excess oxygen), seven usage cautions (recalibration, 100 vol% reading, silicon-compound poisoning with calibration just before and after use, condensation, training and records, treat doubtful readings as hazardous, regular checks of fixed units), fixed-detector locations (C-C-87-2026 5.1(2), 6.1 — heavy gases low, light gases near exhaust vents or high, places to avoid), detector interlocks only at 25 % LFL or less (E-187 2), and Standards Rules Art. 232(2)'),

@@ -1,6 +1,7 @@
 /* 6대 직무 모듈 — 공정안전 · 예방안전 · SDX · 상생협력 · 소방·방재 · 안전문화 */
 (function () {
   const S = window.SHE, T = S.T, L = S.L, ui = S.ui, C = S.COMPANY;
+  const B = (ko, en) => ({ ko, en });
   const n = (v) => (v === '' || v == null || isNaN(Number(v)) ? null : Number(v));
   const facts = (arr) => `<ul class="facts">${arr.map((f) => `<li>${L(f.t)}${S.cite(f.src)}</li>`).join('')}</ul>`;
   const sopLink = (id) => { const s = S.SOPS.find((x) => x.id === id); return `<a class="chip" href="#sop/${id}">${L(s.t)}</a>`; };
@@ -850,6 +851,73 @@
   ];
   const vScore = (v) => CRIT.reduce((a, c) => a + (Number(v.sc[c.id]) || 0) / 5 * c.w, 0);
 
+  /* 유해위험방지계획서 대상·제출 판정 — 산안법 제42·43조, 시행령 제42조, 시행규칙 제42~46조
+     (법률 제21374호·대통령령 제36540호·고용노동부령 제477호, 모두 시행 2026.8.1 — 현행 본문 확인 2026-10-01). 예시 입력은 가상 */
+  const HP_IND = [
+    ['metal', B('금속가공제품 제조업(기계·가구 제외)', 'Fabricated metal products (excl. machinery, furniture)')], ['nonmet', B('비금속 광물제품 제조업', 'Non-metallic mineral products')],
+    ['mach', B('기타 기계 및 장비 제조업', 'Other machinery and equipment')], ['auto', B('자동차 및 트레일러 제조업', 'Motor vehicles and trailers')],
+    ['food', B('식료품 제조업', 'Food products')], ['rubber', B('고무제품 및 플라스틱제품 제조업', 'Rubber and plastic products')],
+    ['wood', B('목재 및 나무제품 제조업', 'Wood products')], ['other', B('기타 제품 제조업', 'Other products')],
+    ['primary', B('1차 금속 제조업', 'Basic metals')], ['furn', B('가구 제조업', 'Furniture')],
+    ['chem', B('화학물질 및 화학제품 제조업', 'Chemicals and chemical products')], ['semi', B('반도체 제조업', 'Semiconductors')],
+    ['elec', B('전자부품 제조업', 'Electronic components')], ['none', B('위 13개 업종이 아님', 'None of these 13')]
+  ];
+  const HP_EQ = [
+    ['furnace', B('금속이나 그 밖의 광물의 용해로', 'Furnaces for melting metals or other minerals')], ['chemeq', B('화학설비', 'Chemical plant')],
+    ['dryer', B('건조설비', 'Drying equipment')], ['gasweld', B('가스집합 용접장치', 'Gas-manifold welding equipment')],
+    ['vent', B('고용노동부령으로 정하는 물질의 밀폐·환기·배기를 위한 설비', 'Enclosure, ventilation or exhaust for substances set by MOEL rule')]
+  ];
+  const HP0 = { ind: 'semi', kw: '20000', whole: true, eq: { chemeq: true }, h: '45', area: '120000', dig: '12' };
+  function hpEval(st) {
+    const n = (v) => (v === '' || v == null || isNaN(Number(v)) ? null : Number(v));
+    const out = [];
+    const kw = n(st.kw);
+    if (st.ind !== 'none' && kw != null && kw >= 300 && st.whole) out.push('mfg');
+    if (HP_EQ.some(([k]) => st.eq && st.eq[k])) out.push('equip');
+    const h = n(st.h), a = n(st.area), d = n(st.dig);
+    const why = [];
+    if (h != null && h >= 31) why.push(T(`지상높이 ${h}m ≥ 31m`, `height ${h} m ≥ 31 m`));
+    if (a != null && a >= 30000) why.push(T(`연면적 ${a.toLocaleString()}㎡ ≥ 3만㎡`, `floor area ${a.toLocaleString()} m² ≥ 30,000 m²`));
+    if (d != null && d >= 10) why.push(T(`굴착 깊이 ${d}m ≥ 10m`, `excavation ${d} m ≥ 10 m`));
+    if (why.length) out.push('build');
+    return { out, why, kw };
+  }
+  S.hpEval = hpEval;
+  function hazPlanPanel() {
+    const saved = S.load('pt.hp', null), ex = !saved, st = Object.assign({}, HP0, saved || {});
+    const r = hpEval(st);
+    const card = (on, t, body) => `<div class="result" style="gap:6px;align-content:start"><div class="row" style="justify-content:space-between;gap:8px"><b class="small">${t}</b>${on ? ui.pill('bad', T('제출 대상', 'Plan required')) : ui.pill('ok', T('해당 없음', 'Not required'))}</div>${body}</div>`;
+    return `<section class="panel stack" id="anchor-hazplan">${ui.title(T('유해위험방지계획서 대상·제출 판정', 'Hazard-prevention plan — who files and when'), `${T('산안법 제42조 · 시행령 제42조 · 시행규칙 제42~46조', 'OSH Act 42 · Decree 42 · Rule 42–46')} ${ex ? ui.ex() : ''}`)}
+      <p class="small">${T('반도체 제조업·전자부품 제조업은 전기 계약용량 300kW 이상이면 생산 공정과 직접 관련된 건설물·기계·설비 전부를 설치·이전하거나 주요 구조부분을 바꿀 때 유해위험방지계획서를 내고 심사를 받습니다. Fab 신·증설은 공장 건물의 건설공사 기준에도 함께 걸릴 수 있습니다.', 'Semiconductor and electronic-component makers with contracted power of 300 kW or more must file a hazard-prevention plan and have it reviewed when they install, relocate or substantially alter all the buildings, machinery and equipment directly tied to production. A new or expanded fab may also meet the construction-works thresholds for the building itself.')}</p>
+      <div class="grid g3">
+        <div class="stack" style="gap:8px"><b class="small">${T('① 제조업 (법 제42조①1)', '① Manufacturing (Act 42(1)1)')}</b>
+          <div class="field"><label for="hp-ind">${T('업종 (시행령 제42조①)', 'Industry (Decree 42(1))')}</label><select id="hp-ind" data-hp="ind">${HP_IND.map(([k, t]) => `<option value="${k}" ${st.ind === k ? 'selected' : ''}>${L(t)}</option>`).join('')}</select></div>
+          <div class="field"><label for="hp-kw">${T('전기 계약용량 (kW)', 'Contracted power (kW)')}</label><input type="number" min="0" id="hp-kw" data-hp="kw" value="${S.esc(st.kw)}"></div>
+          <label class="check"><input type="checkbox" data-hpc="whole" ${st.whole ? 'checked' : ''}> ${T('생산 공정과 직접 관련된 건설물·기계·기구·설비 전부를 설치·이전하거나 주요 구조부분을 변경', 'Installing, relocating or substantially altering all buildings, machinery and equipment directly tied to production')}</label></div>
+        <div class="stack" style="gap:8px"><b class="small">${T('② 설비 (법 제42조①2)', '② Equipment (Act 42(1)2)')}</b>
+          ${HP_EQ.map(([k, t]) => `<label class="check"><input type="checkbox" data-hpe="${k}" ${st.eq && st.eq[k] ? 'checked' : ''}> ${L(t)}</label>`).join('')}
+          <span class="xs muted">${T('설치·이전·주요 구조부분 변경 시. 구체적 범위는 고용노동부 고시 (시행령 제42조②)', 'On installation, relocation or major alteration; the exact scope is set by MOEL notice (Decree 42(2))')}</span></div>
+        <div class="stack" style="gap:8px"><b class="small">${T('③ 건설공사 (법 제42조①3)', '③ Construction works (Act 42(1)3)')}</b>
+          <div class="field"><label for="hp-h">${T('건축물 지상높이 (m)', 'Building height above ground (m)')}</label><input type="number" min="0" id="hp-h" data-hp="h" value="${S.esc(st.h)}"></div>
+          <div class="field"><label for="hp-area">${T('건축물 연면적 (㎡)', 'Total floor area (m²)')}</label><input type="number" min="0" id="hp-area" data-hp="area" value="${S.esc(st.area)}"></div>
+          <div class="field"><label for="hp-dig">${T('굴착 깊이 (m)', 'Excavation depth (m)')}</label><input type="number" min="0" id="hp-dig" data-hp="dig" value="${S.esc(st.dig)}"></div>
+          <span class="xs muted">${T('그 밖에 연면적 5천㎡ 이상 특정 시설, 지간 50m 이상 다리, 터널, 일부 댐 공사도 대상 (시행령 제42조③)', 'Also certain facilities of 5,000 m² or more, bridges with 50 m spans, tunnels and some dams (Decree 42(3))')}</span></div>
+      </div>
+      <div class="grid g3">
+        ${card(r.out.includes('mfg'), T('① 제조업 등 계획서', '① Manufacturing plan'), `<span class="small">${T('해당 작업 시작 15일 전까지 한국산업안전보건공단에 2부 — 별지 제16호서식 + 각 층 평면도, 기계·설비 개요, 배치도면, 원재료·제품 취급·제조 작업방법 개요 (시행규칙 제42조①)', 'Two copies to KOSHA at least 15 days before work starts — Form 16 with floor plans, equipment outline and layout, and an outline of how materials and products are handled and made (Rule 42(1))')}</span>${r.kw != null && r.kw < 300 && st.ind !== 'none' ? `<span class="xs muted">${T('계약용량 300kW 미만이면 제1호 대상 아님', 'Below 300 kW, item 1 does not apply')}</span>` : ''}`)}
+        ${card(r.out.includes('equip'), T('② 설비 계획서', '② Equipment plan'), `<span class="small">${T('해당 작업 시작 15일 전까지 공단에 2부 — 별지 제16호서식 + 설치장소 개요, 설비 도면 (시행규칙 제42조②)', 'Two copies to KOSHA at least 15 days before work starts — Form 16 with the site outline and equipment drawings (Rule 42(2))')}</span>`)}
+        ${card(r.out.includes('build'), T('③ 건설공사 계획서', '③ Construction plan'), `<span class="small">${r.why.length ? r.why.join(' · ') + ' — ' : ''}${T('착공 전날까지 공단에 2부 — 별지 제17호서식 + 별표10 서류, 건설안전 분야 자격자(지도사·기술사 등)의 의견을 들어 작성 (법 제42조②, 시행규칙 제42조③·제43조)', 'Two copies to KOSHA by the day before work starts — Form 17 with the Annex 10 documents, written after hearing a qualified construction-safety expert (Act 42(2); Rule 42(3), 43)')}</span>`)}
+      </div>
+      <ul class="facts">
+        <li>${T('공정안전보고서(법 제44조①)를 낸 경우 해당 유해·위험설비는 유해위험방지계획서를 낸 것으로 봄', 'Where a PSM report (Act 44(1)) has been filed, the covered hazardous plant counts as having a hazard-prevention plan')} <span class="basis law">${T('법 제42조③', 'Act 42(3)')}</span></li>
+        <li>${T('공단은 접수 15일 이내 심사해 적정·조건부 적정·부적정으로 판정 — 부적정이면 지방고용노동관서가 공사착공중지·계획변경 명령 등 조치', 'KOSHA reviews within 15 days of receipt and rules it adequate, conditionally adequate or inadequate; if inadequate, the regional labour office can halt the start of work or order changes')} <span class="basis law">${T('시행규칙 제44·45조', 'Rule 44, 45')}</span></li>
+        <li>${T('이행 확인 — 제조업·설비는 시운전 단계에서, 건설공사는 공사 중 6개월 이내마다 공단 확인(계획과 실제 공사의 부합, 변경 내용의 적정성, 추가 유해·위험요인)', 'Follow-up — manufacturing and equipment at commissioning; construction every 6 months during the works (plan vs actual work, changes, new hazards)')} <span class="basis law">${T('법 제43조, 시행규칙 제46조', 'Act 43; Rule 46')}</span></li>
+        <li>${T('심사받은 계획서와 심사결과서는 사업장에 갖춰 두고, 건설공사 공법 변경 등으로 바뀌면 변경해 갖춰 둠', 'Keep the reviewed plan and review result on site, and update them if construction methods change')} <span class="basis law">${T('법 제42조⑤⑥', 'Act 42(5)(6)')}</span></li>
+      </ul>
+      <p class="xs muted">${T('계획서의 작성기준·작성자·심사기준은 고용노동부 고시로 정합니다(시행규칙 제42조①). 이 판정은 입력값만으로 하는 참고용이며, 법적 판단은 원문과 공단 안내로 확인하세요. 예시 값은 가상입니다.', 'Drafting and review criteria are set by MOEL notice (Rule 42(1)). This check uses only your inputs; confirm legal questions against the originals and KOSHA guidance. Example values are fictional.')}${S.cite('lawAct', 'lawDecree', 'lawRule')}</p>
+    </section>`;
+  }
+
   S.pages.partner = {
     render() {
       const duty = S.load('pt.duty', DUTY_DEFAULT);
@@ -929,7 +997,8 @@
           <li>${T('공사금액 1억원 이상 120억원(토목공사업 150억원) 미만 공사와 건축허가 대상 공사는 착공 전날까지 건설재해예방전문지도기관과 기술지도계약(유해위험방지계획서 제출 대상 등은 제외)', 'Works of 100 million to under 12 billion won (15 billion for civil works) and works needing a building permit sign a technical-guidance contract with a designated agency by the day before start (exceptions include works needing a hazard-prevention plan)')} <span class="basis law">${T('법 제73조, 시행령 제59조', 'Act 73; Decree 59')}</span></li>
         </ul>
         <p class="xs muted">${T('대장 작성·확인의 방법과 절차는 시행규칙 제86조④에 따라 고용노동부장관이 고시로 정합니다. 산업안전보건관리비의 규모별 계상 기준과 사용 기준도 고시(법 제72조②)를 확인하세요.', 'How ledgers are written and checked is set by MOEL notice under Rule 86(4); the budget rates by project size and the rules for spending it are also in a MOEL notice (Act 72(2)).')}${S.cite('lawAct', 'lawDecree', 'lawRule')}</p>
-      </section>`;
+      </section>
+      ${hazPlanPanel()}`;
     },
     mount(root) {
       root.querySelectorAll('[data-duty]').forEach((c) => c.addEventListener('change', () => { const d = Object.assign({}, DUTY_DEFAULT, S.load('pt.duty', {})); d[c.dataset.duty] = c.checked; saveRefresh('pt.duty', d); }));
@@ -937,6 +1006,10 @@
       const vs = () => S.load('pt.v', null) || VENDORS_DEFAULT;
       root.querySelectorAll('[data-vs]').forEach((s) => s.addEventListener('change', () => { const l = vs(); l.find((x) => String(x.id) === s.dataset.vs).sc[s.dataset.c] = Number(s.value); saveRefresh('pt.v', l); }));
       root.querySelector('#vForm').addEventListener('submit', (e) => { e.preventDefault(); const t = root.querySelector('#v-name').value.trim(); if (!t) return; const l = vs(); l.push({ id: Date.now(), user: true, name: { ko: t, en: t }, sc: {} }); saveRefresh('pt.v', l); });
+      const hp = () => Object.assign({}, HP0, S.load('pt.hp', null) || {});
+      root.querySelectorAll('[data-hp]').forEach((i) => i.addEventListener('change', () => { const s = hp(); s[i.dataset.hp] = i.value; saveRefresh('pt.hp', s); }));
+      root.querySelectorAll('[data-hpc]').forEach((c) => c.addEventListener('change', () => { const s = hp(); s[c.dataset.hpc] = c.checked; saveRefresh('pt.hp', s); }));
+      root.querySelectorAll('[data-hpe]').forEach((c) => c.addEventListener('change', () => { const s = hp(); s.eq = Object.assign({}, s.eq, { [c.dataset.hpe]: c.checked }); saveRefresh('pt.hp', s); }));
     }
   };
 
@@ -986,7 +1059,6 @@
   const fireAssist = (f) => { const ar = n(f.area) || 0; return ar < 15000 ? 0 : 1 + Math.floor((ar - 15000) / (f.ctrl ? 30000 : 15000)); };
 
   /* 클린룸 소방·배기 설계 확인표 — KOSHA P-46-2012(NFPA 318 2000판 기반) 4·5장과 6.2, 원문 문구 그대로 요약 (2026-09-27 원문 대조) */
-  const B = (ko, en) => ({ ko, en });
   const CR_GROUPS = [
     { t: B('자동식 소화설비', 'Automatic suppression'), c: '4.1', items: [
       ['sp-all', B('습식 자동 스프링클러설비를 클린룸·클린지역을 포함한 시설 전체에 설치', 'Wet automatic sprinklers throughout the facility, cleanrooms and clean zones included'), '4.1'],

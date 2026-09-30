@@ -52,6 +52,20 @@
     return out;
   };
 
+  /* 소음 노출량·등가소음 — 고시 별표2-1(90dB 8시간, 5dB 교환율), KOSHA W-23-2016 6.2(8)(9)(13)(14)(역치 80dB, D = Σ C/T × 100),
+     8시간 환산 TWA = 90 + 16.61·log₁₀(D/100) (W-23 부록2 표와 #qa에서 대조) */
+  S.noiseEval = function (segs) {
+    const n = (v) => (v === '' || v == null || isNaN(Number(v)) ? null : Number(v));
+    const allow = (Lv) => 8 / Math.pow(2, (Lv - 90) / 5);
+    let dose = 0, over115 = false;
+    segs.forEach(([l, h]) => { const Lv = n(l), hr = n(h); if (Lv == null || hr == null) return; if (Lv > 115) over115 = true; if (Lv >= 80) dose += hr / allow(Lv); });
+    const D = dose * 100;
+    const twa = D > 0 ? S.noiseTwa(D) : null;
+    const intense = [[90, 8], [95, 4], [100, 2], [105, 1], [110, 0.5], [115, 0.25]].filter(([lv, hh]) => segs.reduce((a, [l, h]) => a + ((n(l) || 0) >= lv ? (n(h) || 0) : 0), 0) >= hh);
+    return { D, twa, over115, intense };
+  };
+  S.noiseTwa = (D) => 90 + 16.61 * Math.log10(D / 100);
+
   const worst = (list) => (list.some((x) => x.level === 'bad') ? 'bad' : list.some((x) => x.level === 'warn') ? 'warn' : list.some((x) => x.level === 'ok') ? 'ok' : 'info');
   const verdictText = (lv) => ({ bad: T('초과·위험', 'Exceeded / danger'), warn: T('주의', 'Caution'), ok: T('기준 이내', 'Within limits'), info: T('참고', 'Note') }[lv]);
 
@@ -177,12 +191,7 @@
       label: () => T('소음', 'Noise'),
       render() {
         const st = S.load('m.noise', { segs: [['92', '3'], ['86', '4'], ['78', '1']] });
-        const allow = (Lv) => 8 / Math.pow(2, (Lv - 90) / 5);
-        let dose = 0, over115 = false; const used = [];
-        st.segs.forEach(([l, h]) => { const Lv = num(l), hr = num(h); if (Lv == null || hr == null) return; if (Lv > 115) over115 = true; if (Lv >= 80) { const Ta = allow(Lv); dose += hr / Ta; used.push([Lv, hr, Ta]); } });
-        const D = dose * 100;
-        const twa = D > 0 ? 90 + 16.61 * Math.log10(D / 100) : null;
-        const intense = [[90, 8], [95, 4], [100, 2], [105, 1], [110, 0.5], [115, 0.25]].filter(([lv, hh]) => st.segs.reduce((a, [l, h]) => a + ((num(l) || 0) >= lv ? (num(h) || 0) : 0), 0) >= hh);
+        const { D, twa, over115, intense } = S.noiseEval(st.segs);
         const lv = over115 || D > 100 ? 'bad' : (twa != null && twa >= 85) ? 'warn' : 'ok';
         return `<div class="grid g2">
           <div class="panel stack">
@@ -198,7 +207,7 @@
             <div class="small">${T('8시간 환산 등가 소음', '8-h equivalent level')}: <b class="num">${twa == null ? '–' : S.fmt(twa, 1) + ' dB(A)'}</b></div>
             ${twa != null && twa >= 85 ? `<div class="callout warn small">${T('1일 8시간 기준 85dB 이상 → “소음작업” (안전보건규칙 제512조 제1호). 청력보존 프로그램 요소(노출 평가·공학적 대책·청력보호구·교육·정기 청력검사 등)를 점검하세요.', '≥ 85 dB over 8 h → a “noise job” (OSH Standards Rules Art. 512(1)). Review the hearing-conservation programme elements (exposure assessment, engineering controls, protectors, training, audiometry).')}${S.cite('lawStd')} <a href="#sop/noise">${T('소음 작업·청력보존 SOP', 'Noise & hearing SOP')} →</a></div>` : ''}
             ${intense.length ? `<div class="callout bad small">${T('“강렬한 소음작업” 해당 조건', 'Meets “intense noise job” condition')}: ${intense.map(([lv2, hh]) => `${lv2} dB ≥ ${hh} h`).join(', ')} (${T('제512조 제2호', 'Art. 512(2)')})</div>` : ''}
-            <p class="xs muted">${T('계산 가정: 표 사이 값은 같은 5dB 교환율로 보간, 80dB(A) 미만 구간은 제외(포털 가정). 등가소음 = 90 + 16.61·log₁₀(D/100). 법적 판정은 작업환경측정으로 합니다.', 'Assumptions: values between table rows use the same 5 dB exchange rate; intervals below 80 dB(A) are ignored (portal assumption). Equivalent level = 90 + 16.61·log₁₀(D/100). Legal findings rest on formal measurement.')}</p>
+            <p class="xs muted">${T('계산: 노출량 D = Σ(노출시간 ÷ 허용시간) × 100, 표 사이 값은 같은 5dB 교환율로 보간, 80dB(A) 미만은 누적하지 않음(역치 80dB — 국내·미국 OSHA), 8시간 환산 = 90 + 16.61·log₁₀(D/100) — KOSHA W-23-2016 6.2(8)·(9)·(14)와 부록2 표(노출량 10% → 73.4, 50% → 85.0dB(A))로 확인. 법적 판정은 작업환경측정으로 합니다.', 'Calculation: dose D = Σ(hours ÷ allowed hours) × 100; values between table rows use the same 5 dB exchange rate; levels below 80 dB(A) are not accumulated (80 dB threshold, as in Korea and US OSHA); 8-h equivalent = 90 + 16.61·log₁₀(D/100) — checked against KOSHA W-23-2016 6.2(8), (9), (14) and the Annex 2 table (10 % → 73.4, 50 % → 85.0 dB(A)). Legal findings rest on formal measurement.')}${S.cite('koshaW23')}</p>
           </div></div>`;
       },
       mount(root) {
