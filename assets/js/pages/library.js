@@ -182,6 +182,7 @@
           ${S.HPG[c.id] ? `<dt>${T('고압가스법', 'HP Gas Act')}</dt><dd>${T('특정고압가스', 'Specified high-pressure gas')} — ${S.esc(L(S.HPG[c.id]))}</dd>` : ''}
           ${envRow(c)}
           ${c.icsc ? `<dt>${T('위험 특성', 'Hazard notes')}</dt><dd style="color:var(--warn)">${L(c.icsc)}${S.cite('icsc')}</dd>` : ''}
+          ${c.hzk ? `<dt>${T('위험 특성', 'Hazard notes')}</dt><dd style="color:var(--warn)">${L(c.hzk)}${S.cite(...c.hzk.src)}</dd>` : ''}
           ${S.chemLinks(c) ? `<dt>${T('자료', 'Data sheets')}</dt><dd>${S.chemLinks(c)}</dd>` : ''}
           ${procs.length ? `<dt>${T('관련 공정', 'Processes')}</dt><dd>${procs.map((p) => `<a href="#hazards/${p.id}">${S.esc(L(p))}</a>`).join(' · ')}${S.cite(...procSrc(c))}</dd>` : ''}
           ${sops.length ? `<dt>SOP</dt><dd>${sops.map((s) => `<a href="#sop/${s.id}">${S.esc(L(s.t))}</a>`).join('<br>')}</dd>` : ''}

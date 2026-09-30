@@ -73,7 +73,9 @@ SHE.KOSHA = {
   'P-21-2010': { ko: '불산 취급공정의 안전에 관한 기술지침', en: 'Safety of processes handling hydrofluoric acid', f: 'FL00015884173', s: 3, d: '2010-08-31' },
   'P-153-2016': { ko: '독성가스 취급시설 등의 안전관리에 관한 기술지침', en: 'Safety of toxic-gas facilities', f: 'FL00015884154', s: 3, d: '2016-12-19' },
   'P-46-2012': { ko: '클린룸의 안전관리에 관한 기술지침', en: 'Safety management of cleanrooms', f: 'FL00015884200', s: 3, d: '2012-07-18' },
-  'E-188-2021': { ko: '정전기 재해예방에 관한 기술지침', en: 'Preventing static-electricity accidents', f: 'FL00016378576', s: 2, d: '2021-12-01' }
+  'E-188-2021': { ko: '정전기 재해예방에 관한 기술지침', en: 'Preventing static-electricity accidents', f: 'FL00016378576', s: 2, d: '2021-12-01' },
+  /* 업데이트 #16 — 자연발화성·물반응성 물질(알킬알루미늄) SOP 근거 (산업안전포털 목록·원문 PDF 전문 확인 2026-10-01) */
+  'C-C-3-2025': { ko: '물반응성 물질 및 인화성고체의 취급·저장에 관한 기술지원규정', en: 'Handling and storage of water-reactive substances and flammable solids', f: 'FL00021380507', s: 3, d: '2025-03-26' }
 };
 /* 구 번호 → 현행 번호 (예전 번호로 적힌 데이터도 현행 지침으로 연결) */
 SHE.KOSHA_OLD = {};
@@ -869,6 +871,39 @@ SHE.SOPS = [
       { q: B('클린룸 안에 둘 수 있는 위험물의 양은? (P-46 6.1(3))', 'How much chemical may stay in the cleanroom? (P-46 6.1(3))'), o: [B('공구 안 용량이나 하루(24시간) 공급량', 'What the tool holds or one day’s supply'), B('일주일 사용량', 'A week’s supply'), B('제한 없음', 'No limit')], a: 0 },
       { q: B('화학물질 수레의 전체 용량 한도는? (P-46 6.3(4))', 'Maximum capacity of a chemical cart? (P-46 6.3(4))'), o: [B('200L 이하', '200 L or less'), B('500L 이하', '500 L or less'), B('1,000L 이하', '1,000 L or less')], a: 0 },
       { q: B('피난 복도에 약품 수레를 잠시 세워 두어도 되나? (P-46 6.3(1))', 'May a chemical cart wait briefly in an escape corridor? (P-46 6.3(1))'), o: [B('안 된다', 'No'), B('10분 이내면 된다', 'Yes, under 10 minutes'), B('사람이 지키면 된다', 'Yes, if someone watches it')], a: 0 }
+    ]
+  },
+  /* 업데이트 #16 — KOSHA C-C-3-2025(물반응성 물질·인화성고체 취급·저장) 4.8.4·5.1 원문, 안전보건규칙 제225조·제226조·제237조·별표1 제2호 사목(알킬알루미늄),
+     위험물안전관리법 제5조로 구성 (2026-10-01 확인). 지침의 적용범위가 규칙 별표1 제2호라 알킬알루미늄(TMA)이 직접 포함된다 */
+  {
+    id: 'pyrophoric', level: 'A', edu: [4], permits: [], chems: ['tma'],
+    t: B('자연발화성·물반응성 물질 보관·운반 (TMA 등 알킬알루미늄)', 'Storing and moving pyrophoric, water-reactive substances (TMA and other alkylaluminiums)'),
+    area: B('원자층 증착(ALD) 전구체 트라이메틸알루미늄(TMA) 등 알킬알루미늄 용기의 보관·운반·반입, 위험물 저장소', 'Storing, moving and delivering containers of trimethylaluminium (TMA), the atomic-layer-deposition precursor, and other alkylaluminiums; hazardous-material stores'),
+    hz: B(['공기에 노출되면 자연발화 (C-C-3 4.8.4(1))', '물과 닿으면 심하게 반응하고 폭발 (4.8.4(2))', '증기는 150℃ 이상에서 분해 (4.8.4(3))', '밀봉할 때 들어간 습기와 반응해 용기 안에 수소가 찰 수 있음 (5.1(9))'], ['Ignites spontaneously on exposure to air (C-C-3 4.8.4(1))', 'Reacts violently and explodes on contact with water (4.8.4(2))', 'Vapour decomposes above 150 °C (4.8.4(3))', 'Moisture sealed in with it can form hydrogen inside the container (5.1(9))']),
+    legal: [B('안전보건규칙 별표1 제2호 사목 — 알킬알루미늄·알킬리튬은 ‘물반응성 물질 및 인화성 고체’', 'OSH Standards Rules Annex 1 item 2(g) — alkylaluminiums and alkyllithiums are “water-reactive substances and flammable solids”'),
+            B('같은 규칙 제225조제2호 — 물반응성 물질을 점화원에 가까이 하거나, 발화를 촉진하는 물질 또는 물에 접촉시키거나, 가열·마찰·충격을 가하는 행위 금지(적절한 방호조치 없이) / 제226조 — 물과의 접촉을 막기 위해 완전 밀폐된 용기에 저장·취급하거나 빗물 등이 스며들지 않는 건축물 안에 보관·취급 / 제237조 — 알킬알루미늄 등 자연발화 위험 물질을 쌓아 둘 때 위험한 온도로 오르지 않게 화재예방 조치', 'Same Rules Art. 225(2) — without proper protection, never bring water-reactive substances near ignition sources, let them touch substances that promote ignition or water, or heat, rub or strike them / Art. 226 — store and handle them in fully sealed containers or inside buildings that rain cannot enter / Art. 237 — when stockpiling alkylaluminiums and other pyrophorics, prevent dangerous temperature rise'),
+            B('KOSHA C-C-3-2025 5.1 — 건조하고 내화시설이 된 저장실, 빗물·지하수가 스며들지 않는 건물(1)(2), 저장지역에 물·수증기 배관을 두지 않고 스프링클러 소화설비도 쓰지 않음(3), 용기 미끄럼 방지(4), 다른 위험물·수용액·함습물·흡습성 물질과 함께 저장 금지(5), 수소를 빼는 상부 환기(6), 완전히 밀봉한 용기로 필요한 최소량만 옮김(8), 해머 등으로 뚜껑을 여는 것 금지(9), 물·질소·이산화탄소·사염화탄소·탄산칼슘·포말·분말 소화제 사용 금지(10), 장갑·보안경(11), 본딩·접지(13), 표지(14)', 'KOSHA C-C-3-2025 5.1 — dry, fire-resistant stores in buildings that rain and groundwater cannot enter ((1)(2)); no water or steam pipes and no sprinkler systems in the storage area ((3)); non-slip containers ((4)); never store with other hazardous materials, aqueous solutions, damp or hygroscopic substances ((5)); high-level ventilation to clear hydrogen ((6)); move only the minimum needed in fully sealed containers ((8)); never open lids with a hammer ((9)); no water, nitrogen, carbon dioxide, carbon tetrachloride, calcium carbonate, foam or dry-powder extinguishers ((10)); gloves and safety glasses ((11)); bonding and earthing ((13)); signs ((14))'),
+            B('위험물안전관리법 제5조① — 알킬알루미늄(제3류, 지정수량 10kg) 지정수량 이상은 허가받은 제조소등에서만 저장·취급', 'Dangerous Substances Act Art. 5(1) — alkylaluminiums (class 3, designated quantity 10 kg) at or above the designated quantity only in licensed facilities')],
+    src: ['koshaReactive', 'lawStd', 'lawDg'], kosha: ['C-C-3-2025'],
+    next: [{ link: '#hazards/tma', t: B('TMA 물질 정보', 'TMA substance data') }, { link: '#psm/dg', t: B('위험물 지정수량 배수 계산', 'Designated-quantity calculator') }, { link: '#fire', t: B('클린룸 소방·배기 설계 확인표', 'Cleanroom fire & exhaust checklist') }],
+    steps: [
+      { s: B('저장 장소 확인', 'Check the store'), h: B('빗물·지하수·누수와 접촉', 'Contact with rain, groundwater or leaks'), c: B('건조하고 내화시설이 된 저장실인지, 빗물·지하수가 스며들지 않는 건물인지 확인', 'Confirm the store is dry and fire-resistant, in a building rain and groundwater cannot enter'), b: 'kosha:C-C-3 5.1(1)(2)|C-C-3 5.1(1)(2)' },
+      { s: B('물 배관·스프링클러 확인', 'Check for water lines and sprinklers'), h: B('배관 누수·살수로 물과 접촉', 'Water contact from a leaking pipe or sprinkler'), c: B('저장지역에 물·수증기 배관이 지나가지 않고 스프링클러 소화설비가 없는지 확인', 'Confirm no water or steam pipes run through the storage area and it has no sprinkler system'), b: 'kosha:C-C-3 5.1(3)|C-C-3 5.1(3)' },
+      { s: B('분리 저장', 'Store apart'), h: B('함습물·수용액과 반응', 'Reaction with damp materials or solutions'), c: B('다른 위험물·수용액·함습물·흡습성 물질과 함께 두지 않고, 빈 용기도 저장실에 두며 미끄럼 방지', 'Keep away from other hazardous materials, solutions, damp or hygroscopic substances; keep empties in the store too, on non-slip footing'), b: 'kosha:C-C-3 5.1(4)(5)|C-C-3 5.1(4)(5)' },
+      { s: B('밀폐·온도 관리', 'Seal and control temperature'), h: B('공기 접촉 자연발화·온도 상승', 'Spontaneous ignition in air, temperature rise'), c: B('완전 밀폐된 용기에 저장하고, 쌓아 둘 때 위험한 온도로 오르지 않게 관리하며 점화원·가열·마찰·충격을 피함', 'Keep in fully sealed containers, prevent dangerous temperature rise when stockpiled, and avoid ignition sources, heat, friction and impact'), b: 'law:안전보건규칙 제225조제2호·제226조·제237조|Standards Rules Arts. 225(2), 226, 237' },
+      { s: B('환기·표지', 'Ventilation and signs'), h: B('수소 축적, 잘못된 소화제 사용', 'Hydrogen build-up, wrong extinguisher'), c: B('저장실 상부 환기를 확인하고, 저장지역·용기에 물 접촉 금지와 쓸 수 있는 소화제를 표지', 'Check high-level ventilation, and sign the area and containers for no water contact and the right extinguishing agent'), b: 'kosha:C-C-3 5.1(6)(14)|C-C-3 5.1(6)(14)' },
+      { s: B('최소량 운반', 'Move the minimum'), h: B('운반 중 파손·공기 노출', 'Breakage or air exposure in transit'), c: B('사용할 곳으로는 완전히 밀봉된 용기로 필요한 최소량만 꺼내 옮김', 'Take out only the minimum needed and move it in a fully sealed container'), b: 'kosha:C-C-3 5.1(8)|C-C-3 5.1(8)' },
+      { s: B('개봉·접지·보호구', 'Opening, earthing, PPE'), h: B('용기 속 수소 점화, 화상', 'Igniting hydrogen in the container, burns'), c: B('해머 등으로 뚜껑을 열지 않고, 장치·금속을 본딩·접지하며 장갑·보안경 착용', 'Never open lids with a hammer; bond and earth equipment and metalwork; wear gloves and safety glasses'), b: 'kosha:C-C-3 5.1(9)(11)(13)|C-C-3 5.1(9)(11)(13)' },
+      { s: B('저장량 관리', 'Stock control'), h: B('지정수량 초과 저장', 'Exceeding the designated quantity'), c: B('알킬알루미늄은 지정수량 10kg — 저장소별 배수를 관리해 허가된 곳에만 둠', 'Alkylaluminiums have a 10 kg designated quantity — track each store’s multiple and keep stock only in licensed places'), b: 'law:위험물안전관리법 제5조①|Dangerous Substances Act Art. 5(1)' }
+    ],
+    stop: B(['저장지역에 물·수증기 배관이나 누수 흔적', '용기 밀봉 불량·손상', '물 접촉 금지·소화제 표지가 없음', '수용액·함습물과 같은 곳에 보관'], ['Water or steam pipes, or signs of leaks, in the storage area', 'A poorly sealed or damaged container', 'No “no water” or extinguishing-agent sign', 'Stored with solutions or damp materials']),
+    emer: B(['새거나 불이 나면 물·포말·이산화탄소·분말 소화제를 쓰지 말고(C-C-3 5.1(10)) 대피·신고', '소화는 훈련받은 대원이 해당 물질의 물질안전보건자료(MSDS) 소화 방법에 따라 함'], ['If it leaks or burns, do not use water, foam, carbon dioxide or dry powder (C-C-3 5.1(10)); evacuate and report', 'Leave firefighting to trained responders following the substance’s safety data sheet']),
+    card: { do: B(['완전 밀폐·건조 보관', '필요한 최소량만 옮기기', '본딩·접지 후 작업'], ['Keep sealed and dry', 'Move only the minimum', 'Bond and earth before work']),
+            dont: B(['물·포말·분말 소화제로 끄기', '해머로 뚜껑 열기', '수용액·함습물 옆에 두기'], ['Fight it with water, foam or dry powder', 'Open lids with a hammer', 'Store beside solutions or damp materials']) },
+    quiz: [
+      { q: B('트라이메틸알루미늄(TMA)의 특성은? (C-C-3 4.8.4)', 'Trimethylaluminium (TMA) is… (C-C-3 4.8.4)'), o: [B('공기에 노출되면 자연발화하고 물과 심하게 반응', 'Ignites in air and reacts violently with water'), B('물에 녹아 안전해짐', 'Made safe by dissolving in water'), B('가열해야만 불이 붙음', 'Burns only when heated')], a: 0 },
+      { q: B('물반응성 물질 저장지역에 대한 C-C-3 5.1(3)의 요구는?', 'What does C-C-3 5.1(3) require of water-reactive stores?'), o: [B('물·수증기 배관과 스프링클러를 두지 않음', 'No water or steam pipes and no sprinklers'), B('스프링클러를 두 배로 설치', 'Twice the sprinklers'), B('바닥에 물을 받아 둠', 'Keep water on the floor')], a: 0 },
+      { q: B('알킬알루미늄의 위험물 지정수량은?', 'Designated quantity for alkylaluminiums?'), o: [B('10kg', '10 kg'), B('100kg', '100 kg'), B('1,000kg', '1,000 kg')], a: 0 }
     ]
   },
   /* 13단계 — KOSHA H-123-2013(불산·불화수소 중독 예방·응급대응)·P-21-2010(불산 취급공정 안전) 원문과 안전보건규칙 제451조로 구성 (2026-09-27 확인).

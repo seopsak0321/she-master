@@ -5,11 +5,22 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v86';
+SHE.BUILD = 'v87';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 15, v: SHE.BUILD, date: '2026-10-01',
+    { no: 16, v: SHE.BUILD, date: '2026-10-01',
+      t: B('자연발화성·물반응성 물질(TMA) SOP — KOSHA C-C-3-2025', 'Pyrophoric and water-reactive substances (TMA) SOP — KOSHA C-C-3-2025'),
+      add: [
+        B('SOP ‘자연발화성·물반응성 물질 보관·운반 (TMA 등 알킬알루미늄)’ (SOP 28 → 29종) — KOSHA C-C-3-2025(물반응성 물질·인화성고체 취급·저장, 2025.3.26 공표) 4.8.4·5.1과 안전보건규칙 제225조제2호·제226조·제237조·별표1 제2호 사목, 위험물안전관리법 제5조: 건조·내화 저장실, 저장지역에 물·수증기 배관·스프링클러 금지, 분리 저장, 완전 밀폐·온도 관리, 상부 환기·표지, 최소량 운반, 해머 개봉 금지·본딩·접지·보호구, 지정수량 10kg — 8단계 모두 조항 근거, 특별교육 별표5 4호 연결', 'SOP “Storing and moving pyrophoric, water-reactive substances (TMA and other alkylaluminiums)” (SOPs 28 → 29) — from KOSHA C-C-3-2025 (water-reactive substances and flammable solids, published 2025-03-26) 4.8.4 and 5.1, Standards Rules Arts. 225(2), 226, 237 and Annex 1 item 2(g), and Dangerous Substances Act Art. 5: dry fire-resistant stores, no water or steam pipes or sprinklers in the storage area, segregation, full sealing and temperature control, high-level ventilation and signs, moving the minimum, no hammer-opening, bonding, earthing and PPE, 10 kg designated quantity — all eight steps cite a clause; linked to special training item 4 of Annex 5'),
+        B('물질 상세 ‘트라이메틸알루미늄(TMA)’에 위험 특성(공기 중 자연발화, 물과 폭발적 반응, 150℃ 이상 분해, 금지 소화제)을 KOSHA 원문으로, 증착 공정 카드에 새 SOP 연결. 용어 사전 54 → 55개 — 물반응성 물질', 'The trimethylaluminium (TMA) entry gains hazard notes from the KOSHA text (ignites in air, reacts explosively with water, decomposes above 150 °C, extinguishers to avoid), and the deposition process card links the new SOP; glossary 54 → 55 — water-reactive substance')
+      ],
+      chg: [
+        B('클린룸 소방·배기 설계 확인표에 적용 범위 구분 안내 — P-46 4.1(시설 전체 습식 스프링클러)과 C-C-3 5.1(3)(물반응성 물질 저장지역에 스프링클러·물 배관 금지)', 'Cleanroom fire and exhaust checklist now explains the scope difference — P-46 4.1 (wet sprinklers throughout) versus C-C-3 5.1(3) (no sprinklers or water lines in water-reactive stores)'),
+        B('출처 155 → 156건(KOSHA C-C-3-2025), KOSHA 지침 49 → 50건', 'Sources 155 → 156 (KOSHA C-C-3-2025); KOSHA guides 49 → 50')
+      ],
+      fix: [] },
+    { no: 15, v: 'v86', date: '2026-10-01 00:17', commit: 'b411ac4',
       t: B('클린룸 소방·배기 설계 확인표 — KOSHA P-46 4·5장', 'Cleanroom fire and exhaust design checklist — KOSHA P-46 ch. 4–5'),
       add: [
         B('소방·방재 화면 새 패널 ‘클린룸 소방·배기 설계 확인표’ — KOSHA P-46-2012(NFPA 318 기반) 4장 소방설비(습식 스프링클러 280㎡·8.2 L/min, 하강기류 속동형 헤드, 인화성 가스 캐비닛·실란 실린더 헤드, 직경 250㎜ 이상 가연성 배기닥트 내부 헤드, 경보, 배기흐름 연기감지·실란 감지 시 자동 차단), 5장 환기·배기(재순환 금지·지붕 위 방출, 배기닥트 방화댐퍼 금지, 비상전원 50% 이상, 화재감지로 배기팬 차단 인터록 금지), 6.2 인화성 액체 이송설비 — 27개 항목을 조항 번호와 함께 체크, 진행률 표시', 'New fire-page panel “Cleanroom fire & exhaust design checklist” — from KOSHA P-46-2012 (based on NFPA 318): chapter 4 fire protection (wet sprinklers at 8.2 L/min over 280 m², quick-response heads in downflow, heads in flammable-gas cabinets and at silane cylinders, in-duct heads for combustible exhaust ducts 250 mm or more across, alarms, smoke detection in the exhaust stream and silane detection that shuts the cylinder), chapter 5 ventilation and exhaust (no recirculation, discharge above the roof, no fire dampers in exhaust ducts, 50 % on emergency power, no fire-alarm interlock that stops exhaust fans) and 6.2 flammable-liquid transfer — 27 items with clause numbers and a progress count'),
