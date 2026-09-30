@@ -5,11 +5,23 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v85';
+SHE.BUILD = 'v86';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 14, v: SHE.BUILD, date: '2026-09-27',
+    { no: 15, v: SHE.BUILD, date: '2026-10-01',
+      t: B('클린룸 소방·배기 설계 확인표 — KOSHA P-46 4·5장', 'Cleanroom fire and exhaust design checklist — KOSHA P-46 ch. 4–5'),
+      add: [
+        B('소방·방재 화면 새 패널 ‘클린룸 소방·배기 설계 확인표’ — KOSHA P-46-2012(NFPA 318 기반) 4장 소방설비(습식 스프링클러 280㎡·8.2 L/min, 하강기류 속동형 헤드, 인화성 가스 캐비닛·실란 실린더 헤드, 직경 250㎜ 이상 가연성 배기닥트 내부 헤드, 경보, 배기흐름 연기감지·실란 감지 시 자동 차단), 5장 환기·배기(재순환 금지·지붕 위 방출, 배기닥트 방화댐퍼 금지, 비상전원 50% 이상, 화재감지로 배기팬 차단 인터록 금지), 6.2 인화성 액체 이송설비 — 27개 항목을 조항 번호와 함께 체크, 진행률 표시', 'New fire-page panel “Cleanroom fire & exhaust design checklist” — from KOSHA P-46-2012 (based on NFPA 318): chapter 4 fire protection (wet sprinklers at 8.2 L/min over 280 m², quick-response heads in downflow, heads in flammable-gas cabinets and at silane cylinders, in-duct heads for combustible exhaust ducts 250 mm or more across, alarms, smoke detection in the exhaust stream and silane detection that shuts the cylinder), chapter 5 ventilation and exhaust (no recirculation, discharge above the roof, no fire dampers in exhaust ducts, 50 % on emergency power, no fire-alarm interlock that stops exhaust fans) and 6.2 flammable-liquid transfer — 27 items with clause numbers and a progress count'),
+        B('현장에서 거꾸로 알기 쉬운 3가지(화재 시에도 배기 유지, 배기닥트 방화댐퍼 금지, 배기 재순환 금지)와 관련 SOP·실란 물질 정보 연결', 'Three points often assumed the other way round (exhaust keeps running in a fire, no fire dampers in exhaust ducts, no exhaust recirculation), with links to the related SOPs and silane data'),
+        B('최신 동향 2건 — 고용노동부 ‘3+1 기초 안전수칙’(안전모·안전대·좌석 안전띠 + 이동식 사다리) 1,000개소 집중점검 10.6~10.16과 11월 화재·폭발 예방 집중점검 예고(9.28 발표, 고소작업 SOP로 연결), 2026년 3분기 신규화학물질 63종 유해성·위험성 공표(9.30 발표)', 'Two news items — MOEL’s “3+1 basic rules” inspection (hard hats, harnesses, seat belts plus portable ladders) at 1,000 sites on 6–16 Oct and a fire and explosion inspection announced for November (28 Sep, linked to the work-at-height SOP), and the Q3 2026 hazards of 63 new chemicals (30 Sep)')
+      ],
+      chg: [
+        B('소방·방재 페이지 가이드에 확인표 사용법 추가', 'Fire page guide explains the checklist'),
+        B('출처 153 → 155건(고용노동부 보도자료 2건)', 'Sources 153 → 155 (two MOEL press releases)')
+      ],
+      fix: [] },
+    { no: 14, v: 'v85', date: '2026-09-27 21:11', commit: '29382c5',
       t: B('화학물질 배출량조사·온실가스 배출권거래제 탭 — NF₃가 법정 온실가스로(2026.10.8)', 'Chemical release survey and GHG emissions-trading tabs — NF₃ becomes a statutory greenhouse gas (8 Oct 2026)'),
       add: [
         B('환경 화면 새 탭 ‘배출량조사’ — 화학물질관리법 제11조·시행규칙 제5조·기후에너지환경부고시 제2025-52호: 대상 판정(별표1 업종 — 반도체 소자 26111·26112·26121·26129, 배출시설 허가·신고, 별표2 물질 Ⅰ그룹 연 1톤·Ⅱ그룹 연 10톤), 매년 4월 30일 전년도 조사표, 조사 내용·산정 방법 4가지·제외 물질 9가지, 반도체 공정 물질 38종의 별표2 그룹·번호·함유율 대조', 'New environment tab “Release survey” — from Chemicals Control Act Art. 11, Rule Art. 5 and MCEE Notice No. 2025-52: coverage check (Annex 1 industries — semiconductor devices 26111, 26112, 26121, 26129; emission-facility permit or notice; Annex 2 substances at 1 t/yr for group I or 10 t/yr for group II), last year’s form by 30 April, contents, four estimation methods, nine exclusions, and the Annex 2 group, number and content threshold for 38 fab substances'),

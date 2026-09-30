@@ -985,6 +985,48 @@
   };
   const fireAssist = (f) => { const ar = n(f.area) || 0; return ar < 15000 ? 0 : 1 + Math.floor((ar - 15000) / (f.ctrl ? 30000 : 15000)); };
 
+  /* 클린룸 소방·배기 설계 확인표 — KOSHA P-46-2012(NFPA 318 2000판 기반) 4·5장과 6.2, 원문 문구 그대로 요약 (2026-09-27 원문 대조) */
+  const B = (ko, en) => ({ ko, en });
+  const CR_GROUPS = [
+    { t: B('자동식 소화설비', 'Automatic suppression'), c: '4.1', items: [
+      ['sp-all', B('습식 자동 스프링클러설비를 클린룸·클린지역을 포함한 시설 전체에 설치', 'Wet automatic sprinklers throughout the facility, cleanrooms and clean zones included'), '4.1'],
+      ['sp-design', B('설계면적 280㎡에 대해 바닥면적 1㎡당 8.2 L/min으로 설계', 'Designed for 8.2 L/min per m² of floor over a 280 m² design area'), '4.1(1)'],
+      ['sp-qr', B('하강기류 안의 스프링클러는 속동형(Quick response) 헤드', 'Quick-response heads in the downflow air stream'), '4.1(2)'],
+      ['sp-cab', B('인화성 가스 실린더 캐비닛 안에 스프링클러헤드', 'Sprinkler heads inside flammable-gas cylinder cabinets'), '4.1(3)'],
+      ['sp-silane', B('실란 공급지역의 실린더마다 속동형 자동 헤드 또는 일제살수식 — 개방공급시스템을 구조물에서 멀리 두고 폭발영향을 줄이도록 설계했다면 자동 일제살수 물분무는 생략 가능', 'Each silane cylinder has an automatic quick-response head or a deluge system — automatic deluge water spray may be omitted if the open dispensing system is remote from structures and designed to limit blast effects'), '4.1(4)'],
+      ['sp-duct', B('최대 단면 직경 250㎜ 이상인 가연성 배기닥트 안에 자동 헤드 — 헤드 간격×닥트 폭 면적에 1.9 L/min, 가장 먼 헤드 76 L/min 이상, 간격 수평 6.1m·수직 3.7m 이하', 'Automatic heads inside combustible exhaust ducts 250 mm or more across — 1.9 L/min over head spacing × duct width, at least 76 L/min at the furthest head, spaced no more than 6.1 m horizontally and 3.7 m vertically'), '4.1(5)(가)'],
+      ['sp-duct2', B('닥트 헤드마다 개별 표시형 제어밸브, 소화수를 빼는 배수구, 부식성 분위기면 내식 재질·코팅, 점검하기 쉬운 위치', 'Each duct head has its own indicating control valve, a drain for the water, corrosion-resistant material or coating in corrosive service, and easy access for inspection'), '4.1(5)(나)~(마)'],
+      ['sp-trans', B('인화성 물질을 운반하는 공간에 자동 스프링클러', 'Automatic sprinklers in spaces used to move flammable materials'), '4.1(5)(바)']] },
+    { t: B('경보·감지', 'Alarm & detection'), c: '4.2·4.3', items: [
+      ['al-auto', B('자동화재진압설비가 작동하면 발생지역과 사람이 상주하는 곳에 음향·시각 경보', 'When automatic suppression operates, audible and visual alarms in the area and where people are stationed'), '4.2(1)'],
+      ['al-man', B('수동 통보장치 설치', 'Manual alarm devices'), '4.2(2)'],
+      ['de-exh', B('연기감지는 외부 공기로 희석되기 전 클린룸 배기흐름 안에서 — 최소 감도 0.3m당 0.03%, 10㎛ 이하 입자 감지', 'Smoke detection in the cleanroom exhaust before dilution with outside air — sensitivity at least 0.03 % per 0.3 m, detecting particles of 10 µm or less'), '4.3(1)'],
+      ['de-ahu', B('공조설비 안의 연기감지 경보는 클린룸의 다른 경보와 구분해 상주 장소로', 'Smoke alarms from the air-handling system are distinct from other cleanroom alarms and go to a staffed location'), '4.3(2)'],
+      ['de-silane', B('실란 실린더 개방공급시스템에 감지기 — 감지되면 실린더 자동 차단밸브 작동', 'Detectors in silane open dispensing systems that trip the cylinder’s automatic shut-off valve'), '4.3(3)']] },
+    { t: B('급기·재순환', 'Supply & recirculation'), c: '5.1', items: [
+      ['su-intake', B('외기 흡입구는 자체 건물·다른 구조물·장치에서 나온 위험물이나 연소생성물이 들어오지 않는 위치', 'Outside-air intakes placed so hazardous materials or combustion products from the building, other structures or equipment are not drawn in'), '5.1(1)'],
+      ['su-duct', B('급기·재순환 닥트와 연결부는 불연성 재료(또는 방폭지역에 적합한 재료), 급기닥트는 화염확산지수 25 이하·연기성장율 50 미만', 'Supply and recirculation ducts and fittings of non-combustible material (or material suited to the hazardous area); supply ducts with a flame-spread index of 25 or less and smoke development below 50'), '5.1(3)(4)']] },
+    { t: B('국부 배기', 'Local exhaust'), c: '5.2', items: [
+      ['ex-norecirc', B('클린룸 배기는 재순환하지 않고, 다시 빨려 들지 않을 장소·높이·속도로 지붕 위로 방출', 'Cleanroom exhaust is never recirculated and is discharged above the roof at a location, height and velocity that prevent re-entry'), '5.2(1)'],
+      ['ex-flex', B('인화성 물질을 쓰는 작업장과 연결된 배기닥트에 신축이음을 쓰지 않음', 'No flexible connections on exhaust ducts serving work areas that use flammables'), '5.2(4)'],
+      ['ex-sep', B('배기닥트는 따로 설치해 건물 구조를 닥트로 쓰지 않고, 두 가지 이상 물질을 배기하는 설비끼리 연결하지 않음(닥트 안 화재·폭발·화학반응 우려)', 'Exhaust ducts are separate — the building structure is never used as a duct — and systems exhausting different materials are not interconnected (fire, explosion or reaction in the duct)'), '5.2(5)(6)'],
+      ['ex-damper', B('배기닥트 안에 방화댐퍼를 설치하지 않고, 내화 구조를 관통하는 부분은 같은 내화도의 외함으로 보호', 'No fire dampers in exhaust ducts; where ducts pass through fire-rated construction, enclose them to the same rating'), '5.2(7)(8)'],
+      ['ex-mat', B('배기닥트는 불연성 재료로 만들거나 스프링클러로 보호', 'Exhaust ducts are non-combustible or sprinklered'), '5.2(9)']] },
+    { t: B('배기 제어', 'Exhaust control'), c: '5.3', items: [
+      ['ct-power', B('배기 환기설비에 자동 비상 예비전원 — 비상전원으로 배기 용량 50% 이상 운전', 'Automatic standby power for exhaust ventilation — at least 50 % of exhaust capacity on emergency power'), '5.3(1)(2)'],
+      ['ct-interlock', B('화재감지기·경보설비가 국소 배기팬을 자동으로 멈추도록 인터록하지 않음', 'Fire detection and alarms are not interlocked to shut down local exhaust fans'), '5.3(3)'],
+      ['ct-smoke', B('공기 취급설비로 연기를 배출하거나 전용 제연설비, 재순환 영향 지역을 끊는 수동 원격스위치', 'Air handling able to exhaust smoke or a dedicated smoke-control system, plus a manual remote switch to isolate recirculation zones'), '5.3(5)(6)']] },
+    { t: B('인화성 액체 이송설비', 'Flammable-liquid transfer'), c: '6.2', items: [
+      ['fl-gravity', B('등급 Ⅰ·Ⅱ 액체를 탱크·드럼 등에서 중력으로 배관 이송하지 않고, 승인된 공급장치 사용', 'Class I and II liquids are never gravity-fed through piping from tanks or drums; dispensing systems are approved types'), '6.2(1)'],
+      ['fl-press', B('가압설비 안전장치 — 화재 시 자동 감압벤트, 안전한 곳으로 빼는 수동벤트, 사용지점 수동차단밸브. 압축은 불활성 가스만', 'Pressure systems have automatic fire-activated depressurising vents, manual vents to a safe place and point-of-use shut-off valves; pressurise with inert gas only'), '6.2(3)(4)'],
+      ['fl-test', B('가압이송설비는 금속으로, 작동압력 150%에서 2시간 수압시험(누설·압력손실 없음), 기기 이송압력 100 kPa 이하', 'Pressure transfer systems are metal, hydrotested at 150 % of working pressure for 2 hours with no leak or pressure loss, and deliver no more than 100 kPa at the tool'), '6.2(5)~(7)'],
+      ['fl-bulk', B('벌크 이송설비 — 과류 보호, 유출 2차 봉쇄, 사용·공급 지점 수동차단, 충전레벨 감시·자동차단, 사전 설정 계량기', 'Bulk systems have excess-flow protection, secondary spill containment, manual shut-offs at use and supply points, fill-level monitoring with automatic cut-off, and preset meters'), '6.2(8)']] }
+  ];
+  const CR_ALL = CR_GROUPS.reduce((a, g) => a.concat(g.items), []);
+  /* 조항의 (가)(나)… 목 번호 — 영문 화면에서는 (a)(b)… */
+  const CR_LETTER = { 가: 'a', 나: 'b', 다: 'c', 라: 'd', 마: 'e', 바: 'f' };
+  const crClause = (c) => (S.state.lang === 'en' ? c.replace(/[가나다라마바]/g, (h) => CR_LETTER[h]).replace('~', '–') : c);
+
   S.pages.fire = {
     render() {
       const fgSaved = S.load('fire.grade', null), fgEx = !fgSaved, fg = Object.assign({}, FG_DEFAULT, fgSaved || {});
@@ -998,6 +1040,7 @@
       const sc0 = S.tab('scen', 'gas');
       const sc = SCEN_STEPS[sc0] ? sc0 : 'gas';
       const ss = SCEN_STEPS[sc];
+      const cr = S.load('fire.cr', {}), crDone = CR_ALL.filter(([k]) => cr[k]).length;
       return `
       ${ui.head(T('6대 직무 · 소방·방재', 'Six functions · Fire & emergency'), T('소방·방재', 'Fire & emergency'),
         T('소방시설 점검과 비상대피 훈련으로 사업장을 지키고 비상대응 체계를 표준화합니다.', 'Keep the site safe through fire-system inspection and evacuation drills, and standardise emergency response.'),
@@ -1051,6 +1094,21 @@
           <p class="xs muted">${S.cite('lawStd')} · ${sopLink('hot-work')}</p>
         </div>
       </section>
+      <section class="panel stack" id="anchor-cleanroom">${ui.title(T('클린룸 소방·배기 설계 확인표', 'Cleanroom fire & exhaust design checklist'), T('KOSHA P-46-2012 4·5장·6.2 (NFPA 318 기반)', 'KOSHA P-46-2012 ch. 4–5 and 6.2 (based on NFPA 318)'))}
+        <p class="small">${T('Fab 신·증설 설계 검토나 소방·배기 설비 점검 때 항목별로 확인합니다. 체크 상태는 이 브라우저에만 저장됩니다.', 'Tick each item during design reviews for new or expanded fabs, or when inspecting fire and exhaust systems. Ticks are saved in this browser only.')}</p>
+        <div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><span>${crDone === CR_ALL.length ? ui.pill('ok', T(`${crDone} / ${CR_ALL.length} 확인`, `${crDone} / ${CR_ALL.length} checked`)) : ui.pill(crDone ? 'warn' : 'info', T(`${crDone} / ${CR_ALL.length} 확인`, `${crDone} / ${CR_ALL.length} checked`))}</span>
+          ${crDone ? `<button class="btn ghost sm" type="button" id="cr-reset">${T('체크 모두 지우기', 'Clear all ticks')}</button>` : ''}</div>
+        <div class="grid g2">
+          ${CR_GROUPS.map((g) => { const d = g.items.filter(([k]) => cr[k]).length; return `<div class="result" style="gap:6px;align-content:start"><b class="small">${g.c} ${L(g.t)} <span class="xs muted">${d} / ${g.items.length}</span></b>
+            ${g.items.map(([k, t, c]) => `<label class="check"><input type="checkbox" data-cr="${k}" ${cr[k] ? 'checked' : ''}> <span>${L(t)} <span class="xs muted">(${crClause(c)})</span></span></label>`).join('')}</div>`; }).join('')}
+        </div>
+        <div class="callout small"><b>${T('현장에서 거꾸로 알기 쉬운 3가지', 'Three points often assumed the other way round')}</b>
+          <ul class="facts" style="margin-top:6px"><li>${T('화재가 나도 국소 배기팬은 멈추지 않습니다 — 화재감지·경보로 배기팬을 끄는 인터록 금지, 비상전원으로 50% 이상 운전(5.3)', 'Local exhaust keeps running in a fire — no interlock that stops it on detection or alarm, and at least 50 % on emergency power (5.3)')}</li>
+          <li>${T('배기닥트 안에는 방화댐퍼를 두지 않습니다 — 대신 불연성 닥트 또는 닥트 내부 스프링클러(5.2(8)(9), 4.1(5))', 'No fire dampers inside exhaust ducts — use non-combustible ducts or in-duct sprinklers instead (5.2(8)(9), 4.1(5))')}</li>
+          <li>${T('클린룸 배기는 재순환하지 않습니다 — 급기(재순환)와 배기는 따로, 배기는 지붕 위로(5.2(1))', 'Cleanroom exhaust is never recirculated — supply (recirculation) and exhaust are separate, and exhaust goes above the roof (5.2(1))')}</li></ul></div>
+        <p class="xs muted">${T('KOSHA 기술지침은 법령이 아닌 권고 기준이며, 이 지침은 NFPA 318 2000년판을 바탕으로 2012년 7월에 공표됐습니다(NFPA 318 현행판은 2025년판). 법정 설치 기준은 소방시설법령과 화재안전기준을 따릅니다.', 'KOSHA guides are recommended practice, not law; this one, published in July 2012, is based on the 2000 edition of NFPA 318 (current edition 2025). Legal installation requirements come from the fire-systems laws and fire-safety standards.')}${S.cite('koshaCleanroom', 'nfpa318')}</p>
+        <div class="row" style="flex-wrap:wrap;gap:6px"><span class="xs muted">${T('관련', 'Related')}</span> ${sopLink('cleanroom-chem')} ${sopLink('gas-cylinder')} ${sopLink('solvent-transfer')} <a class="chip" href="#hazards/sih4">${T('실란(SiH₄) 물질 정보', 'Silane (SiH₄) data')}</a></div>
+      </section>
       <section class="panel stack">${ui.title(T('비상대응 시나리오 카드', 'Emergency scenario cards'), T('중처법 시행령 제4조 제8호의 3가지 조치로 구성', 'Built on the three measures in SAPA Decree 4(8)'))}
         ${ui.tabs('scen', SCEN.map((s) => ({ id: s.id, label: L(s.t) })), sc)}
         <div class="grid g3">
@@ -1086,6 +1144,9 @@
       root.querySelector('#fs-full').addEventListener('change', (e) => { fs.full = e.target.checked; if (!fs.full) fs.special = false; saveRefresh('fire.sch', fs); });
       root.querySelector('#fs-special').addEventListener('change', (e) => { fs.special = e.target.checked; saveRefresh('fire.sch', fs); });
       root.querySelectorAll('[data-fw]').forEach((c) => c.addEventListener('change', () => { const f = S.load('fire.fw', { c1: true, c2: false, c3: false, routine: false }); f[c.dataset.fw] = c.checked; saveRefresh('fire.fw', f); }));
+      root.querySelectorAll('[data-cr]').forEach((c) => c.addEventListener('change', () => { const f = S.load('fire.cr', {}); if (c.checked) f[c.dataset.cr] = true; else delete f[c.dataset.cr]; saveRefresh('fire.cr', f); }));
+      const crReset = root.querySelector('#cr-reset');
+      if (crReset) crReset.addEventListener('click', () => saveRefresh('fire.cr', {}));
       const dr = () => S.load('fire.drills', null) || DRILL_DEFAULT;
       root.querySelectorAll('[data-drill-del]').forEach((b) => b.addEventListener('click', () => saveRefresh('fire.drills', dr().filter((x) => String(x.id) !== b.dataset.drillDel))));
       root.querySelector('#drillForm').addEventListener('submit', (e) => {
