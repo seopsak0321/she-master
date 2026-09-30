@@ -161,6 +161,8 @@
     }
     return parts.length ? `<dt>${T('환경 법령', 'Environmental law')}</dt><dd>${parts.join(' ')} ${go.join(' ')}</dd>` : '';
   };
+  /* KOSHA 조항의 (가)(나)… 목 — 영문 화면에서는 (a)(b)… */
+  const ccLetter = (k) => (S.state.lang === 'en' ? k.replace(/[가나다라마바사아자]/g, (h) => 'abcdefghi'['가나다라마바사아자'.indexOf(h)]) : k);
   function chemDetail(id) {
     const c = chemById(id); if (!c) return {};
     const procs = S.PROCESSES.filter((p) => c.procs.includes(p.id));
@@ -220,6 +222,9 @@
           <h3 style="font-size:calc(17px * var(--fz))">${L(p)}${S.cite(...pSrc(p))}</h3>
           <p class="small">${L(p.d)}</p>
           <ul class="facts">${L(p.hz).map((h) => `<li>${h}</li>`).join('')}</ul>
+          ${p.eq ? `<details class="small"><summary><b>${T('설비 안전 요건', 'Equipment requirements')}</b> · KOSHA C-C-65-2026 4.3 · ${p.eq.reduce((a, g) => a + g.items.length, 0)}${T('항목', ' items')}</summary>
+            ${p.eq.map((g) => `<p style="margin:8px 0 2px"><b>${L(g.h)}</b> <span class="xs muted">(${g.c})</span></p><ul class="facts">${g.items.map(([k, t]) => `<li>${L(t)}${k ? ` <span class="xs muted">${ccLetter(k)}</span>` : ''}</li>`).join('')}</ul>`).join('')}
+            <p class="xs muted">${T('설비 설계·도입 단계의 기술 권고입니다(KOSHA 기술지원규정). 실제 설비는 제조사 사양과 사내 기준을 함께 확인하세요.', 'Technical recommendations for equipment design and procurement (KOSHA guide). Check maker specifications and in-house rules for real equipment.')}${S.cite('koshaCC65')}</p></details>` : ''}
           <div class="row" style="gap:6px">${S.CHEMICALS.filter((c) => c.procs.includes(p.id)).map((c) => `<button type="button" class="chip" data-chem="${c.id}" title="${S.esc(L(c))}">${c.f}</button>`).join('')}</div>
           ${p.sops.length ? `<div class="small">SOP · ${p.sops.map((id) => `<a href="#sop/${id}">${L(S.SOPS.find((s) => s.id === id).t)}</a>`).join(' · ')}</div>` : ''}
         </article>`).join('')}</section>

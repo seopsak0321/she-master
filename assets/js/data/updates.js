@@ -5,11 +5,24 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v87';
+SHE.BUILD = 'v88';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 16, v: SHE.BUILD, date: '2026-10-01',
+    { no: 17, v: SHE.BUILD, date: '2026-10-01',
+      t: B('가스감지기 선택·사용과 공정별 설비 안전 요건 — KOSHA E-187·C-C-65', 'Gas detector choice and use, and equipment requirements by process — KOSHA E-187 and C-C-65'),
+      add: [
+        B('가스 안전 도구 다섯 번째 탭 ‘가스감지기 선택·사용’ — KOSHA E-187-2021(폭발위험장소 가스감지기 사용) 4장: 측정 범위와 환경(불활성가스·피독 물질·결로·과잉 산소)에 따라 접촉연소식·적외선식·열전도식·반도체식의 적합성 판단, 사용 주의 7가지(재교정·100 vol% 측정·규소 화합물 피독과 직전·직후 교정·결로·교육과 기록·의심 시 위험 간주·정치형 정기 확인), 정치형 설치 위치(C-C-87-2026 5.1(2)·6.1 — 무거운 가스는 하부, 가벼운 가스는 환기구 부근·상부, 피할 장소), 인터록 방폭대책은 LFL 25% 이하에서만(E-187 2), 안전보건규칙 제232조②', 'Fifth gas-tool tab “Choosing & using detectors” — from KOSHA E-187-2021 (gas detectors in hazardous areas) ch. 4: suitability of catalytic, infrared, thermal-conductivity and semiconductor types by range and conditions (inert gas, poisons, condensation, excess oxygen), seven usage cautions (recalibration, 100 vol% reading, silicon-compound poisoning with calibration just before and after use, condensation, training and records, treat doubtful readings as hazardous, regular checks of fixed units), fixed-detector locations (C-C-87-2026 5.1(2), 6.1 — heavy gases low, light gases near exhaust vents or high, places to avoid), detector interlocks only at 25 % LFL or less (E-187 2), and Standards Rules Art. 232(2)'),
+        B('공정 카드 5개에 ‘설비 안전 요건’ — KOSHA C-C-65-2026 4.3(반도체 공정별 설비)을 목 단위로: 포토(사진식각 1), 식각(드라이 에칭 9), 도핑(불순물 확산 1·이온주입 8), 증착(적층성장·CVD 5), 금속배선(증착·스퍼터 5) — 불활성가스 도입구, 챔버 개방 인터락, 정전 시 상시 닫힘 밸브·비상정지, 출납구 국소배기, 감전 방호, 고주파 도어·플라즈마 개방 인터락, 냉각수 배관, 단락봉, X선 차폐', 'Five process cards gain “equipment requirements” from KOSHA C-C-65-2026 4.3, clause by clause: photo (photolithography 1), etch (dry etch 9), doping (diffusion 1, ion implantation 8), deposition (epitaxy and CVD 5), metallization (deposition and sputtering 5) — inert-gas inlets, chamber-open interlocks, normally-closed valves and emergency stops for power loss, local exhaust at load ports, shock protection, RF door and plasma-open interlocks, cooling-water routing, shorting bars, X-ray shielding'),
+        B('용어 사전 55 → 56개 — 가스감지기 피독', 'Glossary 55 → 56 — detector poisoning')
+      ],
+      chg: [
+        B('금속배선 카드의 C-C-65 항목을 위험 목록에서 ‘설비 안전 요건’으로 옮기고 출처를 지침 원문(C-C-65-2026)으로', 'Metallization card: C-C-65 items moved from the hazard list into “equipment requirements”, citing the guide itself (C-C-65-2026)'),
+        B('특수가스 누출 비상 SOP의 다음 업무에 가스감지기 선택·사용 연결, 가스 안전 도구 페이지 가이드 보강', 'Specialty-gas leak SOP links the detector tab; gas-tools page guide updated'),
+        B('출처 156 → 158건(KOSHA E-187-2021, C-C-65-2026 원문)', 'Sources 156 → 158 (KOSHA E-187-2021 and the C-C-65-2026 text)')
+      ],
+      fix: [] },
+    { no: 16, v: 'v87', date: '2026-10-01 01:26', commit: 'c97a343',
       t: B('자연발화성·물반응성 물질(TMA) SOP — KOSHA C-C-3-2025', 'Pyrophoric and water-reactive substances (TMA) SOP — KOSHA C-C-3-2025'),
       add: [
         B('SOP ‘자연발화성·물반응성 물질 보관·운반 (TMA 등 알킬알루미늄)’ (SOP 28 → 29종) — KOSHA C-C-3-2025(물반응성 물질·인화성고체 취급·저장, 2025.3.26 공표) 4.8.4·5.1과 안전보건규칙 제225조제2호·제226조·제237조·별표1 제2호 사목, 위험물안전관리법 제5조: 건조·내화 저장실, 저장지역에 물·수증기 배관·스프링클러 금지, 분리 저장, 완전 밀폐·온도 관리, 상부 환기·표지, 최소량 운반, 해머 개봉 금지·본딩·접지·보호구, 지정수량 10kg — 8단계 모두 조항 근거, 특별교육 별표5 4호 연결', 'SOP “Storing and moving pyrophoric, water-reactive substances (TMA and other alkylaluminiums)” (SOPs 28 → 29) — from KOSHA C-C-3-2025 (water-reactive substances and flammable solids, published 2025-03-26) 4.8.4 and 5.1, Standards Rules Arts. 225(2), 226, 237 and Annex 1 item 2(g), and Dangerous Substances Act Art. 5: dry fire-resistant stores, no water or steam pipes or sprinklers in the storage area, segregation, full sealing and temperature control, high-level ventilation and signs, moving the minimum, no hammer-opening, bonding, earthing and PPE, 10 kg designated quantity — all eight steps cite a clause; linked to special training item 4 of Annex 5'),

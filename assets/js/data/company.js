@@ -216,7 +216,24 @@ SHE.CYCLES = [
   { id: 'ets-surrender', mod: 'env', t: { ko: '배출권 제출 (배출권 제출 신고서)', en: 'Surrender emission allowances (with the surrender form)' }, every: { ko: '매년 8월 31일까지 인증받은 지난 이행연도 배출량만큼 — 대상: 배출권 할당대상업체', en: 'By 31 August each year, matching the certified emissions of the previous compliance year — applies to allocated companies' }, days: 365, fixed: '08-31', basis: { ko: '배출권거래법 제27조①, 시행령 제44조①', en: 'ETS Act Art. 27(1); Decree Art. 44(1)' }, src: ['ets', 'etsDecree'] }
 ];
 
-/* 반도체 공정별 유해위험 — src가 없으면 미국 OSHA 반도체 페이지(oshaSemi). 6단계에 더한 3개는 SK하이닉스 뉴스룸 공정 해설과 KOSHA·OSHA 원문에 있는 것만 적는다 */
+/* 공정별 설비 안전 요건 — KOSHA C-C-65-2026 4.3 반도체 공정별 설비 원문의 목(가·나…)을 그대로 나눠 옮김 (원문 PDF p.4~8 확인, 2026-10-01).
+   공정 이름이 포털 공정 카드와 분명히 맞는 것만 붙인다: (2)사진식각→포토, (3)드라이 에칭→식각, (4)불순물 확산·(5)이온주입→도핑, (1)적층성장·(6)CVD→증착, (7)증착·스퍼터→금속배선 */
+const CC65 = {
+  inert: { ko: '가스 배관에 질소 등 불활성가스 도입구를 두거나 진공 배기가 가능한 구조', en: 'Gas lines with an inert-gas (e.g. nitrogen) purge inlet, or built so they can be evacuated' },
+  lockCh: { ko: '반응 챔버가 대기에 개방되면 특수재료가스 등의 유입을 차단하는 인터락', en: 'Interlocks that stop specialty gases entering when the reaction chamber is open to air' },
+  vac: { ko: '감압 공정은 정전 시 안전하게 멈추도록 필요한 위치에 상시 닫힘 밸브, 이상 시 즉시 정지할 비상정지 버튼', en: 'Low-pressure processes: normally-closed valves where needed to stop safely on power loss, and an emergency-stop button for abnormal conditions' },
+  lev: { ko: '웨이퍼 출납구 등 유해한 가스·증기가 나올 수 있는 곳에 국소배기장치', en: 'Local exhaust wherever harmful gases or vapours can escape, such as wafer load ports' },
+  clean: { ko: '가스 배관·덕트는 반응 생성물을 쉽게 제거할 수 있는 구조', en: 'Gas lines and ducts built so reaction products are easy to remove' },
+  shock: { ko: '감전 우려 부분에 방호울·절연덮개 — 노출될 수밖에 없는 충전부 작업은 절연용 보호구 착용 등 감전 방지조치', en: 'Guards or insulating covers where contact could cause shock; where live parts must stay exposed, insulating PPE or other protection' },
+  rfDoor: { ko: '고주파 전원이 있는 장치는 도어를 열면 전원이 차단되는 인터락', en: 'RF-powered equipment interlocked to cut power when a door is opened' },
+  rfOpen: { ko: '플라즈마 발생실·반응실이 대기에 개방되면 고주파 발생을 차단하는 인터락', en: 'Interlocks that stop RF generation when plasma or reaction chambers are open to air' },
+  water: { ko: '고주파 인가전극의 냉각수 배관은 접지 전위 경로를 거쳐 차폐판 밖으로', en: 'Cooling-water lines for RF electrodes leave the shield through a path at earth potential' },
+  cap: { ko: '전기 회로에 고압 콘덴서가 있으면 전하를 방전시킬 단락봉', en: 'Shorting bars to discharge any high-voltage capacitors in the circuit' },
+  xray: { ko: 'X선 발생 장치에 X선을 차폐하는 덮개', en: 'Covers that shield X-ray generators' }
+};
+
+/* 반도체 공정별 유해위험 — src가 없으면 미국 OSHA 반도체 페이지(oshaSemi). 6단계에 더한 3개는 SK하이닉스 뉴스룸 공정 해설과 KOSHA·OSHA 원문에 있는 것만 적는다.
+   eq: [{ h: 설비 이름, c: C-C-65 조항, items: [[목, 요건]] }] */
 SHE.PROCESSES = [
   { id: 'ox', ko: '산화 (열산화)', en: 'Oxidation (thermal)',
     d: { ko: '약 1200°C 퍼니스에서 건식(산소+염화수소) 또는 습식(산소+수소→수증기) 방식으로 SiO₂ 층을 성장', en: 'Grows SiO₂ in a ~1200 °C furnace, dry (O₂ + HCl) or wet (O₂ + H₂ → steam)' },
@@ -226,23 +243,29 @@ SHE.PROCESSES = [
     hz: { ko: ['산·알칼리 용액 접촉', '용제 증기'], en: ['Contact with acids and caustics', 'Solvent vapours'] }, sops: ['wet-bench', 'chem-supply'] },
   { id: 'photo', ko: '포토 (감광액 도포·노광·현상)', en: 'Photolithography (coat, expose, develop)',
     d: { ko: '감광액(포토레지스트) 도포·베이크 → 마스크 정렬·UV 노광 → 알칼리 현상 → 용제 린스', en: 'Photoresist coat and bake → mask alignment and UV exposure → alkaline develop → solvent rinse' },
-    hz: { ko: ['감광액·용제 노출', '자외선(UV)과 이로 인한 오존', '노광 램프 수은(파손 시)', 'X선·전자빔(일부 공정)', '알칼리 현상액·에어로졸', '베이크 화상'], en: ['Photoresist and solvent exposure', 'UV radiation and the ozone it forms', 'Mercury from lamp rupture', 'X-ray / e-beam (some tools)', 'Caustic developers and aerosols', 'Bake burns'] }, sops: ['photo'] },
+    hz: { ko: ['감광액·용제 노출', '자외선(UV)과 이로 인한 오존', '노광 램프 수은(파손 시)', 'X선·전자빔(일부 공정)', '알칼리 현상액·에어로졸', '베이크 화상'], en: ['Photoresist and solvent exposure', 'UV radiation and the ozone it forms', 'Mercury from lamp rupture', 'X-ray / e-beam (some tools)', 'Caustic developers and aerosols', 'Bake burns'] }, sops: ['photo'],
+    eq: [{ h: { ko: '사진식각 설비', en: 'Photolithography equipment' }, c: '4.3(2)', items: [['', CC65.lev]] }] },
   { id: 'etch', ko: '식각 (습식·건식)', en: 'Etching (wet & dry)',
     d: { ko: '습식: 산 배스 침지 / 건식: RF로 불소계·염소계 가스를 플라즈마화해 식각, 아르곤 물리 식각, RIE', en: 'Wet: immersion in acid baths / Dry: RF plasma of fluorine- or chlorine-based gases, argon sputter etch, RIE' },
-    hz: { ko: ['산 노출', '반응성 가스(불소계·염소계)', '반응 부산물 잔류물(정비 시)', 'RF 방사'], en: ['Acids', 'Reactive fluorinated/chlorinated gases', 'Reaction-product residues during maintenance', 'RF radiation'] }, sops: ['pm-chamber', 'pump-scrubber'] },
+    hz: { ko: ['산 노출', '반응성 가스(불소계·염소계)', '반응 부산물 잔류물(정비 시)', 'RF 방사'], en: ['Acids', 'Reactive fluorinated/chlorinated gases', 'Reaction-product residues during maintenance', 'RF radiation'] }, sops: ['pm-chamber', 'pump-scrubber'],
+    eq: [{ h: { ko: '드라이 에칭 설비', en: 'Dry-etch equipment' }, c: '4.3(3)', items: [['(가)', CC65.inert], ['(나)', CC65.lockCh], ['(다)', CC65.vac], ['(라)', CC65.lev], ['(마)', CC65.shock], ['(바)', CC65.rfDoor], ['(사)', CC65.rfOpen], ['(아)', CC65.water], ['(자)', CC65.cap]] }] },
   { id: 'strip', ko: '감광액 제거 (애싱)', en: 'Resist strip (ashing)',
     d: { ko: '산소 플라즈마로 감광액을 산화(물·일산화탄소·이산화탄소 생성) 후 습식·건식 추가 제거', en: 'Oxygen plasma oxidises resist (forming water, CO and CO₂), followed by wet or dry strip' },
     hz: { ko: ['산', '용제', 'RF 방사'], en: ['Acids', 'Solvents', 'RF radiation'] }, sops: ['wet-bench'] },
   { id: 'dope', ko: '도핑 (확산·이온주입)', en: 'Doping (diffusion & ion implantation)',
     d: { ko: '비소·인·붕소·안티몬 화합물(가스·액체·고체) 도펀트를 확산로 또는 이온주입기로 주입, 이후 800–1000°C 어닐링', en: 'Dopants of arsenic, phosphorus, boron and antimony (gas, liquid, solid) via diffusion furnaces or ion implanters, then 800–1000 °C anneal' },
-    hz: { ko: ['X선 방사', '인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스·액체', '반응 부산물 잔류물(비소·아르신·포스핀)', '고전압 전기', 'RF·IR, 레이저, 화상'], en: ['X-ray radiation', 'Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases and liquids', 'Reaction-product residues (arsenic, arsine, phosphine)', 'High-voltage electricity', 'RF/IR, lasers, burns'] }, sops: ['implant', 'gas-cylinder'] },
+    hz: { ko: ['X선 방사', '인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스·액체', '반응 부산물 잔류물(비소·아르신·포스핀)', '고전압 전기', 'RF·IR, 레이저, 화상'], en: ['X-ray radiation', 'Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases and liquids', 'Reaction-product residues (arsenic, arsine, phosphine)', 'High-voltage electricity', 'RF/IR, lasers, burns'] }, sops: ['implant', 'gas-cylinder'],
+    eq: [{ h: { ko: '불순물 확산 설비', en: 'Diffusion equipment' }, c: '4.3(4)', items: [['', CC65.lev]] },
+      { h: { ko: '이온주입 설비', en: 'Ion-implantation equipment' }, c: '4.3(5)', items: [['(가)', CC65.inert], ['(나)', CC65.lockCh], ['(다)', CC65.vac], ['(라)', CC65.shock], ['(마)', CC65.xray], ['(바)', CC65.rfDoor], ['(사)', CC65.water], ['(아)', CC65.cap]] }] },
   { id: 'dep', ko: '증착 (CVD·에피택시)', en: 'Deposition (CVD, epitaxy)',
     d: { ko: '실란·사염화규소·암모니아·아산화질소 등 원료가스와 아르신·포스핀·디보란 등 도펀트 가스로 500–1100°C에서 막을 형성', en: 'Source gases (silane, SiCl₄, ammonia, N₂O) and dopants (arsine, phosphine, diborane) form films at 500–1100 °C' },
-    hz: { ko: ['인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스', '반응 부산물 잔류물(HCl·아르신·포스핀)', '전기, RF·IR, 화상'], en: ['Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases', 'Reaction-product residues (HCl, arsine, phosphine)', 'Electricity, RF/IR, burns'] }, sops: ['gas-cylinder', 'pm-chamber', 'pump-scrubber', 'line-break', 'pyrophoric'] },
+    hz: { ko: ['인화성·폭발성·자연발화성 가스', '독성·자극성·부식성 가스', '반응 부산물 잔류물(HCl·아르신·포스핀)', '전기, RF·IR, 화상'], en: ['Flammable, explosive and pyrophoric gases', 'Toxic, irritant and corrosive gases', 'Reaction-product residues (HCl, arsine, phosphine)', 'Electricity, RF/IR, burns'] }, sops: ['gas-cylinder', 'pm-chamber', 'pump-scrubber', 'line-break', 'pyrophoric'],
+    eq: [{ h: { ko: '적층성장(에피택시)·화학증기증착(CVD) 설비', en: 'Epitaxy and CVD equipment' }, c: '4.3(1)·(6)', items: [['(가)', CC65.inert], ['(나)', { ko: CC65.lockCh.ko + ' (CVD는 감압 CVD 장치)', en: CC65.lockCh.en + ' (for CVD, low-pressure CVD tools)' }], ['(다)', CC65.vac], ['(라)', CC65.lev], ['(마)', CC65.clean]] }] },
   /* 6단계(2026-09-25) */
-  { id: 'metal', ko: '금속배선 (금속 증착·스퍼터)', en: 'Metallization (metal deposition, sputtering)', src: ['nrMetal', 'nrDepo', 'koshaGuide', 'lawRule'],
+  { id: 'metal', ko: '금속배선 (금속 증착·스퍼터)', en: 'Metallization (metal deposition, sputtering)', src: ['nrMetal', 'nrDepo', 'koshaCC65', 'lawRule'],
     d: { ko: '소자를 잇는 금속 배선을 만든다. 알루미늄 배선, 깊은 구멍은 텅스텐으로 채우고(갭필) 티타늄·코발트를 먼저 입히며, 구리 배선은 산화막으로도 확산하므로 탄탈륨으로 경계를 짓는다 (SK하이닉스 뉴스룸)', en: 'Builds the metal lines that connect devices: aluminium lines, tungsten gap-fill for deep holes, titanium or cobalt applied first, and tantalum barriers because copper diffuses even into oxide (SK hynix Newsroom)' },
-    hz: { ko: ['X선 발생 장치 — 차폐 덮개 (KOSHA C-C-65-2026)', '고주파 전원 — 도어·플라즈마 발생실 개방 시 고주파 차단 인터락 (같은 지침)', '고압 콘덴서 잔류 전하 — 방전용 단락봉 (같은 지침)', '구리·코발트·텅스텐 — 국내 노출기준이 있고 작업환경측정·특수건강진단 대상 물질 (시행규칙 별표21·22)'], en: ['X-ray generators — shielding covers (KOSHA C-C-65-2026)', 'RF power — interlocks that cut RF when doors or plasma chambers open (same guide)', 'Residual charge in high-voltage capacitors — shorting bars to discharge them (same guide)', 'Copper, cobalt and tungsten — have Korean exposure limits and are monitoring and health-check agents (Rule Annexes 21, 22)'] }, sops: ['pm-chamber', 'loto'] },
+    hz: { ko: ['X선 발생 장치의 방사선', '고주파(RF) 전원', '고압 콘덴서 잔류 전하', '구리·코발트·텅스텐 — 국내 노출기준이 있고 작업환경측정·특수건강진단 대상 물질 (시행규칙 별표21·22)'], en: ['Radiation from X-ray generators', 'RF power', 'Residual charge in high-voltage capacitors', 'Copper, cobalt and tungsten — have Korean exposure limits and are monitoring and health-check agents (Rule Annexes 21, 22)'] }, sops: ['pm-chamber', 'loto'],
+    eq: [{ h: { ko: '증착·스퍼터 설비', en: 'Deposition and sputtering equipment' }, c: '4.3(7)', items: [['(가)', CC65.xray], ['(나)', CC65.rfDoor], ['(다)', CC65.rfOpen], ['(라)', CC65.water], ['(마)', CC65.cap]] }] },
   { id: 'cmp', ko: 'CMP (화학·기계적 평탄화)', en: 'CMP (chemical-mechanical planarization)', src: ['nrCmp', 'lawStd'],
     d: { ko: '슬러리(연마액)를 접촉면에 분포한 상태에서 패드로 화학·기계적으로 연마해 웨이퍼 표면을 평탄하게 한 뒤, 브러시 습식세정과 건조를 한다 (SK하이닉스 뉴스룸)', en: 'Polishes the wafer flat chemically and mechanically with a pad while slurry covers the contact surface, then brush wet-cleans and dries it (SK hynix Newsroom)' },
     hz: { ko: ['슬러리·세정 약품 접촉 — 제품마다 성분이 달라 MSDS로 유해성과 보호구를 확인', '장비 정비 중 끼임 — 운전 정지·잠금 후 작업 (안전보건규칙 제92조)'], en: ['Contact with slurry and cleaning chemicals — contents vary by product, so check hazards and PPE in the MSDS', 'Caught-in during maintenance — stop and lock out first (Standards Rules Art. 92)'] }, sops: ['wet-bench', 'loto'] },

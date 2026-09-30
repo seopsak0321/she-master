@@ -8,6 +8,25 @@
   const FU211 = ['nh3', 'cl2', 'h2'];                                     /* 그 밖의 특정고압가스 (법 제20조①) */
   const worst = (a) => (a.includes('bad') ? 'bad' : a.includes('warn') ? 'warn' : a.includes('ok') ? 'ok' : 'info');
 
+  /* ---------- 5. 가스감지기 방식별 적합성 — KOSHA E-187-2021 4.1(2)~(6)·4.4 원문 그대로의 조건만 판단에 쓴다 ---------- */
+  const DET0 = { range: 'low', inert: false, poison: true, steam: false, oxy: false };
+  const B2 = (ko, en) => ({ ko, en });
+  function detEval(st) {
+    const hi = st.range === 'high';
+    const cat = { t: B2('접촉연소식 (열선형)', 'Catalytic (hot-wire)'), why: [B2('휴대용에서 가장 흔한 방식 — 촉매 산화에 의한 온도 상승을 이용 (4.1(2))', 'The most common portable type — measures heat from catalytic oxidation (4.1(2))')] };
+    let lv = 'ok';
+    if (st.inert) { lv = 'bad'; cat.why.push(B2('불활성가스가 있거나 UFL을 넘어 산소가 부족하면 잘못된 값 (4.1(2))', 'Wrong readings with inert gas present, or above the UFL where oxygen runs short (4.1(2))')); }
+    if (hi) { lv = 'bad'; cat.why.push(B2('LFL 이상~100 vol%는 100 vol%까지 읽는 감지기를 쓰도록 함 (4.1(3))', 'For LFL up to 100 vol%, use a detector that reads to 100 vol% (4.1(3))')); }
+    if (st.poison) { if (lv === 'ok') lv = 'warn'; cat.why.push(B2('피독되면 실제보다 낮게 읽음 — 규소 화합물은 감도가 급락해 회복되지 않을 수도 있음, 사용 직전·직후 기준 가스로 교정 (4.1(4))', 'Poisoning makes it read low — silicon compounds can cut sensitivity sharply, sometimes for good; calibrate with a reference gas just before and after use (4.1(4))')); }
+    if (st.oxy) { if (lv === 'ok') lv = 'warn'; cat.why.push(B2('보통 가스·공기 혼합물로 교정돼 과잉 산소 환경은 제조자의 전문적인 조언 필요 (4.1(6))', 'Usually calibrated in gas–air mixtures, so oxygen-enriched use needs the maker’s expert advice (4.1(6))')); }
+    cat.lv = lv;
+    const ir = { t: B2('적외선식', 'Infrared'), lv: 'ok', why: [B2('피독 물질과 불활성가스의 영향을 받지 않고 최대 100 vol%까지 측정, 응답이 빠르고 안정적 (4.4(1))', 'Unaffected by poisons and inert gas, measures up to 100 vol%, responds fast and stably (4.4(1))'), B2('교정한 가스 혼합물에만 사용 — 흡수대가 다른 가스는 감지하지 못할 수 있음 (4.4(1))', 'Use only for the gas mixture it was calibrated for — gases absorbing outside that band may be missed (4.4(1))')] };
+    const tc = { t: B2('열전도식', 'Thermal conductivity'), lv: hi ? 'ok' : 'bad', why: [hi ? B2('인화하한보다 고농도 범위에 적합 (4.4(2))', 'Suited to concentrations above the LFL (4.4(2))') : B2('인화하한보다 저농도 범위의 측정에는 적합하지 않음 (4.4(2))', 'Not suited to measuring below the LFL (4.4(2))')] };
+    const sc = { t: B2('반도체식', 'Semiconductor'), lv: hi ? 'bad' : 'ok', why: [B2('인화하한의 10분의 1 이하 저농도 감지에 사용 (4.4(2))', 'Used to detect low concentrations, a tenth of the LFL or less (4.4(2))')].concat(hi ? [B2('고농도(LFL 이상) 측정용이 아님', 'Not meant for concentrations above the LFL')] : []) };
+    const V = { ok: B2('적합', 'Suitable'), warn: B2('주의해 사용', 'Use with care'), bad: B2('맞지 않음', 'Not suitable') };
+    return [cat, ir, tc, sc].map((r) => Object.assign(r, { v: V[r.lv] }));
+  }
+
   /* ---------- 1. 경보 설정값 검토 ---------- */
   const ALARM_IDS = () => [...new Set(S.CHEMICALS.filter((c) => c.unit === 'ppm' && (c.twa != null || c.c != null || S.FLAM[c.id])).map((c) => c.id).concat(['h2', 'ch4', 'dcs', 'mcs', 'ms', 'tms']))];
   function alarmEval(st) {
@@ -377,10 +396,68 @@
         on('#pg-bu', () => { Object.assign(st, { z: '6.5', lel: '1.6', moc: '10.4' }); up(); });
       },
       basis: ['koshaCC85', 'lawStd']
+    },
+    /* ---------- 5. 가스감지기 선택·사용 — KOSHA E-187-2021 4장, C-C-87-2026 5.1·6.1, 안전보건규칙 제232조② (원문 확인 2026-10-01) ---------- */
+    det: {
+      label: () => T('가스감지기 선택·사용', 'Choosing & using detectors'),
+      render() {
+        const st = Object.assign({}, DET0, S.load('gas.det', DET0));
+        const rows = detEval(st);
+        const chk = (k, ko, en) => `<label class="check"><input type="checkbox" data-det="${k}" ${st[k] ? 'checked' : ''}> ${T(ko, en)}</label>`;
+        return `<div class="grid g2">
+          <div class="panel stack">
+            <div class="field"><label for="det-range">${T('측정하려는 농도 범위', 'Concentration range to measure')}</label><select id="det-range">
+              <option value="low" ${st.range === 'low' ? 'selected' : ''}>${T('인화하한(LFL) 미만 — 누출 조기 감지', 'Below the LFL — early leak detection')}</option>
+              <option value="high" ${st.range === 'high' ? 'selected' : ''}>${T('LFL 이상 ~ 100 vol% — 용기·배관 내부 등', 'LFL up to 100 vol% — inside vessels or pipes')}</option></select></div>
+            <b class="small">${T('측정 환경', 'Conditions')}</b>
+            ${chk('inert', '측정 공간에 불활성가스가 있을 수 있다 (용기 내부, 질소 치환 뒤 등)', 'Inert gas may be present (inside a vessel, after nitrogen purging, etc.)')}
+            ${chk('poison', '규소 화합물·유기납·할로겐화탄화수소·칼륨·나트륨·유기인 화합물이 있는 환경 (실란(SiH₄)도 규소 화합물)', 'Silicon compounds, organic lead, halogenated hydrocarbons, potassium, sodium or organophosphorus compounds present (silane, SiH₄, is a silicon compound)')}
+            ${chk('steam', '물·증기가 있어 감지기 안에 결로가 생길 수 있다', 'Water or steam may condense inside the detector')}
+            ${chk('oxy', '산소가 과잉인 환경이다', 'Oxygen-enriched atmosphere')}
+            <p class="xs muted">${T('예시 값은 가상입니다. 실제 기종 선택은 제조사 사양과 사내 기준을 함께 확인하세요.', 'Example values are fictional. Check maker specifications and in-house rules when choosing a model.')}</p>
+          </div>
+          <div class="panel stack">
+            ${ui.title(T('감지 방식별 적합성', 'Suitability by sensor type'), 'E-187 4.1·4.4')}
+            <div class="table-wrap"><table class="data"><thead><tr><th>${T('방식', 'Type')}</th><th>${T('판단', 'Verdict')}</th><th>${T('이유', 'Why')}</th></tr></thead><tbody>
+              ${rows.map((r) => `<tr><td><b>${L(r.t)}</b></td><td>${ui.pill(r.lv, L(r.v))}</td><td class="small">${r.why.map((w) => L(w)).join('<br>')}</td></tr>`).join('')}
+            </tbody></table></div>
+          </div>
+        </div>
+        <section class="grid g2">
+          <div class="panel stack">${ui.title(T('사용할 때 지킬 것', 'When using a detector'), 'E-187 4.1·4.5')}
+            <ul class="facts">
+              <li>${T('감지기는 특정 가스로 설계·교정돼 다른 가스에는 정확히 반응하지 않습니다 — 다른 가스를 재야 하면 그 가스로 다시 교정 (4.1(1))', 'Detectors are designed and calibrated for specific gases and do not respond accurately to others — recalibrate for the gas you need to measure (4.1(1))')}</li>
+              <li>${T('불활성가스가 있을 수 있는 공간은 100 vol%까지 읽는 감지기를 쓰거나 산소 농도를 따로 확인 (4.1(3))', 'Where inert gas may be present, use a detector that reads up to 100 vol% or check oxygen separately (4.1(3))')}</li>
+              <li>${T('접촉연소식은 규소 화합물 등에 피독되면 실제보다 낮게 읽고, 특히 규소 화합물은 감도가 급격히 떨어져 회복되지 않을 수도 있음 — 사용 직전·직후 기준 샘플 가스로 자주 교정 (4.1(4))', 'Catalytic sensors poisoned by silicon compounds and others read low; silicon compounds in particular can cut sensitivity sharply, sometimes for good — calibrate often with a reference gas just before and after use (4.1(4))')}</li>
+              <li>${T('물·증기가 있으면 결로로 값이 부정확해질 수 있어 샘플링 배관 안이 젖지 않게 (4.1(5))', 'Water or steam can condense and distort readings — keep sampling lines dry (4.1(5))')}</li>
+              <li>${T('사용자는 사용법과 한계를 교육받고 제조사 설명서를 따르며, 정기 보수와 그 기록을 보관 (4.1(7))', 'Users are trained in use and limits, follow the maker’s manual, and keep regular maintenance with records (4.1(7))')}</li>
+              <li>${T('현장에서 감지기 반응이 의심스러우면 그 장소를 위험한 환경으로 간주 (4.1(8))', 'If a detector’s response is in doubt on site, treat the place as hazardous (4.1(8))')}</li>
+              <li>${T('정치형은 가스를 만날 일이 드물어 오래 확인되지 않은 채 지나가기 쉬움 — 정기점검과 공급자 권장 기준 가스로 확인 (4.5)', 'Fixed detectors rarely meet gas and can go unchecked for long periods — inspect regularly and verify with the supplier’s recommended reference gas (4.5)')}</li>
+            </ul>
+          </div>
+          <div class="panel stack">${ui.title(T('정치형 감지기 설치 위치', 'Where to install fixed detectors'), 'C-C-87 5.1·6.1 · E-187 4.3')}
+            <ul class="facts">
+              <li>${T('건축물 안: 감지 대상 가스가 공기보다 무거우면 건축물 안 하부, 가벼우면 환기구(배기구) 부근이나 상부 — 공기 흐름이 지나치게 빠른 곳은 피함 (C-C-87 5.1(2)(나))', 'Indoors: low in the building for gases heavier than air; near exhaust vents or high up for lighter gases, avoiding very fast airflow (C-C-87 5.1(2)(b))')}</li>
+              <li>${T('가스 밀도만이 아니라 누출량·압력·온도·주변 기류를 고려한 유효 비중을 검토하고, 벽·물받이 같은 구조물에 가스가 쌓일 수 있음을 고려 (C-C-87 6.1(5))', 'Consider the effective density from release rate, pressure, temperature and air movement — not just gas density — and that walls or drip trays can trap gas (C-C-87 6.1(5))')}</li>
+              <li>${T('누출원 가까이(누출원 감지)와 점화원 부근·공장 둘레(주위 감지)를 상황에 맞게 조합하고, 물리적 손상·과도한 진동에서 보호 (E-187 4.3)', 'Combine source detection near release points with perimeter detection near ignition sources or around the plant, and protect detectors from damage and heavy vibration (E-187 4.3)')}</li>
+              <li>${T('진동·충격, 고온·고습, 고전압·고주파 같은 전자적 외란, 출입구 등 외부 기류 1.5 m 이내는 가능한 피함. 경보기는 근로자가 상주하는 곳에 (C-C-87 6.1(1)(2))', 'Avoid vibration or shock, heat and humidity, electrical noise such as high voltage or RF, and within 1.5 m of doorways or other outside airflow; put alarms where workers are stationed (C-C-87 6.1(1)(2))')}</li>
+              <li>${T('감지기와 인터록한 방폭대책은 누출원 주위 인화성 가스 농도가 인화하한의 25% 이하일 때만 적용 (E-187 2(1))', 'Explosion-protection measures interlocked to detectors apply only where flammable gas around the release stays at or below 25 % of the LFL (E-187 2(1))')}</li>
+            </ul>
+            <p class="xs muted">${T('법: 인화성 증기·가스로 폭발·화재 우려가 있는 장소에는 가스 검지 및 경보 장치를 설치해야 합니다(0종·1종 폭발위험장소에 방폭구조 전기기계·기구를 설치한 경우 제외 — 안전보건규칙 제232조②).', 'Law: places at risk of fire or explosion from flammable vapour or gas need gas detection and alarm devices, except zone 0 or 1 areas fitted with explosion-proof electrical equipment (Standards Rules Art. 232(2)).')} <a href="#gas/alarm">${T('경보 설정값 검토', 'Alarm set points')} →</a> · <a href="#sop/gas-alarm">${S.esc(L(S.SOPS.find((x) => x.id === 'gas-alarm').t))}</a></p>
+          </div>
+        </section>`;
+      },
+      mount(root) {
+        const st = Object.assign({}, DET0, S.load('gas.det', DET0));
+        const up = () => { S.save('gas.det', st); S.refresh(); };
+        const r = root.querySelector('#det-range'); if (r) r.addEventListener('change', () => { st.range = r.value; up(); });
+        root.querySelectorAll('[data-det]').forEach((c) => c.addEventListener('change', () => { st[c.dataset.det] = c.checked; up(); }));
+      },
+      basis: ['koshaE187', 'koshaCC87', 'lawStd']
     }
   };
 
-  S.gasApi = { alarmEval, mixEval, purgeEval, mocCtl };
+  S.gasApi = { alarmEval, mixEval, purgeEval, mocCtl, detEval };
   S.pages.gas = {
     render(sub) {
       /* #gas/<도구>로 들어오면 그 탭을 연다 (SOP·사고사례의 ‘다음 업무’ 링크) */
@@ -389,9 +466,9 @@
       const tool = TOOLS[cur] || TOOLS.alarm;
       return `
       ${ui.head(T('판정·평가 도구', 'Tools'), T('가스 안전 도구', 'Gas safety tools'),
-        T('특수가스 설비의 경보 설정값·혼합가스 인화성·누출 이격거리·불활성가스 치환량을 확인합니다.', 'Check detector set points, mixture flammability, release distances and inert-gas purging for specialty gases.'),
-        T('반도체 특수가스 설비에서 바로 쓰는 네 가지 계산 — 가스 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 그 폭발하한계, 누출 시 초기 이격·방호 거리, 점검·정비 전 불활성가스 치환 횟수와 가스량을 원문 기준으로 확인합니다.',
-          'Four checks for fab specialty-gas systems — whether detector set points meet the KGS codes and KOSHA guidance, whether a gas mixture is flammable and its LEL, initial isolation and protective distances for a release, and the purge cycles and inert gas needed before maintenance — all from the original documents.'))}
+        T('특수가스 설비의 경보 설정값·혼합가스 인화성·누출 이격거리·불활성가스 치환량과 가스감지기 선택을 확인합니다.', 'Check detector set points, mixture flammability, release distances, inert-gas purging and detector choice for specialty gases.'),
+        T('반도체 특수가스 설비에서 바로 쓰는 네 가지 계산 — 가스 감지경보기 설정값이 KGS 코드·KOSHA 지침에 맞는지, 혼합가스가 인화성인지와 그 폭발하한계, 누출 시 초기 이격·방호 거리, 점검·정비 전 불활성가스 치환 횟수와 가스량 — 과 측정 환경에 맞는 가스감지기 방식·사용 주의·설치 위치를 원문 기준으로 확인합니다.',
+          'Four checks for fab specialty-gas systems — whether detector set points meet the KGS codes and KOSHA guidance, whether a gas mixture is flammable and its LEL, initial isolation and protective distances for a release, and the purge cycles and inert gas needed before maintenance — plus which detector type suits the conditions, how to use it and where to install it, all from the original documents.'))}
       ${ui.tabs('gas', Object.keys(TOOLS).map((id) => ({ id, label: TOOLS[id].label() })), cur)}
       <div id="anchor-${cur in TOOLS ? cur : 'alarm'}">${tool.render()}</div>
       <p class="xs muted">${T('근거', 'Basis')}: ${S.cite(tool.basis)} · ${T('입력값은 이 브라우저에만 저장됩니다. 판단 보조 도구이며 사내 기준과 원문을 함께 확인하세요.', 'Inputs are saved in this browser only. A decision aid — check in-house rules and the originals.')}</p>`;
