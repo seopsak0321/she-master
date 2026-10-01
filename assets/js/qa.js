@@ -112,6 +112,15 @@
       [[{ kw: '300', whole: true }, 'mfg'], [{ kw: '299', whole: true }, ''], [{ ind: 'none', kw: '5000', whole: true }, ''], [{ h: '31' }, 'build'], [{ h: '30.9' }, ''], [{ area: '30000' }, 'build'], [{ area: '29999' }, ''], [{ dig: '10' }, 'build'], [{ eq: { gasweld: true } }, 'equip']]
         .forEach(([o, want]) => { const got = H(o); if (got !== want) add('bad', T('판정 경계값', 'Threshold check'), 'hpEval ' + JSON.stringify(o), got); });
     }
+    /* 휴게시설 — 시행령 제96조의2(20명), 시행규칙 별표21의2 경계값(6㎡×사업장 수, 2.1m, 18~28℃, 50~55%, 100~200 lux) (#19) */
+    if (S.restEval) {
+      const base = { n: '20', sites: '1', area: '6', height: '2.1', temp: '18', hum: '50', lux: '100', small: false, near: true, away: true, vent: true, furn: true, water: true, sign: true, mgr: true, noOther: true };
+      const R = (o) => { const r = S.restEval(Object.assign({}, base, o)); return (r.must ? 'M' : '-') + r.rows.map((x) => x.lv[0]).join(''); };
+      /* 행 순서: 면적·높이·위치·온도·습도·조명·환기·비품·식수·표지·담당자·목적외 (12행) — bad 행 위치로 기대값을 만든다 */
+      const W = (bad, must = 'M', n = 12) => must + Array.from({ length: n }, (_, i) => (i === bad ? 'b' : 'o')).join('');
+      [[{}, W(-1)], [{ n: '19' }, W(-1, '-')], [{ area: '5.9' }, W(0)], [{ sites: '2', area: '11.9' }, W(0)], [{ sites: '2', area: '12' }, W(-1)], [{ height: '2.09' }, W(1)], [{ temp: '28' }, W(-1)], [{ temp: '28.1' }, W(3)], [{ hum: '55.1' }, W(4)], [{ lux: '200' }, W(-1)], [{ lux: '99' }, W(5)], [{ small: true, area: '1', height: '1' }, 'Mi' + 'o'.repeat(9)]]
+        .forEach(([o, want]) => { const got = R(o); if (got !== want) add('bad', T('판정 경계값', 'Threshold check'), 'restEval ' + JSON.stringify(o), got); });
+    }
     if (S.gasApi && S.gasApi.detEval) {
       const D = (o) => S.gasApi.detEval(Object.assign({ range: 'low', inert: false, poison: false, steam: false, oxy: false }, o)).map((r) => r.lv).join(',');
       [[{}, 'ok,ok,bad,ok'], [{ inert: true }, 'bad,ok,bad,ok'], [{ poison: true }, 'warn,ok,bad,ok'], [{ range: 'high' }, 'bad,ok,ok,bad']]

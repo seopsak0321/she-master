@@ -75,7 +75,12 @@ SHE.KOSHA = {
   'P-46-2012': { ko: '클린룸의 안전관리에 관한 기술지침', en: 'Safety management of cleanrooms', f: 'FL00015884200', s: 3, d: '2012-07-18' },
   'E-188-2021': { ko: '정전기 재해예방에 관한 기술지침', en: 'Preventing static-electricity accidents', f: 'FL00016378576', s: 2, d: '2021-12-01' },
   /* 업데이트 #16 — 자연발화성·물반응성 물질(알킬알루미늄) SOP 근거 (산업안전포털 목록·원문 PDF 전문 확인 2026-10-01) */
-  'C-C-3-2025': { ko: '물반응성 물질 및 인화성고체의 취급·저장에 관한 기술지원규정', en: 'Handling and storage of water-reactive substances and flammable solids', f: 'FL00021380507', s: 3, d: '2025-03-26' }
+  'C-C-3-2025': { ko: '물반응성 물질 및 인화성고체의 취급·저장에 관한 기술지원규정', en: 'Handling and storage of water-reactive substances and flammable solids', f: 'FL00021380507', s: 3, d: '2025-03-26' },
+  /* 업데이트 #17~#19 — 가스감지기·소음·휴게시설·직무스트레스 근거 (산업안전포털 목록 API·원문 PDF 전문 확인 2026-10-01) */
+  'E-187-2021': { ko: '폭발위험장소에서의 가스감지기 사용에 관한 기술지침', en: 'Using gas detectors in hazardous areas', f: 'FL00016378588', s: 3, d: '2021-12-01' },
+  'W-23-2016': { ko: '작업장에서의 소음측정 및 평가방법', en: 'Measuring and assessing workplace noise', f: 'FL00015884302', s: 3, d: '2016-12-27' },
+  'H-178-2022': { ko: '근로자 휴게시설 설치에 관한 기술지침', en: 'Installing workers’ rest facilities', f: 'FL00020123932', s: 4, d: '2022-12-31' },
+  'E-G-2-2025': { ko: '직무스트레스로 인한 건강장해 예방 기술지원규정', en: 'Preventing health effects of job stress', f: 'FL00021380204', s: 2, d: '2025-03-26' }
 };
 /* 구 번호 → 현행 번호 (예전 번호로 적힌 데이터도 현행 지침으로 연결) */
 SHE.KOSHA_OLD = {};

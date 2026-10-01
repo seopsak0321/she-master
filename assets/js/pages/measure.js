@@ -66,6 +66,35 @@
   };
   S.noiseTwa = (D) => 90 + 16.61 * Math.log10(D / 100);
 
+  /* 휴게시설 설치·관리기준 판정 — 시행령 제96조의2(상시 20명 이상), 시행규칙 별표21의2 1~11호·비고 가목 */
+  const REST0 = { n: '350', sites: '1', area: '12', height: '2.4', temp: '24', hum: '45', lux: '150', small: false, near: true, away: true, vent: true, furn: true, water: true, sign: false, mgr: true, noOther: true };
+  S.restEval = function (st) {
+    const n = (v) => (v === '' || v == null || isNaN(Number(v)) ? null : Number(v));
+    const B = (ko, en) => ({ ko, en });
+    const ok = B('충족', 'Met'), no = B('미충족', 'Not met'), na = B('적용 제외', 'Not applicable'), enter = B('값 입력', 'Enter a value');
+    const rows = [];
+    const inRange = (v, lo, hi) => (v == null ? 'info' : v >= lo && v <= hi ? 'ok' : 'bad');
+    const V = (lv) => (lv === 'ok' ? ok : lv === 'bad' ? no : enter);
+    const sites = Math.max(1, n(st.sites) || 1), area = n(st.area), h = n(st.height);
+    if (st.small) {
+      rows.push({ t: B('1. 크기 · 2. 위치', '1. Size · 2. Location'), lv: 'info', v: na, note: B('전용면적 합계 300㎡ 미만 (비고 가목)', 'Total exclusive area under 300 m² (Note (a))') });
+    } else {
+      const aLv = area == null ? 'info' : area >= 6 * sites ? 'ok' : 'bad';
+      rows.push({ t: B(`1. 바닥면적 ${6 * sites}㎡ 이상`, `1. Floor area ${6 * sites} m² or more`), lv: aLv, v: V(aLv), note: sites > 1 ? B(`공동휴게시설: 6㎡ × 사업장 ${sites}곳`, `Shared: 6 m² × ${sites} workplaces`) : null });
+      const hLv = h == null ? 'info' : h >= 2.1 ? 'ok' : 'bad';
+      rows.push({ t: B('1. 천장 높이 2.1m 이상', '1. Ceiling height 2.1 m or more'), lv: hLv, v: V(hLv) });
+      const pLv = st.near && st.away ? 'ok' : 'bad';
+      rows.push({ t: B('2. 위치 (가깝고, 위험·유해 장소에서 떨어짐)', '2. Location (close, and away from hazards)'), lv: pLv, v: V(pLv) });
+    }
+    const tLv = inRange(n(st.temp), 18, 28), huLv = inRange(n(st.hum), 50, 55), lLv = inRange(n(st.lux), 100, 200);
+    rows.push({ t: B('3. 온도 18~28℃', '3. Temperature 18–28 °C'), lv: tLv, v: V(tLv) });
+    rows.push({ t: B('4. 습도 50~55%', '4. Humidity 50–55 %'), lv: huLv, v: V(huLv), note: B('대기 습도가 현저히 높거나 낮아 고용노동부장관이 인정하는 경우 제외', 'Except where the Minister accepts outdoor humidity makes it impractical') });
+    rows.push({ t: B('5. 조명 100~200 lux', '5. Lighting 100–200 lux'), lv: lLv, v: V(lLv) });
+    [['vent', B('6. 환기', '6. Ventilation')], ['furn', B('7. 비품', '7. Furnishings')], ['water', B('8. 식수', '8. Drinking water')], ['sign', B('9. 외부 표지', '9. Outside sign')], ['mgr', B('10. 청소·관리 담당자', '10. Named caretaker')], ['noOther', B('11. 목적 외 사용 금지', '11. No other use')]]
+      .forEach(([k, t]) => rows.push({ t, lv: st[k] ? 'ok' : 'bad', v: st[k] ? ok : no }));
+    return { must: (n(st.n) || 0) >= 20, rows };
+  };
+
   const worst = (list) => (list.some((x) => x.level === 'bad') ? 'bad' : list.some((x) => x.level === 'warn') ? 'warn' : list.some((x) => x.level === 'ok') ? 'ok' : 'info');
   const verdictText = (lv) => ({ bad: T('초과·위험', 'Exceeded / danger'), warn: T('주의', 'Caution'), ok: T('기준 이내', 'Within limits'), info: T('참고', 'Note') }[lv]);
 
@@ -353,6 +382,54 @@
         root.querySelector('#lx-ex').addEventListener('change', (e) => { st.exempt = e.target.checked; upd(); });
       },
       basis: ['lawStd']
+    },
+
+    /* 휴게시설 — 산안법 제128조의2, 시행령 제96조의2, 시행규칙 제194조의2·별표21의2 (현행 2026.8.1 시행본 원문 확인 2026-10-01) */
+    rest: {
+      label: () => T('휴게시설', 'Rest facilities'),
+      render() {
+        const st = Object.assign({}, REST0, S.load('m.rest', REST0));
+        const r = S.restEval(st);
+        const chk = (k, ko, en) => `<label class="check"><input type="checkbox" data-rest="${k}" ${st[k] ? 'checked' : ''}> ${T(ko, en)}</label>`;
+        const fld = (k, ko, en, step) => `<div class="field"><label for="rs-${k}">${T(ko, en)}</label><input type="number" min="0" step="${step || 'any'}" id="rs-${k}" data-restv="${k}" value="${S.esc(st[k])}"></div>`;
+        return `<div class="grid g2">
+          <div class="panel stack">
+            <div class="form-grid">
+              ${fld('n', '상시근로자 수 (관계수급인 근로자 포함)', 'Regular workers (incl. subcontractors’ workers)', '1')}
+              ${fld('sites', '같은 휴게시설을 쓰는 사업장 수', 'Workplaces sharing the facility', '1')}
+              ${fld('area', '바닥면적 (㎡)', 'Floor area (m²)')}
+              ${fld('height', '바닥~천장 높이 (m)', 'Floor-to-ceiling height (m)')}
+              ${fld('temp', '실내 온도 (℃)', 'Temperature (°C)')}
+              ${fld('hum', '상대습도 (%)', 'Relative humidity (%)')}
+              ${fld('lux', '조도 (lux)', 'Illumination (lux)')}
+            </div>
+            ${chk('small', '사업장 전용면적 합계가 300㎡ 미만이다 (크기·위치 기준 적용 제외)', 'The workplace’s total exclusive area is under 300 m² (size and location rules do not apply)')}
+            <b class="small">${T('그 밖의 기준', 'Other requirements')}</b>
+            ${chk('near', '근로자가 이용하기 편리하고 가까운 곳 (공동휴게시설은 왕복 이동이 휴식시간의 20% 이내)', 'Convenient and close to workers (shared facilities: round trip within 20 % of the break)')}
+            ${chk('away', '화재·폭발 위험 장소, 유해물질 취급 장소, 분진·소음 노출 장소에서 떨어져 있음', 'Away from fire or explosion risks, hazardous-substance areas, and dust or noise')}
+            ${chk('vent', '창문 등으로 환기 가능', 'Can be ventilated, e.g. through windows')}
+            ${chk('furn', '의자 등 휴식에 필요한 비품', 'Chairs and other furnishings for rest')}
+            ${chk('water', '마실 수 있는 물이나 식수 설비', 'Drinking water or a water dispenser')}
+            ${chk('sign', '외부에 휴게시설임을 알리는 표지', 'A sign outside showing it is a rest facility')}
+            ${chk('mgr', '청소·관리 담당자 지정 (공동휴게시설은 사업장마다)', 'A person named for cleaning and upkeep (each workplace, if shared)')}
+            ${chk('noOther', '물품 보관 등 목적 외 용도로 쓰지 않음', 'Not used for anything else, such as storage')}
+          </div>
+          <div class="result" aria-live="polite">
+            <div class="row" style="justify-content:space-between"><span class="lbl">${T('설치·관리기준 준수 대상', 'Must meet the standards')}</span>${r.must ? ui.pill('warn', T('대상 — 별표21의2 준수 의무', 'Yes — Annex 21-2 applies')) : ui.pill('info', T('설치 의무만 (제128조의2①)', 'Provide one only (Art. 128-2(1))'))}</div>
+            <div class="table-wrap"><table class="data"><thead><tr><th>${T('기준 (별표21의2)', 'Standard (Annex 21-2)')}</th><th>${T('판정', 'Verdict')}</th></tr></thead><tbody>
+              ${r.rows.map((x) => `<tr><td class="small"><b>${L(x.t)}</b>${x.note ? `<br><span class="xs muted">${L(x.note)}</span>` : ''}</td><td>${ui.pill(x.lv, L(x.v))}</td></tr>`).join('')}
+            </tbody></table></div>
+            <p class="xs muted">${T('모든 사업주는 근로자(관계수급인 근로자 포함)가 휴식시간에 쓸 휴게시설을 갖춰야 하고(법 제128조의2①), 상시근로자 20명 이상(건설업은 총공사금액 20억원 이상) 사업장과 전화 상담원·배달원·청소 관련 종사자 등 특정 직종이 2명 이상인 10~19명 사업장은 별표21의2의 크기·위치·온도·습도·조명 등 기준을 지켜야 합니다(시행령 제96조의2). 온도·습도·조명 기준은 그 범위를 유지할 수 있는 기능을 갖추라는 것이며, 측정값은 그 기능을 점검하는 참고입니다. 근로자대표와 협의해 6㎡보다 넓은 최소면적을 정했다면 그 면적이 기준입니다. 예시 값은 가상입니다.', 'Every employer must provide a rest facility for breaks, including for subcontractors’ workers (Act Art. 128-2(1)); workplaces with 20 or more regular workers (construction: total contract of 2 billion won or more), and those of 10–19 with two or more workers in listed jobs such as call-centre staff, couriers or cleaners, must meet the Annex 21-2 size, location, temperature, humidity and lighting rules (Decree Art. 96-2). The temperature, humidity and lighting rules require the ability to keep those ranges; readings are a check on that ability. If a larger minimum area has been agreed with the workers’ representative, that area applies. Example values are fictional.')}${S.cite('lawAct', 'lawDecree', 'lawRule')}</p>
+            <p class="xs muted">${T('도급: 도급인 사업장 안에서 일하는 수급인·관계수급인 근로자도 도급인의 휴게시설을 자유롭게 쓸 수 있게 하고, 수급인이 따로 설치하면 장소 제공 등에 협조해야 합니다. 여러 곳에 두면 모든 휴게시설이 최소면적 이상이어야 하고, 높이 2.1m는 모든 지점에서입니다 (KOSHA H-178-2022 4.3·5.1).', 'Contracting: subcontractors’ workers inside the principal’s site must be free to use the principal’s rest facilities, and if a subcontractor builds its own the principal must help, e.g. with space. With several facilities each must meet the minimum area, and the 2.1 m height applies at every point (KOSHA H-178-2022 4.3, 5.1).')}${S.cite('koshaH178')}</p>
+          </div></div>`;
+      },
+      mount(root) {
+        const st = Object.assign({}, REST0, S.load('m.rest', REST0));
+        const up = () => { S.save('m.rest', st); S.refresh(); };
+        root.querySelectorAll('[data-restv]').forEach((i) => i.addEventListener('change', () => { st[i.dataset.restv] = i.value; up(); }));
+        root.querySelectorAll('[data-rest]').forEach((c) => c.addEventListener('change', () => { st[c.dataset.rest] = c.checked; up(); }));
+      },
+      basis: ['lawAct', 'lawDecree', 'lawRule', 'koshaH178']
     },
 
     mix: {

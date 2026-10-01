@@ -1292,6 +1292,36 @@
           </tbody></table></div>
           <p class="xs muted">${T('입력값은 가상의 예시입니다. SK하이닉스는 LTIFR을 20만 근무시간당으로 공개합니다.', 'Inputs are fictional examples. SK hynix reports LTIFR per 200,000 hours.')}</p>
         </div>
+      </section>
+      <section class="panel stack" id="anchor-stress">${ui.title(T('직무스트레스 건강장해 예방', 'Preventing health effects of job stress'), T('안전보건규칙 제669조 · KOSHA E-G-2-2025', 'Standards Rules Art. 669 · KOSHA E-G-2-2025'))}
+        <p class="small">${T('장시간 근로, 야간작업을 포함한 교대작업, 차량운전(전업), 정밀기계 조작작업처럼 신체적 피로와 정신적 스트레스가 높은 작업을 하게 하면 사업주는 다음 여섯 가지를 해야 합니다. 야간을 포함한 교대근무가 있는 사업장이라면 대상 작업이 있는지 먼저 확인하세요.', 'Where people do work with high physical fatigue and mental stress — long hours, shift work including nights, full-time driving, precision-machine operation and the like — the employer must take the six measures below. If you run shifts that include nights, check first whether such work applies.')}${S.cite('lawStd')}</p>
+        <div class="grid g2">
+          <div><b class="small">${T('사업주 조치 (제669조 제1~6호)', 'Employer measures (Art. 669, items 1–6)')}</b>
+            <ol class="facts" style="margin-top:6px">
+              <li>${T('작업환경·작업내용·근로시간 등 직무스트레스 요인을 평가하고 근로시간 단축, 장·단기 순환작업 등 개선대책 시행', 'Assess stressors such as environment, content and hours, and act on them — shorter hours, short- or long-term job rotation')}</li>
+              <li>${T('작업량·작업일정 등 작업계획을 세울 때 해당 근로자 의견 반영', 'Take the workers’ views into account when planning workload and schedules')}</li>
+              <li>${T('작업과 휴식을 적절히 배분하는 등 근로시간 관련 근로조건 개선', 'Improve working-time conditions, e.g. balancing work and rest')}</li>
+              <li>${T('근로시간 외 근로자 활동에 대한 복지 차원의 지원', 'Support workers’ activities outside working hours as welfare')}</li>
+              <li>${T('건강진단 결과·상담자료를 참고해 적절히 배치하고, 직무스트레스 요인·건강문제 가능성·대비책을 충분히 설명', 'Place workers using health checks and counselling records, and explain the stressors, possible health problems and countermeasures')}</li>
+              <li>${T('뇌혈관·심장질환 발병위험도를 평가해 금연·고혈압 관리 등 건강증진 프로그램 시행', 'Assess cerebrovascular and heart-disease risk and run health promotion such as smoking cessation and blood-pressure control')}</li>
+            </ol></div>
+          <div><b class="small">${T('관리 절차 (KOSHA E-G-2-2025 6장)', 'Management steps (KOSHA E-G-2-2025 ch. 6)')}</b>
+            <ol class="facts" style="margin-top:6px">
+              <li>${T('추진팀 구성 — 근로자 대표가 반드시 참여, 예산 결정권자 포함 (6.1)', 'Form a team — the workers’ representative must take part, with someone who controls the budget (6.1)')}</li>
+              <li>${T('유해요인 평가 — 한국인 직무스트레스요인 측정도구, 평가 전후로 목적·결과를 근로자에게 설명 (6.2)', 'Assess stressors with the Korean Occupational Stress Scale, explaining the purpose beforehand and the results afterwards (6.2)')}</li>
+              <li>${T('예방 계획 — 경영방침 공지, 중장기 계획, 요구도 조사로 우선순위·목표·실행계획 (6.3)', 'Plan — publish the policy, set a long-term plan, and use a needs survey to set priorities, targets and actions (6.3)')}</li>
+              <li>${T('프로그램 실행 — 조직 차원(직장 문화·근로환경), 예방 교육, 심리상담·근로자지원프로그램(EAP) (6.4)', 'Run programmes — organisational (culture, working conditions), training, counselling and an employee assistance programme (6.4)')}</li>
+              <li>${T('평가 — 같은 도구로 재평가해 사전 결과와 비교, 목표 달성 확인 (6.5)', 'Evaluate — re-assess with the same tool, compare with the baseline and check targets (6.5)')}</li>
+              <li>${T('피드백 — 문제점을 검토해 다음 프로그램에 반영 (6.6)', 'Feed back — review problems and improve the next round (6.6)')}</li>
+            </ol></div>
+        </div>
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('측정도구 (부록1)', 'Scale (Annex 1)')}</th><th class="n">${T('문항', 'Items')}</th><th>${T('하위영역', 'Domains')}</th><th>${T('쓰임', 'Use')}</th></tr></thead><tbody>
+          <tr><td>${T('기본형 (KOSS)', 'Full (KOSS)')}</td><td class="n">43</td><td class="small">${T('8개 — 물리적 환경·직무 요구·직무 자율·관계 갈등·직무 불안정·조직 체계·보상 부적절·직장 문화', '8 — physical environment, job demands, autonomy, relationship conflict, job insecurity, organisation, inadequate reward, workplace culture')}</td><td class="small">${T('정확하고 세밀한 평가', 'Detailed assessment')}</td></tr>
+          <tr><td>${T('단축형1 (KOSS-SF1)', 'Short 1 (KOSS-SF1)')}</td><td class="n">26</td><td class="small">${T('8개 (기본형과 같음)', '8 (as the full form)')}</td><td class="small">${T('빠르고 간편한 평가', 'Quick assessment')}</td></tr>
+          <tr><td>${T('단축형2 (KOSS-SF2)', 'Short 2 (KOSS-SF2)')}</td><td class="n">24</td><td class="small">${T('7개 (물리적 환경 제외)', '7 (no physical environment)')}</td><td class="small">${T('물리적 환경요인이 적은 경우', 'Where physical factors are minor')}</td></tr>
+          <tr><td>${T('감정노동 연계형 (KOSS®19)', 'Emotional labour (KOSS®19)')}</td><td class="n">19</td><td class="small">${T('8개 (직장 문화 대신 일-삶의 균형)', '8 (work–life balance instead of culture)')}</td><td class="small">${T('고객 응대 업무', 'Customer-facing work')}</td></tr>
+        </tbody></table></div>
+        <p class="xs muted">${T('영역 점수는 100점 만점으로 환산해 한국 근로자 성별 중앙값이나 회사 전체 중앙값과 비교합니다. 비교집단보다 높다고 반드시 증상이 나타나는 것은 아니지만, 해당 부서의 요인을 줄이는 조직 차원의 관리방안을 마련해 시행해야 합니다 (부록1 2~4).', 'Domain scores are converted to 100 and compared with Korean workers’ medians by sex or the company median. Scoring above the comparison group does not mean symptoms will appear, but the employer should put organisational measures in place for that department (Annex 1, 2–4).')}${S.cite('koshaEG2', 'lawStd')}</p>
       </section>`;
     },
     mount(root) {
