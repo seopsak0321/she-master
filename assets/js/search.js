@@ -7,10 +7,11 @@
   const KIND = {
     page: { ko: '페이지', en: 'Page' }, tool: { ko: '도구', en: 'Tool' }, sec: { ko: '섹션', en: 'Section' }, sop: { ko: 'SOP', en: 'SOP' },
     case: { ko: '사고사례', en: 'Incident' }, chem: { ko: '물질', en: 'Substance' }, res: { ko: '자료실', en: 'Library' },
-    news: { ko: '동향', en: 'Update' }, src: { ko: '출처', en: 'Source' }, guide: { ko: '가이드', en: 'Guide' }, term: { ko: '용어', en: 'Term' }
+    news: { ko: '동향', en: 'Update' }, src: { ko: '출처', en: 'Source' }, guide: { ko: '가이드', en: 'Guide' }, term: { ko: '용어', en: 'Term' },
+    book: { ko: '가이드북', en: 'Guidebook' }
   };
-  const ORDER = ['page', 'tool', 'guide', 'sop', 'case', 'chem', 'res', 'term', 'news', 'sec', 'src'];
-  const BOOST = { page: 12, tool: 6, guide: 3, sop: 5, case: 5, chem: 5, res: 4, term: 3, news: 1, sec: 0, src: 0 };
+  const ORDER = ['page', 'tool', 'guide', 'book', 'sop', 'case', 'chem', 'res', 'term', 'news', 'sec', 'src'];
+  const BOOST = { page: 12, tool: 6, guide: 3, book: 4, sop: 5, case: 5, chem: 5, res: 4, term: 3, news: 1, sec: 0, src: 0 };
   const SUGGEST = () => S.T(['불소', '밀폐공간', '도급승인', 'PSM', 'TMAH', '작업허가서', 'IDLH', '경보 설정값', '특별관리물질', 'LOTO', '접근한계거리', 'X선'],
     ['fluorine', 'confined space', 'subcontract approval', 'PSM', 'TMAH', 'permit', 'IDLH', 'alarm set point', 'specially controlled', 'LOTO', 'approach limit', 'X-ray']);
 
@@ -57,10 +58,10 @@
   /* ---------- index ---------- */
   let cache = null, dirty = true;
   const save0 = S.save, drop0 = S.drop;
-  S.save = function (k, v) { save0(k, v); if (!/^(tab\.|lb\.|search\.|res\.st|theme|lang|site)/.test(k)) dirty = true; };
+  S.save = function (k, v) { save0(k, v); if (!/^(tab\.|lb\.|search\.|res\.st|book\.|theme|lang|site)/.test(k)) dirty = true; };
   S.drop = function (k) { drop0(k); dirty = true; };
 
-  const CUSTOM = { sop: 1, cases: 1, hazards: 1, sources: 1, news: 1, resources: 1, guide: 1 };
+  const CUSTOM = { sop: 1, cases: 1, hazards: 1, sources: 1, news: 1, resources: 1, guide: 1, book: 1 };
   const TABKEY = { measure: 'measure', risk: 'risk', fire: 'scen', gas: 'gas', bench: 'bench', psm: 'psm', signs: 'signs', env: 'env' };
   const VARIANTS = { sites: ['common', 'icheon', 'cheongju'] };
   const FILTERS = {};
@@ -174,6 +175,9 @@
         add({ k: 'guide', title: T('가이드 · ', 'Guide · ') + rn(r) + ' › ' + L(s.t), crumb: rn('guide'), href: '#guide/' + r, go: { jump: L(s.t) },
           text: [L(s.what), flat(L(s.how)), L(s.read), L(s.example)].join(' '), alt: both(s.t) }); });
     });
+    /* SHE 가이드북 — 원문 확인을 마친 절마다 하나 (제목은 양쪽 언어로도 찾는다) */
+    (S.BOOK_ORDER || []).forEach((id) => { const x = S.BOOK_IDX[id]; if (x.s.st !== 'ok') return;
+      add({ k: 'book', title: `${x.num} ${L(x.s.t)}`, crumb: rn('book') + ' · ' + S.bookApi.partLabel(x.p), href: '#book/' + id, text: S.bookText(x.s), alt: both(x.s.t) + ' ' + id, at: both(x.s.t) }); });
     S.GLOSSARY.forEach((t) => add({ k: 'term', title: L(t.t), crumb: rn('guide') + ' · ' + T('용어 사전', 'Glossary'), href: '#guide/terms', go: { jump: L(t.t) }, text: L(t.d), alt: both(t.t), at: both(t.t) }));
   }
 

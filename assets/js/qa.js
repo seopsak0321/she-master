@@ -39,7 +39,37 @@
         else walk(v, path + '.' + k, depth + 1);
       });
     };
-    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    /* SHE 가이드북 — id 중복, 원문 확인 절의 출처·확인일, 한/영 짝, 표의 칸 수, 나라·분야·수준 코드, {{절 id}}·포털 연결 경로, 계획 단계 */
+    if (S.BOOK) {
+      const ids = [], bad = (what, where, v) => add('bad', T('가이드북 데이터', 'Guidebook data') + ' · ' + what, where, v);
+      const pair = (o, where) => { if (!o || o.ko == null || o.en == null) return bad(T('한/영 짝 없음', 'missing KO/EN'), where, '–'); if (Array.isArray(o.ko) !== Array.isArray(o.en) || (Array.isArray(o.ko) && o.ko.length !== o.en.length)) bad(T('한/영 항목 수 다름', 'KO/EN item count'), where, `${[].concat(o.ko).length} / ${[].concat(o.en).length}`); };
+      const refs = (o, where) => JSON.stringify(o || '').replace(/\{\{([\w-]+)\}\}/g, (m, id) => { if (!S.BOOK_IDX || !S.BOOK_IDX[id]) bad(T('없는 절 참조', 'unknown section ref'), where, id); return m; });
+      S.BOOK.forEach((p) => { ids.push(p.id); pair(p.t, p.id); (p.ch || []).forEach((c) => {
+        ids.push(c.id); pair(c.t, c.id);
+        if (c.plan) { if (!S.BOOK_STAGE[c.plan]) bad(T('계획 단계', 'plan stage'), c.id, c.plan); return; }
+        (c.sec || []).forEach((s) => {
+          ids.push(s.id); const w = s.id; pair(s.t, w); pair(s.sum, w + '.sum');
+          if (!['ok', 'draft'].includes(s.st)) bad(T('상태', 'status'), w, s.st);
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(s.checked || '')) bad(T('확인일', 'date checked'), w, s.checked || '–');
+          (s.cty || []).forEach((k) => { if (!S.BOOK_CTY[k]) bad(T('나라 코드', 'country code'), w, k); });
+          (s.fld || []).forEach((k) => { if (!S.BOOK_FIELD[k]) bad(T('분야 코드', 'field code'), w, k); });
+          if (!S.BOOK_LV[s.lv]) bad(T('수준 코드', 'level code'), w, s.lv);
+          const body = s.body || [];
+          if (s.st === 'ok' && !s.meta && !body.some((b) => (b.src || []).length)) bad(T('원문 확인 절에 출처 없음', 'checked section without sources'), w, '–');
+          body.forEach((b, i) => {
+            const bw = `${w}.body[${i}]`;
+            if (b.t) pair(b.t, bw); if (b.cap) pair(b.cap, bw + '.cap');
+            if (['p', 'ul', 'ol', 'syn', 'note'].includes(b.k) && !s.meta && !(b.src || []).length && b.k !== 'note') bad(T('사실 블록에 출처 없음', 'fact block without sources'), bw, b.k);
+            if (b.k === 'tbl') { pair(b.head, bw + '.head'); const n = b.head.ko.length; b.rows.forEach((r, ri) => { if (r.length !== n) bad(T('표 칸 수', 'table cells'), `${bw}.rows[${ri}]`, `${r.length} ≠ ${n}`); r.forEach((c) => { if (typeof c === 'string' && c.charAt(0) === '@' && !S.BOOK_CTY[c.slice(1)]) bad(T('나라 코드', 'country code'), bw, c); else if (c && typeof c === 'object') pair(c, bw); }); }); }
+            if (b.k === 'go') (b.items || []).forEach(([h, l]) => { pair(l, bw); if (!S.pages[String(h).slice(1).split('/')[0]]) bad(T('없는 경로', 'unknown route'), bw, h); });
+            refs(b, bw);
+          });
+          refs(s.sum, w + '.sum');
+        });
+      }); });
+      const seenB = new Set(); ids.forEach((id) => { if (seenB.has(id)) bad(T('중복 id', 'duplicate id'), 'BOOK', id); seenB.add(id); });
+    }
     S.SOPS.forEach((s) => (s.permits || []).forEach((p) => { if (!S.PTW_FROM_SOP[p]) add('bad', T('SOP 허가 종류', 'SOP permit type'), s.id, p); }));
     (S.LAWCHECK || []).forEach((r) => { if (!src.has(r.id)) add('bad', T('법령 점검표 출처', 'Law-check source'), 'LAWCHECK', r.id); });
     for (let i = 1; i < S.NEWS.length; i++) if (S.NEWS[i].date > S.NEWS[i - 1].date) add('warn', T('동향 날짜 순서', 'News order'), 'NEWS[' + i + ']', S.NEWS[i].date);
@@ -177,6 +207,7 @@
     if (ITEM[r]) return F[ITEM[r]].some((x) => x.id === rest[0]) || (r === 'cases' && rest[0] === 'selfcheck') ? '' : T('없는 항목', 'unknown item');
     if (r === 'guide') return F.GUIDES[rest[0]] || rest[0] === 'terms' || rest[0] === 'search' ? '' : T('없는 가이드', 'unknown guide');
     if (r === 'print') return (F.printDocs || []).includes(rest[0]) ? '' : T('없는 인쇄 양식', 'unknown print doc');
+    if (r === 'book') return rest[0] === 'sel' || (F.BOOK_IDX && F.BOOK_IDX[rest[0]]) ? '' : T('없는 가이드북 절', 'unknown guidebook section');
     if (r === 'hazards') return F.CHEMICALS.some((x) => x.id === rest[0]) || F.PROCESSES.some((x) => x.id === rest[0]) ? '' : T('없는 물질·공정', 'unknown substance or process');
     return '';
   }

@@ -248,7 +248,7 @@
   };
 
   /* which saved keys are the user's own work (as opposed to screen preferences) — used by backup and the dashboard reminder */
-  S.PREF_KEYS = /^(lang|site|theme|view|fz|nav\.fold|fp\..*|calc\.(mode|angle)|step\..*|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
+  S.PREF_KEYS = /^(lang|site|theme|view|fz|nav\.fold|fp\..*|calc\.(mode|angle)|step\..*|tab\..*|lb\..*|res\.st|sop\.sel|cases\.sel|book\..*|hz\.q|hz\.rg|search\.recent|backup\.last|ptw\.cur|trn\.ref)$/;
 
   /* ---------- 늘어나는 목록의 공통 도구막대: 검색 + 분류 칩(건수) + ‘n / 전체’ ----------
      S.listbar({ id, ph, facets: [{ key, label, opts: [{ id, label, n }] }] })을 목록 위에 두고, mount에서 S.listFilter(root, id)를 부른다.
@@ -357,6 +357,7 @@
       ['ppe', { ko: '호흡보호구 선정', en: 'Respirator selection' }],
       ['units', { ko: '단위 환산', en: 'Unit converter' }] ] },
     { g: { ko: '라이브러리', en: 'Library' }, ic: 'book', items: [
+      ['book', { ko: 'SHE 가이드북 (교과서)', en: 'SHE Guidebook (textbook)' }],
       ['sop', { ko: 'SOP·작업 안전', en: 'SOPs & job safety' }],
       ['hazards', { ko: '공정·물질 위험', en: 'Process & chemical hazards' }],
       ['signs', { ko: '안전보건표지·경고표지', en: 'Signs & chemical labels' }],

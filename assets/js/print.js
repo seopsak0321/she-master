@@ -343,9 +343,28 @@
       + foot(['moelPsm']);
   };
 
+  /* SHE 가이드북 — #print/book/sel(고른 절) · all(공개된 전체) · <절 id>(한 절). 표지 정보, 목차, 절 본문, 출처 목록(주소·확인일) */
+  DOCS.book = function (id) {
+    const A = S.bookApi; if (!A) return notFound();
+    const scope = !id || id === 'sel' ? 'sel' : id === 'all' ? 'all' : 'one';
+    const ids = scope === 'sel' ? A.getSel() : scope === 'all' ? A.PUB.slice() : (A.IDX[id] && A.IDX[id].s.st === 'ok' ? [id] : null);
+    if (!ids) return notFound();
+    const title = scope === 'one' ? `${A.IDX[id].num} ${L(A.IDX[id].s.t)}` : scope === 'all' ? T('SHE 가이드북 — 공개된 전체 절', 'SHE Guidebook — all published sections') : T('SHE 가이드북 — 고른 절 모음', 'SHE Guidebook — selected sections');
+    const top = head({ kind: T('SHE 가이드북', 'SHE Guidebook'), title, sub: T('안전보건 교과서 — 원문 출처와 확인일을 붙인 교육 자료', 'A safety and health textbook — teaching material with original sources and the dates they were checked'),
+      meta: [[T('범위', 'Scope'), T(`${ids.length}개 절`, `${ids.length} section(s)`)], [T('최근 원문 확인', 'Latest check of originals'), S.BOOK_ASOF], [T('출력일', 'Printed'), today()], [T('온라인', 'Online'), location.origin + location.pathname.replace(/index\.html$/, '') + '#book']] });
+    if (!ids.length) return top + `<p>${esc(T('고른 절이 없습니다. 가이드북 목차에서 절을 고르거나 ‘전체 PDF’를 쓰세요.', 'No sections are selected. Tick sections in the guidebook contents, or use “Whole book as PDF”.'))}</p>`;
+    const toc = ids.length > 1 ? sec(T('목차', 'Contents'), `<ol class="doc-toc">${ids.map((i) => `<li><span class="doc-n">${A.IDX[i].num}</span> ${esc(L(A.IDX[i].s.t))}</li>`).join('')}</ol>`) : '';
+    const srcs = A.srcIds(ids);
+    return top + toc + ids.map((i) => A.secPrint(i, ids.length > 1)).join('')
+      + (srcs.length ? `<section class="doc-sec doc-bk-src"><h2>${esc(T('출처 — 본문의 [번호]', 'Sources — the [numbers] in the text'))}</h2><ol class="doc-srcs">${A.srcPrint(srcs)}</ol></section>` : '')
+      + `<footer class="doc-foot"><p>${esc(T('개인이 공개 원문을 읽고 정리한 교육 자료이며, 정부·기관의 공식 해석이 아닙니다. 법령은 개정되므로 실제 적용 전에 출처의 현행본을 확인하세요. ‘정리’ 표시는 작성자가 원문을 비교·요약한 부분입니다.', 'Teaching material written by an individual from public originals, not an official interpretation. Laws change; check the current text of each source before applying it. Parts marked “Synthesis” were compared and summarised by the author.'))}</p>
+        <p class="doc-stamp">SHE Master · ${esc(T('출력일', 'Printed'))} ${today()} · © 2026 ${esc(L(S.AUTHOR))}</p></footer>`;
+  };
+
   /* where the “back” button goes for each document */
   const BACK = { lawcheck: () => '#sources/lawcheck', ptw: (id) => '#ptw/' + id, ptwmon: (id) => '#ptw/' + id, ptwaudit: () => '#ptw/audit', training: () => '#training', card: (id) => '#sop/' + id, sop: (id) => '#sop/' + id, tbm: () => '#prevent/tbm', ra: () => '#risk', inc: () => '#prevent/incident', report: () => '#prevent/report',
-    selfcheck: () => '#cases/selfcheck', duty: () => '#partner', sapa: () => '#prevent/sapa', pssr: () => '#psm/pssr', psmaudit: () => '#psm/audit', chem: () => '#psm/chem', cycles: () => '#home/cycles', case: (id) => '#cases/' + id };
+    selfcheck: () => '#cases/selfcheck', duty: () => '#partner', sapa: () => '#prevent/sapa', pssr: () => '#psm/pssr', psmaudit: () => '#psm/audit', chem: () => '#psm/chem', cycles: () => '#home/cycles', case: (id) => '#cases/' + id,
+    book: (id) => (!id || id === 'all' ? '#book' : '#book/' + id) };
 
   S.pages.print = {
     render(sub) {
