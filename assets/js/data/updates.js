@@ -5,11 +5,25 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v94';
+SHE.BUILD = 'v95';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 21, v: SHE.BUILD, date: '2026-10-04',
+    { no: 22, v: SHE.BUILD, date: '2026-10-04 22:30', commit: '',
+      t: B('자료 라이브러리 540건 — 미국 CSB 조사 140건 전부, 고용노동부 재해조사보고서 51건 전부', 'Resource library reaches 540 items — all 140 US CSB investigations and all 51 MOEL accident investigation reports'),
+      add: [
+        B('미국 CSB 조사 84건 추가(1차 56건과 합쳐 검색 목록 140건 전부) — 완료 조사 78건(1998~2021년 사고, 회보·연구 11건 포함)과 진행 중 조사 6건(2024~2026년 사고, 최종보고서가 없어 ‘사고 사례’로 표시). 목록 화면 링크가 깨져 빠져 있던 Wacker Polysilicon 염화수소 누출(다결정 실리콘 공장, 2020년)도 찾아 넣음', '84 more US CSB investigations (with the first 56, all 140 in the search list) — 78 completed (incidents 1998–2021, including 11 bulletins and studies) and 6 ongoing (incidents 2024–2026, shown as accident cases because there is no final report yet); also the Wacker Polysilicon hydrogen chloride release (2020), missing earlier because of a broken link on the list page'),
+        B('고용노동부 재해조사보고서 51건 전부(2024년 사고, 2026.5.26 공개) — 게시판 분류(업종·규모·재해 정도·유형·지역)와 각 보고서 PDF의 재해 경위·원인·안전조치 권고를 요약, 규모·피해 칸 추가, 포털 사고사례로 분석한 6건은 사례 화면과 연결', 'All 51 MOEL accident investigation reports (2024 accidents, published 26 May 2026) — summarised from the board’s classification (industry, size, severity, type, region) and each report PDF’s course of events, causes and recommendations; a size/harm row; the six already analysed in the portal link to their case pages'),
+        B('분류 값 추가 — 위험 요인 ‘차량·건설기계·지게차’·‘맞음(낙하·비래물)’, 산업 ‘도소매·서비스’, ‘식품·농림·축산’·‘폐기물·재활용·수처리’로 범위를 넓혀 이름 변경', 'New category values — hazards “vehicles, plant & forklifts” and “struck by objects”, industry “retail & services”; “food, farming & forestry” and “waste, recycling & water” widened and renamed'),
+        B('사고사례 화면에서 자료 라이브러리의 사고 사례·조사보고서로 바로 가는 링크', 'A link from the incident cases page to the library’s accident cases and investigation reports')
+      ],
+      chg: [
+        B('자료 화면 — 장소를 한/영으로 표시, 보고서 공개일 이름을 자료마다 다르게(최종보고서 공개·보고서 공개), 진행 중 조사는 ‘조사 진행 중 — 최종보고서 미공개’, 새 자료에 원문 확인일 표시', 'Item pages — place shown in Korean or English, the second date labelled per item (final report or report published), ongoing investigations marked as such, and the date checked shown for new items'),
+        B('자체 점검에 라이브러리 항목의 두 번째 날짜 형식, 장소 한/영, 요약 한/영 항목 수, 연결 경로(#cases·#book/item) 점검 추가', 'The self-check now also tests each item’s second date, KO/EN place and summary counts, and its links to #cases and #book/item'),
+        B('상단 검색에 고용노동부 재해조사보고서 항목 추가, 출처 ‘CSB 조사’·‘고용노동부 재해조사보고서 공개’ 설명과 확인일 갱신(2026-10-04)', 'Top search now finds the MOEL report items; the CSB and MOEL report source notes and check dates updated (2026-10-04)')
+      ],
+      fix: [] },
+    { no: 21, v: 'v94', date: '2026-10-04 11:24', commit: 'c2b0958',
       t: B('가이드북 자료 라이브러리 — 7개 대분류로 체크해 찾기, 자료 405건, 미국 CSB 사고조사 56건', 'Guidebook resource library — find by ticking seven category groups; 405 items incl. 56 US CSB investigations'),
       add: [
         B('‘카테고리로 찾기’(#book/find) — 자료 유형(18종, 법령·기준/선례/자료·데이터/포털 작성으로 묶음)·나라·연도(10년 단위 묶음)·산업(13)·위험 요인(18)·관리 주제(15)·출처 등급(6)의 7개 대분류. 같은 대분류 안은 ‘또는’, 대분류끼리는 ‘그리고’, 소분류마다 다른 조건을 반영한 건수, 고른 조건 칩·모두 해제, 묶음 체크(예: 선례 전체·2020년대), 검색, 최신·오래된·유형·제목 정렬, 20·50·100건 쪽 나누기, 조건이 주소에 남아 링크로 공유(‘이 조건 링크 복사’)', '“Find by category” (#book/find) — seven groups: type (18, grouped as law and standards / precedents / data / written for the portal), country, year (grouped by decade), industry (13), hazard (18), management topic (15) and source tier (6). Values in one group combine with “or”, groups with “and”; each value shows the count given the other filters; chosen-filter chips and clear-all; group ticks (e.g. all precedents, the 2020s); search; newest/oldest/type/title sorting; 20, 50 or 100 per page; filters kept in the address and shareable (“Copy link to these filters”)'),

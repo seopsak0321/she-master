@@ -86,6 +86,13 @@
         ['c', 'i', 'h', 'm'].forEach((f) => it[f].forEach((v) => { if (!VAL[f].has(v)) lb(T('분류 값', 'category value'), `${it.id}.${f}`, v); }));
         it.y.forEach((y) => { if (!/^(19|20)\d\d$/.test(y)) lb(T('연도', 'year'), it.id, y); });
         if (it.d && !/^\d{4}-\d{2}-\d{2}$/.test(it.d)) lb(T('날짜', 'date'), it.id, it.d);
+        if (it.d2 && !/^\d{4}-\d{2}-\d{2}$/.test(it.d2)) lb(T('날짜', 'date'), it.id + '.d2', it.d2);
+        if (it.loc && (typeof it.loc === 'object' ? !(it.loc.ko && it.loc.en) : /[가-힣]/.test(it.loc))) lb(T('장소 한/영', 'KO/EN place'), it.id, typeof it.loc === 'object' ? '–' : it.loc);
+        if (it.sum && Array.isArray(it.sum.ko) && Array.isArray(it.sum.en) && it.sum.ko.length !== it.sum.en.length) lb(T('요약 한/영 항목 수', 'KO/EN summary count'), it.id, `${it.sum.ko.length} / ${it.sum.en.length}`);
+        (it.go || []).forEach(([h]) => {
+          const p = String(h).slice(1).split('/');
+          if (!S.pages[p[0]] || (p[0] === 'book' && p[1] === 'item' && !S.libApi.has(p[2])) || (p[0] === 'cases' && p[1] && !S.CASES.some((c) => c.id === p[1]))) lb(T('없는 연결 경로', 'unknown link'), it.id, h);
+        });
         if (!it.title || !it.title.ko || !(it.title.en || typeof it.title === 'string')) lb(T('한/영 제목', 'KO/EN title'), it.id, '–');
         if (it.k !== 'book' && it.k !== 'sop' && it.k !== 'case' && it.k !== 'news' && !(it.url || it.urlFn)) lb(T('원문 주소 없음', 'no original URL'), it.id, '–');
         if (it.url && !/^https?:\/\//.test(it.url)) lb(T('원문 주소', 'original URL'), it.id, it.url);

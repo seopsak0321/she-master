@@ -53,7 +53,7 @@
   });
   /* 4) 사고사례 */
   (S.CASES || []).forEach((c) => {
-    const hz = []; words(c.types).forEach((t) => words((S.LIB_CASE_HZ || {})[t]).forEach((h) => { if (!hz.includes(h)) hz.push(h); }));
+    const hz = []; words(c.types).map((t) => (S.LIB_CASE_HZ || {})[t]).concat((S.LIB_CASE_HZX || {})[c.id]).forEach((v) => words(v).forEach((h) => { if (!hz.includes(h)) hz.push(h); }));
     const ind = (S.LIB_CASE_IND || {})[c.id] || (/^gov-/.test(c.id) ? '' : 'semi');
     add({ id: 'x-' + c.id, k: 'case', c: 'KR', y: (c.date || '').slice(0, 4), d: c.date, i: ind, h: hz, m: 'inv' + (words(c.types).includes('reg') ? ' contract liab' : ''), tier: c.official ? 3 : 4,
       title: c.t, sum: sum1([].concat(c.impact ? c.impact.ko : [], c.lesson ? c.lesson.ko : []), [].concat(c.impact ? c.impact.en : [], c.lesson ? c.lesson.en : [])), href: '#cases/' + c.id, src: words(c.src) });
@@ -123,7 +123,7 @@
   /* ---------- 거르기 ---------- */
   const valOf = (it, f) => (f === 'k' ? [it.k] : f === 't' ? [it.tier] : it[f] || []);
   const hayCache = {};
-  const hay = (it) => { const k = S.state.lang + '|' + it.id; if (!hayCache[k]) hayCache[k] = S.norm([L(it.title), it.title.ko, it.title.en, [].concat(L(it.sum) || []).join(' '), L(it.org) || '', it.loc || '', it.id].join(' ')); return hayCache[k]; };
+  const hay = (it) => { const k = S.state.lang + '|' + it.id; if (!hayCache[k]) hayCache[k] = S.norm([L(it.title), it.title.ko, it.title.en, [].concat(L(it.sum) || []).join(' '), L(it.org) || '', it.loc && typeof it.loc === 'object' ? it.loc.ko + ' ' + it.loc.en : it.loc || '', it.id].join(' ')); return hayCache[k]; };
   const toks = (q) => S.norm(q).split(' ').filter(Boolean).slice(0, 8);
   const match = (it, st, skip) => {
     for (const f of FIDS) {
@@ -152,7 +152,8 @@
   const kindChip = (it) => `<span class="bk-tag lib-k lib-k-${esc(it.k)}">${esc(lab('k', it.k))}</span>`;
   const dateText = (it) => (it.d ? it.d : it.y.length ? it.y.join(', ') : '');
   const hrefOf = (it) => (it.k === 'book' ? '#book/' + it.id : '#book/item/' + it.id);
-  const meta1 = (it) => [it.c.map((c) => lab('c', c)).join(', '), dateText(it), it.loc || '', L(it.org) || ''].filter(Boolean).join(' · ');
+  const locOf = (it) => (it.loc && typeof it.loc === 'object' ? L(it.loc) : it.loc || '');
+  const meta1 = (it) => [it.c.map((c) => lab('c', c)).join(', '), dateText(it), locOf(it), L(it.org) || ''].filter(Boolean).join(' · ');
   const getSel = () => (S.bookApi ? S.bookApi.getSel() : []);
   const putSel = (ids) => S.bookApi && S.bookApi.putSel(ids);
   const urlOf = (it) => (it.urlFn ? it.urlFn() : it.url || '');
@@ -285,8 +286,9 @@
   function details(it, pr) {
     const row = (k, v) => (v ? (pr ? `<tr><th>${esc(k)}</th><td>${v}</td></tr>` : `<dt>${esc(k)}</dt><dd>${v}</dd>`) : '');
     const list = (f, vs) => vs.map((v) => esc(lab(f, v))).join(', ');
-    const rows = row(T('유형', 'Type'), esc(lab('k', it.k))) + row(T('나라·지역', 'Country / region'), list('c', it.c)) + row(T('날짜·연도', 'Date / year'), esc(dateText(it)) + (it.d2 ? ` <span class="${pr ? 'doc-small' : 'xs muted'}">(${esc(T('최종보고서 공개', 'final report'))} ${esc(it.d2)})</span>` : ''))
-      + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(T('장소', 'Place'), esc(it.loc || '')) + row(T('산업·업종', 'Industry'), list('i', it.i)) + row(T('위험 요인', 'Hazard'), list('h', it.h))
+    const d2 = it.d2 ? `${it.d2l ? L(it.d2l) : T('최종보고서 공개', 'final report')} ${it.d2}` : it.open ? T('조사 진행 중 — 최종보고서 미공개', 'investigation ongoing — no final report yet') : '';
+    const rows = row(T('유형', 'Type'), esc(lab('k', it.k))) + row(T('나라·지역', 'Country / region'), list('c', it.c)) + row(T('날짜·연도', 'Date / year'), esc(dateText(it)) + (d2 ? ` <span class="${pr ? 'doc-small' : 'xs muted'}">(${esc(d2)})</span>` : ''))
+      + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(T('장소', 'Place'), esc(locOf(it))) + row(T('규모·피해', 'Size / harm'), esc(it.size ? L(it.size) : '')) + row(T('산업·업종', 'Industry'), list('i', it.i)) + row(T('위험 요인', 'Hazard'), list('h', it.h))
       + row(T('관리 주제', 'Topic'), list('m', it.m)) + row(T('출처 등급', 'Source tier'), esc(lab('t', it.tier))) + row(T('원문 확인', 'Checked'), esc(it.checked || ''));
     return pr ? `<table class="doc-table doc-kv"><tbody>${rows}</tbody></table>` : `<dl class="kv lib-kv">${rows}</dl>`;
   }
