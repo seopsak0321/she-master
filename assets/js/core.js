@@ -357,7 +357,7 @@
       ['ppe', { ko: '호흡보호구 선정', en: 'Respirator selection' }],
       ['units', { ko: '단위 환산', en: 'Unit converter' }] ] },
     { g: { ko: '라이브러리', en: 'Library' }, ic: 'book', items: [
-      ['book', { ko: 'SHE 가이드북 (교과서)', en: 'SHE Guidebook (textbook)' }],
+      ['book', { ko: 'SHE 가이드북 (교과서·자료 라이브러리)', en: 'SHE Guidebook (textbook & library)' }],
       ['sop', { ko: 'SOP·작업 안전', en: 'SOPs & job safety' }],
       ['hazards', { ko: '공정·물질 위험', en: 'Process & chemical hazards' }],
       ['signs', { ko: '안전보건표지·경고표지', en: 'Signs & chemical labels' }],

@@ -18,8 +18,18 @@
   const ctyName = (k) => L(S.BOOK_CTY[k]);
 
   /* ---------- 저장값 ---------- */
-  const getSel = () => { const v = S.load('book.sel', []); return Array.isArray(v) ? PUB.filter((id) => v.includes(id)) : []; };
-  const putSel = (ids) => S.save('book.sel', PUB.filter((id) => ids.includes(id)));
+  /* 고른 목록(book.sel)에는 교과서 절과 자료 라이브러리 항목(pages/booklib.js)이 함께 들어간다 — 절은 목차 순서, 자료는 유형·최신 순 */
+  const isSec = (id) => !!(IDX[id] && IDX[id].s.st === 'ok');
+  const known = (id) => isSec(id) || !!(S.libApi && S.libApi.has(id));
+  const orderSel = (ids) => PUB.filter((id) => ids.includes(id)).concat(S.libApi ? S.libApi.order(ids.filter((id) => !IDX[id])) : []);
+  const getSel = () => { const v = S.load('book.sel', []); return Array.isArray(v) ? orderSel(v.filter(known)) : []; };
+  const putSel = (ids) => S.save('book.sel', orderSel([...new Set(ids)].filter(known)));
+  /* 화면 위 탭 — 교과서 목차 · 카테고리로 찾기 · 고른 자료 (지금 화면은 링크 없이 표시) */
+  const tabs = (cur) => {
+    const n = S.libApi ? S.libApi.count() : 0, sel = getSel().length;
+    const tab = (k, href, label, num) => (k === cur ? `<a aria-current="page">${label} <span class="num">${num}</span></a>` : `<a href="${href}">${label} <span class="num">${num}</span></a>`);
+    return `<nav class="bk-tabs" aria-label="${T('가이드북 보기', 'Guidebook views')}">${tab('toc', '#book', T('교과서 목차', 'Textbook contents'), PUB.length)}${tab('find', '#book/find', T('카테고리로 찾기', 'Find by category'), n)}${tab('sel', '#book/sel', T('고른 자료', 'Selected'), sel)}</nav>`;
+  };
   const FDEF = { q: '', cty: 'all', fld: 'all', lv: 'all' };
   const fst = () => { const v = S.load('book.f', null); return Object.assign({}, FDEF, v && typeof v === 'object' ? v : {}); };
   const folded = () => { const v = S.load('book.fold', []); return Array.isArray(v) ? v : []; };
@@ -47,7 +57,7 @@
       (b.rows || []).forEach((r) => r.forEach((c) => add(cellTxt(c))));
       (b.items || []).forEach((it) => add(L(it[1])));
     });
-    return out.join(' ');
+    return out.join(' · ');   /* 조각 사이를 띄워 소제목과 표 머리글이 한 문장처럼 붙지 않게 */
   };
 
   /* ---------- 블록 (pr: 인쇄용) ---------- */
@@ -128,7 +138,7 @@
       <div class="doc-bk-sum"><b>${T('핵심 요약', 'Key points')}</b><ul>${L(s.sum).map((v) => `<li>${inl(v, 1)}</li>`).join('')}</ul></div>
       ${(s.body || []).map((b) => blk(b, 1)).join('')}</section>`;
   }
-  S.bookApi = { IDX, PUB, getSel, partLabel, secPrint, srcIds, srcPrint: (ids) => srcItems(ids, 1) };
+  S.bookApi = { IDX, PUB, getSel, putSel, tabs, isSec, partLabel, secPrint, srcIds: (ids) => { const out = srcIds([].concat(ids).filter(isSec)); [].concat(ids).filter((id) => !isSec(id) && S.libApi).forEach((id) => S.libApi.srcOf(id).forEach((x) => { if (!out.includes(x)) out.push(x); })); return out; }, srcPrint: (ids) => srcItems(ids, 1) };
 
   /* ---------- 목차 (#book) ---------- */
   function rowHtml(id, sel) {
@@ -165,6 +175,7 @@
       T('분야·사업장·나라를 아우르는 안전보건 교과서를 목표로, 원문을 확인한 절부터 채워 가는 가이드북입니다.', 'A guidebook aiming to be a safety and health textbook across fields, workplaces and countries, filled section by section as the originals are checked.'),
       T(`<p>목차는 편 → 장 → 절이고, 절마다 핵심 요약, 법·기준 원문, 나라별 비교, ‘정리’(작성자의 비교·요약), 학습 확인, 출처를 담습니다. 체크 상자로 절을 골라 한 화면에 모아 보고 PDF로 저장할 수 있습니다. 쓰는 원칙은 {{trust}}, 쓰는 법은 {{use}}에 있습니다.</p>`.replace(/\{\{(\w+)\}\}/g, (m, id) => `<a href="#book/${id}">${IDX[id].num}</a>`),
         `<p>The contents run part → chapter → section; each section has key points, the original law and standards, country comparisons, a “synthesis” by the author, review questions and its sources. Tick sections to read them together and save them as a PDF. The rules are in {{trust}} and how to use the book in {{use}}.</p>`.replace(/\{\{(\w+)\}\}/g, (m, id) => `<a href="#book/${id}">${IDX[id].num}</a>`)))}
+      ${tabs('toc')}
       <section class="panel bk-status" aria-label="${T('진행 현황', 'Progress')}">
         <span><b>${T('1판', '1st edition')}</b> · ${T('최근 원문 확인', 'latest check of originals')} <span class="num">${S.BOOK_ASOF}</span></span>
         <span>${T(`공개 절 <b class="num">${PUB.length}</b>개`, `<b class="num">${PUB.length}</b> sections published`)}</span>
@@ -179,8 +190,8 @@
         ${facet('lv', T('수준', 'Level'), S.BOOK_LV)}
         <div class="bk-selbar">
           <span class="bk-cnt"><span data-bk-cnt></span> <span class="xs muted" data-bk-shown aria-live="polite"></span></span>
-          <a class="btn sm" href="#book/sel">${T('고른 절 모아 보기', 'Read selected')}</a>
-          <a class="btn ghost sm print-link" href="#print/book/sel">${S.ICON_PRINT}${T('고른 절 PDF', 'Selected as PDF')}</a>
+          <a class="btn sm" href="#book/sel">${T('고른 자료 모아 보기', 'Read selected')}</a>
+          <a class="btn ghost sm print-link" href="#print/book/sel">${S.ICON_PRINT}${T('고른 자료 PDF', 'Selected as PDF')}</a>
           <a class="btn ghost sm print-link" href="#print/book/all">${S.ICON_PRINT}${T('전체 PDF', 'Whole book as PDF')}</a>
           <button type="button" class="btn ghost sm" data-bk-clear>${T('선택 해제', 'Clear selection')}</button>
           <button type="button" class="btn ghost sm" data-bk-foldall>${T('장 모두 접기·펼치기', 'Fold or unfold all chapters')}</button>
@@ -220,7 +231,7 @@
       const tri = (cb, box) => { const rs = rowsIn(box), n = rs.filter((r) => sel.includes(r.dataset.id)).length; cb.checked = rs.length > 0 && n === rs.length; cb.indeterminate = n > 0 && n < rs.length; cb.disabled = !rs.length; };
       root.querySelectorAll('[data-bk-cchk]').forEach((cb) => tri(cb, cb.closest('[data-bk-ch]')));
       root.querySelectorAll('[data-bk-pchk]').forEach((cb) => tri(cb, cb.closest('[data-bk-part]')));
-      root.querySelector('[data-bk-cnt]').textContent = T(`고른 절 ${sel.length}개`, `${sel.length} selected`);
+      root.querySelector('[data-bk-cnt]').textContent = T(`고른 자료 ${sel.length}건`, `${sel.length} selected`);
       root.querySelector('[data-bk-clear]').disabled = !sel.length;
     }
     function apply() {
@@ -305,20 +316,21 @@
   /* 찾은 낱말이 있으면 첫 곳으로 (강조는 search.js가 S.state.jump로 한다) */
   const toHit = () => setTimeout(() => { const m = document.querySelector('#view mark.hit'); if (m) S.reveal(m); }, 160);
 
-  /* ---------- 고른 절 모아 보기 (#book/sel) ---------- */
+  /* ---------- 고른 자료 모아 보기 (#book/sel) — 교과서 절(목차 순서) 다음에 라이브러리 자료 ---------- */
   function renderCollected() {
-    const ids = getSel();
-    return `${ui.head(`<a href="#book">${T('SHE 가이드북', 'SHE Guidebook')}</a>`, T('고른 절 모아 보기', 'Selected sections'),
-      ids.length ? T(`고른 ${ids.length}개 절을 목차 순서대로 보여 줍니다.`, `The ${ids.length} selected section(s), in contents order.`) : T('아직 고른 절이 없습니다.', 'No sections selected yet.'))}
+    const ids = getSel(), nSec = ids.filter(isSec).length;
+    return `${ui.head(`<a href="#book">${T('SHE 가이드북', 'SHE Guidebook')}</a>`, T('고른 자료 모아 보기', 'Selected items'),
+      ids.length ? T(`고른 ${ids.length}건(교과서 절 ${nSec}, 라이브러리 자료 ${ids.length - nSec})을 한 화면에 모았습니다.`, `${ids.length} selected (${nSec} guidebook section(s), ${ids.length - nSec} library item(s)) on one page.`) : T('아직 고른 자료가 없습니다.', 'Nothing selected yet.'))}
+      ${tabs('sel')}
       <section class="panel bk-selbar2" id="anchor-sel">
-        <span class="bk-cnt">${T(`고른 절 ${ids.length}개`, `${ids.length} selected`)}</span>
-        <a class="btn ghost sm" href="#book">← ${T('목차로', 'Back to contents')}</a>
+        <span class="bk-cnt">${T(`고른 자료 ${ids.length}건`, `${ids.length} selected`)}</span>
+        <a class="btn ghost sm" href="#book/find">← ${T('카테고리로 찾기', 'Find by category')}</a>
         ${ids.length ? `<a class="btn sm print-link" href="#print/book/sel">${S.ICON_PRINT}${T('PDF로 저장', 'Save as PDF')}</a><button type="button" class="btn ghost sm" data-bk-clear>${T('선택 모두 해제', 'Clear all')}</button>` : ''}
       </section>
-      ${ids.length ? ids.map((id) => { const x = IDX[id]; return `<article class="panel bk-sec" data-bk-art="${id}">
+      ${ids.length ? ids.map((id) => { if (!isSec(id)) return S.libApi.itemArticle(id); const x = IDX[id]; return `<article class="panel bk-sec" data-bk-art="${id}">
           <div class="section-title"><h2><span class="bk-num">${x.num}</span> ${esc(L(x.s.t))}</h2><span class="sub"><a href="#book/${id}">${T('절 화면', 'Open section')}</a> · <button type="button" class="linkish" data-bk-drop="${id}">${T('빼기', 'Remove')}</button></span></div>
           <div class="bk-meta">${chips(x.s)}${status(x.s)}</div>${secBody(id)}</article>`; }).join('')
-        : `<div class="callout">${T('가이드북 목차에서 절 왼쪽의 체크 상자로 고르면 여기에 목차 순서대로 모입니다.', 'Tick the boxes beside sections in the contents and they gather here in contents order.')} <a href="#book">${T('목차 열기', 'Open the contents')}</a></div>`}`;
+        : `<div class="callout">${T('교과서 목차나 ‘카테고리로 찾기’에서 체크 상자로 고르면 여기에 모입니다.', 'Tick boxes in the contents or in “Find by category” and the items gather here.')} <a href="#book/find">${T('카테고리로 찾기', 'Find by category')}</a></div>`}`;
   }
   function mountCollected(root) {
     const c = root.querySelector('[data-bk-clear]'); if (c) c.addEventListener('click', () => { putSel([]); S.refresh(); });
@@ -327,15 +339,19 @@
 
   S.pages.book = {
     render(sub) {
-      const id = String(sub || '').split('/')[0];
+      const parts = String(sub || '').split('/'), id = parts[0];
       if (id === 'sel') return renderCollected();
+      if (id === 'find' && S.libApi) return S.libApi.renderFind(sub);
+      if (id === 'item' && S.libApi && S.libApi.has(parts[1])) return S.libApi.renderItem(parts[1]);
       if (id && IDX[id] && IDX[id].s.st === 'ok') return renderSec(id);
       return renderToc();
     },
     mount(root, sub) {
-      const id = String(sub || '').split('/')[0];
+      const parts = String(sub || '').split('/'), id = parts[0];
       const j = S.state.jump;
       if (id === 'sel') return mountCollected(root);
+      if (id === 'find' && S.libApi) return S.libApi.mountFind(root, sub);
+      if (id === 'item' && S.libApi && S.libApi.has(parts[1])) return mountSel(root);
       if (id && IDX[id] && IDX[id].s.st === 'ok') { mountSel(root); if (j && j.terms && j.terms.length) toHit(); return; }
       if (id) history.replaceState(null, '', '#book');   /* 없는 절 주소는 목차로 */
       mountToc(root);

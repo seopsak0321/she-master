@@ -39,7 +39,7 @@
         else walk(v, path + '.' + k, depth + 1);
       });
     };
-    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
     /* SHE 가이드북 — id 중복, 원문 확인 절의 출처·확인일, 한/영 짝, 표의 칸 수, 나라·분야·수준 코드, {{절 id}}·포털 연결 경로, 계획 단계 */
     if (S.BOOK) {
       const ids = [], bad = (what, where, v) => add('bad', T('가이드북 데이터', 'Guidebook data') + ' · ' + what, where, v);
@@ -69,6 +69,27 @@
         });
       }); });
       const seenB = new Set(); ids.forEach((id) => { if (seenB.has(id)) bad(T('중복 id', 'duplicate id'), 'BOOK', id); seenB.add(id); });
+    }
+    /* 자료 라이브러리 — 분류표의 대상이 실제로 있는지, 모든 항목의 분류 값이 대분류 목록에 있는지, 한/영 제목, 연도·날짜 형식 */
+    if (S.libApi && S.LIB_FACETS) {
+      const lb = (what, where, v) => add('bad', T('라이브러리 데이터', 'Library data') + ' · ' + what, where, v);
+      const VAL = {}; S.LIB_FACETS.forEach((f) => { VAL[f.id] = new Set(f.v.map((x) => x[0])); });
+      Object.keys(S.LIB_SRC || {}).forEach((id) => { if (!src.has(id)) lb(T('없는 출처', 'unknown source'), 'LIB_SRC', id); });
+      Object.keys(S.LIB_KOSHA || {}).forEach((k) => { if (!S.KOSHA[k]) lb(T('없는 KOSHA 번호', 'unknown KOSHA code'), 'LIB_KOSHA', k); });
+      Object.keys(S.LIB_SOP || {}).forEach((k) => { if (!sops.has(k)) lb(T('없는 SOP', 'unknown SOP'), 'LIB_SOP', k); });
+      Object.keys(S.LIB_RES || {}).forEach((k) => { if (!S.RESOURCES.some((r) => r.id === k)) lb(T('없는 자료실 항목', 'unknown resource'), 'LIB_RES', k); });
+      const seenL = new Set();
+      S.libApi.ITEMS.forEach((it) => {
+        if (seenL.has(it.id)) lb(T('중복 id', 'duplicate id'), 'LIB', it.id); seenL.add(it.id);
+        if (!VAL.k.has(it.k)) lb(T('자료 유형', 'type'), it.id, it.k);
+        if (!VAL.t.has(it.tier)) lb(T('출처 등급', 'tier'), it.id, it.tier);
+        ['c', 'i', 'h', 'm'].forEach((f) => it[f].forEach((v) => { if (!VAL[f].has(v)) lb(T('분류 값', 'category value'), `${it.id}.${f}`, v); }));
+        it.y.forEach((y) => { if (!/^(19|20)\d\d$/.test(y)) lb(T('연도', 'year'), it.id, y); });
+        if (it.d && !/^\d{4}-\d{2}-\d{2}$/.test(it.d)) lb(T('날짜', 'date'), it.id, it.d);
+        if (!it.title || !it.title.ko || !(it.title.en || typeof it.title === 'string')) lb(T('한/영 제목', 'KO/EN title'), it.id, '–');
+        if (it.k !== 'book' && it.k !== 'sop' && it.k !== 'case' && it.k !== 'news' && !(it.url || it.urlFn)) lb(T('원문 주소 없음', 'no original URL'), it.id, '–');
+        if (it.url && !/^https?:\/\//.test(it.url)) lb(T('원문 주소', 'original URL'), it.id, it.url);
+      });
     }
     S.SOPS.forEach((s) => (s.permits || []).forEach((p) => { if (!S.PTW_FROM_SOP[p]) add('bad', T('SOP 허가 종류', 'SOP permit type'), s.id, p); }));
     (S.LAWCHECK || []).forEach((r) => { if (!src.has(r.id)) add('bad', T('법령 점검표 출처', 'Law-check source'), 'LAWCHECK', r.id); });
@@ -207,7 +228,7 @@
     if (ITEM[r]) return F[ITEM[r]].some((x) => x.id === rest[0]) || (r === 'cases' && rest[0] === 'selfcheck') ? '' : T('없는 항목', 'unknown item');
     if (r === 'guide') return F.GUIDES[rest[0]] || rest[0] === 'terms' || rest[0] === 'search' ? '' : T('없는 가이드', 'unknown guide');
     if (r === 'print') return (F.printDocs || []).includes(rest[0]) ? '' : T('없는 인쇄 양식', 'unknown print doc');
-    if (r === 'book') return rest[0] === 'sel' || (F.BOOK_IDX && F.BOOK_IDX[rest[0]]) ? '' : T('없는 가이드북 절', 'unknown guidebook section');
+    if (r === 'book') return rest[0] === 'sel' || rest[0] === 'find' || (rest[0] === 'item' && F.libApi && F.libApi.has(rest[1])) || (F.BOOK_IDX && F.BOOK_IDX[rest[0]]) ? '' : T('없는 가이드북 절·자료', 'unknown guidebook section or item');
     if (r === 'hazards') return F.CHEMICALS.some((x) => x.id === rest[0]) || F.PROCESSES.some((x) => x.id === rest[0]) ? '' : T('없는 물질·공정', 'unknown substance or process');
     return '';
   }

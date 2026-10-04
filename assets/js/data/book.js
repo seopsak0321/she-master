@@ -10,7 +10,7 @@ window.SHE = window.SHE || {};
   const B = (ko, en) => ({ ko, en });
   const D = '2026-10-01', D3 = '2026-10-03';   /* D3: 일본 조문을 e-Gov 현행본으로 다시 대조한 날 */
 
-  S.BOOK_ASOF = D3;   /* 가장 최근 원문 확인일 — 절마다 자기 확인일을 따로 표시한다 */
+  S.BOOK_ASOF = '2026-10-04';   /* 가장 최근 원문 확인일(자료 라이브러리 CSB 조사 포함) — 절·자료마다 자기 확인일을 따로 표시한다 */
   /* 나라·법역 — 1차 비교 대상 (2차: 독일·싱가포르·호주·캐나다·중국·대만) */
   S.BOOK_CTY = {
     INT: B('국제(ILO)', 'International (ILO)'), KR: B('한국', 'Korea'), US: B('미국', 'United States'),
@@ -107,14 +107,16 @@ window.SHE = window.SHE || {};
                 '절 왼쪽 체크 상자로 고릅니다. 장이나 편의 체크 상자는 그 아래 공개된 절을 모두 고르거나 해제합니다. 절 화면에도 ‘이 절 고르기’가 있습니다.',
                 '‘고른 절 모아 보기’는 고른 절을 목차 순서대로 한 화면에 보여 줍니다.',
                 '‘PDF로 저장’은 표지, 목차, 본문, 출처 목록(주소·확인일)을 담은 인쇄 문서를 엽니다. 인쇄 창에서 대상을 ‘PDF로 저장’으로 고르면 PDF 파일이 됩니다.',
-                '절마다 고유 주소(#book/절 id)가 있어 수업 자료나 사내 교육 자료에 그대로 걸 수 있습니다.'],
+                '절마다 고유 주소(#book/절 id)가 있어 수업 자료나 사내 교육 자료에 그대로 걸 수 있습니다.',
+                '‘카테고리로 찾기’ 탭은 교과서 절과 법령·지침·선례·데이터를 한 목록으로 모은 자료 라이브러리입니다. 자료 유형·나라·연도·산업·위험 요인·관리 주제·출처 등급의 7개 대분류에서 소분류를 체크하면, 같은 대분류 안은 ‘또는’, 대분류끼리는 ‘그리고’로 거릅니다. 고른 조건은 주소에 남아 링크로 나눌 수 있고, 결과에서 체크한 자료는 교과서 절과 함께 모아 보기·PDF로 묶입니다.'],
               ['Open a part and chapter in the contents and click a section title. Section numbers (e.g. 1.2.1) read part.chapter.section.',
                 'Type in the search box above the contents to keep only sections whose title or text contains the words; matches are highlighted. The portal’s top search also finds guidebook sections.',
                 'Click a country, field or level chip to see only the sections that match.',
                 'Tick the box to the left of a section. A chapter or part box ticks or clears every published section under it. Each section page also has “Select this section”.',
                 '“Read selected” shows the ticked sections on one page, in contents order.',
                 '“Save as PDF” opens a print document with a cover, contents, the sections and a source list with addresses and dates. Choose “Save as PDF” as the printer in the print dialog.',
-                'Every section has its own address (#book/section-id), so it can be linked from course or training material.']) },
+                'Every section has its own address (#book/section-id), so it can be linked from course or training material.',
+                'The “Find by category” tab is the resource library: guidebook sections plus laws, guidance, precedents and data in one list. Tick values in seven groups — type, country, year, industry, hazard, management topic and source tier; values in one group combine with “or”, groups with “and”. The filters stay in the address so they can be shared as a link, and ticked results join guidebook sections in the collected view and the PDF.']) },
               { k: 'note', t: B('고른 절 목록은 이 브라우저에만 저장되고 어디로도 보내지 않습니다. 다른 기기에서는 새로 골라야 합니다.', 'Your selection is stored only in this browser and is never sent anywhere; on another device, select again.') }
             ] },
           { id: 'plan', t: B('전체 목차 계획과 진행 현황', 'Contents plan and progress'), cty: [], fld: ['about'], lv: 'intro', st: 'ok', checked: D, meta: true,
