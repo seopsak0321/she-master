@@ -196,7 +196,7 @@
   const DB = {
     KR: [[B('국가법령정보센터 — 법령·행정규칙', 'National Law Information Center — statutes and rules'), 'https://www.law.go.kr/'], [B('국가법령정보센터 — 판례 검색', 'National Law Information Center — case law'), 'https://www.law.go.kr/LSW/precSc.do?menuId=7&subMenuId=47&tabMenuId=213'], [B('고용노동부 — 재해조사보고서 공개', 'MOEL — published accident investigation reports'), ((S.SOURCES || []).find((s) => s.id === 'moelRpt') || {}).url], [B('산업안전포털(KOSHA) — 기술지원규정·재해사례', 'KOSHA portal — guides and accident cases'), 'https://portal.kosha.or.kr/']],
     US: [[B('OSHA 사고조사 검색(IMIS) — 업종 코드·기간으로 검색, 사람 확인(CAPTCHA) 단계 있음', 'OSHA Accident Investigation Search (IMIS) — by industry code and period; has a human-verification step'), 'https://www.osha.gov/ords/imis/accidentsearch.html'], [B('CSB — 완료된 사고조사', 'CSB — completed investigations'), 'https://www.csb.gov/investigations/completed-investigations/'], [B('eCFR — 29 CFR(노동 안전보건 규정)', 'eCFR — Title 29 (labor)'), 'https://www.ecfr.gov/current/title-29']],
-    UK: [[B('legislation.gov.uk — 영국 법령', 'legislation.gov.uk — UK legislation'), 'https://www.legislation.gov.uk/'], [B('HSE — 산업재해 통계', 'HSE — statistics'), 'https://www.hse.gov.uk/statistics/']],
+    UK: [[B('legislation.gov.uk — 영국 법령', 'legislation.gov.uk — UK legislation'), 'https://www.legislation.gov.uk/'], [B('HSE 언론센터 — 기소 보도자료', 'HSE media centre — prosecutions'), 'https://press.hse.gov.uk/category/prosecution/'], [B('HSE — 산업재해 통계', 'HSE — statistics'), 'https://www.hse.gov.uk/statistics/']],
     EU: [[B('EUR-Lex — EU 법령', 'EUR-Lex — EU law'), 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:31989L0391'], [B('EU-OSHA — 지침·법령 해설', 'EU-OSHA — directives and guidance'), 'https://osha.europa.eu/en']],
     JP: [[B('職場のあんぜんサイト — 労働災害事例検索(재해 사례)', 'Workplace safety site — accident case search'), 'https://anzeninfo.mhlw.go.jp/jirei/sai_search.html'], [B('e-Gov 法令検索 — 일본 법령 현행본', 'e-Gov law search — current Japanese law'), 'https://laws.e-gov.go.jp/']],
     TW: [[B('勞動部職業安全衛生署 — 대만 직업안전보건서', 'Occupational Safety and Health Administration, Taiwan'), 'https://www.osha.gov.tw/']],
@@ -303,12 +303,41 @@
   }
 
   /* ---------- #book/item/<id> ---------- */
+  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)') };
+  /* 다른 나라의 같은 주제 — 같은 묶음(법령·기준 / 선례)에서 나라가 다른 자료 가운데 위험 요인·사고 유형(겹칠 때마다 3점)과
+     관리 주제(최대 2점)·업종(1점)이 겹치는 것을 점수순으로(나라마다 2건, 모두 8건까지). 위험 요인·사고 유형이 있는 자료는 그중 하나는 겹쳐야 하고,
+     너무 흔한 주제(사고 보고·법적 책임·일반 의무)와 ‘전 산업’은 세지 않는다 */
+  const KGROUP = {}; ((FACETS[0] || {}).groups || []).forEach(([, ks], n) => ks.forEach((k) => { KGROUP[k] = n; }));
+  const COMMON_M = ['inv', 'liab', 'org'];
+  function related(it, max) {
+    const g = KGROUP[it.k]; if (g == null || g > 1) return [];
+    const share = (a, b) => a.filter((v) => b.includes(v)).length;
+    const im = it.m.filter((v) => !COMMON_M.includes(v)), ii = it.i.filter((v) => v !== 'all');
+    const scored = [];
+    ITEMS.forEach((x) => {
+      if (x === it || KGROUP[x.k] !== g || !x.c.length || x.c.some((c) => it.c.includes(c))) return;
+      const ha = share(it.h, x.h) + share(it.a, x.a);
+      if ((it.h.length || it.a.length) && !ha) return;
+      const s = ha * 3 + Math.min(2, share(im, x.m)) + share(ii, x.i);
+      if (s >= 3) scored.push([s, x]);
+    });
+    scored.sort((p, q) => q[0] - p[0] || sortKey(q[1]).localeCompare(sortKey(p[1])) || p[1].id.localeCompare(q[1].id));
+    const per = {}, out = [];
+    for (const [, x] of scored) { const c = x.c[0]; per[c] = (per[c] || 0) + 1; if (per[c] > 2) continue; out.push(x); if (out.length >= max) break; }
+    return out;
+  }
+  function relatedBox(it) {
+    const rel = related(it, 8); if (!rel.length) return '';
+    return `<section class="lib-rel"><h3>${T('다른 나라의 같은 주제', 'Same topic in other countries')}</h3>
+      <p class="xs muted">${T('위험 요인·사고 유형·관리 주제·업종이 겹치는 다른 나라 자료입니다(분류로 자동 추천, 내용 비교는 각 원문으로).', 'Items from other countries that share hazards, accident types, topics or industries (suggested from the categories; compare the substance in each original).')}</p>
+      <ul>${rel.map((x) => `<li><span class="chip">${esc(lab('c', x.c[0]))}</span> ${kindChip(x)} <a href="${hrefOf(x)}">${esc(L(x.title))}</a> <span class="xs muted">${esc(dateText(x))}</span></li>`).join('')}</ul></section>`;
+  }
   function details(it, pr) {
     const row = (k, v) => (v ? (pr ? `<tr><th>${esc(k)}</th><td>${v}</td></tr>` : `<dt>${esc(k)}</dt><dd>${v}</dd>`) : '');
     const list = (f, vs) => vs.map((v) => esc(lab(f, v))).join(', ');
     const d2 = it.d2 ? `${it.d2l ? L(it.d2l) : T('최종보고서 공개', 'final report')} ${it.d2}` : it.open ? T('조사 진행 중 — 최종보고서 미공개', 'investigation ongoing — no final report yet') : '';
     const rows = row(T('유형', 'Type'), esc(lab('k', it.k))) + row(T('나라·지역', 'Country / region'), list('c', it.c)) + row(T('날짜·연도', 'Date / year'), esc(dateText(it)) + (d2 ? ` <span class="${pr ? 'doc-small' : 'xs muted'}">(${esc(d2)})</span>` : ''))
-      + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(T('원제(일본어)', 'Original title (Japanese)'), it.orig ? `<span lang="ja">${esc(it.orig)}</span>` : '') + row(T('장소', 'Place'), esc(locOf(it))) + row(T('규모·피해', 'Size / harm'), esc(it.size ? L(it.size) : ''))
+      + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(L(ORIG_L[it.ol] || ORIG_L.ja), it.orig ? `<span lang="${esc(it.ol || 'ja')}">${esc(it.orig)}</span>` : '') + row(T('장소', 'Place'), esc(locOf(it))) + row(T('규모·피해', 'Size / harm'), esc(it.size ? L(it.size) : ''))
       + row(T('산업·업종', 'Industry'), list('i', it.i)) + row(T('사고 유형', 'Accident type'), list('a', it.a)) + row(T('위험 요인', 'Hazard'), list('h', it.h))
       + row(T('관리 주제', 'Topic'), list('m', it.m)) + row(T('출처 등급', 'Source tier'), esc(lab('t', it.tier))) + row(T('원문 확인', 'Checked'), esc(it.checked || ''));
     return pr ? `<table class="doc-table doc-kv"><tbody>${rows}</tbody></table>` : `<dl class="kv lib-kv">${rows}</dl>`;
@@ -330,6 +359,7 @@
           <a class="btn ghost sm print-link" href="#print/book/${esc(id)}">${S.ICON_PRINT}${T('이 자료 PDF', 'This item as PDF')}</a>
           <a class="btn ghost sm" href="#book/find/${same}">${T('같은 유형·나라 자료', 'Same type and country')}</a></div>
         ${itemBody(it)}
+        ${relatedBox(it)}
       </article>`;
   }
   /* 모아 보기·인쇄에서 쓰는 자료 한 건 */

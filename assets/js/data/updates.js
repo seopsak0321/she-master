@@ -5,11 +5,28 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v96';
+SHE.BUILD = 'v97';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 23, v: SHE.BUILD, date: '2026-10-05 10:40', commit: '',
+    { no: 24, v: SHE.BUILD, date: '2026-10-05 15:50', commit: '',
+      t: B('자료 라이브러리 3,449건 — 영국 HSE 기소 사건 203건·영국 법령 27건·EU 법령 27건, 자료마다 ‘다른 나라의 같은 주제’', 'Resource library reaches 3,449 items — 203 UK HSE prosecutions, 27 UK and 27 EU laws, and “same topic in other countries” on every item'),
+      add: [
+        B('영국 보건안전청(HSE) 기소 사건 203건 — 언론센터의 기소 보도자료 204건을 모두 읽고(다른 보도자료를 묶은 월간 정리 1건 제외) 경위·원인·처분(위반 조항·벌금·법원·선고일)을 한·영으로 요약, 장소·피해 규모와 산업·위험 요인·사고 유형으로 분류. 피해자·개인 피고인의 이름은 옮기지 않음', '203 UK Health and Safety Executive prosecutions — all 204 prosecution press releases were read (one monthly roundup of other releases left out) and summarised in Korean and English: what happened, causes and outcome (provisions, fines, court, sentencing date), with place, harm, industry, hazard and accident type. Names of victims and individual defendants are not reproduced'),
+        B('영국 법령 27건 — legislation.gov.uk 공식 데이터로 PUWER·LOLER·COSHH·DSEAR·밀폐공간·고소작업·전기·소음·진동·석면·CDM·RIDDOR·COMAH·화재안전 명령·기업 과실치사법 등의 제정일·현행 판 기준일·적용 범위·목차를 정리하고, 아직 반영되지 않은 변경이 있으면 개정 법령과 건수를 표시', '27 UK laws — PUWER, LOLER, COSHH, DSEAR, confined spaces, work at height, electricity, noise, vibration, asbestos, CDM, RIDDOR, COMAH, the Fire Safety Order, the Corporate Manslaughter Act and more, with made dates, latest version date, extent and contents from legislation.gov.uk’s official data, plus any changes not yet applied and the amending laws'),
+        B('EU 법령 27건 — 89/391/EEC의 개별지침(작업장·작업장비·보호구·화학적 인자·발암물질·폭발성 분위기·소음·진동·석면 등)과 세베소 Ⅲ·REACH·CLP·기계류 규칙·보호구 규칙·F-gas 규칙 등. EU 출판국 공개 데이터로 최신 통합본·제1조·장/조 제목을 확인(통합본은 참고용, 효력은 관보 원문)', '27 EU laws — the individual directives under 89/391/EEC (workplace, work equipment, PPE, chemical agents, carcinogens, explosive atmospheres, noise, vibration, asbestos and others) plus Seveso III, REACH, CLP, the Machinery and PPE Regulations, the F-gas Regulation and more, checked through the Publications Office’s open data: latest consolidated version, Article 1 and chapter and article headings (consolidated texts are documentation only; the Official Journal is authentic)'),
+        B('자료 화면에 ‘다른 나라의 같은 주제’ — 같은 묶음(법령·기준 / 선례)에서 나라가 다른 자료 가운데 위험 요인·사고 유형이 겹치는 것을 관리 주제·업종까지 따져 나라마다 2건씩 최대 8건 추천(예: 일본 산소결핍증 방지규칙 → 영국 밀폐공간 규칙·미국 CSB 질소 질식 회보·한국 KOSHA 불활성가스 치환 지침)', '“Same topic in other countries” on item pages — up to eight items (two per country) from other countries in the same group (law and standards, or precedents) that share hazards or accident types, ranked also by topic and industry (e.g. Japan’s oxygen-deficiency ordinance → the UK Confined Spaces Regulations, a US CSB bulletin on nitrogen asphyxiation, a Korean KOSHA guide on inert-gas purging)')
+      ],
+      chg: [
+        B('원제 칸이 원어에 맞게 ‘원제(영어)’로도 표시(영국·EU 법령의 정식 명칭)', 'The original-title row now follows the language, showing “Original title (English)” for the full official UK and EU titles'),
+        B('상단 검색에 영국·EU 법령과 HSE 사건 추가, 사고사례 화면 안내에 영국 HSE 기소 사건(감독·처분 결과까지 선례 3,029건으로 연결), ‘공식 데이터베이스에서 더 찾기’에 HSE 기소 보도자료', 'Top search now finds UK and EU laws and HSE cases; the incident cases page links to all 3,029 precedents including enforcement and the HSE prosecutions; “Search the official databases” adds the HSE prosecution releases'),
+        B('미국 CSB(완료 조사 134건)·고용노동부 재해조사보고서(51건)를 다시 확인 — 새 자료 없음(2026-10-05). 자체 점검에 원제 언어 점검 추가', 'US CSB (134 completed investigations) and the MOEL report board (51) re-checked — nothing new (2026-10-05); the self-check now also tests the original-title language'),
+        B('출처 179 → 182건(legislation.gov.uk, EU 출판국 Cellar, HSE 기소 보도자료)', 'Sources 179 → 182 (legislation.gov.uk, EU Publications Office Cellar, HSE prosecution releases)')
+      ],
+      fix: [
+        B('패치노트 #23의 시각을 실제 커밋 시각(10:31)으로 고침', 'Update #23’s time corrected to the actual commit time (10:31)')
+      ] },
+    { no: 23, v: 'v96', date: '2026-10-05 10:31', commit: '9f074c7',
       t: B('자료 라이브러리 3,189건 — 일본 후생노동성 노동재해 사례 2,632건, 일본 법령 15건, 대분류 ‘사고 유형(발생 형태)’', 'Resource library reaches 3,189 items — 2,632 Japanese MHLW accident cases, 15 Japanese laws and a new “accident type” group'),
       add: [
         B('일본 職場のあんぜんサイト 노동재해 사례 2,632건 전부 — 사이트 검색 화면이 쓰는 공개 데이터의 업종·기인물·사고 유형·발생 요인(물적·인적·관리) 분류를 포털 분류로 대응하고, 원제(일본어)와 사례 화면을 연결. 연도는 원 데이터에 있는 1,334건만(1987~2009년)', 'All 2,632 accident cases on Japan’s Workplace Safety Site — the industry, agent, accident type and contributing-factor (conditions, people, management) codes in the open data behind the search page are mapped to the portal’s categories, with the original Japanese title and a link to each case page; years only where the data has them (1,334 cases, 1987–2009)'),

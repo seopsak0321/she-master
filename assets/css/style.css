@@ -1147,6 +1147,11 @@ html.m .bk-tbl td { min-width: 0; }
 .lib-kv { grid-template-columns: 7.5em minmax(0, 1fr); }
 .lib-links { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: calc(14px * var(--fz)); }
 .lib-links a { font-weight: 600; }
+.lib-rel { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.lib-rel h3 { font-size: calc(15px * var(--fz)); margin: 0 0 2px; }
+.lib-rel ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+.lib-rel li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: calc(14px * var(--fz)); }
+.lib-rel li a { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
 .doc-kv th { width: 22%; }
 html.m .bk-tabs a { padding: 7px 10px; font-size: calc(13.5px * var(--fz)); }
 html.m .lib-facets { grid-template-columns: minmax(0, 1fr); }
