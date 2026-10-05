@@ -108,6 +108,7 @@ window.SHE = window.SHE || {};
     oshAct: ['law', 'US', '1970', 'all', '', 'org', 1], cfr1910_132: ['law', 'US', '', 'all', '', 'ppe ra', 1], oshaRp: ['guide', 'US', '2016', 'all', '', 'ms ra', 2],
     jpIshl: ['law', 'JP', '1972 2025 2026', 'all', 'chem', 'org ra', 1], egovJp: ['site', 'JP', '2026', 'all', '', 'org', 1], jpAnzenCases: ['stat', 'JP', '2026', 'all', '', 'inv', 3],
     ukLeg: ['site', 'UK', '2026', 'all', '', 'org', 1], euCellar: ['site', 'EU', '2026', 'all', '', 'org', 1], hsePress: ['site', 'UK', '2026', 'all', '', 'inv liab', 2],
+    oshaSir: ['stat', 'US', '2026', 'all', '', 'inv', 3],
     /* 타사 공식(4등급) */
     tsmc2023: ['corp', 'TW', '2023', 'semi', '', 'contract tech', 4], tsmcTsia: ['corp', 'TW', '2017', 'semi', 'health chem rad noise', 'contract', 4],
     samsung: ['corp', 'KR', '', 'semi', '', 'contract', 4], intelEhs: ['corp', 'US', '', 'semi', '', 'contract', 4]

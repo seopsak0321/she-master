@@ -219,6 +219,7 @@
       ${L(c.lesson) ? `<p style="font-size:calc(17px * var(--fz));font-weight:600;line-height:1.5">“${S.esc(L(c.lesson))}”</p>` : ''}
       <div class="row">${(c.sops || []).map((id) => { const s = S.SOPS.find((x) => x.id === id); return s ? `<a class="chip" href="#sop/${id}">SOP · ${L(s.t)}</a>` : ''; }).join('')}
         <button class="btn ghost sm" type="button" id="to-ra">${T('위험성평가(빈도·강도법)로 보내기', 'Send to risk assessment (frequency–severity)')}</button>${S.printLink('case/' + c.id, T('재발방지 보고서 인쇄', 'Print the recurrence report'))}</div>
+      ${S.libApi && S.libApi.relatedBox && S.libApi.get('x-' + c.id) ? S.libApi.relatedBox(S.libApi.get('x-' + c.id)) : ''}
     </section>
     ${c.user ? userEditor(c) : ''}`;
   }
@@ -264,7 +265,7 @@
         <div class="sop-grid">${list.map((c) => caseCard(c, c.id === cur.id)).join('')}</div>
         <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 사례가 없습니다.', 'No cases match.')}</p>
         <div class="row"><button class="btn ghost sm" type="button" id="case-new">+ ${T('내 사례 새로 만들기', 'Create my own case')}</button><span class="xs muted">${T('예방안전의 사고조사 기록에서도 사례를 만들 수 있습니다.', 'You can also start a case from an investigation in Preventive safety.')}</span></div>
-        ${S.libApi ? (() => { const n = S.libApi.ITEMS.filter((it) => ['case', 'report', 'court', 'enf'].includes(it.k)).length; return `<p class="xs muted">${T('더 많은 공식 선례 — 고용노동부 재해조사보고서·미국 CSB 조사·일본 후생노동성 재해 사례·영국 HSE 기소 사건', 'More official precedents — MOEL accident reports, US CSB investigations, Japan MHLW accident cases and UK HSE prosecutions')}: <a href="#book/find/k=case,report,court,enf">${T(`자료 라이브러리 ${S.fmt(n, 0)}건`, `${S.fmt(n, 0)} in the resource library`)} →</a></p>`; })() : ''}
+        ${S.libApi ? (() => { const n = S.libApi.ITEMS.filter((it) => ['case', 'report', 'court', 'enf'].includes(it.k)).length; return `<p class="xs muted">${T('더 많은 공식 선례 — 고용노동부 재해조사보고서·미국 CSB 조사·미국 OSHA 중대 재해 보고·일본 후생노동성 재해 사례·영국 HSE 기소 사건', 'More official precedents — MOEL accident reports, US CSB investigations, US OSHA severe injury reports, Japan MHLW accident cases and UK HSE prosecutions')}: <a href="#book/find/k=case,report,court,enf">${T(`자료 라이브러리 ${S.fmt(n, 0)}건`, `${S.fmt(n, 0)} in the resource library`)} →</a></p>`; })() : ''}
       </section>
       ${cur ? detail(cur) : ''}` : ''}
       ${view === 'timeline' ? `

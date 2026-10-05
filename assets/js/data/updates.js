@@ -5,11 +5,28 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v97';
+SHE.BUILD = 'v98';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 24, v: SHE.BUILD, date: '2026-10-05 15:50', commit: '',
+    { no: 25, v: SHE.BUILD, date: '2026-10-05 21:27', commit: '',
+      t: B('자료 라이브러리 3,656건 — 미국 OSHA 중대 재해 보고 206건(반도체·전자부품 제조 162건·산업용 가스 제조 44건), 사고사례마다 ‘다른 나라의 같은 주제’', 'Resource library reaches 3,656 items — 206 US OSHA severe injury reports (162 semiconductor and electronic-component makers, 44 industrial-gas makers), and “same topic in other countries” on every incident case'),
+      add: [
+        B('미국 OSHA 중대 재해 보고(Severe Injury Reports) 206건 — OSHA 공개 데이터(2015.1~2025.11, 105,996건) 가운데 반도체·전자부품 제조(NAICS 3344) 162건(반도체·관련 소자 39건 포함)과 산업용 가스 제조(325120) 44건의 원문 서술을 모두 읽고 한글로 요약. 영문은 OSHA 원문 서술(미국 정부 저작물)과 OSHA 분류 코드를 그대로 두고, 장소·입원·절단 여부와 사고 유형·위험 요인·관리 주제로 분류(예: 웨이퍼 습식 장비·서브팹 배기 덕트의 불산 노출, 트라이클로로실레인 잔류물 반응, 스위치기어 정비 중 감전, 팬·공조기 벨트에 손가락 끼임)', '206 US OSHA Severe Injury Reports — from OSHA’s public data (January 2015 to November 2025, 105,996 reports), every narrative for semiconductor and electronic-component manufacturing (NAICS 3344, 162 reports including 39 semiconductor-device makers) and industrial-gas manufacturing (325120, 44) was read and summarised in Korean. The English side keeps OSHA’s own narrative (a US government work) and codes; each report is classified by place, hospitalisation or amputation, accident type, hazard and topic (e.g. hydrofluoric acid exposure at a wafer wet tool and from a subfab exhaust duct, a trichlorosilane residue reaction, a shock during switchgear maintenance, fingers caught in fan and air-handler belts)'),
+        B('사고사례 분석 화면의 ‘교훈과 연결’에 ‘다른 나라의 같은 주제’ — 자료 라이브러리의 공식 선례 가운데 위험 요인·사고 유형이 겹치는 다른 나라 사례를 사례마다 추천', '“Same topic in other countries” under Lessons and links on each incident case — official precedents from other countries in the resource library that share hazards or accident types')
+      ],
+      chg: [
+        B('예시 조건 ‘2022년 + 미국 + 반도체·전자 + 선례’의 결과 0 → 10건, 선례 3,029 → 3,235건', 'The example filter “2022 + US + semiconductors and electronics + precedents” now returns 10 items instead of none; precedents 3,029 → 3,235'),
+        B('상단 검색에 OSHA 보고 206건 추가, 사고사례 화면 안내와 ‘공식 데이터베이스에서 더 찾기’(미국)에 OSHA 중대 재해 보고 데이터 연결', 'Top search now finds the 206 OSHA reports; the incident cases page and “Search the official databases” (US) link to the OSHA severe injury data'),
+        B('미국 CSB(완료 조사 134건·진행 중 6건)·고용노동부 재해조사보고서(51건)·영국 HSE 기소 보도자료(204건)를 다시 확인 — 새 자료 없음(2026-10-05)', 'US CSB (134 completed, 6 ongoing), the MOEL report board (51) and HSE prosecution releases (204) re-checked — nothing new (2026-10-05)'),
+        B('‘다른 나라의 같은 주제’ 추천 정확도 — 사고 유형 ‘기타’만 겹치는 자료는 빼고, 영문 제목의 핵심 낱말(물질·설비 이름)이 겹치면 앞으로(예: 이천 불산 비산 → 미국 서브팹 배기 덕트 불산 노출). 자체 점검에 가이드북 ‘최근 원문 확인’ 날짜와 자료 확인일 대조 추가', '“Same topic in other countries” is more precise — items sharing only the catch-all “other” accident type are left out, and items whose English titles share key words (substances, equipment) move up (e.g. the Icheon hydrofluoric acid splash → the US subfab exhaust-duct HF exposure). The self-check now compares the guidebook’s latest-check date with the items'),
+        B('출처 182 → 183건(OSHA 중대 재해 보고 공개 데이터)', 'Sources 182 → 183 (OSHA Severe Injury Reports data)')
+      ],
+      fix: [
+        B('가이드북 목차의 ‘최근 원문 확인’ 날짜가 2026-10-04에 머물러 있던 것을 자료 라이브러리 확인일(2026-10-05)에 맞춤', 'The guidebook contents still showed 2026-10-04 as its latest source check; it now matches the library’s latest check (2026-10-05)'),
+        B('‘다른 나라의 같은 주제’ 목록에서 아주 긴 제목(예: 안전보건규칙 조문 목록)이 휴대폰 화면을 여러 줄 차지하던 것을 90자에서 줄이고, 전체 제목은 마우스를 올리면 보이게', 'Very long titles in “same topic in other countries” (such as the OSH Standards Rules article list) took several lines on phones; they are now cut at 90 characters with the full title on hover')
+      ] },
+    { no: 24, v: 'v97', date: '2026-10-05 15:50', commit: '2aea862',
       t: B('자료 라이브러리 3,449건 — 영국 HSE 기소 사건 203건·영국 법령 27건·EU 법령 27건, 자료마다 ‘다른 나라의 같은 주제’', 'Resource library reaches 3,449 items — 203 UK HSE prosecutions, 27 UK and 27 EU laws, and “same topic in other countries” on every item'),
       add: [
         B('영국 보건안전청(HSE) 기소 사건 203건 — 언론센터의 기소 보도자료 204건을 모두 읽고(다른 보도자료를 묶은 월간 정리 1건 제외) 경위·원인·처분(위반 조항·벌금·법원·선고일)을 한·영으로 요약, 장소·피해 규모와 산업·위험 요인·사고 유형으로 분류. 피해자·개인 피고인의 이름은 옮기지 않음', '203 UK Health and Safety Executive prosecutions — all 204 prosecution press releases were read (one monthly roundup of other releases left out) and summarised in Korean and English: what happened, causes and outcome (provisions, fines, court, sentencing date), with place, harm, industry, hazard and accident type. Names of victims and individual defendants are not reproduced'),

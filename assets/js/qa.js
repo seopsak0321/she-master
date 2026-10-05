@@ -79,6 +79,9 @@
       Object.keys(S.LIB_KOSHA || {}).forEach((k) => { if (!S.KOSHA[k]) lb(T('없는 KOSHA 번호', 'unknown KOSHA code'), 'LIB_KOSHA', k); });
       Object.keys(S.LIB_SOP || {}).forEach((k) => { if (!sops.has(k)) lb(T('없는 SOP', 'unknown SOP'), 'LIB_SOP', k); });
       Object.keys(S.LIB_RES || {}).forEach((k) => { if (!S.RESOURCES.some((r) => r.id === k)) lb(T('없는 자료실 항목', 'unknown resource'), 'LIB_RES', k); });
+      /* 가이드북 목차의 ‘최근 원문 확인’(BOOK_ASOF)이 절·자료의 가장 늦은 확인일보다 이르면 안 된다(#25) */
+      const lastChk = S.libApi.ITEMS.reduce((m, it) => (/^\d{4}-\d{2}-\d{2}$/.test(it.checked || '') && it.checked > m ? it.checked : m), '');
+      if (S.BOOK_ASOF && lastChk && S.BOOK_ASOF < lastChk) lb(T('가이드북 최근 원문 확인일', 'guidebook latest check date'), 'BOOK_ASOF', `${S.BOOK_ASOF} < ${lastChk}`);
       const seenL = new Set();
       S.libApi.ITEMS.forEach((it) => {
         if (seenL.has(it.id)) lb(T('중복 id', 'duplicate id'), 'LIB', it.id); seenL.add(it.id);
