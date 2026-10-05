@@ -26,7 +26,7 @@
   const putSel = (ids) => S.save('book.sel', orderSel([...new Set(ids)].filter(known)));
   /* 화면 위 탭 — 교과서 목차 · 카테고리로 찾기 · 고른 자료 (지금 화면은 링크 없이 표시) */
   const tabs = (cur) => {
-    const n = S.libApi ? S.libApi.count() : 0, sel = getSel().length;
+    const n = S.fmt(S.libApi ? S.libApi.count() : 0, 0), sel = getSel().length;
     const tab = (k, href, label, num) => (k === cur ? `<a aria-current="page">${label} <span class="num">${num}</span></a>` : `<a href="${href}">${label} <span class="num">${num}</span></a>`);
     return `<nav class="bk-tabs" aria-label="${T('가이드북 보기', 'Guidebook views')}">${tab('toc', '#book', T('교과서 목차', 'Textbook contents'), PUB.length)}${tab('find', '#book/find', T('카테고리로 찾기', 'Find by category'), n)}${tab('sel', '#book/sel', T('고른 자료', 'Selected'), sel)}</nav>`;
   };

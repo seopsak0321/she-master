@@ -264,7 +264,7 @@
         <div class="sop-grid">${list.map((c) => caseCard(c, c.id === cur.id)).join('')}</div>
         <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 사례가 없습니다.', 'No cases match.')}</p>
         <div class="row"><button class="btn ghost sm" type="button" id="case-new">+ ${T('내 사례 새로 만들기', 'Create my own case')}</button><span class="xs muted">${T('예방안전의 사고조사 기록에서도 사례를 만들 수 있습니다.', 'You can also start a case from an investigation in Preventive safety.')}</span></div>
-        ${S.libApi ? (() => { const n = S.libApi.ITEMS.filter((it) => it.k === 'case' || it.k === 'report').length; return `<p class="xs muted">${T('더 많은 공식 선례 — 고용노동부 재해조사보고서·미국 CSB 조사 등', 'More official precedents — MOEL accident reports, US CSB investigations and more')}: <a href="#book/find/k=case,report">${T(`자료 라이브러리 ${n}건`, `${n} in the resource library`)} →</a></p>`; })() : ''}
+        ${S.libApi ? (() => { const n = S.libApi.ITEMS.filter((it) => it.k === 'case' || it.k === 'report').length; return `<p class="xs muted">${T('더 많은 공식 선례 — 고용노동부 재해조사보고서·미국 CSB 조사·일본 후생노동성 재해 사례', 'More official precedents — MOEL accident reports, US CSB investigations and Japan MHLW accident cases')}: <a href="#book/find/k=case,report">${T(`자료 라이브러리 ${S.fmt(n, 0)}건`, `${S.fmt(n, 0)} in the resource library`)} →</a></p>`; })() : ''}
       </section>
       ${cur ? detail(cur) : ''}` : ''}
       ${view === 'timeline' ? `

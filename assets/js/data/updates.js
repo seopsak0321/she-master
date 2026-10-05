@@ -5,11 +5,29 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v95';
+SHE.BUILD = 'v96';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 22, v: SHE.BUILD, date: '2026-10-04 22:30', commit: '',
+    { no: 23, v: SHE.BUILD, date: '2026-10-05 10:40', commit: '',
+      t: B('자료 라이브러리 3,189건 — 일본 후생노동성 노동재해 사례 2,632건, 일본 법령 15건, 대분류 ‘사고 유형(발생 형태)’', 'Resource library reaches 3,189 items — 2,632 Japanese MHLW accident cases, 15 Japanese laws and a new “accident type” group'),
+      add: [
+        B('일본 職場のあんぜんサイト 노동재해 사례 2,632건 전부 — 사이트 검색 화면이 쓰는 공개 데이터의 업종·기인물·사고 유형·발생 요인(물적·인적·관리) 분류를 포털 분류로 대응하고, 원제(일본어)와 사례 화면을 연결. 연도는 원 데이터에 있는 1,334건만(1987~2009년)', 'All 2,632 accident cases on Japan’s Workplace Safety Site — the industry, agent, accident type and contributing-factor (conditions, people, management) codes in the open data behind the search page are mapped to the portal’s categories, with the original Japanese title and a link to each case page; years only where the data has them (1,334 cases, 1987–2009)'),
+        B('그중 108건(전기기계기구 제조업 40건, 화학공업의 폭발·화재·파열 68건)은 사례 화면의 발생 상황·원인·대책을 읽고 한·영으로 요약 — 원문 저작권이 후생노동성에 있어 본문은 옮기지 않음', '108 of them (40 in electrical machinery manufacturing, 68 explosions, fires and ruptures in the chemical industry) read and summarised in Korean and English from each page’s circumstances, causes and measures — the text itself is MHLW copyright and is not copied'),
+        B('일본 법령 15건 — 노동안전위생법 시행령·노동안전위생규칙, 특별규칙 8건(유기용제·특정화학물질·산소결핍·전리방사선·분진·석면·보일러와 압력용기·크레인), 작업환경측정법, 진폐법, 고압가스보안법, 소방법, PRTR법. e-Gov 현행본(2026-10-05 확인)의 법령번호·공포일·현행본 시행일·마지막 반영 개정, 제1조(목적·사업자의 책무), 편·장 구성', '15 Japanese laws — the Enforcement Order and Ordinance of the Industrial Safety and Health Act, eight special ordinances (organic solvents, specified chemicals, oxygen deficiency, ionizing radiation, dust, asbestos, boilers and pressure vessels, cranes), the Working Environment Measurement Act, the Pneumoconiosis Act, the High Pressure Gas Safety Act, the Fire Service Act and the PRTR Act — law number, promulgation date, date the current text took effect, latest amendment, Article 1 (purpose or employer’s duty) and structure from the current e-Gov texts (checked 2026-10-05)'),
+        B('대분류 ‘사고 유형(발생 형태)’ 18종(떨어짐·넘어짐·깔림·부딪힘·맞음·무너짐·끼임·절단·감전·폭발·화재·이상온도·화학물질 누출·산소결핍·빠짐·교통사고·무리한 동작·기타) — 한국 재해조사보고서의 재해 유형과 일본 事故の型을 함께 쓰도록 맞춘 포털 분류로, 선례에만 지정(일본 사례·CSB 조사·고용노동부 보고서·포털 사고사례·판결 등 2,824건)', 'New group “accident type” with 18 values (falls, trips, crushed, bumps, hit by objects, collapse, caught in, cuts, electric shock, explosion, fire, hot or cold contact, chemical release, oxygen deficiency, drowning, traffic, overexertion, other) — a portal scheme fitting both the Korean accident-report types and the Japanese accident types, set on precedents only (2,824 items: Japanese cases, CSB investigations, MOEL reports, portal cases, a court ruling and more)'),
+        B('산업 값 ‘보건·의료·복지’·‘광업·채석’ 추가', 'New industry values “health care & social work” and “mining & quarrying”')
+      ],
+      chg: [
+        B('자료 화면 — 일본 자료의 원제(일본어) 칸과 일본어 글꼴, 사고 유형 칸, 법령은 현행본 시행일 옆에 공포일 표시. 라이브러리 건수에 천 단위 쉼표(3,189)', 'Item pages — an original-title (Japanese) row with a Japanese font, an accident-type row, and laws show the promulgation date beside the date the current text took effect; library counts use thousands separators (3,189)'),
+        B('상단 검색에 일본 법령 15건과 요약한 일본 사례 108건 추가, 사고사례 화면의 라이브러리 안내에 일본 사례 포함', 'Top search now finds the 15 Japanese laws and the 108 summarised Japanese cases; the incident cases page’s library link mentions the Japanese cases'),
+        B('자체 점검에 사고 유형이 선례에만 있는지, 한 항목 안 분류 값 중복 점검 추가', 'The self-check now tests that accident types appear only on precedents and that no item repeats a category value'),
+        B('출처 177 → 179건(e-Gov 일본 법령, 일본 노동재해 사례 검색)', 'Sources 177 → 179 (e-Gov Japanese laws, Japanese accident case search)')
+      ],
+      fix: [
+        B('한 항목에 같은 분류 값이 두 번 표시될 수 있던 문제(예: 위험 요인 ‘화재·폭발’이 기인물과 사고 유형에서 겹칠 때) — 항목을 만들 때 중복 제거', 'An item could list the same category value twice (e.g. “fire & explosion” from both the agent and the accident type) — duplicates are now removed when items are built')
+      ] },
+    { no: 22, v: 'v95', date: '2026-10-04 22:30', commit: '3194f98',
       t: B('자료 라이브러리 540건 — 미국 CSB 조사 140건 전부, 고용노동부 재해조사보고서 51건 전부', 'Resource library reaches 540 items — all 140 US CSB investigations and all 51 MOEL accident investigation reports'),
       add: [
         B('미국 CSB 조사 84건 추가(1차 56건과 합쳐 검색 목록 140건 전부) — 완료 조사 78건(1998~2021년 사고, 회보·연구 11건 포함)과 진행 중 조사 6건(2024~2026년 사고, 최종보고서가 없어 ‘사고 사례’로 표시). 목록 화면 링크가 깨져 빠져 있던 Wacker Polysilicon 염화수소 누출(다결정 실리콘 공장, 2020년)도 찾아 넣음', '84 more US CSB investigations (with the first 56, all 140 in the search list) — 78 completed (incidents 1998–2021, including 11 bulletins and studies) and 6 ongoing (incidents 2024–2026, shown as accident cases because there is no final report yet); also the Wacker Polysilicon hydrogen chloride release (2020), missing earlier because of a broken link on the list page'),

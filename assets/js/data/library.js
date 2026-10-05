@@ -28,7 +28,14 @@ window.SHE = window.SHE || {};
       ['all', B('전 산업(공통)', 'All industries')], ['semi', B('반도체·전자', 'Semiconductors & electronics')], ['chem', B('화학 제조', 'Chemical manufacturing')], ['oil', B('정유·석유·가스 생산', 'Refining, oil & gas')],
       ['energy', B('발전·에너지·유틸리티', 'Power & utilities')], ['metal', B('금속·철강', 'Metals & steel')], ['mfg', B('제조 일반(제지·포장·목재 등)', 'General manufacturing')], ['food', B('식품·농림·축산', 'Food, farming & forestry')],
       ['logi', B('물류·저장·운송', 'Storage, distribution & transport')], ['waste', B('폐기물·재활용·수처리', 'Waste, recycling & water')], ['const', B('건설', 'Construction')], ['lab', B('연구·교육·실험실', 'Labs, research & education')], ['pub', B('공공·상업 시설', 'Public & commercial premises')],
-      ['svc', B('도소매·서비스', 'Retail & services')]] },
+      ['svc', B('도소매·서비스', 'Retail & services')], ['care', B('보건·의료·복지', 'Health care & social work')], ['mine', B('광업·채석', 'Mining & quarrying')]] },
+    /* 사고 유형(발생 형태) — 한국 산업재해 발생형태(고용노동부 재해조사보고서 분류)와 일본 事故の型을 함께 쓰도록 맞춘 포털 분류. 선례(사고 사례·조사보고서)에만 단다 */
+    { id: 'a', t: B('사고 유형(발생 형태)', 'Accident type'), v: [
+      ['fall', B('떨어짐(추락)', 'Falls from height')], ['trip', B('넘어짐', 'Slips & trips')], ['crush', B('깔림·뒤집힘', 'Run over, crushed or overturned')], ['bump', B('부딪힘', 'Striking against or struck by moving objects')],
+      ['hit', B('물체에 맞음(낙하·비래)', 'Hit by falling or flying objects')], ['collapse', B('무너짐(붕괴·도괴)', 'Collapse')], ['caught', B('끼임·말림', 'Caught in or between')], ['cut', B('절단·베임·찔림', 'Cuts & punctures')],
+      ['elec', B('감전', 'Electric shock')], ['explode', B('폭발·파열', 'Explosion & rupture')], ['fire', B('화재', 'Fire')], ['temp', B('이상온도 물체 접촉', 'Contact with hot or cold objects')],
+      ['toxic', B('화학물질 누출·접촉(중독)', 'Chemical release, contact & poisoning')], ['oxygen', B('산소결핍·질식', 'Oxygen deficiency & asphyxiation')], ['drown', B('빠짐·익사', 'Drowning')],
+      ['traffic', B('교통사고', 'Traffic accidents')], ['motion', B('무리한 동작', 'Overexertion & awkward movement')], ['other', B('기타', 'Other')]] },
     { id: 'h', t: B('위험 요인', 'Hazard'), v: [
       ['chem', B('화학물질 노출·누출', 'Chemical exposure & release')], ['gas', B('가스(고압·독성·특수)', 'Gases')], ['fire', B('화재·폭발', 'Fire & explosion')], ['dust', B('분진 폭발', 'Combustible dust')], ['reactive', B('반응성·폭주반응', 'Reactive chemicals')],
       ['press', B('압력설비·용기 파열', 'Pressure equipment')], ['elec', B('전기', 'Electrical')], ['mach', B('기계·끼임·운반', 'Machinery, caught-in & handling')], ['vehicle', B('차량·건설기계·지게차', 'Vehicles, plant & forklifts')],
@@ -99,11 +106,13 @@ window.SHE = window.SHE || {};
     eu89391: ['law', 'EU', '1989', 'all', '', 'org ra training', 1], euOshaFd: ['guide', 'EU', '', 'all', '', 'org', 2],
     ukHswa: ['law', 'UK', '1974', 'all', '', 'org', 1], hseHswa: ['guide', 'UK', '', 'all', '', 'org', 2], ukMhswr: ['law', 'UK', '1999', 'all', '', 'ra', 1],
     oshAct: ['law', 'US', '1970', 'all', '', 'org', 1], cfr1910_132: ['law', 'US', '', 'all', '', 'ppe ra', 1], oshaRp: ['guide', 'US', '2016', 'all', '', 'ms ra', 2],
-    jpIshl: ['law', 'JP', '1972 2025 2026', 'all', 'chem', 'org ra', 1],
+    jpIshl: ['law', 'JP', '1972 2025 2026', 'all', 'chem', 'org ra', 1], egovJp: ['site', 'JP', '2026', 'all', '', 'org', 1], jpAnzenCases: ['stat', 'JP', '2026', 'all', '', 'inv', 3],
     /* 타사 공식(4등급) */
     tsmc2023: ['corp', 'TW', '2023', 'semi', '', 'contract tech', 4], tsmcTsia: ['corp', 'TW', '2017', 'semi', 'health chem rad noise', 'contract', 4],
     samsung: ['corp', 'KR', '', 'semi', '', 'contract', 4], intelEhs: ['corp', 'US', '', 'semi', '', 'contract', 4]
   };
+  /* 사고를 다룬 출처의 사고 유형(발생 형태) — 질식 판결(질소 질식)·방사선 피폭(기타). 감독 결과(moel0920)는 사고가 아니라 달지 않는다 */
+  S.LIB_SRC_A = { scourt2021: 'oxygen', nsscSamsung: 'other' };
   /* 출처 → 같은 문서의 KOSHA GUIDE 항목(중복 대신 하나로 합친다) */
   S.LIB_SRC_KOSHA = { koshaCC49: 'C-C-49-2026', koshaCC87: 'C-C-87-2026', koshaP179: 'P-179-2022', koshaCC85: 'C-C-85-2026', koshaHf: 'H-123-2013', koshaStatic: 'E-188-2021', koshaCleanroom: 'P-46-2012', koshaH178: 'H-178-2022', koshaEG2: 'E-G-2-2025', koshaW23: 'W-23-2016', koshaE187: 'E-187-2021', koshaCC65: 'C-C-65-2026', koshaReactive: 'C-C-3-2025', koshaToxGas: 'P-153-2016', koshaLeak: 'M-150-2022' };
 
@@ -128,6 +137,45 @@ window.SHE = window.SHE || {};
   S.LIB_CASE_IND = { 'gov-2024-excavator': 'const', 'gov-2024-falls': 'const all', 'gov-2024-elec': 'const', 'gov-2024-forklift': 'mfg logi' };
   /* 사고 유형만으로 못 나누는 위험 요인(차량·건설기계 등)을 더한다 */
   S.LIB_CASE_HZX = { 'gov-2024-excavator': 'vehicle', 'gov-2024-forklift': 'vehicle' };
+  /* 사고사례 사고 유형 → 사고 유형(발생 형태) 대분류 */
+  S.LIB_CASE_A = { fire: 'fire', leak: 'toxic', contact: 'toxic', asphyx: 'oxygen', fall: 'fall', rad: 'other', shock: 'elec', burn: 'elec', caught: 'caught' };
+
+  /* ---------- 일본 労働災害事例(data/lib-jp.js) 분류 대응 ----------
+     업종 → 산업, 기인물·사고 유형 → 위험 요인, 사고 유형 → 사고 유형(발생 형태), 발생요인(관리·물) → 관리 주제.
+     有害物等との接触은 원제에 산소결핍(酸欠·酸素欠乏·窒息)이 있으면 ‘산소결핍·질식’, 아니면 ‘화학물질 누출·접촉’ */
+  const OXY = /酸欠|酸素欠乏|窒息/;
+  S.LIB_JP_MAP = {
+    ind: (code) => {
+      const [a, b, c] = String(code || '').split('-');
+      if (a === '1') {
+        if (b === '1') return 'food';
+        if (b === '8') return c === '4' || c === '10' ? 'oil chem' : 'chem';
+        if (b === '10' || b === '11' || b === '12') return 'metal';
+        if (b === '14') return c === '3' ? 'semi' : 'mfg';
+        if (b === '16') return c === '3' ? 'waste' : 'energy';
+        if (b === '17' && c === '3') return 'svc';
+        return 'mfg';
+      }
+      if (a === '8') return b === '4' && c === '1' ? 'logi' : 'svc';
+      if (a === '14') return b === '3' && c === '3' ? 'food' : 'svc';
+      if (a === '15') return c === '1' || c === '6' ? 'svc' : 'waste';
+      if (a === '17') return b === '1' || (b === '2' && (c === '1' || c === '2')) ? 'svc' : '';
+      return { 2: 'mine', 3: 'const', 4: 'logi', 5: 'logi', 6: 'food', 7: 'food', 10: 'svc', 12: 'lab', 13: 'care' }[a] || '';
+    },
+    hzKiin: (code) => {
+      const [a, b, c] = String(code || '').split('-');
+      if (a === '1') return b === '4' ? 'vehicle' : 'mach';
+      if (a === '2') return b === '1' ? 'mach' : b === '2' ? (c === '4' ? 'mach' : 'vehicle') : b === '3' ? 'vehicle' : '';
+      if (a === '3') return { 1: 'press', 2: 'chem', 5: 'elec', 6: 'mach' }[b] || (b === '7' ? { 1: 'fall', 2: 'mach' }[c] || '' : '');
+      if (a === '4') return c === '2' || c === '8' ? 'collapse' : c === '9' || c === '0' ? '' : 'fall';
+      if (a === '5') return b === '1' ? { 1: 'fire reactive', 2: 'fire', 3: 'gas fire', 4: 'chem', 5: 'rad', 6: 'chem', 9: 'chem', 0: 'chem' }[c] || '' : '';
+      if (a === '7') return { 1: 'collapse', 4: 'conf', 5: 'heat' }[c] || '';
+      return '';
+    },
+    hzJiko: (j, title) => (j === '12' && OXY.test(title) ? 'conf' : { 1: 'fall', 4: 'struck', 5: 'collapse', 7: 'mach', 11: 'heat', 12: 'chem', 13: 'elec', 14: 'fire', 15: 'press', 16: 'fire', 17: 'vehicle', 18: 'vehicle', 19: 'ergo' }[j] || ''),
+    a: (j, title) => (j === '12' ? (OXY.test(title) ? 'oxygen' : 'toxic') : { 1: 'fall', 2: 'trip', 3: 'bump', 4: 'hit', 5: 'collapse', 6: 'bump', 7: 'caught', 8: 'cut', 9: 'cut', 10: 'drown', 11: 'temp', 13: 'elec', 14: 'explode', 15: 'explode', 16: 'fire', 17: 'traffic', 18: 'traffic', 19: 'motion', 90: 'other', 99: 'other' }[j] || ''),
+    m: (mono, kanri) => ['inv'].concat(/^23-/.test(kanri) || /^4-/.test(mono) ? ['ppe'] : [], /^22-/.test(kanri) || kanri === '12-2' ? ['ptw'] : []).join(' ')
+  };
 
   /* ---------- SOP(SHE.SOPS): [위험 요인, 관리 주제] ---------- */
   S.LIB_SOP = {
@@ -154,8 +202,21 @@ window.SHE = window.SHE || {};
      회보·연구(k 'guide')는 발생일 대신 공개일을 연도로 쓴다 */
   const ORG_CSB = B('미국 화학안전·위험조사위원회(CSB)', 'US Chemical Safety and Hazard Investigation Board (CSB)');
   const iso = (mdy) => { const [m, d, y] = mdy.split('/'); return `${y}-${m}-${d}`; };
+  /* 사고 유형(발생 형태): 조사명의 낱말로 정하고, 없으면 위험 요인으로(압력 → 폭발·파열, 화재, 화학·가스 → 누출·접촉). 밀폐공간·질식은 산소결핍. 회보·연구는 달지 않는다 */
+  const csbA = (en, hz, k) => {
+    if (k === 'guide') return '';
+    const h = ' ' + hz + ' ', a = [];
+    if (/explosion|explosions|blowout|detonat|rupture|overpressur|vessel failure/i.test(en)) a.push('explode');
+    if (/fire|flash/i.test(en)) a.push('fire');
+    if (/collapse/i.test(en)) a.push('collapse');
+    if (/eruption/i.test(en)) a.push('temp');
+    if (/ conf /.test(h) || /asphyxiation/i.test(en)) a.push('oxygen');
+    else if (/release|leak|poisoning|spill|toxic/i.test(en)) a.push('toxic');
+    if (!a.length) a.push(/ press /.test(h) ? 'explode' : / fire /.test(h) ? 'fire' : / (chem|gas) /.test(h) ? 'toxic' : 'other');
+    return a.join(' ');
+  };
   const csb = (slug, ko, en, loc, occ, fin, ind, hz, m, sko, sen, k) => ({
-    id: 'csb-' + slug.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''), k: k || 'report', c: ['US'], y: [occ.slice(-4)], d: iso(occ), d2: fin ? iso(fin) : '', loc,
+    id: 'csb-' + slug.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''), k: k || 'report', c: ['US'], y: [occ.slice(-4)], d: iso(occ), d2: fin ? iso(fin) : '', loc, a: csbA(en, hz, k),
     i: ind, h: hz, m: (k === 'guide' ? '' : 'inv ') + m, tier: 3, title: B(ko, en), org: ORG_CSB, sum: B(sko, sen), url: 'https://www.csb.gov/' + slug + '/', src: ['csbInv'], checked: '2026-10-04'
   });
   const csbOpen = (slug, ko, en, loc, occ, ind, hz, m, sko, sen) => Object.assign(csb(slug, ko, en, loc, occ, '', ind, hz, m, sko, sen, 'case'), { open: true });
@@ -530,8 +591,12 @@ window.SHE = window.SHE || {};
   const ORG_MOEL = B('고용노동부(재해원인조사: 한국산업안전보건공단)', 'MOEL (investigation by KOSHA)');
   const SIZE = { wu: B('상시 근로자 50명 미만', 'under 50 workers'), wo: B('상시 근로자 50명 이상', '50 or more workers'), cu: B('공사금액 50억 원 미만', 'project under KRW 5 billion'), co: B('공사금액 50억 원 이상', 'project of KRW 5 billion or more') };
   const HARM = { d: B('1명 이상 사망', 'one or more deaths'), i: B('부상(사망자 없음)', 'injuries, no deaths') };
+  /* 사고 유형(발생 형태): 게시판의 재해유형(떨어짐·끼임·깔림·뒤집힘·맞음·부딪힘·화재·폭발·기타) — #4 ‘기타’는 보고서상 감전, #35는 폭발·화재 */
+  const MOEL_A = {};
+  '1:fall 2:fall 3:fall 4:elec 5:bump 6:crush 7:explode 8:caught 9:caught 10:hit 11:caught 12:fall 13:fall 14:fall 15:crush 16:fall 17:hit 18:fall 19:fall 20:crush 21:fall 22:hit 23:fall 24:fall 25:crush 26:caught 27:fall 28:caught 29:fall 30:hit 31:caught 32:fall 33:caught 34:fall 35:explode+fire 36:caught 37:fall 38:fall 39:fall 40:crush 41:crush 42:fall 43:fall 44:hit 45:crush 46:explode 47:crush 48:fall 49:fall 50:caught 51:fall'
+    .split(' ').forEach((p) => { const [n, a] = p.split(':'); MOEL_A[n] = a.replace('+', ' '); });
   const mr = (no, seq, occ, sz, harm, lko, len, ko, en, ind, hz, m, sko, sen, go) => ({
-    id: 'moel-rpt-' + no, k: 'report', c: ['KR'], y: [occ.slice(0, 4)], d: occ, d2: '2026-05-26', d2l: B('보고서 공개', 'report published'), loc: B(lko, len),
+    id: 'moel-rpt-' + no, k: 'report', c: ['KR'], y: [occ.slice(0, 4)], d: occ, d2: '2026-05-26', d2l: B('보고서 공개', 'report published'), loc: B(lko, len), a: MOEL_A[no],
     size: B(`${SIZE[sz].ko} · ${HARM[harm].ko}`, `${SIZE[sz].en} · ${HARM[harm].en}`), i: ind, h: hz, m: 'inv ' + m, tier: 3, title: B(ko, en), org: ORG_MOEL, sum: B(sko, sen),
     url: 'https://www.moel.go.kr/info/dsstExaminRpt/view.do?bbs_seq=' + seq, src: ['moelRpt'], go: go || [], checked: '2026-10-04'
   });
@@ -691,5 +756,80 @@ window.SHE = window.SHE || {};
     mr(51, '20260501030', '2024-12-19', 'wu', 'd', '대구 달서구', 'Dalseo-gu, Daegu', '대구 달서구 화물자동차 떨어짐 사고', 'Fall from a loaded cargo truck, Dalseo-gu (Daegu)', 'svc waste', 'fall vehicle', 'ppe',
       ['폐지 운반·판매업 재해자(1958년생)가 7.5톤 화물차 적재함의 폐지(높이 약 3.7m) 위에서 부직포 덮개를 벗기고 내려오다 발을 헛디뎌 약 3.2m 아래로 떨어져 다음 날 사망.', '원인: 적재함 승강설비 계단 폭 16cm로 사다리식 통로 기준(30cm 이상, 안전보건규칙 제24조)에 미달, 승강설비 대신 접이식 적재함 옆 매쉬를 발판으로 사용, 안전모 미착용. 낮은 기온이 고령 근로자의 균형 유지에 불리했을 수 있다는 의견도 제시.', '권고: 폭 30cm 이상 승강설비 설치·사용, 안전모 등 보호구 지급과 착용 감독.'],
       ['A worker (born 1958) at a waste-paper haulier, climbing down after removing the cover from a load about 3.7 m high on a 7.5 t truck, missed a step, fell about 3.2 m and died the next day.', 'Causes: the truck’s access steps were 16 cm wide, below the 30 cm required for ladder-type access (Standards Rules Art. 24); the side mesh was used instead; no hard hat. The report also notes cold weather may have affected an older worker’s balance.', 'Recommendations: fit and use access steps at least 30 cm wide; provide hard hats and supervise their use.'])
+  );
+
+  /* 일본 노동안전·화학물질·가스·소방 법령 15건 — e-Gov 법령 API v2 현행본(CurrentEnforced)에서 법령번호·공포일·현행본 시행일·마지막 반영 개정법·제1조·편/장 제목을 확인(2026-10-05).
+     요약은 제1조(목적·사업자의 책무)와 편·장 제목만 옮겼고, 제1조가 정의 조항인 정령·규칙은 장 제목이나 조 제목으로 범위를 적었다.
+     労働安全衛生法 본법은 출처 목록 항목(jpIshl)으로 이미 있어 만들지 않는다. 영문 제목은 포털 번역.
+     연도 = 공포 연도와 현행본 시행 연도, 날짜 = 현행본 시행일 */
+  const JP_ORG = { act: B('일본 국회(법률)', 'National Diet of Japan (Act)'), co: B('일본 내각(정령)', 'Cabinet of Japan (Cabinet Order)'), mo: B('일본 후생노동성(성령)', 'Japan MHLW (Ministerial Ordinance)') };
+  const jpl = (lid, ja, num, prom, enf, am, ko, en, i, hz, m, sko, sen) => ({
+    id: 'jpl-' + lid, k: 'law', c: ['JP'], y: [...new Set([prom.slice(0, 4), enf.slice(0, 4)])], d: enf, d2: prom, d2l: B('공포', 'promulgated'),
+    i, h: hz, m, tier: 1, title: B(ko, en), orig: `${ja}（${num}）`, org: JP_ORG[/法律/.test(num) ? 'act' : /政令/.test(num) ? 'co' : 'mo'],
+    sum: B(sko.concat(`현행본 ${enf} 시행 — 마지막으로 반영된 개정: ${am[0]}`), sen.concat(`Current text in force from ${enf} — latest amendment reflected: ${am[1]}`)),
+    url: 'https://laws.e-gov.go.jp/law/' + lid, src: ['egovJp'], checked: '2026-10-05'
+  });
+  const AM = { o116: ['2026년 후생노동성령 제116호', 'MHLW Ordinance No. 116 of 2026'], o3: ['2026년 후생노동성령 제3호', 'MHLW Ordinance No. 3 of 2026'] };
+  S.LIB_ITEMS.push(
+    jpl('347CO0000000318', '労働安全衛生法施行令', '昭和四十七年政令第三百十八号', '1972-08-19', '2026-10-01', ['2026년 정령 제196호', 'Cabinet Order No. 196 of 2026'],
+      '일본 노동안전위생법 시행령', 'Japan Order for Enforcement of the Industrial Safety and Health Act', 'all', 'mach press chem', 'org training monitor signs',
+      ['법이 정령에 맡긴 범위를 정한다(조 제목 기준): 총괄안전위생관리자·안전관리자·위생관리자·산업의를 선임할 사업장, 작업주임자를 둘 작업, 안전위원회·위생위원회를 둘 사업장, 특정기계 등과 개별·형식 검정이나 정기 자주검사를 받을 기계, 제조 금지·허가 대상 유해물, 명칭 등을 표시·통지할 위험물과 유해물, 직장 교육을 할 업종, 취업 제한 업무, 작업환경측정을 할 작업장, 건강진단을 할 유해 업무.', '제1조는 아세틸렌 용접장치·가스 집합 용접장치·보일러 등의 정의.'],
+      ['Sets what the Act leaves to Cabinet Order (by article headings): workplaces that must appoint general safety and health managers, safety managers, health managers and industrial physicians; work that needs an operations chief; workplaces that need safety and health committees; specified machinery, and machines subject to individual or type examination or periodic self-inspection; harmful substances whose manufacture is banned or needs a permit; dangerous and harmful substances whose names must be labelled or notified; industries that must train supervisors; restricted jobs; workplaces that need working-environment measurement; harmful work that needs health examinations.', 'Article 1 defines acetylene welding equipment, gas manifold welding equipment, boilers and other terms.']),
+    jpl('347M50002000032', '労働安全衛生規則', '昭和四十七年労働省令第三十二号', '1972-09-30', '2026-10-01', AM.o116,
+      '일본 노동안전위생규칙', 'Japan Ordinance on Industrial Safety and Health', 'all', 'mach vehicle fire elec fall struck collapse health heat', 'org ra training monitor ppe contract emer',
+      ['제1편 통칙: 안전위생 관리체제, 근로자 구호 조치, 기술상 지침 공표, 위험성·유해성 등의 조사, 기계와 위험물·유해물 규제, 안전위생교육, 취업 제한, 고령자 취업 조치, 건강 유지·증진, 쾌적한 직장환경, 면허, 특별 안전위생 개선계획, 감독.', '제2편 안전기준: 기계, 하역운반기계, 목재 벌출기계, 건설기계, 거푸집 동바리, 폭발·화재 방지, 전기, 굴착, 하역, 벌목, 철골·교량·목조·콘크리트 공작물 작업, 추락·낙하·붕괴, 통로·비계, 작업구대, 토석류.', '제3편 위생기준: 유해한 작업환경, 폐기물 소각시설 작업, 보호구, 기적·환기, 채광·조명, 온도·습도, 휴양, 청결, 식당·취사장, 구급용구. 제4편 특별규제: 특정원방사업자(원청) 등, 기계 대여자, 건축물 대여자.'],
+      ['Part 1 General: safety and health organisation, rescue of workers, publication of technical guidelines, assessment of danger or harm, controls on machinery and dangerous or harmful substances, safety and health education, restricted work, measures for older workers, health maintenance, a comfortable workplace, licences, special improvement plans, supervision.', 'Part 2 Safety standards: machinery, materials-handling machines, logging machines, construction machinery, formwork supports, prevention of explosion and fire, electricity, excavation, cargo handling, tree felling, steel, bridge, timber and concrete structure work, falls, falling objects and collapse, passages and scaffolds, work stages, debris flows.', 'Part 3 Health standards: harmful working environments, work at waste incinerators, protective equipment, air space and ventilation, daylight and lighting, temperature and humidity, rest, cleanliness, canteens and kitchens, first-aid equipment. Part 4 Special rules: specified principal contractors, lessors of machinery, lessors of buildings.']),
+    jpl('347M50002000036', '有機溶剤中毒予防規則', '昭和四十七年労働省令第三十六号', '1972-09-30', '2026-10-01', AM.o116,
+      '일본 유기용제중독예방규칙', 'Japan Ordinance on Prevention of Organic Solvent Poisoning', 'all', 'chem', 'monitor ppe training',
+      ['대상(제1조 정의): 시행령 별표 제6의2에 적힌 유기용제와, 유기용제를 중량으로 5% 넘게 함유한 혼합물(유기용제 등). 유기용제 등을 제1종·제2종 등으로 나눈다.', '장 구성: 설비, 환기장치의 성능, 관리, 측정, 건강진단, 보호구, 저장과 빈 용기 처리, 유기용제 작업주임자 기능강습.'],
+      ['Scope (Article 1 definitions): organic solvents listed in Appended Table 6-2 of the Enforcement Order, and mixtures containing more than 5 % of them by weight (“organic solvents etc.”), which are divided into class 1, class 2 and so on.', 'Chapters: equipment, ventilation performance, management, measurement, health examinations, protective equipment, storage and empty containers, skill training for operations chiefs.']),
+    jpl('347M50002000039', '特定化学物質障害予防規則', '昭和四十七年労働省令第三十九号', '1972-09-30', '2026-10-01', AM.o116,
+      '일본 특정화학물질장해예방규칙', 'Japan Ordinance on Prevention of Hazards Due to Specified Chemical Substances', 'all', 'chem gas', 'monitor ppe training',
+      ['제1조(사업자의 책무): 화학물질로 인한 암·피부염·신경장해 등 건강장해를 막기 위해 독성 확인, 대체물 사용, 작업방법 확립, 시설 개선, 작업환경 정비, 건강관리 철저 등으로 노출되는 근로자 수와 노출 기간·정도를 최소로 하도록 노력.', '장 구성: 제조 등의 조치, 사용 후 처리, 누출 방지, 관리, 특수한 작업 관리, 건강진단, 보호구, 제조 허가, 특정화학물질·4알킬납 등 작업주임자 기능강습, 보고.'],
+      ['Article 1 (employer’s responsibility): to prevent cancer, dermatitis, nerve damage and other harm from chemicals, the employer must endeavor to keep the number of exposed workers and the length and degree of exposure to a minimum, by checking toxicity, using substitutes, setting work methods, improving facilities and the working environment, and managing health thoroughly.', 'Chapters: measures for manufacture etc., after-use treatment, leak prevention, management, special work, health examinations, protective equipment, manufacturing permits, skill training for operations chiefs (specified chemicals and tetraalkyl lead), reporting.']),
+    jpl('347M50002000042', '酸素欠乏症等防止規則', '昭和四十七年労働省令第四十二号', '1972-09-30', '2026-04-01', AM.o3,
+      '일본 산소결핍증 등 방지규칙', 'Japan Ordinance on Prevention of Oxygen Deficiency Disorders etc.', 'all', 'conf gas', 'ptw monitor ppe training emer inv',
+      ['제1조(사업자의 책무): 산소결핍증 등을 막기 위해 작업방법 확립, 작업환경 정비 등 필요한 조치를 하도록 노력.', '조 제목 기준 주요 조치: 작업환경측정과 측정기구, 환기, 보호구 사용·점검, 인원 점검, 출입 금지, 작업주임자, 특별교육, 감시인, 대피, 구출할 때 공기호흡기 사용, 가스 누출·배출 조치, 사고 보고.', '장 구성: 일반적 방지 조치, 특수한 작업의 방지 조치, 산소결핍 위험작업 주임자와 산소결핍·황화수소 위험작업 주임자 기능강습.'],
+      ['Article 1 (employer’s responsibility): endeavor to prevent oxygen deficiency disorders etc. by setting work methods, improving the working environment and other necessary measures.', 'Main measures by article heading: measuring the working environment and the instruments used, ventilation, use and inspection of protective equipment, head counts, no-entry areas, operations chiefs, special education, attendants, evacuation, breathing apparatus for rescuers, gas leak and discharge measures, accident reports.', 'Chapters: general prevention, prevention in special work, skill training for oxygen-deficiency operations chiefs and for oxygen-deficiency and hydrogen-sulfide operations chiefs.']),
+    jpl('347M50002000041', '電離放射線障害防止規則', '昭和四十七年労働省令第四十一号', '1972-09-30', '2026-04-01', AM.o3,
+      '일본 전리방사선장해방지규칙', 'Japan Ordinance on Prevention of Ionizing Radiation Hazards', 'all', 'rad', 'monitor training emer',
+      ['제1조(기본원칙): 사업자는 근로자가 받는 전리방사선을 될 수 있는 대로 적게 하도록 노력.', '장 구성: 관리구역·선량한도·측정, 외부 방사선 방호, 오염 방지, 특별한 작업 관리, 긴급조치, 엑스선 작업주임자와 감마선 투과사진 촬영 작업주임자, 특별교육, 작업환경측정, 건강진단, 지정 긴급작업 종사자 등의 기록 제출.'],
+      ['Article 1 (basic principle): the employer must endeavor to keep workers’ exposure to ionizing radiation as low as possible.', 'Chapters: controlled areas, dose limits and measurement; protection from external radiation; contamination control; special work; emergency measures; X-ray and gamma-ray radiography operations chiefs; special education; working-environment measurement; health examinations; records of workers in designated emergency work.']),
+    jpl('354M50002000018', '粉じん障害防止規則', '昭和五十四年労働省令第十八号', '1979-04-25', '2026-10-01', AM.o116,
+      '일본 분진장해방지규칙', 'Japan Ordinance on Prevention of Dust Hazards', 'all', 'health', 'monitor ppe',
+      ['제1조(사업자의 책무): 분진에 노출되는 근로자의 건강장해를 막기 위해 설비·작업공정·작업방법 개선과 작업환경 정비에 노력하고, 진폐법 등에 더해 건강진단, 취업 장소 변경, 작업 전환, 작업시간 단축 등 건강관리 조치에 노력.', '장 구성: 설비 등의 기준, 설비의 성능, 관리, 작업환경측정, 보호구.'],
+      ['Article 1 (employer’s responsibility): endeavor to prevent harm to workers exposed to dust by improving equipment, processes or methods and the working environment, and, besides the Pneumoconiosis Act, by health examinations, changes of workplace or task, shorter hours and other health care.', 'Chapters: equipment standards, equipment performance, management, working-environment measurement, protective equipment.']),
+    jpl('417M60000100021', '石綿障害予防規則', '平成十七年厚生労働省令第二十一号', '2005-02-24', '2026-04-01', AM.o3,
+      '일본 석면장해예방규칙', 'Japan Ordinance on Prevention of Asbestos Hazards', 'all const', 'chem health', 'monitor ppe training',
+      ['제1조(사업자의 책무): 석면으로 인한 폐암·중피종 등 건강장해를 막기 위해 노출되는 근로자 수와 노출 기간·정도를 최소로 하도록 노력하고, 석면 함유 제품의 사용 현황을 파악해 계획적으로 석면 없는 제품으로 바꾸도록 노력.', '장 구성: 석면 등을 다루는 업무 등의 조치, 설비의 성능, 관리, 측정, 건강진단, 보호구, 제조 등, 석면 작업주임자 기능강습, 보고.'],
+      ['Article 1 (employer’s responsibility): endeavor to keep the number of workers exposed to asbestos and the length and degree of exposure to a minimum, to prevent lung cancer, mesothelioma and other harm, and to track asbestos-containing products and replace them with asbestos-free ones on a plan.', 'Chapters: measures for work handling asbestos etc., equipment performance, management, measurement, health examinations, protective equipment, manufacture etc., skill training for operations chiefs, reporting.']),
+    jpl('347M50002000033', 'ボイラー及び圧力容器安全規則', '昭和四十七年労働省令第三十三号', '1972-09-30', '2026-04-01', AM.o3,
+      '일본 보일러 및 압력용기 안전규칙', 'Japan Ordinance on Safety of Boilers and Pressure Vessels', 'all', 'press', 'training',
+      ['대상(제1조 정의): 시행령이 정한 보일러와 소형 보일러, 제1종·제2종 압력용기, 소형 압력용기.', '장 구성: 보일러, 제1종 압력용기, 제2종 압력용기, 소형 보일러와 소형 압력용기, 면허, 보일러 취급과 제1종 압력용기 취급 작업주임자 기능강습.'],
+      ['Scope (Article 1 definitions): boilers and small boilers, class 1 and class 2 pressure vessels, and small pressure vessels as defined in the Enforcement Order.', 'Chapters: boilers, class 1 pressure vessels, class 2 pressure vessels, small boilers and small pressure vessels, licences, skill training for boiler handling and for class 1 pressure-vessel operations chiefs.']),
+    jpl('347M50002000034', 'クレーン等安全規則', '昭和四十七年労働省令第三十四号', '1972-09-30', '2026-04-01', AM.o3,
+      '일본 크레인 등 안전규칙', 'Japan Ordinance on Safety of Cranes etc.', 'all const', 'mach', 'training',
+      ['장 구성: 크레인, 이동식 크레인, 데릭, 엘리베이터, 건설용 리프트, 간이 리프트, 줄걸이(玉掛け), 면허와 교습, 바닥 조작식 크레인·소형 이동식 크레인 운전과 줄걸이 기능강습.', '제1조는 이동식 크레인, 건설용 리프트, 간이 리프트, 인양하중, 적재하중, 정격하중 등의 정의.'],
+      ['Chapters: cranes, mobile cranes, derricks, elevators, construction lifts, simple lifts, slinging, licences and training courses, skill training for floor-operated cranes, small mobile cranes and slinging.', 'Article 1 defines mobile cranes, construction lifts, simple lifts, lifting load, carrying load, rated load and other terms.']),
+    jpl('350AC0000000028', '作業環境測定法', '昭和五十年法律第二十八号', '1975-05-01', '2026-10-01', ['2025년 법률 제33호', 'Act No. 33 of 2025'],
+      '일본 작업환경측정법', 'Japan Working Environment Measurement Act', 'all', '', 'monitor',
+      ['제1조(목적): 노동안전위생법과 함께 작업환경측정사 자격과 작업환경측정기관 등을 정해, 적정한 작업환경과 안전하고 위생적인 작업 수행을 확보하고 직장 근로자의 건강을 유지.', '장 구성: 작업환경측정사 등, 작업환경측정기관, 잡칙, 벌칙.'],
+      ['Article 1 (purpose): together with the Industrial Safety and Health Act, set the qualifications of working environment measurement experts and the rules for measurement institutions, to secure a proper working environment and safe, hygienic work and keep workers healthy.', 'Chapters: measurement experts, measurement institutions, miscellaneous provisions, penalties.']),
+    jpl('335AC0000000030', 'じん肺法', '昭和三十五年法律第三十号', '1960-03-31', '2020-04-01', ['2017년 법률 제45호', 'Act No. 45 of 2017'],
+      '일본 진폐법', 'Japan Pneumoconiosis Act', 'all', 'health', 'monitor',
+      ['제1조(목적): 진폐의 적정한 예방과 건강관리 등 필요한 조치로 근로자의 건강 유지와 복지 증진에 이바지.', '장 구성: 건강관리, 정부의 원조 등, 잡칙, 벌칙.'],
+      ['Article 1 (purpose): contribute to workers’ health and welfare through proper prevention of pneumoconiosis, health care and other necessary measures.', 'Chapters: health care, government assistance, miscellaneous provisions, penalties.']),
+    jpl('326AC0000000204', '高圧ガス保安法', '昭和二十六年法律第二百四号', '1951-06-07', '2025-10-01', ['2025년 법률 제44호', 'Act No. 44 of 2025'],
+      '일본 고압가스보안법', 'Japan High Pressure Gas Safety Act', 'all', 'gas press', 'org',
+      ['제1조(목적): 고압가스 재해를 막기 위해 고압가스의 제조·저장·판매·이동 등 취급과 소비, 용기의 제조·취급을 규제하고, 민간 사업자와 고압가스보안협회의 자주적 보안 활동을 촉진해 공공의 안전을 확보.', '장 구성: 사업, 보안, 완성검사·보안검사 인정, 인정 고도보안실시자, 용기 등, 지정시험기관 등, 고압가스보안협회.'],
+      ['Article 1 (purpose): prevent high-pressure gas disasters by regulating the manufacture, storage, sale, transport, other handling and consumption of high-pressure gas and the manufacture and handling of containers, and by promoting voluntary safety work by businesses and the High Pressure Gas Safety Institute of Japan, to secure public safety.', 'Chapters: business, safety, accreditation for completion and safety inspections, accredited advanced safety operators, containers, designated testing bodies, the High Pressure Gas Safety Institute.']),
+    jpl('323AC1000000186', '消防法', '昭和二十三年法律第百八十六号', '1948-07-24', '2025-06-01', ['2022년 법률 제68호', 'Act No. 68 of 2022'],
+      '일본 소방법', 'Japan Fire Service Act', 'all', 'fire chem', 'emer',
+      ['제1조(목적): 화재를 예방·경계·진압해 국민의 생명·신체·재산을 화재로부터 보호하고, 화재나 지진 등 재해의 피해를 줄이며, 재해 등으로 다친 사람을 적절히 이송해 사회 공공의 복지 증진에 이바지.', '장 구성: 화재의 예방, 위험물, 위험물보안기술협회, 소방 설비 등, 소방용 기계기구 검정 등, 화재의 경계, 소화 활동, 화재 조사, 구급 업무.'],
+      ['Article 1 (purpose): prevent, watch for and suppress fires to protect people’s lives, bodies and property from fire, reduce damage from fires, earthquakes and other disasters, and transport the sick and injured properly, for public welfare.', 'Chapters: fire prevention, hazardous materials, the Hazardous Materials Safety Techniques Association, fire-protection equipment, approval of firefighting equipment, fire alerts, firefighting, fire investigation, ambulance services.']),
+    jpl('411AC0000000086', '特定化学物質の環境への排出量の把握等及び管理の改善の促進に関する法律', '平成十一年法律第八十六号', '1999-07-13', '2003-02-03', ['2002년 법률 제152호', 'Act No. 152 of 2002'],
+      '일본 PRTR법(특정화학물질 환경 배출량 파악·관리 개선 촉진법)', 'Japan PRTR Act (Act on Assessing Releases of Specified Chemical Substances into the Environment and Promoting Better Management)', 'all', 'chem env', 'signs',
+      ['제1조(목적): 특정 화학물질의 환경 배출량 등을 파악하는 조치와, 사업자가 특정 화학물질의 성상·취급 정보를 제공하는 조치로 사업자의 자주적 화학물질 관리 개선을 촉진하고 환경 보전상의 지장을 미리 막음.', '장 구성: 제1종 지정화학물질의 배출량 등 파악, 지정화학물질 등 취급사업자의 정보 제공 등, 잡칙, 벌칙.'],
+      ['Article 1 (purpose): promote voluntary improvement of chemical management by businesses and prevent environmental harm before it occurs, through measures to grasp releases of specified chemicals into the environment and measures for businesses to provide information on their properties and handling.', 'Chapters: grasping releases of class 1 designated chemical substances, information provision by businesses handling designated chemical substances, miscellaneous provisions, penalties.'])
   );
 })();

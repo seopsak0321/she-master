@@ -60,6 +60,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3, h4 { text-wrap: balance; line-height: 1.3; margin: 0; }
 p { margin: 0; }
 .num, td.n, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+[lang="ja"] { font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, "Hiragino Sans", "Noto Sans JP", var(--font); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 /* ---------- app shell ---------- */

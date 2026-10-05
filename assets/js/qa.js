@@ -75,6 +75,7 @@
       const lb = (what, where, v) => add('bad', T('라이브러리 데이터', 'Library data') + ' · ' + what, where, v);
       const VAL = {}; S.LIB_FACETS.forEach((f) => { VAL[f.id] = new Set(f.v.map((x) => x[0])); });
       Object.keys(S.LIB_SRC || {}).forEach((id) => { if (!src.has(id)) lb(T('없는 출처', 'unknown source'), 'LIB_SRC', id); });
+      Object.keys(S.LIB_SRC_A || {}).forEach((id) => { if (!(S.LIB_SRC || {})[id]) lb(T('분류표에 없는 출처', 'source not classified'), 'LIB_SRC_A', id); });
       Object.keys(S.LIB_KOSHA || {}).forEach((k) => { if (!S.KOSHA[k]) lb(T('없는 KOSHA 번호', 'unknown KOSHA code'), 'LIB_KOSHA', k); });
       Object.keys(S.LIB_SOP || {}).forEach((k) => { if (!sops.has(k)) lb(T('없는 SOP', 'unknown SOP'), 'LIB_SOP', k); });
       Object.keys(S.LIB_RES || {}).forEach((k) => { if (!S.RESOURCES.some((r) => r.id === k)) lb(T('없는 자료실 항목', 'unknown resource'), 'LIB_RES', k); });
@@ -83,7 +84,8 @@
         if (seenL.has(it.id)) lb(T('중복 id', 'duplicate id'), 'LIB', it.id); seenL.add(it.id);
         if (!VAL.k.has(it.k)) lb(T('자료 유형', 'type'), it.id, it.k);
         if (!VAL.t.has(it.tier)) lb(T('출처 등급', 'tier'), it.id, it.tier);
-        ['c', 'i', 'h', 'm'].forEach((f) => it[f].forEach((v) => { if (!VAL[f].has(v)) lb(T('분류 값', 'category value'), `${it.id}.${f}`, v); }));
+        ['c', 'i', 'h', 'm', 'a'].forEach((f) => { it[f].forEach((v) => { if (!VAL[f].has(v)) lb(T('분류 값', 'category value'), `${it.id}.${f}`, v); }); if (new Set(it[f]).size !== it[f].length) lb(T('분류 값 중복', 'repeated category value'), `${it.id}.${f}`, it[f].join(' ')); });
+        if (it.a.length && !['case', 'report', 'court', 'enf'].includes(it.k)) lb(T('사고 유형은 선례에만', 'accident type only on precedents'), it.id, it.k);
         it.y.forEach((y) => { if (!/^(19|20)\d\d$/.test(y)) lb(T('연도', 'year'), it.id, y); });
         if (it.d && !/^\d{4}-\d{2}-\d{2}$/.test(it.d)) lb(T('날짜', 'date'), it.id, it.d);
         if (it.d2 && !/^\d{4}-\d{2}-\d{2}$/.test(it.d2)) lb(T('날짜', 'date'), it.id + '.d2', it.d2);

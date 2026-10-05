@@ -6,7 +6,7 @@
 (function () {
   const S = window.SHE, T = S.T, L = S.L, ui = S.ui, esc = S.esc;
   const B = (ko, en) => ({ ko, en });
-  const words = (v) => (Array.isArray(v) ? v : String(v == null ? '' : v).split(/\s+/)).map(String).filter(Boolean);
+  const words = (v) => [...new Set((Array.isArray(v) ? v : String(v == null ? '' : v).split(/\s+/)).map(String).filter(Boolean))];
   const FACETS = S.LIB_FACETS || [];
   const FIDS = FACETS.map((f) => f.id);
   const LABEL = {}; FACETS.forEach((f) => { LABEL[f.id] = {}; f.v.forEach(([k, l]) => { LABEL[f.id][k] = l; }); });
@@ -16,7 +16,7 @@
   const ITEMS = [], IDX = {};
   const add = (it) => {
     if (!it || IDX[it.id]) return;
-    it.c = words(it.c); it.y = words(it.y); it.i = words(it.i); it.h = words(it.h); it.m = words(it.m); it.tier = String(it.tier);
+    it.c = words(it.c); it.y = words(it.y); it.i = words(it.i); it.h = words(it.h); it.m = words(it.m); it.a = words(it.a); it.tier = String(it.tier);
     it.src = words(it.src); it.sum = it.sum || B([], []);
     ITEMS.push(it); IDX[it.id] = it;
   };
@@ -38,7 +38,7 @@
     const [k, c, y, i, h, m, tier] = S.LIB_SRC[sid];
     const ns = newsBy[sid] || [];
     const ko = [].concat(s.note ? s.note.ko : [], ns.map((n) => n.t.ko)), en = [].concat(s.note ? s.note.en : [], ns.map((n) => n.t.en));
-    add({ id: 's-' + sid, k, c, y, d: ns.length ? ns[0].date : '', i, h, m, tier, title: s.title, sum: sum1(ko, en), url: s.url, src: [sid], go: [['#sources/' + sid, B('출처·검증의 이 출처', 'This source in Sources & verification')]].concat(ns.filter((n) => n.link).map((n) => [n.link, B('관련 포털 화면', 'Related portal page')])), checked: s.checked });
+    add({ id: 's-' + sid, k, c, y, d: ns.length ? ns[0].date : '', i, h, m, a: (S.LIB_SRC_A || {})[sid], tier, title: s.title, sum: sum1(ko, en), url: s.url, src: [sid], go: [['#sources/' + sid, B('출처·검증의 이 출처', 'This source in Sources & verification')]].concat(ns.filter((n) => n.link).map((n) => [n.link, B('관련 포털 화면', 'Related portal page')])), checked: s.checked });
   });
   /* 3) KOSHA GUIDE — 출처 목록의 같은 지침(koshaCC49 등)은 여기로 합친다 */
   const srcOfKosha = {}; Object.keys(S.LIB_SRC_KOSHA || {}).forEach((sid) => { srcOfKosha[S.LIB_SRC_KOSHA[sid]] = sid; });
@@ -55,7 +55,8 @@
   (S.CASES || []).forEach((c) => {
     const hz = []; words(c.types).map((t) => (S.LIB_CASE_HZ || {})[t]).concat((S.LIB_CASE_HZX || {})[c.id]).forEach((v) => words(v).forEach((h) => { if (!hz.includes(h)) hz.push(h); }));
     const ind = (S.LIB_CASE_IND || {})[c.id] || (/^gov-/.test(c.id) ? '' : 'semi');
-    add({ id: 'x-' + c.id, k: 'case', c: 'KR', y: (c.date || '').slice(0, 4), d: c.date, i: ind, h: hz, m: 'inv' + (words(c.types).includes('reg') ? ' contract liab' : ''), tier: c.official ? 3 : 4,
+    const ca = []; words(c.types).forEach((t) => words((S.LIB_CASE_A || {})[t]).forEach((v) => { if (!ca.includes(v)) ca.push(v); }));
+    add({ id: 'x-' + c.id, k: 'case', c: 'KR', y: (c.date || '').slice(0, 4), d: c.date, i: ind, h: hz, a: ca, m: 'inv' + (words(c.types).includes('reg') ? ' contract liab' : ''), tier: c.official ? 3 : 4,
       title: c.t, sum: sum1([].concat(c.impact ? c.impact.ko : [], c.lesson ? c.lesson.ko : []), [].concat(c.impact ? c.impact.en : [], c.lesson ? c.lesson.en : [])), href: '#cases/' + c.id, src: words(c.src) });
   });
   /* 5) 법령 개정·시행 소식(동향의 ‘법령’) — 포털 화면과 바뀐 조문 출처로 분류 */
@@ -90,6 +91,25 @@
   });
   /* 9) 새로 모은 공식 선례·자료 */
   (S.LIB_ITEMS || []).forEach(add);
+  /* 10) 일본 후생노동성 労働災害事例(data/lib-jp.js) — 분류는 원 데이터 코드를 S.LIB_JP_MAP으로 대응, 원문을 읽고 요약한 사례(X)는 그 제목·요약을 쓴다 */
+  if (S.LIB_JP && S.LIB_JP_MAP) {
+    const JP = S.LIB_JP, MAP = S.LIB_JP_MAP, LB = JP.L;
+    const lb = (f, c) => (c && LB[f] && LB[f][c] ? B(LB[f][c][0], LB[f][c][1]) : null);
+    const ORG_JP = B('일본 후생노동성 — 職場のあんぜんサイト 노동재해 사례', 'Japan MHLW — Workplace Safety Site accident cases');
+    JP.C.forEach(([id, t, g, k, j, mo, hi, ka, y]) => {
+      const x = JP.X[id], gl = lb('g', g), kl = lb('k', k), jl = lb('j', j);
+      const fac = [['물적', 'conditions', lb('m', mo)], ['인적', 'people', lb('h', hi)], ['관리', 'management', lb('n', ka)]].filter((r) => r[2]);
+      const facKo = fac.length ? '발생 요인(일본 분류) — ' + fac.map((r) => `${r[0]}: ${r[2].ko}`).join(' · ') : '';
+      const facEn = fac.length ? 'Contributing factors (Japanese classification) — ' + fac.map((r) => `${r[1]}: ${r[2].en}`).join('; ') : '';
+      const clsKo = [jl && `사고 유형: ${jl.ko}`, kl && `기인물: ${kl.ko}`, gl && `업종: ${gl.ko}`].filter(Boolean).join(' · ');
+      const clsEn = [jl && `Type: ${jl.en}`, kl && `Agent: ${kl.en}`, gl && `Industry: ${gl.en}`].filter(Boolean).join('; ');
+      const title = x ? B(x[0], x[1]) : B(`${jl ? jl.ko : '사고'} — ${kl ? kl.ko : '기인물 미분류'}${gl ? ` (${gl.ko})` : ''}`, `${jl ? jl.en : 'Accident'} — ${kl ? kl.en : 'agent not classified'}${gl ? ` (${gl.en})` : ''}`);
+      add({ id: 'jp-' + id, k: 'case', c: 'JP', y: y || [], i: x && x[4] ? x[4] : MAP.ind(g), h: [MAP.hzKiin(k), MAP.hzJiko(j, t)].join(' '), a: MAP.a(j, t), m: MAP.m(mo, ka), tier: 3,
+        title, orig: t, cur: !!x, size: x && x[5] ? B(x[5][0], x[5][1]) : null, org: ORG_JP,
+        sum: x ? sum1(x[2].concat(facKo || []), x[3].concat(facEn || [])) : sum1([clsKo, facKo], [clsEn, facEn]),
+        url: 'https://anzeninfo.mhlw.go.jp/jirei/sai_' + String(id).padStart(6, '0') + '.html', src: ['jpAnzenCases'], checked: JP.asof });
+    });
+  }
 
   /* ---------- 연도 대분류: 자료에 있는 연도를 10년 단위로 묶는다 ---------- */
   const YEARS = [...new Set([].concat(...ITEMS.map((it) => it.y)))].sort((a, b) => b - a);
@@ -123,7 +143,7 @@
   /* ---------- 거르기 ---------- */
   const valOf = (it, f) => (f === 'k' ? [it.k] : f === 't' ? [it.tier] : it[f] || []);
   const hayCache = {};
-  const hay = (it) => { const k = S.state.lang + '|' + it.id; if (!hayCache[k]) hayCache[k] = S.norm([L(it.title), it.title.ko, it.title.en, [].concat(L(it.sum) || []).join(' '), L(it.org) || '', it.loc && typeof it.loc === 'object' ? it.loc.ko + ' ' + it.loc.en : it.loc || '', it.id].join(' ')); return hayCache[k]; };
+  const hay = (it) => { const k = S.state.lang + '|' + it.id; if (!hayCache[k]) hayCache[k] = S.norm([L(it.title), it.title.ko, it.title.en, [].concat(L(it.sum) || []).join(' '), L(it.org) || '', it.loc && typeof it.loc === 'object' ? it.loc.ko + ' ' + it.loc.en : it.loc || '', it.orig || '', it.id].join(' ')); return hayCache[k]; };
   const toks = (q) => S.norm(q).split(' ').filter(Boolean).slice(0, 8);
   const match = (it, st, skip) => {
     for (const f of FIDS) {
@@ -161,7 +181,7 @@
 
   function card(it, sel, tk) {
     const t = L(it.title), first = [].concat(L(it.sum) || [])[0] || '';
-    const tags = [].concat(it.i.filter((v) => v !== 'all').map((v) => lab('i', v)), it.h.map((v) => lab('h', v)), it.m.map((v) => lab('m', v))).slice(0, 6);
+    const tags = [].concat(it.a.map((v) => lab('a', v)), it.i.filter((v) => v !== 'all').map((v) => lab('i', v)), it.h.map((v) => lab('h', v)), it.m.map((v) => lab('m', v))).filter((v, n, arr) => arr.indexOf(v) === n).slice(0, 6);
     const mk = (s) => (tk.length && S.markText ? S.markText(s, tk) : esc(s));
     return `<li class="lib-card">
       <input type="checkbox" data-lib-sel="${esc(it.id)}" ${sel.includes(it.id) ? 'checked' : ''} aria-label="${esc(T(`${t} 고르기`, `Select ${t}`))}">
@@ -192,7 +212,7 @@
   /* ---------- #book/find ---------- */
   function facetBox(st, f) {
     const sel = st.s[f.id] || [], n = counts(st, f.id);
-    const chk = (v, l) => `<label class="lib-opt${n[v] ? '' : ' zero'}"><input type="checkbox" data-lib-f="${f.id}" value="${esc(v)}" ${sel.includes(v) ? 'checked' : ''}><span>${esc(l)}</span><span class="num">${n[v] || 0}</span></label>`;
+    const chk = (v, l) => `<label class="lib-opt${n[v] ? '' : ' zero'}"><input type="checkbox" data-lib-f="${f.id}" value="${esc(v)}" ${sel.includes(v) ? 'checked' : ''}><span>${esc(l)}</span><span class="num">${S.fmt(n[v] || 0, 0)}</span></label>`;
     const grp = (title, vals) => `<div class="lib-grp"><label class="lib-gh"><input type="checkbox" data-lib-g="${f.id}" data-vals="${esc(vals.join(','))}" ${vals.every((v) => sel.includes(v)) ? 'checked' : ''}><span>${esc(title)}</span></label><div class="lib-opts">${vals.map((v) => chk(v, lab(f.id, v))).join('')}</div></div>`;
     let body;
     if (f.id === 'y') body = YGROUPS.map(([d, ys]) => grp(yGroupLabel(d), ys)).join('');
@@ -208,7 +228,7 @@
     const shown = list.slice((st.page - 1) * st.per, st.page * st.per);
     const chosen = [].concat(...FIDS.map((f) => (st.s[f] || []).map((v) => [f, v])));
     return `${ui.head(T('라이브러리', 'Library'), T('SHE 가이드북 — 자료 라이브러리', 'SHE Guidebook — resource library'),
-      T(`법령·지침·선례·데이터 ${ITEMS.length}건을 대분류·소분류로 골라 찾습니다. 같은 대분류 안은 ‘또는’, 대분류끼리는 ‘그리고’로 거릅니다.`, `Find any of ${ITEMS.length} laws, guides, precedents and data items by ticking categories. Values in one group combine with “or”, groups combine with “and”.`),
+      T(`법령·지침·선례·데이터 ${S.fmt(ITEMS.length, 0)}건을 대분류·소분류로 골라 찾습니다. 같은 대분류 안은 ‘또는’, 대분류끼리는 ‘그리고’로 거릅니다.`, `Find any of ${S.fmt(ITEMS.length, 0)} laws, guides, precedents and data items by ticking categories. Values in one group combine with “or”, groups combine with “and”.`),
       T('<p>예: 연도 2022 + 나라 미국 + 업종 반도체 + 유형 선례를 고르면 그 조건을 모두 갖춘 자료만 남습니다. 결과에서 자료를 열어 보거나 원문으로 이동하고, 체크한 자료는 교과서 절과 함께 ‘고른 자료 모아 보기’와 PDF로 묶을 수 있습니다. 모든 자료는 원문을 확인한 것이며 분류 기준은 가이드북 0.1.2에 있습니다.</p>', '<p>For example, ticking 2022 + United States + semiconductors + precedents leaves only items meeting all four. Open an item or go to its original; ticked items join guidebook sections in “Read selected” and the PDF. Every item was checked against its original; the classification rules are in guidebook 0.1.2.</p>'))}
       ${S.bookApi ? S.bookApi.tabs('find') : ''}
       <section class="panel lib-filters" aria-label="${T('카테고리', 'Categories')}">
@@ -218,7 +238,7 @@
         <div class="lib-facets">${FACETS.map((f) => facetBox(st, f)).join('')}</div>
       </section>
       <section class="panel lib-results" id="anchor-${esc(String(sub || 'find'))}">
-        <div class="lib-bar"><span class="lib-cnt"><b class="num">${list.length}</b>${T('건', '')} <span class="xs muted">${list.length ? T(`· ${(st.page - 1) * st.per + 1}–${(st.page - 1) * st.per + shown.length}`, `· ${(st.page - 1) * st.per + 1}–${(st.page - 1) * st.per + shown.length}`) : ''}</span></span>
+        <div class="lib-bar"><span class="lib-cnt"><b class="num">${S.fmt(list.length, 0)}</b>${T('건', '')} <span class="xs muted">${list.length ? `· ${S.fmt((st.page - 1) * st.per + 1, 0)}–${S.fmt((st.page - 1) * st.per + shown.length, 0)}` : ''}</span></span>
           <select id="lib-sort" aria-label="${T('정렬', 'Sort')}">${[['new', T('최신순', 'Newest')], ['old', T('오래된순', 'Oldest')], ['kind', T('유형순', 'By type')], ['title', T('제목순', 'By title')]].map(([v, l]) => `<option value="${v}" ${st.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
           <select id="lib-per" aria-label="${T('쪽당 개수', 'Per page')}">${[20, 50, 100].map((p) => `<option value="${p}" ${st.per === p ? 'selected' : ''}>${T(`${p}건씩`, `${p} per page`)}</option>`).join('')}</select>
           <button type="button" class="btn ghost sm" data-lib-all ${shown.length ? '' : 'disabled'}>${T('이 쪽 모두 고르기', 'Select this page')}</button>
@@ -288,7 +308,8 @@
     const list = (f, vs) => vs.map((v) => esc(lab(f, v))).join(', ');
     const d2 = it.d2 ? `${it.d2l ? L(it.d2l) : T('최종보고서 공개', 'final report')} ${it.d2}` : it.open ? T('조사 진행 중 — 최종보고서 미공개', 'investigation ongoing — no final report yet') : '';
     const rows = row(T('유형', 'Type'), esc(lab('k', it.k))) + row(T('나라·지역', 'Country / region'), list('c', it.c)) + row(T('날짜·연도', 'Date / year'), esc(dateText(it)) + (d2 ? ` <span class="${pr ? 'doc-small' : 'xs muted'}">(${esc(d2)})</span>` : ''))
-      + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(T('장소', 'Place'), esc(locOf(it))) + row(T('규모·피해', 'Size / harm'), esc(it.size ? L(it.size) : '')) + row(T('산업·업종', 'Industry'), list('i', it.i)) + row(T('위험 요인', 'Hazard'), list('h', it.h))
+      + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(T('원제(일본어)', 'Original title (Japanese)'), it.orig ? `<span lang="ja">${esc(it.orig)}</span>` : '') + row(T('장소', 'Place'), esc(locOf(it))) + row(T('규모·피해', 'Size / harm'), esc(it.size ? L(it.size) : ''))
+      + row(T('산업·업종', 'Industry'), list('i', it.i)) + row(T('사고 유형', 'Accident type'), list('a', it.a)) + row(T('위험 요인', 'Hazard'), list('h', it.h))
       + row(T('관리 주제', 'Topic'), list('m', it.m)) + row(T('출처 등급', 'Source tier'), esc(lab('t', it.tier))) + row(T('원문 확인', 'Checked'), esc(it.checked || ''));
     return pr ? `<table class="doc-table doc-kv"><tbody>${rows}</tbody></table>` : `<dl class="kv lib-kv">${rows}</dl>`;
   }
