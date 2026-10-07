@@ -5,11 +5,23 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v99';
+SHE.BUILD = 'v100';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 26, v: SHE.BUILD, date: '2026-10-07 20:40', commit: '',
+    { no: 27, v: SHE.BUILD, date: '2026-10-07 21:15', commit: '',
+      t: B('자료 라이브러리 4,659건 — 고용노동부 재해조사보고서 2차 공개 117건 전부 요약(51 → 168건), 고소작업 SOP에 지붕·작업의자형 달비계', 'Resource library reaches 4,659 items — all 117 reports in MOEL’s second batch of accident investigation reports summarised (51 → 168), and roofs and rope-access seats added to the work-at-height SOP'),
+      add: [
+        B('고용노동부 재해조사보고서 117건 — 2026-10-07 추가 공개된 2023년 발생 사건(판결 확정) 보고서 PDF(한국산업안전보건공단 재해원인조사 의견서)를 모두 읽고 재해발생 경위·원인·안전조치 권고를 한·영 3줄로 요약, 장소·규모·피해와 산업·사고 유형·위험 요인·관리 주제로 분류(건설 58·제조 40·기타 19 / 떨어짐 52·깔림 22·끼임 17·맞음 9 등). 예: 정유공장 폐수 집수정 황화수소 중독, 수지 반응기 샘플링 중 정전기 화재, 시운전 중 수지 탱크 진입 질식, 폐지 분류장 열사병(WBGT 29.4℃), 알루미늄 스크랩 수증기 폭발, 덤웨이터 균형추 낙하', '117 MOEL accident investigation reports — every report PDF (KOSHA investigation opinion) on 2023 cases with final judgments, published on 7 October 2026, was read and its sequence, causes and recommendations summarised in three lines in Korean and English, classified by place, size and harm, industry, accident type, hazard and topic (58 construction, 40 manufacturing, 19 other / 52 falls, 22 crushed, 17 caught, 9 struck and more). For example: hydrogen sulphide from a refinery wastewater sump, a static fire while sampling a resin reactor, asphyxia entering a resin tank during trial operation, heat stroke at a waste-paper sorting shed (WBGT 29.4 °C), a steam explosion from wet aluminium scrap, a falling dumbwaiter counterweight'),
+        B('고소작업 SOP에 ‘지붕 위 작업’(안전보건규칙 제45조 — 가장자리 안전난간, 채광창 견고한 덮개, 약한 지붕 폭 30cm 이상 발판)과 ‘작업의자형 달비계’(제63조② — 작업용 로프·구명줄을 다른 고정점에, 작업높이보다 짧은 로프 금지, 구명줄에 안전대 체결) 단계, 작업중지 기준 2개, 학습 확인 1문항 — 2023년 보고서의 떨어짐 52건 가운데 지붕 15건(채광창·약한 지붕재 9건), 달비계 4건, 이동식비계 5건을 근거로', 'Work-at-height SOP gains a “roof work” step (OSH Standards Rules Art. 45 — edge guardrails, strong skylight covers, boards at least 30 cm wide on fragile roofs) and a “rope-access work seat” step (Art. 63(2) — working rope and lifeline on different anchors, no rope shorter than the drop, harness clipped to the lifeline), two more stop-work conditions and a self-check question — based on the 2023 reports, where 15 of 52 falls were from roofs (9 through skylights or fragile roofing), 4 from rope-access seats and 5 from mobile scaffolds')
+      ],
+      chg: [
+        B('보고서와 포털 화면 연결 — 정전기 화재 2건은 KOSHA GUIDE E-188(정전기), 열사병은 폭염(체감온도) 판정 화면, 이동식비계·사다리 떨어짐 6건은 포털 사고사례(2m 미만 떨어짐 분석)로', 'Reports linked to portal pages — two static-fire reports to KOSHA GUIDE E-188 (static electricity), the heat-stroke report to the heat-stress check, and six mobile-scaffold and ladder falls to the portal case study on falls from under 2 m'),
+        B('선례 4,088 → 4,205건, 출처 186 → 187건(고용노동부 보도자료 「재해조사보고서 117건 추가 공개」, 2026.10.7 — 기소돼 재판 중인 사건의 보고서도 단계적 공개 예정), 최신 동향에 같은 소식', 'Precedents 4,088 → 4,205 and sources 186 → 187 (MOEL press release of 7 October 2026 on the 117 added reports, which also says reports on cases indicted and on trial will follow in stages); the same news in Latest updates'),
+        B('안전보건규칙 출처를 현행본(시행 2026.3.2)으로 다시 확인하고 제45조·제63조를 인용 조문에 추가', 'OSH Standards Rules source re-checked against the current text (in force 2026-03-02), with Arts. 45 and 63 added to the cited articles')
+      ],
+      fix: [] },
+    { no: 26, v: 'v99', date: '2026-10-07 20:40', commit: '4dca674',
       t: B('자료 라이브러리 4,541건 — 대만 법령 30건·대만 직업안전위생서 재해 사례 852건(55건 원문 요약), 가이드북 의무 비교에 대만', 'Resource library reaches 4,541 items — 30 Taiwan laws and 852 Taiwan OSHA accident bulletins (55 read in full and summarised), and Taiwan in the guidebook’s duty comparisons'),
       add: [
         B('대만 법령 30건 — 全國法規資料庫(법무부) 공개 데이터(2026-09-24판)에서 직업안전위생법·시행세칙·시설규칙·관리 규정·교육훈련 규칙, 산소결핍증 예방 규칙·유기용제·특정 화학물질·분진 기준, 공정안전평가·위험성 작업장 심사, 고압가스·보일러·압력용기·크레인, 노동검사법·직업재해보험·보호법, 독성·관심 화학물질 관리법·소방법 등의 제1조·장 제목·최근 개정·시행일을 확인해 3줄 요약. 원제(중국어)와 공식 영문판 링크를 함께 두고, 영문판이 현행 중국어 본문보다 옛 판이면 표시', '30 Taiwan laws — from the open data of the Laws & Regulations Database (Ministry of Justice, 24 September 2026 edition): the OSH Act, its Enforcement Rules, the Facilities Rules, Management Regulations and Education and Training Regulations, the oxygen-deficiency, organic-solvent, specified-chemical and dust rules, periodic process safety assessment and hazardous workplace review, high-pressure gas, boilers, pressure vessels and cranes, the Labor Inspection Act, the occupational accident insurance and protection act, the toxic chemicals act, the Fire Services Act and more. Article 1, chapter headings, latest amendment and commencement were checked and summarised in three lines, with the Chinese title and a link to the official English version, flagged where the English version is older than the current Chinese text'),
