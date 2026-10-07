@@ -180,7 +180,7 @@
         <span><b>${T('1판', '1st edition')}</b> · ${T('최근 원문 확인', 'latest check of originals')} <span class="num">${S.BOOK_ASOF}</span></span>
         <span>${T(`공개 절 <b class="num">${PUB.length}</b>개`, `<b class="num">${PUB.length}</b> sections published`)}</span>
         <span>${T(`장 <b class="num">${nCh}</b>개 중 <b class="num">${nChPub}</b>개 집필`, `<b class="num">${nChPub}</b> of <b class="num">${nCh}</b> chapters written`)}</span>
-        <span>${T(`비교 나라·지역 ${Object.keys(S.BOOK_CTY).length}곳(1차)`, `${Object.keys(S.BOOK_CTY).length} jurisdictions compared (first wave)`)}</span>
+        <span>${(() => { const n = Object.keys(S.BOOK_CTY).length, n1 = (S.BOOK_CTY_W1 || []).length || n; return n > n1 ? T(`비교 나라·지역 ${n}곳(1차 ${n1}·2차 ${n - n1})`, `${n} jurisdictions compared (${n1} first-wave, ${n - n1} second-wave)`) : T(`비교 나라·지역 ${n}곳(1차)`, `${n} jurisdictions compared (first wave)`); })()}</span>
         <a href="#book/plan">${T('전체 목차 계획', 'Contents plan')} →</a>
       </section>
       <section class="panel bk-tools" aria-label="${T('찾기와 고르기', 'Find and select')}">

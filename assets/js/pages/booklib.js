@@ -199,7 +199,7 @@
     UK: [[B('legislation.gov.uk — 영국 법령', 'legislation.gov.uk — UK legislation'), 'https://www.legislation.gov.uk/'], [B('HSE 언론센터 — 기소 보도자료', 'HSE media centre — prosecutions'), 'https://press.hse.gov.uk/category/prosecution/'], [B('HSE — 산업재해 통계', 'HSE — statistics'), 'https://www.hse.gov.uk/statistics/']],
     EU: [[B('EUR-Lex — EU 법령', 'EUR-Lex — EU law'), 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:31989L0391'], [B('EU-OSHA — 지침·법령 해설', 'EU-OSHA — directives and guidance'), 'https://osha.europa.eu/en']],
     JP: [[B('職場のあんぜんサイト — 労働災害事例検索(재해 사례)', 'Workplace safety site — accident case search'), 'https://anzeninfo.mhlw.go.jp/jirei/sai_search.html'], [B('e-Gov 法令検索 — 일본 법령 현행본', 'e-Gov law search — current Japanese law'), 'https://laws.e-gov.go.jp/']],
-    TW: [[B('勞動部職業安全衛生署 — 대만 직업안전보건서', 'Occupational Safety and Health Administration, Taiwan'), 'https://www.osha.gov.tw/']],
+    TW: [[B('全國法規資料庫 — 대만 법령(중국어 현행본·영문판)', 'Laws & Regulations Database of Taiwan (current Chinese text and English versions)'), 'https://law.moj.gov.tw/'], [B('職業安全衛生署 職災案例宣導 — 대만 직업재해 사례', 'Taiwan OSHA — occupational accident case bulletins'), 'https://www.osha.gov.tw/48110/48417/48427/lpsimplelist'], [B('勞動部職業安全衛生署 — 대만 직업안전위생서', 'Occupational Safety and Health Administration, Taiwan'), 'https://www.osha.gov.tw/']],
     INT: [[B('ILO NORMLEX — 국제노동기준·비준 현황', 'ILO NORMLEX — standards and ratifications'), 'https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB:12100:0::NO::P12100_ILO_CODE:C155'], [B('ILO ICSC — 국제화학물질안전카드', 'ILO ICSC — chemical safety cards'), 'https://chemicalsafety.ilo.org/dyn/icsc/showcard.home']]
   };
   function dbPanel(st, n) {
@@ -303,7 +303,7 @@
   }
 
   /* ---------- #book/item/<id> ---------- */
-  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)') };
+  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)'), 'zh-Hant': B('원제(중국어)', 'Original title (Chinese)') };
   /* 다른 나라의 같은 주제 — 같은 묶음(법령·기준 / 선례)에서 나라가 다른 자료 가운데 위험 요인·사고 유형(겹칠 때마다 3점)과
      관리 주제(최대 2점)·업종(1점)이 겹치는 것을 점수순으로(나라마다 2건, 모두 8건까지). 위험 요인·사고 유형이 있는 자료는 그중 하나는 겹쳐야 하고,
      너무 흔한 주제(사고 보고·법적 책임·일반 의무)와 ‘전 산업’, 사고 유형 ‘기타’는 세지 않는다.
@@ -353,7 +353,7 @@
     const sums = [].concat(L(it.sum) || []);
     return `${details(it)}
       ${sums.length ? `<div class="bk-sum"><b>${T('요약', 'Summary')}</b><ul>${sums.map((s) => `<li>${esc(s)}</li>`).join('')}</ul></div>` : ''}
-      <div class="lib-links">${urlOf(it) ? ext(urlOf(it), T('원문 열기', 'Open the original')) : ''}${it.href ? `<a href="${esc(it.href)}">${T('포털 화면으로', 'Open in the portal')} →</a>` : ''}${(it.go || []).map(([h, l]) => `<a href="${esc(h)}">${esc(typeof l === 'function' ? l() : L(l))}</a>`).join('')}</div>
+      <div class="lib-links">${urlOf(it) ? ext(urlOf(it), T('원문 열기', 'Open the original')) : ''}${it.href ? `<a href="${esc(it.href)}">${T('포털 화면으로', 'Open in the portal')} →</a>` : ''}${(it.go || []).map(([h, l]) => { const lt = esc(typeof l === 'function' ? l() : L(l)); return /^https?:\/\//.test(h) ? ext(h, lt) : `<a href="${esc(h)}">${lt}</a>`; }).join('')}</div>
       ${it.src.length ? `<p class="bk-cite">${T('출처', 'Sources')} ${S.cite(it.src)}</p>` : ''}`;
   }
   function renderItem(id) {

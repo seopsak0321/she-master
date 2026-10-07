@@ -92,10 +92,11 @@
         it.y.forEach((y) => { if (!/^(19|20)\d\d$/.test(y)) lb(T('연도', 'year'), it.id, y); });
         if (it.d && !/^\d{4}-\d{2}-\d{2}$/.test(it.d)) lb(T('날짜', 'date'), it.id, it.d);
         if (it.d2 && !/^\d{4}-\d{2}-\d{2}$/.test(it.d2)) lb(T('날짜', 'date'), it.id + '.d2', it.d2);
-        if (it.orig && it.ol && !['ja', 'en'].includes(it.ol)) lb(T('원제 언어', 'original-title language'), it.id, it.ol);
+        if (it.orig && it.ol && !['ja', 'en', 'zh-Hant'].includes(it.ol)) lb(T('원제 언어', 'original-title language'), it.id, it.ol);
         if (it.loc && (typeof it.loc === 'object' ? !(it.loc.ko && it.loc.en) : /[가-힣]/.test(it.loc))) lb(T('장소 한/영', 'KO/EN place'), it.id, typeof it.loc === 'object' ? '–' : it.loc);
         if (it.sum && Array.isArray(it.sum.ko) && Array.isArray(it.sum.en) && it.sum.ko.length !== it.sum.en.length) lb(T('요약 한/영 항목 수', 'KO/EN summary count'), it.id, `${it.sum.ko.length} / ${it.sum.en.length}`);
         (it.go || []).forEach(([h]) => {
+          if (/^https?:\/\//.test(h)) { if (!/^https:\/\//.test(h)) lb(T('외부 연결 https 아님', 'external link not https'), it.id, h); return; }   // 공식 외부 링크(예: 대만 법령 공식 영문판)
           const p = String(h).slice(1).split('/');
           if (!S.pages[p[0]] || (p[0] === 'book' && p[1] === 'item' && !S.libApi.has(p[2])) || (p[0] === 'cases' && p[1] && !S.CASES.some((c) => c.id === p[1]))) lb(T('없는 연결 경로', 'unknown link'), it.id, h);
         });

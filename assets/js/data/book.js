@@ -8,14 +8,15 @@ window.SHE = window.SHE || {};
 (function () {
   const S = window.SHE;
   const B = (ko, en) => ({ ko, en });
-  const D = '2026-10-01', D3 = '2026-10-03';   /* D3: 일본 조문을 e-Gov 현행본으로 다시 대조한 날 */
+  const D = '2026-10-01', D3 = '2026-10-03', D5 = '2026-10-05';   /* D3: 일본 조문을 e-Gov 현행본으로 다시 대조한 날, D5: 대만 조문을 全國法規資料庫 현행본으로 대조한 날(#26) */
 
-  S.BOOK_ASOF = '2026-10-05';   /* 가장 최근 원문 확인일(자료 라이브러리의 CSB·일본·영국·EU·OSHA 자료 포함, #qa가 대조) — 절·자료마다 자기 확인일을 따로 표시한다 */
-  /* 나라·법역 — 1차 비교 대상 (2차: 독일·싱가포르·호주·캐나다·중국·대만) */
+  S.BOOK_ASOF = '2026-10-07';   /* 가장 최근 원문 확인일(자료 라이브러리의 CSB·일본·영국·EU·OSHA·대만 자료 포함, #qa가 대조) — 절·자료마다 자기 확인일을 따로 표시한다 */
+  /* 나라·법역 — 1차 비교 대상 6곳 + 2차(독일·싱가포르·호주·캐나다·중국·대만) 중 들어온 곳. 대만은 #26에서 일반 의무 2절부터 */
   S.BOOK_CTY = {
     INT: B('국제(ILO)', 'International (ILO)'), KR: B('한국', 'Korea'), US: B('미국', 'United States'),
-    UK: B('영국(GB)', 'UK (Great Britain)'), EU: B('EU', 'EU'), JP: B('일본', 'Japan')
+    UK: B('영국(GB)', 'UK (Great Britain)'), EU: B('EU', 'EU'), JP: B('일본', 'Japan'), TW: B('대만', 'Taiwan')
   };
+  S.BOOK_CTY_W1 = ['INT', 'KR', 'US', 'UK', 'EU', 'JP'];
   S.BOOK_FIELD = { about: B('가이드북 안내', 'About the book'), base: B('기초 원리', 'Foundations'), law: B('법·제도', 'Law and policy') };
   S.BOOK_LV = { intro: B('입문', 'Introductory'), prac: B('실무', 'Practitioner'), adv: B('심화', 'Advanced') };
   S.BOOK_STAGE = {
@@ -414,13 +415,13 @@ window.SHE = window.SHE || {};
             ] }
         ] },
         { id: 'c2-3', t: B('사업주와 근로자의 일반 의무', 'General duties of employers and workers'), sec: [
-          { id: 'duty-employer', t: B('사업주 일반 의무의 표현 비교', 'How the employer’s general duty is worded'), cty: ['INT', 'KR', 'US', 'UK', 'EU', 'JP'], fld: ['law'], lv: 'prac', st: 'ok', checked: D3,
-            sum: B(['여섯 법역 모두 일반 의무의 주체는 사용자(사업주)입니다.',
-              '의무를 한정하는 방식이 다릅니다 — 영국과 ILO는 ‘합리적으로 실행 가능한 한’, 미국은 ‘사망이나 심각한 신체 상해를 일으키는 인지된 위해’, EU는 ‘작업과 관련된 모든 측면’을 씁니다.',
-              '한국과 일본은 법정 기준 준수에 더해 쾌적한 작업환경 조성과 근로조건 개선을 사업주의 책무로 적고, 설계·제조·수입 단계의 주체에게도 의무를 둡니다.'],
-            ['In all six, the general duty falls on the employer.',
-              'The qualifier differs — “so far as is reasonably practicable” in the UK and the ILO, “recognized hazards causing or likely to cause death or serious physical harm” in the US, and “every aspect related to the work” in the EU.',
-              'Korea and Japan add a comfortable working environment and better working conditions to compliance with minimum standards, and also place duties on designers, manufacturers and importers.']),
+          { id: 'duty-employer', t: B('사업주 일반 의무의 표현 비교', 'How the employer’s general duty is worded'), cty: ['INT', 'KR', 'US', 'UK', 'EU', 'JP', 'TW'], fld: ['law'], lv: 'prac', st: 'ok', checked: D5,
+            sum: B(['일곱 법역 모두 일반 의무의 주체는 사용자(사업주)입니다.',
+              '의무를 한정하는 방식이 다릅니다 — 영국과 ILO는 ‘합리적으로 실행 가능한 한’, 대만은 ‘합리적이고 실행 가능한 범위 안에서’, 미국은 ‘사망이나 심각한 신체 상해를 일으키는 인지된 위해’, EU는 ‘작업과 관련된 모든 측면’을 씁니다.',
+              '한국과 일본은 법정 기준 준수에 더해 쾌적한 작업환경 조성과 근로조건 개선을 사업주의 책무로 적고, 한국·일본·대만은 설계·제조·수입 단계의 주체에게도 의무를 둡니다(대만은 그 단계의 위험성평가).'],
+            ['In all seven, the general duty falls on the employer.',
+              'The qualifier differs — “so far as is reasonably practicable” in the UK and the ILO, “within a reasonable and feasible scope” in Taiwan, “recognized hazards causing or likely to cause death or serious physical harm” in the US, and “every aspect related to the work” in the EU.',
+              'Korea and Japan add a comfortable working environment and better working conditions to compliance with minimum standards, and Korea, Japan and Taiwan also place duties on designers, manufacturers and importers (in Taiwan, risk assessment at those stages).']),
             body: [
               { k: 'tbl', cmp: true, head: B(['법역', '조문', '핵심 표현', '의무 내용 요지'], ['Jurisdiction', 'Provision', 'Key wording', 'Substance']), rows: [
                 ['@INT', 'C155 Art.16', 'so far as is reasonably practicable', B('통제하는 작업장·기계·장비·공정, 화학·물리·생물학적 인자의 안전, 필요한 보호구 제공', 'Safety of workplaces, machinery, equipment and processes under the employer’s control and of chemical, physical and biological agents; protective equipment where necessary')],
@@ -428,27 +429,28 @@ window.SHE = window.SHE || {};
                 ['@EU', B('지침 89/391/EEC Art.5, 6(1)', 'Directive 89/391/EEC Arts. 5, 6(1)'), 'in every aspect related to the work', B('작업과 관련된 모든 측면에서 근로자의 안전·보건 보장, 예방·정보·훈련·조직·수단 등 필요한 조치. 외부 전문 서비스를 써도 책임은 남음(Art.5(2)), 회원국은 이례적이고 예견할 수 없는 사정에서 사용자 책임을 배제·제한할 수 있음(Art.5(4))', 'Ensure workers’ safety and health in every aspect related to the work; the necessary measures, including prevention, information, training, organisation and means. Using external services does not discharge the employer (Art. 5(2)); Member States may exclude or limit liability for unusual and unforeseeable circumstances (Art. 5(4))')],
                 ['@US', 'OSH Act SEC.5(a)', 'free from recognized hazards that are causing or are likely to cause death or serious physical harm', B('일반의무조항 — 사망이나 심각한 신체 상해를 일으키거나 일으킬 수 있는 인지된 위해가 없는 고용과 작업장 제공(a)(1), 법에 따라 공포된 기준 준수(a)(2)', 'General duty clause — employment and a place of employment free from recognized hazards causing or likely to cause death or serious physical harm (a)(1); comply with promulgated standards (a)(2)')],
                 ['@KR', B('산업안전보건법 제5조①', 'OSH Act Art. 5(1)'), B('안전 및 건강을 유지·증진', 'maintain and promote safety and health'), B('법·명령의 산업재해 예방 기준, 신체적 피로와 정신적 스트레스를 줄이는 쾌적한 작업환경 조성과 근로조건 개선, 안전·보건 정보 제공. 국가의 산업재해 예방정책을 따름. 특수형태근로종사자에게 노무를 제공받는 자, 배달 등 중개자도 포함', 'Meet the injury-prevention standards in the Act and orders; create a comfortable working environment that reduces physical fatigue and mental stress and improve working conditions; provide safety and health information; follow national prevention policy. Also covers those receiving services from special-type workers and delivery platforms')],
-                ['@JP', B('労働安全衛生法 第3条①', 'Industrial Safety and Health Act Art. 3(1)'), '快適な職場環境の実現と労働条件の改善', B('최저기준을 지키는 데 그치지 않고 쾌적한 직장환경 실현과 근로조건 개선으로 근로자의 안전과 건강을 확보, 국가 시책에 협력', 'Not only comply with the minimum standards but secure workers’ safety and health through a comfortable work environment and better working conditions; co-operate with government policy')]
-              ], src: ['iloC155', 'ukHswa', 'eu89391', 'oshAct', 'lawAct', 'jpIshl'] },
+                ['@JP', B('労働安全衛生法 第3条①', 'Industrial Safety and Health Act Art. 3(1)'), '快適な職場環境の実現と労働条件の改善', B('최저기준을 지키는 데 그치지 않고 쾌적한 직장환경 실현과 근로조건 개선으로 근로자의 안전과 건강을 확보, 국가 시책에 협력', 'Not only comply with the minimum standards but secure workers’ safety and health through a comfortable work environment and better working conditions; co-operate with government policy')],
+                ['@TW', B('職業安全衛生法 第5條①', 'Occupational Safety and Health Act Art. 5(I)'), '在合理可行範圍內', B('근로자에게 일을 시킬 때 합리적이고 실행 가능한 범위(공식 영문판 ‘within a reasonable and feasible scope’) 안에서 필요한 예방 설비·조치를 해 근로자가 직업재해를 당하지 않게 함. 세부 설비·조치 기준은 第6條와 하위 규칙(시설규칙 등)', 'When employers have workers work, take the necessary preventive equipment or measures “within a reasonable and feasible scope” (official English translation) so that workers do not suffer occupational accidents; detailed requirements in Art. 6 and regulations such as the Facilities Rules')]
+              ], src: ['iloC155', 'ukHswa', 'eu89391', 'oshAct', 'lawAct', 'jpIshl', 'twOsh'] },
               { k: 'h', t: B('설계·제조 단계의 의무', 'Duties at the design and manufacturing stage') },
-              { k: 'p', t: B('한국과 일본은 사용자 말고도 기계·설비를 설계·제조·수입하는 자, 원재료를 제조·수입하는 자, 건설물을 설계·건설하는 자(한국은 발주자 포함)에게 의무를 둡니다. 한국은 기준을 지키고 필요한 조치를 해야 하는 의무(제5조②), 일본은 재해 방지에 이바지하도록 노력하는 의무(第3条②)입니다. 일본은 또 건설공사 발주자 등 일을 남에게 맡기는 자가 시공 방법, 작업 방법, 공기, 납기 등에 안전하고 위생적인 작업을 해칠 우려가 있는 조건을 붙이지 않도록 배려하게 합니다(第3条③).',
-                'Korea and Japan also place duties on those who design, manufacture or import machinery and equipment, manufacture or import raw materials, or design and build structures (in Korea, clients too). In Korea it is a duty to meet the standards and take the necessary measures (Art. 5(2)); in Japan an effort duty to help prevent injuries (Art. 3(2)). Japan further requires clients for construction work and others who place work with someone else to take care not to set conditions on construction or work methods, construction periods or delivery dates that could undermine safe and hygienic work (Art. 3(3)).'), src: ['lawAct', 'jpIshl'] },
-              { k: 'syn', t: B(['**공통점** — 일반 의무 조항과 함께 세부 기준을 지킬 의무를 둡니다(미국 SEC.5(a)(2), 한국 제5조① 1호, 일본 第3条①의 최저기준, EU Art.6, 영국 s.2와 MHSWR 등 규정).',
-                '**차이점** — 의무의 범위를 정하는 말: 영국·ILO는 ‘합리적으로 실행 가능한 한’으로 한정하고, EU는 한정 없이 ‘모든 측면’을 쓰되 회원국이 예외 사정을 둘 수 있게 했으며(Art.5(4)), 미국은 ‘인지된’ 위해와 ‘사망·심각한 신체 상해’라는 문턱을 둡니다.',
-                '**차이점** — 한국·일본은 기준 준수를 넘어 쾌적한 환경과 근로조건 개선을 사용자 책무에 넣고, 설계·제조·수입 단계까지 의무 주체를 넓힙니다(한국은 의무, 일본은 노력의무).'],
-              ['**Common ground** — besides a general duty, each requires compliance with detailed standards (US SEC. 5(a)(2), Korea Art. 5(1) item 1, the minimum standards in Japan Art. 3(1), EU Art. 6, UK s. 2 and regulations such as MHSWR).',
-                '**Difference** — the words that bound the duty: the UK and the ILO qualify it “so far as is reasonably practicable”; the EU says “every aspect” without a qualifier but lets Member States provide for exceptional circumstances (Art. 5(4)); the US sets a threshold of “recognized” hazards causing or likely to cause death or serious physical harm.',
-                '**Difference** — Korea and Japan go beyond compliance to a comfortable environment and better working conditions, and extend duties to designers, manufacturers and importers (a duty in Korea, an effort duty in Japan).']), src: ['oshAct', 'lawAct', 'jpIshl', 'eu89391', 'ukHswa', 'ukMhswr', 'iloC155'] },
-              { k: 'q', t: B(['미국 일반의무조항이 적용되려면 위해가 어떤 조건을 갖춰야 합니까?', 'EU Art.5(4)가 회원국에 허용하는 것은 무엇입니까?', '영국 HSWA s.2(2)가 나열한 다섯 영역은?'],
-                ['What conditions must a hazard meet for the US general duty clause to apply?', 'What does Art. 5(4) of the EU Directive allow Member States to do?', 'What five areas does HSWA s. 2(2) list?']) }
+              { k: 'p', t: B('한국과 일본은 사용자 말고도 기계·설비를 설계·제조·수입하는 자, 원재료를 제조·수입하는 자, 건설물을 설계·건설하는 자(한국은 발주자 포함)에게 의무를 둡니다. 한국은 기준을 지키고 필요한 조치를 해야 하는 의무(제5조②), 일본은 재해 방지에 이바지하도록 노력하는 의무(第3条②)입니다. 일본은 또 건설공사 발주자 등 일을 남에게 맡기는 자가 시공 방법, 작업 방법, 공기, 납기 등에 안전하고 위생적인 작업을 해칠 우려가 있는 조건을 붙이지 않도록 배려하게 합니다(第3条③). 대만은 기계·설비·기구·원료·재료 등의 설계·제조·수입자와 공사의 설계·시공자가 설계·제조·수입·시공 계획 단계에서 위험성평가를 해 사용·시공 때의 직업재해를 막도록 힘쓰게 합니다(第5條②).',
+                'Korea and Japan also place duties on those who design, manufacture or import machinery and equipment, manufacture or import raw materials, or design and build structures (in Korea, clients too). In Korea it is a duty to meet the standards and take the necessary measures (Art. 5(2)); in Japan an effort duty to help prevent injuries (Art. 3(2)). Japan further requires clients for construction work and others who place work with someone else to take care not to set conditions on construction or work methods, construction periods or delivery dates that could undermine safe and hygienic work (Art. 3(3)). Taiwan requires those who design, manufacture or import machinery, equipment, tools, raw materials and materials, and those who design or build construction works, to carry out risk assessment at the design, manufacturing, importation or construction-planning stage and endeavour to prevent occupational accidents in use or construction (Art. 5(II)).'), src: ['lawAct', 'jpIshl', 'twOsh'] },
+              { k: 'syn', t: B(['**공통점** — 일반 의무 조항과 함께 세부 기준을 지킬 의무를 둡니다(미국 SEC.5(a)(2), 한국 제5조① 1호, 일본 第3条①의 최저기준, EU Art.6, 영국 s.2와 MHSWR 등 규정, 대만 第6條와 시설규칙 등).',
+                '**차이점** — 의무의 범위를 정하는 말: 영국·ILO는 ‘합리적으로 실행 가능한 한’, 대만은 ‘합리적이고 실행 가능한 범위 안에서’로 한정하고, EU는 한정 없이 ‘모든 측면’을 쓰되 회원국이 예외 사정을 둘 수 있게 했으며(Art.5(4)), 미국은 ‘인지된’ 위해와 ‘사망·심각한 신체 상해’라는 문턱을 둡니다.',
+                '**차이점** — 한국·일본은 기준 준수를 넘어 쾌적한 환경과 근로조건 개선을 사용자 책무에 넣고, 한국·일본·대만은 설계·제조·수입 단계까지 의무 주체를 넓힙니다(한국은 의무, 일본은 노력의무, 대만은 위험성평가 의무).'],
+              ['**Common ground** — besides a general duty, each requires compliance with detailed standards (US SEC. 5(a)(2), Korea Art. 5(1) item 1, the minimum standards in Japan Art. 3(1), EU Art. 6, UK s. 2 and regulations such as MHSWR, Taiwan Art. 6 and the Facilities Rules).',
+                '**Difference** — the words that bound the duty: the UK and the ILO qualify it “so far as is reasonably practicable” and Taiwan “within a reasonable and feasible scope”; the EU says “every aspect” without a qualifier but lets Member States provide for exceptional circumstances (Art. 5(4)); the US sets a threshold of “recognized” hazards causing or likely to cause death or serious physical harm.',
+                '**Difference** — Korea and Japan go beyond compliance to a comfortable environment and better working conditions, and Korea, Japan and Taiwan extend duties to designers, manufacturers and importers (a duty in Korea, an effort duty in Japan, a risk-assessment duty in Taiwan).']), src: ['oshAct', 'lawAct', 'jpIshl', 'eu89391', 'ukHswa', 'ukMhswr', 'iloC155', 'twOsh'] },
+              { k: 'q', t: B(['미국 일반의무조항이 적용되려면 위해가 어떤 조건을 갖춰야 합니까?', 'EU Art.5(4)가 회원국에 허용하는 것은 무엇입니까?', '영국 HSWA s.2(2)가 나열한 다섯 영역은?', '대만 직업안전위생법 第5條가 설계·제조·수입 단계의 주체에게 요구하는 것은?'],
+                ['What conditions must a hazard meet for the US general duty clause to apply?', 'What does Art. 5(4) of the EU Directive allow Member States to do?', 'What five areas does HSWA s. 2(2) list?', 'What does Art. 5 of Taiwan’s OSH Act require of designers, manufacturers and importers?']) }
             ] },
-          { id: 'duty-worker', t: B('근로자의 의무 비교', 'Workers’ duties compared'), cty: ['INT', 'KR', 'US', 'UK', 'EU', 'JP'], fld: ['law'], lv: 'intro', st: 'ok', checked: D3,
-            sum: B(['여섯 법역 모두 근로자에게도 기준 준수나 협력의 의무를 둡니다.',
+          { id: 'duty-worker', t: B('근로자의 의무 비교', 'Workers’ duties compared'), cty: ['INT', 'KR', 'US', 'UK', 'EU', 'JP', 'TW'], fld: ['law'], lv: 'intro', st: 'ok', checked: D5,
+            sum: B(['일곱 법역 모두 근로자에게도 기준 준수나 협력의 의무를 둡니다.',
               'EU 기본지침은 근로자의 의무가 사용자 책임의 원칙에 영향을 주지 않는다고 명시합니다(Art.5(3)).',
-              '의무의 강도와 범위가 다릅니다 — 한국은 따라야 할 의무, 일본은 협력 노력, 영국·EU는 다른 사람에 대한 주의까지 포함합니다.'],
-            ['All six place duties of compliance or co-operation on workers too.',
+              '의무의 강도와 범위가 다릅니다 — 한국은 따라야 할 의무, 일본은 협력 노력, 영국·EU는 다른 사람에 대한 주의까지 포함하고, 대만은 작업수칙 준수와 교육훈련 수강을 의무로 적고 어기면 과태료를 매깁니다.'],
+            ['All seven place duties of compliance or co-operation on workers too.',
               'The EU Directive states that workers’ obligations do not affect the principle of the employer’s responsibility (Art. 5(3)).',
-              'Strength and scope differ — a duty to comply in Korea, an effort to co-operate in Japan, and care for others as well in the UK and the EU.']),
+              'Strength and scope differ — a duty to comply in Korea, an effort to co-operate in Japan, care for others as well in the UK and the EU, and in Taiwan named duties to follow the work rules and attend training, backed by a fine.']),
             body: [
               { k: 'tbl', cmp: true, head: B(['법역', '조문', '근로자의 의무'], ['Jurisdiction', 'Provision', 'Workers’ duties']), rows: [
                 ['@INT', 'C155 Art.19(a)', B('작업을 하면서 사용자의 의무 이행에 협력', 'Co-operate, in the course of their work, in the fulfilment of the employer’s obligations')],
@@ -456,16 +458,19 @@ window.SHE = window.SHE || {};
                 ['@US', 'OSH Act SEC.5(b)', B('자신의 행동과 처신에 적용되는 기준과 이 법에 따른 규칙·규정·명령 준수', 'Comply with the standards and all rules, regulations and orders under the Act applicable to their own actions and conduct')],
                 ['@UK', 'HSWA 1974 s.7', B('자신과, 자신의 작위·부작위로 영향을 받을 수 있는 다른 사람의 건강·안전에 합리적 주의(reasonable care), 사용자의 법정 의무 이행에 필요한 범위에서 협력', 'Take reasonable care for their own health and safety and that of others who may be affected by their acts or omissions; co-operate as far as necessary for the employer’s duties to be met')],
                 ['@EU', B('지침 89/391/EEC Art.13', 'Directive 89/391/EEC Art. 13'), B('훈련과 사용자의 지시에 따라 자신과 자신의 행위로 영향을 받는 사람의 안전·보건을 가능한 한 돌봄. 기계·물질·운반 수단 등과 보호구를 올바르게 쓰고, 안전장치를 임의로 끄거나 바꾸거나 떼지 않음', 'Take care, as far as possible, of their own safety and health and that of others affected by their acts, in line with training and instructions; use machinery, substances, transport and PPE correctly; not disconnect, change or remove safety devices arbitrarily')],
-                ['@JP', B('労働安全衛生法 第4条 (현행)', 'Industrial Safety and Health Act Art. 4 (current)'), B('근로자, 그리고 근로자와 같은 장소에서 작업에 종사하는 근로자 아닌 사람은 재해 방지에 필요한 사항을 지키고, 사업자 등이 하는 재해 방지 조치에 협력하도록 노력', 'Workers, and people other than workers who work at the same site as workers, observe what is needed to prevent injuries and endeavour to co-operate with the prevention measures of the employer and others')]
-              ], src: ['iloC155', 'lawAct', 'oshAct', 'ukHswa', 'eu89391', 'jpIshl'] },
+                ['@JP', B('労働安全衛生法 第4条 (현행)', 'Industrial Safety and Health Act Art. 4 (current)'), B('근로자, 그리고 근로자와 같은 장소에서 작업에 종사하는 근로자 아닌 사람은 재해 방지에 필요한 사항을 지키고, 사업자 등이 하는 재해 방지 조치에 협력하도록 노력', 'Workers, and people other than workers who work at the same site as workers, observe what is needed to prevent injuries and endeavour to co-operate with the prevention measures of the employer and others')],
+                ['@TW', B('職業安全衛生法 第34條②·第32條④', 'Occupational Safety and Health Act Arts. 34(II), 32(IV)'), B('사업주가 근로자 대표와 함께 정해 노동검사기관에 보고한 안전위생 작업수칙을 성실히 지킴(第34條②), 안전위생 교육훈련을 받을 의무(第32條④) — 어기면 NT$3,000 이하 과태료(第46條④)', 'Conscientiously abide by the safety and health work rules that the employer drew up with labour representatives and filed with the labour inspection agency (Art. 34(II)); duty to receive safety and health training (Art. 32(IV)); a fine of up to NT$3,000 for violations (Art. 46(IV))')]
+              ], src: ['iloC155', 'lawAct', 'oshAct', 'ukHswa', 'eu89391', 'jpIshl', 'twOsh'] },
               { k: 'syn', t: B(['**공통점** — 근로자의 의무는 기준을 지키고 사용자의 조치에 협력하는 것이 중심입니다.',
                 '**차이점** — 영국 s.7과 EU Art.13은 자신의 행위로 영향을 받는 다른 사람까지 주의 대상에 넣습니다. 한국은 ‘따라야 한다’, 일본은 ‘협력하도록 노력’으로 강도가 다릅니다.',
+                '**차이점** — 대만은 일반 조항 대신 작업수칙 준수와 교육훈련 수강을 근로자의 의무로 적고, 어기면 과태료를 매깁니다(第46條④).',
                 '**차이점** — 일본 현행 第4条는 의무를 지는 사람을 근로자와 같은 장소에서 일하는 근로자 아닌 사람까지 넓혔습니다(2018년 판 공식 번역에는 근로자만 있음).',
                 '**관계** — EU는 근로자의 의무가 사용자 책임의 원칙에 영향을 주지 않는다고 명시합니다(Art.5(3)).'],
               ['**Common ground** — workers’ duties centre on following the rules and co-operating with the employer’s measures.',
                 '**Difference** — UK s. 7 and EU Art. 13 extend care to others affected by the worker’s acts; Korea says “must follow” while Japan says “endeavour to co-operate”.',
+                '**Difference** — instead of a general clause, Taiwan names the duties to follow the work rules and to attend training, and fines violations (Art. 46(IV)).',
                 '**Difference** — Japan’s current Art. 4 extends the duty to people other than workers who work at the same site as workers (the 2018 official translation covers workers only).',
-                '**Relationship** — the EU states that workers’ obligations do not affect the principle of the employer’s responsibility (Art. 5(3)).']), src: ['ukHswa', 'eu89391', 'lawAct', 'jpIshl', 'jpIshlEn'] },
+                '**Relationship** — the EU states that workers’ obligations do not affect the principle of the employer’s responsibility (Art. 5(3)).']), src: ['ukHswa', 'eu89391', 'lawAct', 'jpIshl', 'jpIshlEn', 'twOsh'] },
               { k: 'q', t: B(['다른 사람에 대한 주의까지 근로자의 의무에 넣은 법역은?', 'EU 기본지침에서 근로자의 의무와 사용자 책임의 관계를 정한 조항은?'],
                 ['Which jurisdictions include care for other people in workers’ duties?', 'Which provision of the EU Directive sets the relationship between workers’ obligations and the employer’s responsibility?']) }
             ] }
