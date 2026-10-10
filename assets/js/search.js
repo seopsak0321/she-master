@@ -179,7 +179,7 @@
     (S.BOOK_ORDER || []).forEach((id) => { const x = S.BOOK_IDX[id]; if (x.s.st !== 'ok') return;
       add({ k: 'book', title: `${x.num} ${L(x.s.t)}`, crumb: rn('book') + ' · ' + S.bookApi.partLabel(x.p), href: '#book/' + id, text: S.bookText(x.s), alt: both(x.s.t) + ' ' + id, at: both(x.s.t) }); });
     /* 자료 라이브러리 가운데 다른 종류(SOP·사고사례·물질·자료실·출처)로 이미 색인되지 않는 항목 — KOSHA GUIDE, 새 공식 선례(CSB, 고용노동부 재해조사보고서 등) */
-    if (S.libApi) S.libApi.ITEMS.filter((it) => /^(g-|csb-|moel-rpt-|jpl-|ukl-|eul-|hse-|osha-|twl-)/.test(it.id) || (/^(jp|tw)-/.test(it.id) && it.cur)).forEach((it) => add({ k: 'book', title: L(it.title), crumb: T('자료 라이브러리', 'Resource library') + ' · ' + [it.c.join(', '), it.d || it.y.join(', ')].filter(Boolean).join(' · '),
+    if (S.libApi) S.libApi.ITEMS.filter((it) => /^(g-|csb-|moel-rpt-|jpl-|ukl-|eul-|hse-|osha-|twl-|del-|sgl-|aul-|cal-)/.test(it.id) || (/^(jp|tw)-/.test(it.id) && it.cur)).forEach((it) => add({ k: 'book', title: L(it.title), crumb: T('자료 라이브러리', 'Resource library') + ' · ' + [it.c.join(', '), it.d || it.y.join(', ')].filter(Boolean).join(' · '),
       href: '#book/item/' + it.id, text: [].concat(L(it.sum) || []).join(' ') + ' ' + (it.loc && typeof it.loc === 'object' ? L(it.loc) : it.loc || ''), alt: both(it.title) + ' ' + it.id, at: both(it.title) }));
     S.GLOSSARY.forEach((t) => add({ k: 'term', title: L(t.t), crumb: rn('guide') + ' · ' + T('용어 사전', 'Glossary'), href: '#guide/terms', go: { jump: L(t.t) }, text: L(t.d), alt: both(t.t), at: both(t.t) }));
   }

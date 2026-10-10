@@ -92,7 +92,8 @@
         it.y.forEach((y) => { if (!/^(19|20)\d\d$/.test(y)) lb(T('연도', 'year'), it.id, y); });
         if (it.d && !/^\d{4}-\d{2}-\d{2}$/.test(it.d)) lb(T('날짜', 'date'), it.id, it.d);
         if (it.d2 && !/^\d{4}-\d{2}-\d{2}$/.test(it.d2)) lb(T('날짜', 'date'), it.id + '.d2', it.d2);
-        if (it.orig && it.ol && !['ja', 'en', 'zh-Hant'].includes(it.ol)) lb(T('원제 언어', 'original-title language'), it.id, it.ol);
+        if (it.orig && it.ol && !['ja', 'en', 'zh-Hant', 'de'].includes(it.ol)) lb(T('원제 언어', 'original-title language'), it.id, it.ol);
+        if (it.gone && !(/^\d{4}-\d{2}-\d{2}$/.test(it.gone) && it.url && (!it.checked || it.gone >= it.checked))) lb(T('원문 내려짐 표시', 'removed-original mark'), it.id, it.gone);   // #28: 기관이 내린 원문 — 확인일 형식, 주소 보존, 마지막 원문 확인일 이후
         if (it.loc && (typeof it.loc === 'object' ? !(it.loc.ko && it.loc.en) : /[가-힣]/.test(it.loc))) lb(T('장소 한/영', 'KO/EN place'), it.id, typeof it.loc === 'object' ? '–' : it.loc);
         if (it.sum && Array.isArray(it.sum.ko) && Array.isArray(it.sum.en) && it.sum.ko.length !== it.sum.en.length) lb(T('요약 한/영 항목 수', 'KO/EN summary count'), it.id, `${it.sum.ko.length} / ${it.sum.en.length}`);
         (it.go || []).forEach(([h]) => {

@@ -22,7 +22,8 @@ window.SHE = window.SHE || {};
       ['book', B('가이드북 절', 'Guidebook sections')], ['sop', B('포털 SOP(교육용)', 'Portal SOPs (teaching)')]],
       groups: [[B('법령·기준', 'Law & standards'), ['law', 'notice', 'code', 'treaty', 'guide', 'std']], [B('선례', 'Precedents'), ['case', 'report', 'court', 'enf']], [B('자료·데이터', 'Data & material'), ['news', 'stat', 'edu', 'corp', 'chem', 'site']], [B('포털 작성', 'Written for the portal'), ['book', 'sop']]] },
     { id: 'c', t: B('나라·지역', 'Country / region'), v: [
-      ['INT', B('국제', 'International')], ['KR', B('한국', 'Korea')], ['US', B('미국', 'United States')], ['UK', B('영국', 'United Kingdom')], ['EU', B('EU', 'EU')], ['JP', B('일본', 'Japan')], ['TW', B('대만', 'Taiwan')]] },
+      ['INT', B('국제', 'International')], ['KR', B('한국', 'Korea')], ['US', B('미국', 'United States')], ['UK', B('영국', 'United Kingdom')], ['EU', B('EU', 'EU')], ['JP', B('일본', 'Japan')], ['TW', B('대만', 'Taiwan')],
+      ['DE', B('독일', 'Germany')], ['SG', B('싱가포르', 'Singapore')], ['AU', B('호주', 'Australia')], ['CA', B('캐나다', 'Canada')]] },   /* 2차 나라(#28): ISO 3166-1 코드 */
     { id: 'y', t: B('연도', 'Year'), v: [] },   /* 자료에 있는 연도로 채운다 */
     { id: 'i', t: B('산업·업종', 'Industry'), v: [
       ['all', B('전 산업(공통)', 'All industries')], ['semi', B('반도체·전자', 'Semiconductors & electronics')], ['chem', B('화학 제조', 'Chemical manufacturing')], ['oil', B('정유·석유·가스 생산', 'Refining, oil & gas')],
@@ -109,6 +110,9 @@ window.SHE = window.SHE || {};
     jpIshl: ['law', 'JP', '1972 2025 2026', 'all', 'chem', 'org ra', 1], egovJp: ['site', 'JP', '2026', 'all', '', 'org', 1], jpAnzenCases: ['stat', 'JP', '2026', 'all', '', 'inv', 3],
     ukLeg: ['site', 'UK', '2026', 'all', '', 'org', 1], euCellar: ['site', 'EU', '2026', 'all', '', 'org', 1], hsePress: ['site', 'UK', '2026', 'all', '', 'inv liab', 2],
     oshaSir: ['stat', 'US', '2026', 'all', '', 'inv', 3], twLaw: ['site', 'TW', '2026', 'all', '', 'org', 1], twOshaCases: ['stat', 'TW', '2026', 'all', '', 'inv', 3],
+    /* 2차 나라 법령 데이터베이스(#28) — 개별 법령은 lib-l5.js */
+    deGii: ['site', 'DE', '2026', 'all', '', 'org', 1], sgSso: ['site', 'SG', '2026', 'all', '', 'org', 1], auFrl: ['site', 'AU', '2026', 'all', '', 'org', 1],
+    caJustice: ['site', 'CA', '2026', 'all', '', 'org', 1], swaModel: ['guide', 'AU', '', 'all', '', 'org', 2],
     /* 타사 공식(4등급) */
     tsmc2023: ['corp', 'TW', '2023', 'semi', '', 'contract tech', 4], tsmcTsia: ['corp', 'TW', '2017', 'semi', 'health chem rad noise', 'contract', 4],
     samsung: ['corp', 'KR', '', 'semi', '', 'contract', 4], intelEhs: ['corp', 'US', '', 'semi', '', 'contract', 4]

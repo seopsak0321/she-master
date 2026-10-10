@@ -178,6 +178,8 @@
   const putSel = (ids) => S.bookApi && S.bookApi.putSel(ids);
   const urlOf = (it) => (it.urlFn ? it.urlFn() : it.url || '');
   const ext = (u, label) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${label}<span class="ext" aria-hidden="true">↗</span><span class="sr-only">${T(' (새 창)', ' (opens in a new window)')}</span></a>`;
+  /* 기관이 원문을 내린 자료(#28 — HSE 보도자료 등): 지우지 않고 확인일과 함께 표시, 요약은 게시 당시 원문 기준 */
+  const goneText = (it) => T(`기관이 원문을 내렸습니다(${it.gone} 확인) — 요약은 게시 당시 원문 기준입니다.`, `The publisher has taken the original down (checked ${it.gone}); the summary reflects it as published.`);
 
   function card(it, sel, tk) {
     const t = L(it.title), first = [].concat(L(it.sum) || [])[0] || '';
@@ -189,7 +191,7 @@
         <a class="lib-title" href="${hrefOf(it)}">${it.num ? `<span class="bk-n">${it.num}</span> ` : ''}${mk(t)}</a>
         ${first ? `<p class="lib-sum">${mk(first.length > 220 ? first.slice(0, 219) + '…' : first)}</p>` : ''}
         ${tags.length ? `<div class="bk-chips">${tags.map((x) => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : ''}</div>
-      ${urlOf(it) ? `<div class="lib-act">${ext(urlOf(it), T('원문', 'Original'))}</div>` : ''}</li>`;
+      ${urlOf(it) ? `<div class="lib-act">${it.gone ? `<span class="xs muted" title="${esc(goneText(it))}">${T('원문 내려짐', 'Original removed')}</span>` : ext(urlOf(it), T('원문', 'Original'))}</div>` : ''}</li>`;
   }
 
   /* 공식 데이터베이스 — 라이브러리에 아직 없는 자료를 찾을 곳 (2026-10-04 접속 확인, 사람 확인 단계가 있는 곳은 표시) */
@@ -200,6 +202,11 @@
     EU: [[B('EUR-Lex — EU 법령', 'EUR-Lex — EU law'), 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:31989L0391'], [B('EU-OSHA — 지침·법령 해설', 'EU-OSHA — directives and guidance'), 'https://osha.europa.eu/en']],
     JP: [[B('職場のあんぜんサイト — 労働災害事例検索(재해 사례)', 'Workplace safety site — accident case search'), 'https://anzeninfo.mhlw.go.jp/jirei/sai_search.html'], [B('e-Gov 法令検索 — 일본 법령 현행본', 'e-Gov law search — current Japanese law'), 'https://laws.e-gov.go.jp/']],
     TW: [[B('全國法規資料庫 — 대만 법령(중국어 현행본·영문판)', 'Laws & Regulations Database of Taiwan (current Chinese text and English versions)'), 'https://law.moj.gov.tw/'], [B('職業安全衛生署 職災案例宣導 — 대만 직업재해 사례', 'Taiwan OSHA — occupational accident case bulletins'), 'https://www.osha.gov.tw/48110/48417/48427/lpsimplelist'], [B('勞動部職業安全衛生署 — 대만 직업안전위생서', 'Occupational Safety and Health Administration, Taiwan'), 'https://www.osha.gov.tw/']],
+    /* 2차 나라(#28, 2026-10-11 접속 확인) */
+    DE: [[B('gesetze-im-internet.de — 독일 연방 법령 현행본', 'gesetze-im-internet.de — current German federal law'), 'https://www.gesetze-im-internet.de/'], [B('gesetze-im-internet.de — 영문 번역 목록(번역 시점 확인 필요)', 'gesetze-im-internet.de — English translations (check which amendment each reflects)'), 'https://www.gesetze-im-internet.de/Teilliste_translations.html'], [B('BAuA — 연방 산업안전보건연구원', 'BAuA — Federal Institute for Occupational Safety and Health'), 'https://www.baua.de/EN/Home/Home_node.html']],
+    SG: [[B('Singapore Statutes Online — 싱가포르 법령 현행 판', 'Singapore Statutes Online — current legislation'), 'https://sso.agc.gov.sg/'], [B('인력부(MOM) — 산업안전보건', 'Ministry of Manpower — workplace safety and health'), 'https://www.mom.gov.sg/workplace-safety-and-health']],
+    AU: [[B('Federal Register of Legislation — 호주 연방 법령', 'Federal Register of Legislation — Australian Commonwealth law'), 'https://www.legislation.gov.au/'], [B('Safe Work Australia — 모델 WHS법·실무지침', 'Safe Work Australia — model WHS laws and codes'), 'https://www.safeworkaustralia.gov.au/law-and-regulation/model-whs-laws']],
+    CA: [[B('Justice Laws Website — 캐나다 연방 법령', 'Justice Laws Website — Canadian federal law'), 'https://laws-lois.justice.gc.ca/eng/'], [B('CCOHS — 캐나다 산업안전보건센터', 'CCOHS — Canadian Centre for Occupational Health and Safety'), 'https://www.ccohs.ca/']],
     INT: [[B('ILO NORMLEX — 국제노동기준·비준 현황', 'ILO NORMLEX — standards and ratifications'), 'https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB:12100:0::NO::P12100_ILO_CODE:C155'], [B('ILO ICSC — 국제화학물질안전카드', 'ILO ICSC — chemical safety cards'), 'https://chemicalsafety.ilo.org/dyn/icsc/showcard.home']]
   };
   function dbPanel(st, n) {
@@ -303,7 +310,7 @@
   }
 
   /* ---------- #book/item/<id> ---------- */
-  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)'), 'zh-Hant': B('원제(중국어)', 'Original title (Chinese)') };
+  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)'), 'zh-Hant': B('원제(중국어)', 'Original title (Chinese)'), de: B('원제(독일어)', 'Original title (German)') };
   /* 다른 나라의 같은 주제 — 같은 묶음(법령·기준 / 선례)에서 나라가 다른 자료 가운데 위험 요인·사고 유형(겹칠 때마다 3점)과
      관리 주제(최대 2점)·업종(1점)이 겹치는 것을 점수순으로(나라마다 2건, 모두 8건까지). 위험 요인·사고 유형이 있는 자료는 그중 하나는 겹쳐야 하고,
      너무 흔한 주제(사고 보고·법적 책임·일반 의무)와 ‘전 산업’, 사고 유형 ‘기타’는 세지 않는다.
@@ -346,14 +353,15 @@
     const rows = row(T('유형', 'Type'), esc(lab('k', it.k))) + row(T('나라·지역', 'Country / region'), list('c', it.c)) + row(T('날짜·연도', 'Date / year'), esc(dateText(it)) + (d2 ? ` <span class="${pr ? 'doc-small' : 'xs muted'}">(${esc(d2)})</span>` : ''))
       + row(T('기관', 'Body'), esc(L(it.org) || '')) + row(L(ORIG_L[it.ol] || ORIG_L.ja), it.orig ? `<span lang="${esc(it.ol || 'ja')}">${esc(it.orig)}</span>` : '') + row(T('장소', 'Place'), esc(locOf(it))) + row(T('규모·피해', 'Size / harm'), esc(it.size ? L(it.size) : ''))
       + row(T('산업·업종', 'Industry'), list('i', it.i)) + row(T('사고 유형', 'Accident type'), list('a', it.a)) + row(T('위험 요인', 'Hazard'), list('h', it.h))
-      + row(T('관리 주제', 'Topic'), list('m', it.m)) + row(T('출처 등급', 'Source tier'), esc(lab('t', it.tier))) + row(T('원문 확인', 'Checked'), esc(it.checked || ''));
+      + row(T('관리 주제', 'Topic'), list('m', it.m)) + row(T('출처 등급', 'Source tier'), esc(lab('t', it.tier))) + row(T('원문 확인', 'Checked'), esc(it.checked || ''))
+      + row(T('원문 상태', 'Original status'), it.gone ? esc(goneText(it)) : '');
     return pr ? `<table class="doc-table doc-kv"><tbody>${rows}</tbody></table>` : `<dl class="kv lib-kv">${rows}</dl>`;
   }
   function itemBody(it) {
     const sums = [].concat(L(it.sum) || []);
     return `${details(it)}
       ${sums.length ? `<div class="bk-sum"><b>${T('요약', 'Summary')}</b><ul>${sums.map((s) => `<li>${esc(s)}</li>`).join('')}</ul></div>` : ''}
-      <div class="lib-links">${urlOf(it) ? ext(urlOf(it), T('원문 열기', 'Open the original')) : ''}${it.href ? `<a href="${esc(it.href)}">${T('포털 화면으로', 'Open in the portal')} →</a>` : ''}${(it.go || []).map(([h, l]) => { const lt = esc(typeof l === 'function' ? l() : L(l)); return /^https?:\/\//.test(h) ? ext(h, lt) : `<a href="${esc(h)}">${lt}</a>`; }).join('')}</div>
+      <div class="lib-links">${urlOf(it) ? (it.gone ? `<span class="xs muted">${T('원문 주소(내려짐)', 'Original address (removed)')}: ${esc(urlOf(it))}</span>` : ext(urlOf(it), T('원문 열기', 'Open the original'))) : ''}${it.href ? `<a href="${esc(it.href)}">${T('포털 화면으로', 'Open in the portal')} →</a>` : ''}${(it.go || []).map(([h, l]) => { const lt = esc(typeof l === 'function' ? l() : L(l)); return /^https?:\/\//.test(h) ? ext(h, lt) : `<a href="${esc(h)}">${lt}</a>`; }).join('')}</div>
       ${it.src.length ? `<p class="bk-cite">${T('출처', 'Sources')} ${S.cite(it.src)}</p>` : ''}`;
   }
   function renderItem(id) {
