@@ -310,7 +310,7 @@
   }
 
   /* ---------- #book/item/<id> ---------- */
-  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)'), 'zh-Hant': B('원제(중국어)', 'Original title (Chinese)'), de: B('원제(독일어)', 'Original title (German)') };
+  const ORIG_L = { ja: B('원제(일본어)', 'Original title (Japanese)'), en: B('원제(영어)', 'Original title (English)'), 'zh-Hant': B('원제(중국어)', 'Original title (Chinese)'), de: B('원제(독일어)', 'Original title (German)'), ko: B('사업장(원문 기록)', 'Site (as named in the Korean record)') };
   /* 다른 나라의 같은 주제 — 같은 묶음(법령·기준 / 선례)에서 나라가 다른 자료 가운데 위험 요인·사고 유형(겹칠 때마다 3점)과
      관리 주제(최대 2점)·업종(1점)이 겹치는 것을 점수순으로(나라마다 2건, 모두 8건까지). 위험 요인·사고 유형이 있는 자료는 그중 하나는 겹쳐야 하고,
      너무 흔한 주제(사고 보고·법적 책임·일반 의무)와 ‘전 산업’, 사고 유형 ‘기타’는 세지 않는다.

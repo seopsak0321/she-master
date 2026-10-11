@@ -19,6 +19,16 @@
     const chems = new Set(S.CHEMICALS.map((c) => c.id));
     const dup = (arr, what) => { const seen = new Set(); arr.forEach((id) => { if (seen.has(id)) add('bad', T('중복 id', 'Duplicate id'), what, id); seen.add(id); }); };
     dup(S.SOURCES.map((s) => s.id), 'SOURCES'); dup(S.SOPS.map((s) => s.id), 'SOPS'); dup(S.CASES.map((c) => c.id), 'CASES'); dup(S.CHEMICALS.map((c) => c.id), 'CHEMICALS');
+    /* #29(외부 검토 E12): id를 가진 다른 배열도 — 용어 사전 ‘moc’가 두 번 쓰여 화면 id(term-moc)가 겹친 일이 있었다 */
+    ['GLOSSARY', 'RESOURCES', 'CYCLES', 'PROCESSES', 'CAMPAIGNS', 'TIMELINE', 'NEWS', 'PTW_PRE', 'SAPA_ITEMS'].forEach((k) => { if (Array.isArray(S[k])) dup(S[k].filter((x) => x && x.id).map((x) => x.id), k); });
+    /* #29(외부 검토 E13): 설명문 속 KOSHA GUIDE 옛 번호(2026.1.30 정비 전) — 현행 번호로 쓰고 옛 번호는 ‘구 …’로 병기(같은 항목에 현행 번호가 함께 있으면 대조 설명으로 보고 넘어감) */
+    if (S.KOSHA_OLD) { const OLD = Object.keys(S.KOSHA_OLD); const scan = (txt, where, ctx) => { const s = String(txt || ''); OLD.forEach((o) => { const base = o.replace(/-\d{4}$/, ''); const re = new RegExp('(^|[^\\w-])' + base.replace(/-/g, '\\-') + '(-\\d{4})?(?![\\w-])'); const m = s.match(re); if (m && !String(ctx || s).includes(String(S.KOSHA_OLD[o]).replace(/-\d{4}$/, '')) && !/(구|formerly|old)\s*$/.test(s.slice(Math.max(0, m.index - 12), m.index + m[1].length))) add('warn', T('KOSHA 옛 번호', 'Old KOSHA number'), where, o + ' → ' + S.KOSHA_OLD[o]); }); };
+      const all = (...bs) => bs.filter(Boolean).map((b) => [].concat(b.ko, b.en).join(' ')).join(' ');
+      (S.RESOURCES || []).forEach((r) => [].concat(r.desc ? [r.desc.ko, r.desc.en] : []).forEach((t) => [].concat(t).forEach((x) => scan(x, 'RESOURCES ' + r.id, all(r.title, r.desc)))));
+      (S.GLOSSARY || []).forEach((g) => [].concat(g.d ? [g.d.ko, g.d.en] : []).forEach((x) => scan(x, 'GLOSSARY ' + g.id, all(g.t, g.d))));
+      S.SOURCES.forEach((s) => [s.title, s.note].forEach((b) => b && [b.ko, b.en].forEach((x) => scan(x, 'SOURCES ' + s.id, all(s.title, s.note))))); }
+    /* #29(외부 검토 E19): 국가법령정보센터 현행 법령 출처는 판 표기에 시행일과 공포 번호를 함께 — 연혁 고정 주소는 제외 */
+    S.SOURCES.forEach((s) => { const u = decodeURIComponent(s.url || ''); const t = (s.title && s.title.ko) || ''; if (s.type === 'law' && /law\.go\.kr\/법령\//.test(u) && !/\/\(/.test(u)) { const v = t.match(/\[시행[^\]]*\]/); if (!v || !/제\s*[\d-]+\s*호/.test(v[0])) add('warn', T('법령 판 표기', 'Law version label'), 'SOURCES ' + s.id, v ? v[0] : T('[시행 …] 없음', 'no [시행 …]')); } });
     S.SOURCES.forEach((s) => {
       if (!/^https?:\/\//.test(s.url || '')) add('bad', T('출처 URL', 'Source URL'), s.id, s.url || '–');
       if (!/^\d{4}-\d{2}-\d{2}$/.test(s.checked || '')) add('warn', T('출처 확인일', 'Source date'), s.id, s.checked || '–');
@@ -92,7 +102,7 @@
         it.y.forEach((y) => { if (!/^(19|20)\d\d$/.test(y)) lb(T('연도', 'year'), it.id, y); });
         if (it.d && !/^\d{4}-\d{2}-\d{2}$/.test(it.d)) lb(T('날짜', 'date'), it.id, it.d);
         if (it.d2 && !/^\d{4}-\d{2}-\d{2}$/.test(it.d2)) lb(T('날짜', 'date'), it.id + '.d2', it.d2);
-        if (it.orig && it.ol && !['ja', 'en', 'zh-Hant', 'de'].includes(it.ol)) lb(T('원제 언어', 'original-title language'), it.id, it.ol);
+        if (it.orig && it.ol && !['ja', 'en', 'zh-Hant', 'de', 'ko'].includes(it.ol)) lb(T('원제 언어', 'original-title language'), it.id, it.ol);
         if (it.gone && !(/^\d{4}-\d{2}-\d{2}$/.test(it.gone) && it.url && (!it.checked || it.gone >= it.checked))) lb(T('원문 내려짐 표시', 'removed-original mark'), it.id, it.gone);   // #28: 기관이 내린 원문 — 확인일 형식, 주소 보존, 마지막 원문 확인일 이후
         if (it.loc && (typeof it.loc === 'object' ? !(it.loc.ko && it.loc.en) : /[가-힣]/.test(it.loc))) lb(T('장소 한/영', 'KO/EN place'), it.id, typeof it.loc === 'object' ? '–' : it.loc);
         if (it.sum && Array.isArray(it.sum.ko) && Array.isArray(it.sum.en) && it.sum.ko.length !== it.sum.en.length) lb(T('요약 한/영 항목 수', 'KO/EN summary count'), it.id, `${it.sum.ko.length} / ${it.sum.en.length}`);
