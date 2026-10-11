@@ -27,7 +27,7 @@
     { v: 4, ko: '4 최대 — 사망·영구장해', en: '4 Critical — death or permanent disability' }
   ];
   const TYPES = [
-    ['fall', { ko: '추락', en: 'Fall from height' }], ['caught', { ko: '끼임', en: 'Caught-in' }], ['struck', { ko: '부딪힘', en: 'Struck-by' }],
+    ['fall', { ko: '추락', en: 'Fall from height' }], ['caught', { ko: '끼임', en: 'Caught-in' }], ['struck', { ko: '부딪힘·맞음', en: 'Struck by or against' }],   /* #30(E3): 위험성평가 도구는 두 유형을 한 칸으로 — 사고사례 분류(cases.js)는 bump·hit로 나눔 */
     ['leak', { ko: '가스·화학물질 누출', en: 'Gas/chemical leak' }], ['contact', { ko: '화학물질 접촉', en: 'Chemical contact' }], ['shock', { ko: '감전', en: 'Electric shock' }],
     ['fire', { ko: '화재·폭발', en: 'Fire/explosion' }], ['burn', { ko: '화상', en: 'Burn' }], ['rad', { ko: '방사선', en: 'Radiation' }],
     ['collapse', { ko: '무너짐', en: 'Collapse' }], ['slip', { ko: '넘어짐', en: 'Slip/trip' }], ['other', { ko: '기타', en: 'Other' }]

@@ -978,7 +978,7 @@
         <div class="panel">${ui.title(T('협력사 작업자용 콘텐츠', 'For contractor workers'))}
           <p class="small">${T('모든 SOP에는 협력사·현장용 “작업 전 5분 안전카드”가 있습니다. 상단 KO/EN으로 언어를 바꿉니다.', 'Every SOP has a 5-minute pre-job card for contractors and field crews. Switch KO/EN at the top.')}</p>
           <div class="row" style="margin-top:10px">${S.SOPS.slice(0, 8).map((s) => sopLink(s.id)).join('')}</div>
-          <hr class="sep"><p class="xs muted">${T('벤치마크: 삼성전자 반도체는 작업중지권 운영 건수(2024년 4,537건)를 공개, TSMC는 교육 이수와 출입·공사 신청을 연동합니다.', 'Benchmarks: Samsung publishes stop-work counts (4,537 in 2024); TSMC ties training to access and work requests.')}${S.cite('samsung', 'tsmc2023')} <a href="#bench">${T('벤치마킹', 'Benchmarks')} →</a></p>
+          <hr class="sep"><p class="xs muted">${T('벤치마크: 삼성전자는 협력사 작업중지권이 잘 쓰이도록 작업중지권 연구회를 운영, TSMC는 교육 이수와 출입·공사 신청을 연동합니다.', 'Benchmarks: Samsung Electronics runs a Work Stoppage Right Research Group so that partners’ right to stop work is actually used; TSMC ties training to access and work requests.')}${S.cite('samsungSr2025', 'tsmc2023')} <a href="#bench">${T('벤치마킹', 'Benchmarks')} →</a></p>
         </div>
       </section>
       <section class="panel stack" id="anchor-build">${ui.title(T('건설공사 발주자 의무', 'Duties of the construction client'), T('산안법 제67~73조 — Fab 신·증설처럼 회사가 발주하는 공사', 'OSH Act Arts. 67–73 — works the company commissions, such as new fabs'))}

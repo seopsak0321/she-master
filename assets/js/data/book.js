@@ -65,13 +65,10 @@ window.SHE = window.SHE || {};
               'Comparisons and summaries drawn from several originals are marked “Synthesis”.',
               'Cells whose original has not been checked are marked “Being checked”, never filled by guesswork.']),
             body: [
-              { k: 'tbl', head: B(['등급', '종류', '예'], ['Tier', 'Kind', 'Examples']), rows: [
-                ['1', B('법령·조약·국제협약 원문', 'Original statutes, treaties and conventions'), B('국가법령정보센터, EUR-Lex, legislation.gov.uk, OSH Act·eCFR, 일본 법령 공식 번역, ILO NORMLEX', 'Korea’s National Law Information Center, EUR-Lex, legislation.gov.uk, the OSH Act and eCFR, Japan’s official law translations, ILO NORMLEX')],
-                ['2', B('정부·공공기관의 공식 지침·고시·기술기준', 'Official guidance, notices and technical codes of public bodies'), B('고용노동부 고시, KOSHA GUIDE, OSHA·NIOSH, HSE, EU-OSHA', 'MOEL notices, KOSHA Guides, OSHA and NIOSH, HSE, EU-OSHA')],
-                ['3', B('공식 통계·사고조사 보고서', 'Official statistics and investigation reports'), B('고용노동부 재해조사보고서, 미국 CSB, HSE 통계', 'MOEL accident investigation reports, the US CSB, HSE statistics')],
-                ['4', B('기업·단체의 공식 공개 자료', 'Official publications of companies and associations'), B('지속가능경영보고서, 표준기구가 공개한 요약(ISO·NFPA 등)', 'Sustainability reports, summaries published by standards bodies (ISO, NFPA and others)')],
-                ['×', B('쓰지 않음', 'Not used'), B('블로그, 백과사전, 출처 없는 요약, 원문 없이 AI가 만든 문장, 원 보도자료 없이 기사에만 있는 수치', 'Blogs, encyclopaedias, unsourced summaries, AI-generated text with no original behind it, figures found only in news articles')]
-              ] },
+              /* #30(외부 검토 E1): 등급 표는 포털 전체의 정의(data/sources.js SHE.TIERS)를 그대로 쓴다 */
+              { k: 'tbl', head: B(['등급', '종류', '예'], ['Tier', 'Kind', 'Examples']), rows: (window.SHE.TIERS || []).filter((x) => /\d/.test(x[0])).map((x) => [x[0], B(x[1].ko.replace(/^\d등급 — /, ''), x[1].en.replace(/^Tier \d — /, '')), x[2]]).concat([
+                ['×', B('쓰지 않음', 'Not used'), B('블로그, 백과사전, 출처 없는 요약, 원문 없이 AI가 만든 문장. 가이드북 본문의 근거로는 언론 보도(6등급)를 쓰지 않음', 'Blogs, encyclopaedias, unsourced summaries, AI-generated text with no original behind it. News reports (tier 6) are never the basis for the guidebook text')]
+              ]) },
               { k: 'h', t: B('화면의 표시', 'Labels used in the book') },
               { k: 'tbl', head: B(['표시', '뜻'], ['Label', 'Meaning']), rows: [
                 [B('원문 확인 + 날짜', 'Checked + date'), B('그 날짜에 원문을 열어 대조한 절', 'A section checked against the originals, opened on that date')],

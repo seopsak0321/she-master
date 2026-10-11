@@ -440,8 +440,9 @@ SHE.SOURCES = [
     url: 'https://www.gir.go.kr/home/board/read.do?menuId=11&boardId=2034&boardMasterId=4' },
 
   /* ---------- 법원 ---------- */
-  { id: 'scourt2021', type: 'court', checked: '2026-09-24',
+  { id: 'scourt2021', type: 'court', checked: '2026-10-11',
     title: { ko: '대법원 언론보도판결 — “‘SK하이닉스 질식사고’ 책임자 3명 집유 확정” (사건번호 2018도10353)', en: 'Supreme Court of Korea — “Suspended sentences upheld for 3 managers in SK hynix asphyxiation case” (case 2018do10353)' },
+    note: { ko: '첨부 판결문(대법원 제3부 2021.3.11 선고 2018도10353, 7쪽)을 2026-10-11 열어 확인: 피고인 8명(개인 6 — 업무상과실치사, 그중 1명은 산업안전보건법위반 포함 / 법인 2 — 산업안전보건법위반), 원심 수원지방법원 2018.6.11 선고 2017노1871, 주문 ‘상고를 모두 기각한다’. 판결문은 피고인을 A~H로 가리고 형량을 적지 않음 — 형량은 원심 판결문에 있음(포털 미확인)', en: 'The attached judgment (Supreme Court Third Division, 11 March 2021, 2018do10353, 7 pages) was read on 2026-10-11: eight defendants (six individuals — involuntary manslaughter, one also under the OSH Act; two companies — OSH Act), appellate ruling Suwon District Court 11 June 2018, 2017no1871, disposition “all appeals dismissed”. The judgment anonymises the defendants as A–H and does not state the sentences, which are in the appellate ruling (not checked by the portal)' },
     url: 'https://www.scourt.go.kr/portal/news/NewsViewAction.work?seqnum=4053&gubun=2' },
 
   /* ---------- 해외 규제·국제기구 ---------- */
@@ -678,10 +679,14 @@ SHE.SOURCES = [
     title: { ko: 'TSMC ESG — 대만반도체산업협회(TSIA)와 공급망 직업안전보건 강화: 「장비 공급사 현장 서비스 인력 직업건강 관리 지침」 (2017.12.22)', en: 'TSMC ESG — With TSIA: “Occupational Health Management Guidelines for On-site Service Personnel of Semiconductor Equipment Suppliers” (2017-12-22)' },
     note: { ko: '2017.10.19 발표. 현장 작업 관찰(설치·시험·예방정비·고장수리 중 화학물질·방사선·소음 노출, 보호구 착용), 작업환경측정 기록을 검진 의사에게 제공, 건강검진 이상 시 보호조치 즉시 확인·추적. 출입 전 위험 설명·교육 이수·보호구 확인, 매일 현장 감사', en: 'Issued 2017-10-19. On-site observation of exposure to chemicals, radiation and noise during installation, testing, PM and troubleshooting, and of PPE; monitoring records to examining doctors; anomalies checked and followed up. Hazard briefing, training and PPE before entry; daily on-site audits' },
     url: 'https://esg.tsmc.com/en-US/articles/232' },
-  { id: 'samsung', type: 'peer', checked: '2026-09-26',
-    title: { ko: '삼성전자 반도체 — Making safety a priority for our partners', en: 'Samsung Semiconductor — Making safety a priority for our partners' },
-    note: { ko: '2026-09-26 재확인: 작업중지권 2018 도입, 2021.1 보상 체계, 표준계약 불이익 방지 조항, 2024년 작업중지 4,537건, 협력사 ISO 14001 83%(2024), 2021~2024년 285개사 ISO 45001/KOSHA-MS', en: 'Re-checked 2026-09-26: right to stop work since 2018, compensation from Jan 2021, standard-contract clause, 4,537 stoppages in 2024, 83 % of suppliers ISO 14001 (2024), 285 firms ISO 45001/KOSHA-MS in 2021–2024' },
-    url: 'https://semiconductor.samsung.com/sustainability/sustainable-supply-chain/environmentally-responsible-supply-chain/making-safety-a-priority-for-our-partners' },
+  { id: 'samsung', type: 'peer', checked: '2026-10-11',
+    title: { ko: '삼성전자 반도체 — Health and Safety (지속가능경영 화면)', en: 'Samsung Semiconductor — Health and Safety (sustainability page)' },
+    note: { ko: '2026-10-11 확인: ISO 45001 기반 안전보건경영시스템을 모든 제조 사업장에서 인증, 임직원 안전교육 2,125,924시간·위험성평가 전문가 교육 1,877명(2025년 기준), 모든 사업장에 24시간 자체 소방대·화학물질 누출 대응팀, 2030년까지 중대사고 제로·LTIR 세계 최고 수준 목표. 전에 인용한 협력사 안전 화면(making-safety-a-priority-for-our-partners)은 개편돼 공급망 화면으로 넘어가고, 그 화면의 수치(작업중지 4,537건 등)는 지금 화면과 지속가능경영보고서 2025에서 찾을 수 없어 포털에서 뺌', en: 'Checked 2026-10-11: ISO 45001-based health and safety management system certified at all manufacturing sites; 2,125,924 hours of employee safety training and 1,877 people trained as risk-assessment experts (as of 2025); in-house fire brigades and chemical spill response teams on duty 24/7 at all sites; goal of zero major accidents and a world top-tier LTIR by 2030. The partner-safety page cited earlier (making-safety-a-priority-for-our-partners) now redirects to the supply-chain page, and its figures (such as 4,537 work stoppages) appear neither there nor in the Sustainability Report 2025, so the portal no longer uses them' },
+    url: 'https://semiconductor.samsung.com/sustainability/people/health-and-safety/' },
+  { id: 'samsungSr2025', type: 'peer', checked: '2026-10-11',
+    title: { ko: '삼성전자 지속가능경영보고서 2025 — p.50 협력사 안전보건, p.66 지속 가능한 공급망 지표', en: 'Samsung Electronics Sustainability Report 2025 — p. 50 supplier health and safety, p. 66 sustainable supply chain data' },
+    note: { ko: 'p.50: 2030년까지 사내 협력사의 안전보건 역량·관리체계 강화 목표, 외부 인증이 없는 협력사에 인증 컨설팅·평가 지원, 인증 협력사에 실행력 강화 특별교육·사후·갱신 심사 컨설팅, 협력사 위험성평가 전문인력 과정, ‘협력사 환경안전 포털’, 작업중지권 제도를 효과적으로 운영하기 위한 작업중지권 연구회. p.66: 안전보건경영시스템(ISO 45001 등) 인증 협력사 비율 50·51·59%(2022~2024, SA8000 인증 23개사 포함), 환경경영시스템(ISO 14001 등) 90·87·90%', en: 'p. 50: goal of stronger health and safety capabilities and management systems at on-site partner companies by 2030; certification consulting and assessment for suppliers without external certification, special training and post/renewal assessment consulting for certified ones, a risk-assessment training course for supplier staff, the “Supplier Environmental Safety Portal” and a Work Stoppage Right Research Group to make the work stoppage right work effectively. p. 66: suppliers with a health and safety management system (ISO 45001 etc.) 50, 51 and 59 % (2022–2024, including 23 with SA8000), with an environmental management system (ISO 14001 etc.) 90, 87 and 90 %' },
+    url: 'https://www.samsung.com/global/sustainability/media/pdf/Samsung_Electronics_Sustainability_Report_2025_ENG.pdf' },
   { id: 'intelEhs', type: 'peer', checked: '2026-09-26',
     title: { ko: 'Intel — 공급사·시공사 환경안전보건(EHS) 요구사항', en: 'Intel — Environmental Health & Safety requirements for suppliers' },
     note: { ko: '건설 EHS 성과 요구사항·건설 EHS 매뉴얼(전 세계 공장), 공급사 EHS 성과 요구사항. 캠퍼스에서 위험할 수 있는 작업을 하는 공급사는 Highwire 안전 사전 자격심사 — 담당자와 사전 질문 검토, ‘예’면 안전 프로필·프로그램 문서 제출, Intel Global EHS 승인, 출입 유지를 위해 매년 검토·갱신', en: 'Construction EHS performance requirements and manual (all factories), supplier EHS performance requirements. Suppliers doing potentially hazardous work on campus complete Highwire safety pre-qualification — screening questions with the sponsor, a safety profile and programme documents if any answer is yes, approval by Intel Global EHS, annual review and renewal to keep site access' },
@@ -829,3 +834,26 @@ SHE.LAWCHECK = (function () {
     R('koshaGuide', 'code', B('KOSHA GUIDE (인용 54건)', 'KOSHA Guides (54 cited)'), B('2026.1.30 정비 반영 — 산업안전포털 목록(전체 1,722·현행 1,039건) 2026.10.1 확인, 2026.1.30 이후 새 공표 없음', 'Reflects the 2026-01-30 overhaul — portal list (1,722 total, 1,039 current) checked 2026-10-01; nothing new published since 2026-01-30'))
   ];
 })();
+
+/* ---------- 출처 등급 — 포털 전체가 쓰는 하나의 정의(#30, 외부 검토 E1) ----------
+   [값, 이름, 예]. 자료 라이브러리 ‘출처 등급’, 출처 목록의 등급 칸, 가이드북 신뢰성 절의 표가 모두 이 표를 쓴다.
+   6등급(언론)만 근거인 사실에는 화면에 ‘보도’ 표시를 단다(SHE.pressOnly). */
+SHE.TIERS = (function () {
+  const B_ = (ko, en) => ({ ko, en });
+  return [
+  ['1', B_('1등급 — 법령·조약·판례 원문', 'Tier 1 — statutes, treaties, rulings'), B_('국가법령정보센터, EUR-Lex, legislation.gov.uk, eCFR, 판결문', 'National Law Information Center, EUR-Lex, legislation.gov.uk, eCFR, court judgments')],
+  ['2', B_('2등급 — 정부·공공기관·정부 간 국제기구의 지침·고시·발표', 'Tier 2 — guidance, notices and announcements of governments, public bodies and intergovernmental organisations'), B_('고용노동부 고시·보도자료, KOSHA GUIDE, OSHA·NIOSH, HSE, ILO', 'MOEL notices and press releases, KOSHA Guides, OSHA and NIOSH, HSE, ILO')],
+  ['3', B_('3등급 — 공식 조사보고서·통계·공식 사고 기록', 'Tier 3 — official investigation reports, statistics and accident records'), B_('재해조사보고서, 미국 CSB, 화학물질종합정보시스템 사고 기록, 일본·대만 재해 사례', 'Accident investigation reports, the US CSB, ICIS accident records, Japanese and Taiwanese case databases')],
+  ['4', B_('4등급 — 표준기구·업계 단체의 공개 자료', 'Tier 4 — public material of standards bodies and industry associations'), B_('ISO·NFPA·SEMI가 공개한 요약, CCPS, IOGP', 'Summaries published by ISO, NFPA and SEMI; CCPS; IOGP')],
+  ['5', B_('5등급 — 기업 공개자료', 'Tier 5 — company publications'), B_('SK하이닉스 지속가능경영보고서·뉴스룸, 다른 회사의 공식 보고서', 'SK hynix sustainability reports and newsroom, other companies’ official reports')],
+  ['6', B_('6등급 — 언론 보도', 'Tier 6 — news reports'), B_('공식 자료가 없을 때 사고 사실의 보조로만 — ‘보도’ 표시', 'Only as a supplement for accident facts where no official record exists — marked “Reported”')],
+  ['B', B_('가이드북(1~3등급 원문 정리)', 'Guidebook (from tier 1–3 originals)'), B_('가이드북 절', 'Guidebook sections')],
+  ['P', B_('포털 작성 교육자료', 'Portal teaching material'), B_('SOP·도구', 'SOPs and tools')]
+  ];
+})();
+/* 출처 하나의 등급 — 라이브러리 분류표(LIB_SRC)에 있으면 그 값, 없으면 출처 유형으로 */
+SHE.srcTier = (id) => { const m = (SHE.LIB_SRC || {})[id]; if (m) return String(m[6]); const s = (SHE.SOURCES || []).find((x) => x.id === id); return s ? ({ law: '1', court: '1', gov: '2', intl: '2', sk: '5', peer: '5', press: '6' }[s.type] || '') : ''; };
+/* 근거가 모두 6등급(언론)인가 — 사실 블록·연표에 ‘보도’ 표시 */
+SHE.pressOnly = (src) => { const ids = [].concat(src || []).filter(Boolean); return ids.length > 0 && ids.every((id) => SHE.srcTier(id) === '6'); };
+SHE.pressTag = (src) => (SHE.pressOnly(src) ? `<span class="tag-pr" title="${SHE.esc ? SHE.esc(SHE.state && SHE.state.lang === 'en' ? 'Based only on news reports (tier 6)' : '언론 보도만 근거(6등급)') : ''}">${SHE.state && SHE.state.lang === 'en' ? 'Reported' : '보도'}</span> ` : '');
+

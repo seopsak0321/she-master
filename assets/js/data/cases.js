@@ -1,7 +1,9 @@
 /* 사고사례·최신 동향 데이터 (기준일 2026-09-25)
    - facts: 확인된 사실(출처 src). 언론 보도끼리 수치가 다르면 범위로 적고 그 사실을 밝힌다.
    - official: 정부·법원 등 공식 판단(원문 확인).
-   - why[].k: 'off' = 공식 확인, 'an' = 포털 분석(가설). 분석은 사실로 단정하지 않는다.
+   - why[].k: 'off' = 공식 확인, 'pr' = 보도(언론이 전한 판단, 공식 원문 미확인), 'an' = 포털 분석(가설). 분석은 사실로 단정하지 않는다.
+   - #30(외부 검토 E1·E26): 공식 기록(정부 사고 기록·보도자료·판결문)이 있으면 그 수치를 먼저 쓰고 보도는 보조로 적는다.
+     출처가 모두 언론(출처 등급 6)인 사실에는 화면이 자동으로 ‘보도’ 표시를 단다(SHE.pressOnly). 공식 확인 사항(officialFindings)에는 공식 원문만 둔다.
    - actions / lateral / verify / risk 는 재발방지 학습을 위한 포털 제안이며 회사의 실제 조치가 아니다. */
 window.SHE = window.SHE || {};
 (function () {
@@ -9,10 +11,13 @@ window.SHE = window.SHE || {};
 
   SHE.CASE_TYPES = {
     fire: B('화재', 'Fire'), leak: B('누출', 'Release'), contact: B('화학물질 접촉', 'Chemical contact'),
-    asphyx: B('질식', 'Asphyxiation'), fall: B('추락', 'Fall'), caught: B('끼임', 'Caught-in'), struck: B('부딪힘', 'Struck-by'),
-    shock: B('감전', 'Electric shock'), burn: B('화상', 'Burn'), rad: B('방사선', 'Radiation'), other: B('기타', 'Other'),
+    asphyx: B('질식', 'Asphyxiation'), fall: B('추락', 'Fall'), caught: B('끼임', 'Caught-in'),
+    bump: B('부딪힘', 'Striking against'), hit: B('물체에 맞음', 'Struck by object'),
+    shock: B('감전', 'Electric shock'), arcburn: B('전기 아크 화상', 'Electric arc burn'), heatburn: B('열 화상', 'Thermal burn'), rad: B('방사선', 'Radiation'), other: B('기타', 'Other'),
     reg: B('행정처분', 'Enforcement')
   };
+  /* #30(외부 검토 E3): ‘부딪힘(bump)’과 ‘맞음(hit)’은 다른 사고 유형(미국 OIICS 2.01도 struck against와 struck by를 다른 코드로 둠), 화상은 원인별로 나눈다(화학물질 화상은 contact).
+     각 유형은 자료 라이브러리의 사고 유형(LIB_CASE_A)·위험 요인(LIB_CASE_HZ)에 대응이 있어야 한다 — #qa가 확인 */
   SHE.CTRL_LEVELS = [
     { id: 'elim', t: B('제거·대체', 'Eliminate / substitute') },
     { id: 'eng', t: B('공학적 대책', 'Engineering') },
@@ -201,29 +206,32 @@ window.SHE = window.SHE || {};
     {
       id: 'ic-2015-n2', site: 'icheon', date: '2015-04-30', dateLabel: B('2015.4.30', '30 Apr 2015'),
       types: ['asphyx'], official: true,
-      t: B('이천 M14 신축 현장 배기덕트 질소 질식', 'Nitrogen asphyxiation in an exhaust duct at the new M14 fab, Icheon'),
-      impact: B('협력업체 작업자 3명 사망, 구조하던 동료 4명 경상', '3 contract workers died; 4 co-workers hurt while rescuing'),
+      t: B('이천 M14 신축 현장 RTO 내부 점검 중 질식', 'Asphyxiation during an inspection inside an RTO at the new M14 fab, Icheon'),
+      impact: B('작업자 3명 사망·구조하던 동료 4명 경상(보도), 2021.3.11 대법원 유죄 확정', '3 workers died and 4 co-workers were hurt while rescuing (reported); convictions upheld by the Supreme Court on 11 March 2021'),
       facts: [
         { t: B('4.30 12시 25분경 이천 M14(신축) 8층 배기덕트(약 5㎡, 깊이 3m) 내부를 오전 시운전 뒤 점검하던 작업자 3명이 질식해 모두 사망', 'About 12:25 on 30 April, three workers inspecting inside an 8th-floor exhaust duct (≈5 m², 3 m deep) at the new M14 fab after a morning test run were asphyxiated and died'), src: ['seoul2015'] },
         { t: B('밖에 있던 동료 4명이 들어가 구조했고, 이들도 두통 등 경상을 입음', 'Four co-workers went in to pull them out and also suffered headaches and minor injuries'), src: ['seoul2015'] },
-        { t: B('대법원이 2021년 관계자들의 업무상과실치사 등을 유죄로 확정(책임자 3명 금고 6월·집행유예 1년 등)', 'In 2021 the Supreme Court upheld convictions for involuntary manslaughter and related charges (three managers: 6 months’ imprisonment, suspended for 1 year, among others)'), src: ['scourt2021', 'newsis2021'] }
+        { t: B('경위는 보도마다 다름 — 다른 매체는 1명이 설비 안에서 질소에 질식해 쓰러졌고 구하러 들어간 2명도 숨졌다고 보도. 같은 기사가 전한 검찰 공소사실: 정상가동이 늦어진다는 이유로 공기가 아닌 질소를 공급했고, 현장 관리자에게 질소 공급을 명확히 알리지 않았으며, 안전점검·조치를 하지 않았음(다른 공장 밀폐공간 질소 질식 사망 전례가 있었음)', 'Accounts differ — another outlet reported that one worker collapsed from nitrogen inside the unit and the two who went in to help also died. The same article gave the prosecution’s charges: nitrogen rather than air was supplied because start-up was running late, site managers were not clearly told, and safety checks and measures were not taken (despite an earlier nitrogen death in a confined space at another plant)'), src: ['newsis2021'] },
+        { t: B('대법원 제3부가 2021.3.11 개인 피고인 6명(업무상과실치사, 그중 1명은 산업안전보건법 위반 포함)과 법인 2곳(산업안전보건법 위반)의 상고를 모두 기각해 원심(수원지방법원 2018.6.11 선고 2017노1871)을 확정. 대법원 게시 제목은 ‘책임자 3명 집유 확정’이며, 형량은 대법원 판결문에 적혀 있지 않음', 'On 11 March 2021 the Supreme Court (Third Division) dismissed all appeals by six individuals (involuntary manslaughter; one also under the OSH Act) and two companies (OSH Act), upholding the appellate ruling (Suwon District Court, 11 June 2018, 2017no1871). The court’s notice is headed “suspended sentences upheld for 3 managers”; the Supreme Court judgment itself does not state the sentences'), src: ['scourt2021'] }
       ],
       officialFindings: [
-        { t: B('법원: 설비 정상가동이 늦어진다는 이유로 공기가 아닌 질소를 공급했고, 현장 관리자에게 질소 공급 사실을 명확히 알리지 않았으며, 안전점검·조치를 하지 않았다. 다른 공장 밀폐공간에서 질소 질식 사망 사고가 이미 있었음에도 교훈이 반영되지 않았다', 'Court: nitrogen instead of air was supplied because start-up was running late; site managers were not clearly told; safety checks and measures were not taken — despite an earlier nitrogen death in a confined space at another plant'), src: ['newsis2021'] },
-        { t: B('법원: SK하이닉스가 공사 전반을 관리·감독하고 사고 원인인 질소를 직접 관리했다며 도급인 책임을 인정', 'Court: SK hynix managed the whole project and controlled the nitrogen itself, so it bore responsibility as the principal'), src: ['newsis2021'] }
+        { t: B('대법원: 사고가 난 RTO(정상운전설비 연소실) 내부는 구 산업안전보건기준에 관한 규칙 제618조·별표18의 ‘밀폐공간’이라는 원심 판단이 옳다', 'Supreme Court: the appellate court was right that the interior of the RTO where the accident happened was a “confined space” under former Standards Rules Art. 618 and Annex 18'), src: ['scourt2021'] },
+        { t: B('대법원: 사업의 일부를 분리해 도급을 준 발주 법인과 그 안전보건 총괄책임자는, 밀폐공간 프로그램 수립·시행 등 안전조치 없이 작업이 이뤄지고 있음을 미필적으로나마 알면서 방치했으므로 산업안전보건법 위반(구법 제29조) — 원심 유지', 'Supreme Court: the commissioning company, which contracted out part of its business, and its head of safety and health were guilty under the OSH Act (former Art. 29) because they at least tacitly knew work was going ahead without safety measures such as a confined-space programme and left it so — appellate ruling upheld'), src: ['scourt2021'] },
+        { t: B('대법원: 설비 설치를 도급받은 법인은 다른 회사 사업장이라도 소속 근로자의 건강장해 예방 조치 의무가 있다(구법 제24조①). 시운전 단계 RTO 승온 후 점검 매뉴얼에는 산소농도 측정·송기마스크 등이 없었고, 피해자들은 그 지시로 시운전 후 점검을 위해 현장에 있다가 사고를 당함 — 유죄 유지', 'Supreme Court: the company contracted to install the unit owed its workers health protection even on another company’s site (former Art. 24(1)). The post-heat-up inspection manual for the commissioning stage had no oxygen measurement or air-supplied masks, and the victims were on site under its instructions to inspect after the test run — conviction upheld'), src: ['scourt2021'] },
+        { t: B('대법원: 개인 피고인 6명의 업무상 과실이 경합해 피해자들이 사망했다는 원심 판단에 잘못이 없다', 'Supreme Court: no error in the finding that the six individuals’ negligence combined to cause the deaths'), src: ['scourt2021'] }
       ],
       why: [
-        { k: 'off', t: B('왜 질식했나? → 덕트 내부가 질소로 산소결핍 상태였다', 'Why asphyxiated? → The duct was oxygen-deficient with nitrogen') },
-        { k: 'off', t: B('왜 질소가 있었나? → 가동 지연을 이유로 공기 대신 질소가 공급되고 있었다', 'Why nitrogen? → It was being supplied instead of air because of start-up delays') },
-        { k: 'off', t: B('왜 몰랐나? → 질소 공급 사실이 현장 관리자에게 명확히 전달되지 않았다', 'Why unknown? → Site managers were not clearly told nitrogen was flowing') },
-        { k: 'off', t: B('왜 막지 못했나? → 진입 전 산소농도 측정·감시·대피 조치 없이 점검이 진행됐다', 'Why not stopped? → Entry went ahead without oxygen testing, attendance or evacuation measures') },
+        { k: 'pr', t: B('왜 질식했나? → 설비 내부가 질소로 산소결핍 상태였다(보도)', 'Why asphyxiated? → The unit was oxygen-deficient with nitrogen (reported)') },
+        { k: 'pr', t: B('왜 질소가 있었나? → 정상가동 지연을 이유로 공기 대신 질소가 공급되고 있었다(검찰 공소사실 보도)', 'Why nitrogen? → It was being supplied instead of air because start-up was late (prosecution charges as reported)') },
+        { k: 'pr', t: B('왜 몰랐나? → 질소 공급 사실이 현장 관리자에게 명확히 전달되지 않았다(검찰 공소사실 보도)', 'Why unknown? → Site managers were not clearly told nitrogen was flowing (prosecution charges as reported)') },
+        { k: 'off', t: B('왜 막지 못했나? → 시운전 단계 점검 매뉴얼에 산소농도 측정·송기마스크 같은 밀폐공간 조치가 없었고, 밀폐공간 보건조치 없이 작업이 이뤄졌다(대법원)', 'Why not stopped? → The commissioning-stage inspection manual had no confined-space measures such as oxygen testing or air-supplied masks, and the work went ahead without confined-space protection (Supreme Court)') },
         { k: 'an', t: B('근본 원인 → 시운전 일정 압박이 안전 절차보다 앞섰고, 앞선 질소 질식 사례의 교훈이 공유되지 않았다', 'Root cause → Schedule pressure outranked procedure, and lessons from an earlier nitrogen death were not shared') }
       ],
       m4: {
         man: B('측정 없이 진입, 보호구 없이 구조 진입', 'Entry without testing; rescue without respirators'),
         machine: B('질소 공급 라인이 격리되지 않음', 'Nitrogen line not isolated'),
-        media: B('배기덕트 — 좁고 깊은 밀폐공간', 'Exhaust duct — a narrow, deep confined space'),
-        management: B('정보 미공유, 일정 우선, 선행 사고 교훈 미반영 (법원 판단)', 'No information sharing, schedule first, lessons ignored (court)')
+        media: B('RTO 내부 — 법령상 밀폐공간(대법원)', 'Inside the RTO — a confined space in law (Supreme Court)'),
+        management: B('밀폐공간 프로그램 미수립·미시행(대법원), 정보 미공유·일정 우선(공소사실 보도)', 'No confined-space programme in place (Supreme Court); no information sharing, schedule first (charges as reported)')
       },
       barriers: { held: B([], []), failed: B(['불활성가스 격리', '진입 전 측정', '감시인·비상연락', '구조자 보호구'], ['Inert-gas isolation', 'Pre-entry testing', 'Attendant and emergency contact', 'Rescuer respirators']) },
       exposure: null,
@@ -286,38 +294,41 @@ window.SHE = window.SHE || {};
     },
     {
       id: 'ic-2021-hf', site: 'icheon', date: '2021-04-06', dateLabel: B('2021.4.6', '6 Apr 2021'),
-      types: ['contact'], official: false,
-      t: B('이천 장비 점검 중 불산 비산', 'Hydrofluoric acid splash during equipment inspection at Icheon'),
-      impact: B('3명 부상 — 협력업체 직원 1명 팔·다리 화상, 2명 흡입 (생명 지장 없음)', '3 hurt — one contractor with arm and leg burns, two inhaled (not life-threatening)'),
+      types: ['contact'], official: true,
+      t: B('이천 장비 설치 중 불산 혼합물 누출', 'Hydrofluoric acid mixture leak during tool installation at Icheon'),
+      impact: B('3명 병원 이송 — 공식 기록상 부상(직접) 1명, 2명은 이상 없음', '3 taken to hospital — the official record lists one direct injury; two were found unharmed'),
       facts: [
-        { t: B('4.6 11시 35분경 이천 공장 5층에서 장비 점검 중 불산이 튀어 협력업체 직원 2명·SK하이닉스 직원 1명 부상. 협력업체 직원 1명은 팔·다리 화상, 2명은 흡입', 'About 11:35 on 6 April, HF splashed during equipment inspection on the 5th floor at Icheon, injuring two contractors and one employee; one contractor had arm and leg burns, two inhaled it'), src: ['aju2021'] },
-        { t: B('회사는 “누출이 아니라 (작업자에게) 튄 것”이라며 책임 소재를 파악 중이라고 설명', 'The company said it was a splash onto workers, not a leak, and that responsibility was being examined'), src: ['aju2021'] }
+        { t: B('공식 사고 기록(화학물질종합정보시스템 접수번호 2021-020): 4.6 소방 접수 11시 34분. 이천사업장에서 협력사 직원 2명이 장비를 설치하던 중 불산 혼합물(추정)이 소량 누출돼 그 2명과 근처의 SK하이닉스 직원 1명이 병원으로 옮겨졌고, 3명 가운데 2명은 이상 없음을 확인. 원인 분류 안전기준 미준수, 유형 누출, 부상(직접) 1명', 'Official accident record (ICIS no. 2021-020): fire service notified at 11:34 on 6 April. At the Icheon site a small amount of hydrofluoric acid mixture (presumed) leaked while two contractor employees were installing a tool; both and one SK hynix employee nearby were taken to hospital, and two of the three were found unharmed. Cause class: safety rules not followed; type: leak; one direct injury'), src: ['icisAcc'] },
+        { t: B('보도: 11시 35분경 5층에서 장비 ‘점검’ 중 불산이 튀어 협력업체 직원 1명 팔·다리 화상, 2명 흡입 — 공식 기록의 ‘설치 중’, ‘2명 이상 없음’과 다름', 'Press: about 11:35 HF splashed during equipment “inspection” on the 5th floor, one contractor with arm and leg burns and two inhaling it — unlike the official record’s “during installation” and “two unharmed”'), src: ['aju2021'] },
+        { t: B('회사는 “누출이 아니라 (작업자에게) 튄 것”이라며 책임 소재를 파악 중이라고 설명(보도) — 공식 기록은 유형을 ‘누출’로 분류', 'The company said it was a splash onto workers, not a leak, and that responsibility was being examined (reported) — the official record classifies it as a leak'), src: ['aju2021'] }
       ],
-      officialFindings: [],
+      officialFindings: [
+        { t: B('공식 사고 기록의 분류: 원인 ‘안전기준 미준수’, 유형 ‘누출’, 물질 불산(혼합물 추정, 소량)', 'Classification in the official record: cause “safety rules not followed”, type “leak”, substance hydrofluoric acid (presumed mixture, small amount)'), src: ['icisAcc'] }
+      ],
       why: [
-        { k: 'an', t: B('왜 튀었나? → 점검 중 장비 내부에 남은 불산이 노출됐다', 'Why the splash? → HF left in the tool was exposed during inspection') },
-        { k: 'an', t: B('왜 남아 있었나? → 개방 전 배액·세정·확인이 부족했을 가능성', 'Why left inside? → Draining, rinsing and verification before opening may have been insufficient') },
-        { k: 'an', t: B('왜 다쳤나? → 비산 방지와 보호구 수준이 불산 특성(피부 흡수·지연 독성)에 못 미쳤을 가능성', 'Why injured? → Splash control and PPE may not have matched HF’s hazards (skin absorption, delayed toxicity)') },
-        { k: 'an', t: B('근본 원인 → PM 작업의 잔류 약액 관리 기준 미흡', 'Root cause → Weak rules for residual chemicals in maintenance work') }
+        { k: 'off', t: B('왜 다쳤나? → 장비 설치 중 불산 혼합물(추정)이 소량 누출돼 작업자에게 닿았다(공식 기록)', 'Why hurt? → A small amount of HF mixture (presumed) leaked onto workers during tool installation (official record)') },
+        { k: 'an', t: B('왜 누출됐나? → 설치 중 약액 연결부 체결·잔류 약액 확인이 부족했을 가능성', 'Why the leak? → Connections or residual liquid may not have been checked during installation') },
+        { k: 'an', t: B('왜 노출됐나? → 비산 방지와 보호구 수준이 불산 특성(피부 흡수·지연 독성)에 못 미쳤을 가능성', 'Why exposed? → Splash control and PPE may not have matched HF’s hazards (skin absorption, delayed toxicity)') },
+        { k: 'an', t: B('근본 원인 → 설치·시운전 작업의 약액 연결·잔류 관리 기준 미흡', 'Root cause → Weak rules for chemical connections and residues in installation and start-up work') }
       ],
       m4: {
-        man: B('잔류물 확인 없이 점검 진행 (분석)', 'Inspection without residue check (analysis)'),
-        machine: B('장비 내부 잔류 불산', 'HF left inside the tool'),
-        media: B('Fab 장비 점검(PM) 작업', 'Fab equipment maintenance'),
-        management: B('PM 전 배액·세정 확인 기준 (분석)', 'Pre-PM drain and rinse rules (analysis)')
+        man: B('연결·잔류 확인 없이 작업 진행 (분석)', 'Work without checking connections and residues (analysis)'),
+        machine: B('설치 중인 장비의 불산 혼합물', 'HF mixture in the tool being installed'),
+        media: B('Fab 장비 설치 작업(협력사)', 'Fab tool installation (contractor)'),
+        management: B('설치 작업의 약액 연결·확인 기준 (분석)', 'Rules for chemical hook-up and checks in installation (analysis)')
       },
-      barriers: { held: B(['즉시 당국 신고·조사 (보도)'], ['Reported to authorities at once (reported)']), failed: B(['잔류물 제거', '비산 방지·보호구'], ['Residue removal', 'Splash control and PPE']) },
+      barriers: { held: B(['소방 접수 11:34 (공식 기록)'], ['Fire service notified at 11:34 (official record)']), failed: B(['약액 연결·잔류 관리', '비산 방지·보호구'], ['Chemical hook-up and residue control', 'Splash control and PPE']) },
       exposure: null,
       risk: { before: { l: 3, s: 4 }, after: { l: 1, s: 4 }, why: B('전: PM 중 잔류 불산 노출(가능성 3), 피부 흡수·저칼슘혈증 위험(중대성 4). 후: 배액·세정 확인으로 가능성 1 — 불산의 중대성 4는 남으므로 개방이 필요 없는 설계·원격 세정 검토', 'Before: residual HF during PM (L3), skin absorption and hypocalcaemia risk (S4). After: verified drain and rinse for L1 — S4 remains, so consider designs that avoid opening or allow remote rinsing') },
       actions: [
-        { lvl: 'eng', t: B('개방 전 배액·순수 세척·확인 절차와 비산 방지 커버', 'Drain, rinse with ultrapure water and verify before opening; splash covers'), b: 'guide' },
+        { lvl: 'eng', t: B('약액 연결 전 배액·순수 세척·확인 절차와 비산 방지 커버', 'Drain, rinse with ultrapure water and verify before connecting; splash covers'), b: 'guide' },
         { lvl: 'adm', t: B('불산 작업 전 응급처치 준비 확인 — ICSC: 중독 시 특이 치료가 필요', 'Confirm HF first-aid readiness before work — ICSC: specific treatment is needed'), b: 'guide' },
         { lvl: 'ppe', t: B('전신 내화학 보호복·안면보호', 'Full chemical suit and face protection'), b: 'gp' }
       ],
-      lateral: B(['불산 사용 장비의 모든 PM 절차서에 잔류 확인 단계 반영'], ['Add a residue check to every PM procedure on HF equipment']),
-      verify: [ { k: B('PM 전 잔류 확인 기록률', 'PM jobs with residue checks recorded'), target: B('100%', '100 %') } ],
-      lesson: B('“누출이 아니라 튄 것”이어도 사람이 다쳤다면 막아야 할 사고입니다.', '“A splash, not a leak” still hurt people — it still has to be prevented.'),
-      sops: ['pm-chamber', 'wet-bench', 'chem-supply'], src: ['aju2021']
+      lateral: B(['불산을 쓰는 장비의 설치·PM 절차서 모두에 연결부·잔류 확인 단계 반영'], ['Add connection and residue checks to every installation and PM procedure on HF equipment']),
+      verify: [ { k: B('설치·PM 전 잔류 확인 기록률', 'Installation and PM jobs with residue checks recorded'), target: B('100%', '100 %') } ],
+      lesson: B('공식 기록은 ‘누출’로 분류했습니다 — 소량이어도 불산은 사람을 병원으로 보냅니다.', 'The official record calls it a leak — even a small amount of HF sends people to hospital.'),
+      sops: ['pm-chamber', 'wet-bench', 'chem-supply'], src: ['icisAcc', 'aju2021']
     },
     {
       id: 'ic-2019-fall', site: 'icheon', date: '2019-05-20', dateLabel: B('2019.5.20', '20 May 2019'),
@@ -404,7 +415,7 @@ window.SHE = window.SHE || {};
     /* ---------- 정부 재해조사보고서 (산안법 제56조의2, 고용노동부 공개 51건 중 신규 SOP와 연결되는 사례) — 타 업종 ---------- */
     {
       id: 'gov-2024-elec', site: 'common', peer: B('정부 재해조사보고서 · 건설업(전기공사)', 'Government investigation report · construction (electrical)'), date: '2024-01-08', dateLabel: B('2024.1.8 (2026.5.26 공개)', '8 Jan 2024 (published 26 May 2026)'),
-      types: ['shock', 'burn'], official: true,
+      types: ['shock', 'arcburn'], official: true,
       t: B('[정부 보고서] 충남 서천 몰드변압기 감전 사고 — 특고압 수배전반 아크 화상 사망', '[Government report] Seocheon cast-resin transformer electrocution — fatal arc burn at a high-voltage switchboard'),
       impact: B('전기공 1명 사망 (전기화상 약 30%, 다음 날 사망)', 'One electrician died (about 30 % burns; died the next day)'),
       facts: [
@@ -579,17 +590,25 @@ window.SHE = window.SHE || {};
 
   /* 사고 타임라인 — 분석 사례 + 짧은 기록 */
   SHE.TIMELINE = [
+    { date: '2026', site: 'icheon', t: B('질산 폐액 노동자 접촉 재해 → 도급승인 취소 (9.20 발표)', 'Nitric-acid waste contact → approval revoked (announced 20 Sep)'), src: ['moel0920'], caseId: 'ic-2026-hno3' },
     { date: '2026-06-12', site: 'cheongju', t: B('M15X 2층 가스룸 불소·질소 혼합 작업 중 화재 — 약 4,000명 대피', 'Fire during fluorine–nitrogen mixing, M15X 2F gas room — ≈4,000 evacuated'), src: ['mbc0612'], caseId: 'cj-2026-gasroom' },
     { date: '2026-06-10', site: 'cheongju', t: B('장비 하역 중 TMAH 접촉 — 2명 병원 이송', 'TMAH contact while unloading equipment — 2 to hospital'), src: ['seoul0610'], caseId: 'cj-2026-tmah' },
     { date: '2026-06-01', site: 'cheongju', t: B('M15·M15X 연결 가스룸 화재·불소 누출 — 약 3,600명 대피', 'Gas-room fire and fluorine release — ≈3,600 evacuated'), src: ['etnews0601'], caseId: 'cj-2026-gasroom' },
-    { date: '2026-05-27', site: 'cheongju', t: B('M11 설비에서 불꽃 발생 — 직원 약 1시간 대피 (보도)', 'Sparks from M11 equipment — staff evacuated about an hour (reported)'), src: ['bbs0612'] },
+    { date: '2026-05-27', site: 'cheongju', t: B('M11 설비에서 불꽃 발생 — 직원 약 1시간 대피', 'Sparks from M11 equipment — staff evacuated about an hour'), src: ['bbs0612'] },
     { date: '2026-01-19', site: 'cheongju', t: B('폐수 배관 구역 폐인산 약 30L 낙하 — 작업자 5명 접촉', '≈30 L waste phosphoric acid dripped — 5 workers contaminated'), src: ['jbnews0119'], caseId: 'cj-2026-h3po4' },
-    { date: '2026', site: 'icheon', t: B('질산 폐액 노동자 접촉 재해 → 도급승인 취소 (9.20 발표)', 'Nitric-acid waste contact → approval revoked (announced 20 Sep)'), src: ['moel0920'], caseId: 'ic-2026-hno3' },
+    /* #30(외부 검토 E26): 화학물질종합정보시스템 공식 사고 기록(접수번호) — SK하이닉스 이천·청주 주소 7건 + 청주에서 받은 폐기물 운반 사고 1건(사업장 밖) */
+    { date: '2025-02-12', site: 'cheongju', t: B('[사업장 밖] SK하이닉스 청주에서 받은 폐질산 18톤 운반차가 교통사고로 전도 — 약 760kg 누출(추정), 인명 피해 0 (공식 기록 2025-015)', '[Off site] Truck carrying 18 t of waste nitric acid from SK hynix Cheongju overturned in a traffic accident — about 760 kg leaked (estimated), no casualties (official record 2025-015)'), src: ['icisAcc'], lib: 'icis-2025-015' },
+    { date: '2025-01-13', site: 'icheon', t: B('M14 2층 생산장비 폐인산 배수 배관 철거 중 역류 — 작업자 2명 접촉 (공식 기록 2025-003)', 'Backflow while removing a waste phosphoric acid drain line on M14 2F — 2 workers contaminated (official record 2025-003)'), src: ['icisAcc'], lib: 'icis-2025-003' },
     { date: '2024', site: 'common', t: B('회사 공개 통계: 국내 사업장 산재 사망자 1명 (세부 내용은 보고서에 없음)', 'Company statistics: 1 work fatality at Korean sites (no details in the report)'), src: ['sr2026'] },
+    { date: '2024-07-18', site: 'cheongju', t: B('청주4공장 웨이퍼 접착제 제거액 약 100mL 누출, 보호복 코팅이 벗겨진 곳으로 스며 1명 접촉 (공식 기록 2024-063)', 'About 100 mL of wafer adhesive remover leaked at Cheongju plant 4 and soaked through worn suit coating — 1 worker (official record 2024-063)'), src: ['icisAcc'], lib: 'icis-2024-063' },
     { date: '2024-05-27', site: 'common', peer: B('업계', 'Industry'), t: B('[업계] 삼성전자 기흥 X선 분석장비 정비 중 피폭 2명 — 원안위 조사결과(9.26): 인터락 배선 변경', '[Industry] Two exposed while servicing an X-ray analyser at Samsung Giheung — NSSC (26 Sep): altered interlock wiring'), src: ['nsscSamsung'], caseId: 'peer-2024-xray' },
-    { date: '2021-04-06', site: 'icheon', t: B('장비 점검 중 불산 비산 — 3명 부상', 'HF splash during inspection — 3 injured'), src: ['aju2021'], caseId: 'ic-2021-hf' },
-    { date: '2019-05-20', site: 'icheon', t: B('사업장 내 건설현장 고소작업 추락 사망 (보도)', 'Fatal fall at an on-campus construction site (reported)'), src: ['labortoday2019'], caseId: 'ic-2019-fall' },
-    { date: '2015-04-30', site: 'icheon', t: B('M14 신축 현장 배기덕트 질소 질식 — 3명 사망', 'Nitrogen asphyxiation in M14 exhaust duct — 3 dead'), src: ['seoul2015'], caseId: 'ic-2015-n2' },
+    { date: '2023-07-08', site: 'icheon', t: B('SK하이이엔지 W11 폐수처리장 약품 입고 중 호스 파열 — 하도급사 작업지휘자 얼굴·눈 접촉 (공식 기록 2023-058)', 'Hose burst while unloading a chemical at the W11 wastewater plant on the Icheon site — subcontractor supervisor’s face and eye (official record 2023-058)'), src: ['icisAcc'], lib: 'icis-2023-058' },
+    { date: '2022-12-01', site: 'icheon', t: B('SK하이이엔지 W12B 폐수처리장 배관 정비 뒤 하도급업체 직원 손목 통증 — 황산 잔여물 접촉 추정 (공식 기록 2022-060)', 'Subcontractor’s wrist pain after pipe maintenance at the W12B wastewater plant on the Icheon site — presumed sulfuric acid residue (official record 2022-060)'), src: ['icisAcc'], lib: 'icis-2022-060' },
+    { date: '2021-04-06', site: 'icheon', t: B('장비 설치 중 불산 혼합물 소량 누출 — 3명 병원 이송, 부상(직접) 1명 (공식 기록 2021-020)', 'Small HF-mixture leak during tool installation — 3 to hospital, 1 direct injury (official record 2021-020)'), src: ['icisAcc', 'aju2021'], caseId: 'ic-2021-hf', lib: 'icis-2021-020' },
+    { date: '2020-04-15', site: 'icheon', t: B('탱크로리 하역 중 호스 마개를 열자 잔류 황산 약 1L 누출 — 1명 부상 (공식 기록 2020-021)', 'About 1 L of residual sulfuric acid leaked when a hose cap was opened during tanker unloading — 1 injured (official record 2020-021)'), src: ['icisAcc'], lib: 'icis-2020-021' },
+    { date: '2019-05-20', site: 'icheon', t: B('사업장 내 건설현장 고소작업 추락 사망', 'Fatal fall at an on-campus construction site'), src: ['labortoday2019'], caseId: 'ic-2019-fall' },
+    { date: '2015-04-30', site: 'icheon', t: B('M14 신축 현장 RTO 내부 점검 중 질식 — 3명 사망(보도), 2021.3.11 대법원 유죄 확정', 'Asphyxiation inside an RTO at the new M14 site — 3 dead (reported); convictions upheld by the Supreme Court on 11 March 2021'), src: ['seoul2015', 'scourt2021'], caseId: 'ic-2015-n2' },
+    { date: '2015-03-18', site: 'icheon', t: B('R3 반도체 연구동 폭발음·이상 과압 — 스크러버 유입 배관 파열·가스(삼불화질소) 누출 추정, 부상 7명 (공식 기록 2015-021)', 'Explosion and overpressure in the R3 semiconductor R&D building — scrubber inlet line thought ruptured, gas (NF₃) release presumed, 7 injured (official record 2015-021)'), src: ['icisAcc'], lib: 'icis-2015-021' },
     { date: '2013-03-22', site: 'cheongju', t: B('M8 가스라인 작업 중 염소 누출, 신고 약 4시간 지연', 'Chlorine release on M8, reported ≈4 hours late'), src: ['seoul2013'], caseId: 'cj-2013-cl2' }
   ];
 

@@ -349,9 +349,10 @@ svg.chart .bar.hi { fill: var(--accent); }
 .timeline li > .num { min-width: 86px; color: var(--muted); font-size: calc(12.5px * var(--fz)); }
 .timeline li > span:last-of-type { flex: 1 1 260px; min-width: 0; }
 ol.why { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: calc(14px * var(--fz)); }
-.tag-off, .tag-an { display: inline-block; font-size: calc(11px * var(--fz)); font-weight: 600; border-radius: 4px; padding: 0 6px; margin-right: 2px; white-space: nowrap; }
+.tag-off, .tag-an, .tag-pr { display: inline-block; font-size: calc(11px * var(--fz)); font-weight: 600; border-radius: 4px; padding: 0 6px; margin-right: 2px; white-space: nowrap; }
 .tag-off { color: var(--info); background: var(--info-bg); }
 .tag-an { color: var(--ex); background: var(--ex-bg); }
+.tag-pr { color: var(--warn); background: var(--warn-bg); }   /* #29~30 출처 등급 6(언론)만 근거인 사실 — ‘보도’ */
 .big-inline { font-size: calc(20px * var(--fz)); font-weight: 600; min-width: 28px; text-align: right; }
 .gauge-scale { position: relative; height: 16px; font-size: calc(11px * var(--fz)); color: var(--muted); font-family: var(--mono); margin-top: 3px; }
 .gauge-scale span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }

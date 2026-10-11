@@ -186,11 +186,11 @@
       const st = api.stateOf(c.id), rk = api.riskOf(c);
       const g = (v) => { const x = S.skGrade(v); return x ? x.g : ''; };
       const label = (list, v, d) => { const f = list().find(([k]) => k === v); return f ? f[1] : d; };
-      const tag = (k) => (k === 'off' ? T('[공식] ', '[Official] ') : T('[분석] ', '[Analysis] '));
+      const tag = (k) => (k === 'off' ? T('[공식] ', '[Official] ') : k === 'pr' ? T('[보도] ', '[Reported] ') : T('[분석] ', '[Analysis] '));
       const acts = c.actions || [];
       return head({ kind: T('재발방지', 'Recurrence prevention'), title: L(c.t), sub: L(c.impact), approve: true,
         meta: [[T('발생일', 'Date'), L(c.dateLabel) || c.date], [T('사업장', 'Site'), c.peer ? L(c.peer) : siteName(c.site)], [T('유형', 'Type'), (c.types || []).map((t) => L(S.CASE_TYPES[t])).join(', ')], [T('공식 원인', 'Official cause'), c.official ? T('확인됨', 'Confirmed') : T('공개되지 않음', 'Not published')]] })
-        + sec(T('1. 사실관계', '1. Facts'), ul((c.facts || []).map((f) => L(f.t))))
+        + sec(T('1. 사실관계', '1. Facts'), ul((c.facts || []).map((f) => (S.pressOnly(f.src) ? T('[보도] ', '[Reported] ') : '') + L(f.t))))
         + ((c.officialFindings || []).length ? sec(T('공식 확인 사항', 'Official findings'), ul(c.officialFindings.map((f) => L(f.t)))) : '')
         + sec(T('2. 원인 분석 (5-Why)', '2. Cause analysis (5-Why)'), `<ol>${(c.why || []).map((w) => `<li>${esc(tag(w.k) + L(w.t))}</li>`).join('')}</ol>`
           + `<table class="doc-table"><tbody>${[['man', T('사람', 'Man')], ['machine', T('기계·설비', 'Machine')], ['media', T('작업 환경·방법', 'Media')], ['management', T('관리', 'Management')]].map(([k, l]) => `<tr><th>${esc(l)}</th><td>${esc(L((c.m4 || {})[k])) || '–'}</td></tr>`).join('')}</tbody></table>`)

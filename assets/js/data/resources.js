@@ -267,11 +267,11 @@ window.SHE = window.SHE || {};
       use: ['cases', 'hazards'] },
 
     /* ---------- 10단계 추가 — 기업·산업계 ---------- */
-    { id: 'samsungSemi', type: 'corp', subj: ['company', 'culture'], lang: 'KO·EN', access: 'free', checked: '2026-09-26',
-      name: B('삼성전자 반도체 — 협력사 안전', 'Samsung Semiconductor — partner safety'), org: B('삼성전자', 'Samsung Electronics'),
-      url: 'https://semiconductor.samsung.com/sustainability/sustainable-supply-chain/environmentally-responsible-supply-chain/making-safety-a-priority-for-our-partners/',
-      desc: B(['협력사 작업중지권 — 2018년 도입, 2021년 1월 협력사·작업자 보상 체계 마련, 표준계약에 작업중지로 인한 불이익 방지 조항, 2024년 작업중지 4,537건', '협력사 ISO 14001 인증 83%(2024), 2021~2024년 285개사 ISO 45001/KOSHA-MS 인증'],
-        ['Partner right to stop work — introduced 2018; compensation for suppliers and workers from Jan 2021; a standard-contract clause against penalties for stopping; 4,537 stoppages in 2024','83 % of suppliers ISO 14001-certified (2024); 285 firms certified to ISO 45001/KOSHA-MS in 2021–2024']),
+    { id: 'samsungSemi', type: 'corp', subj: ['company', 'culture'], lang: 'KO·EN', access: 'free', checked: '2026-10-11',
+      name: B('삼성전자 반도체 — 안전보건', 'Samsung Semiconductor — health and safety'), org: B('삼성전자', 'Samsung Electronics'),
+      url: 'https://semiconductor.samsung.com/sustainability/people/health-and-safety/',
+      desc: B(['ISO 45001 기반 안전보건경영시스템을 모든 제조 사업장에서 인증, 임직원 안전교육 2,125,924시간·위험성평가 전문가 교육 1,877명(2025년 기준), 24시간 자체 소방대·화학물질 누출 대응팀', '협력사 안전은 지속가능경영보고서 2025(p.50·66) — 작업중지권 연구회, 인증 컨설팅, 안전보건경영시스템 인증 협력사 59%(2024)'],
+        ['ISO 45001-based management system certified at all manufacturing sites; 2,125,924 hours of employee safety training and 1,877 risk-assessment experts trained (as of 2025); 24/7 in-house fire brigades and chemical spill response teams', 'Partner safety is in the Sustainability Report 2025 (pp. 50, 66) — a Work Stoppage Right Research Group, certification consulting, and 59 % of suppliers with a health and safety management system (2024)']),
       use: ['bench', 'partner'], src: 'samsung' },
     { id: 'tsmcEsg', type: 'corp', subj: ['company', 'culture'], lang: 'EN+', access: 'free', checked: '2026-09-26',
       name: B('TSMC ESG — 협력사 안전보건', 'TSMC ESG — supply-chain safety and health'), org: B('TSMC', 'TSMC'),

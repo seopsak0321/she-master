@@ -48,23 +48,20 @@ window.SHE = window.SHE || {};
       ['contract', B('도급·협력사', 'Contractors')], ['training', B('교육', 'Training')], ['emer', B('비상대응', 'Emergency response')], ['inv', B('사고 보고·조사', 'Incident reporting & investigation')],
       ['liab', B('중대재해·법적 책임', 'Serious accidents & liability')], ['ppe', B('보호구', 'PPE')], ['signs', B('표지·경고표지·MSDS', 'Signs, labels & SDS')], ['monitor', B('작업환경측정·건강진단', 'Monitoring & health checks')],
       ['ms', B('경영시스템·안전문화', 'Management systems & culture')], ['tech', B('스마트 안전·디지털', 'Digital & smart safety')], ['proc', B('공정 이해', 'Process knowledge')]] },
-    { id: 't', t: B('출처 등급', 'Source tier'), v: [
-      ['1', B('1등급 — 법령·조약·판례 원문', 'Tier 1 — statutes, treaties, rulings')], ['2', B('2등급 — 정부·공공기관 지침·고시·발표', 'Tier 2 — official guidance & notices')],
-      ['3', B('3등급 — 공식 조사보고서·통계', 'Tier 3 — official reports & statistics')], ['4', B('4등급 — 기업·단체 공개자료·언론 기반', 'Tier 4 — company/association material, press-based')],
-      ['B', B('가이드북(1~2등급 원문 정리)', 'Guidebook (from tier 1–2 originals)')], ['P', B('포털 작성 교육자료', 'Portal teaching material')]] }
+    { id: 't', t: B('출처 등급', 'Source tier'), v: S.TIERS.map((x) => [x[0], x[1]]) }
   ];
 
   /* ---------- 출처 목록(SHE.SOURCES) 항목의 분류 ----------
      [유형, 나라, '연도 연도', 산업, '위험 요인', '관리 주제', 등급] — 목록에 없는 출처(언론 기사, 단위 표준 등)는 라이브러리 항목으로 만들지 않는다 */
   S.LIB_SRC = {
-    /* SK하이닉스 공식(4등급) */
-    sr2026: ['corp', 'KR', '2026', 'semi', 'env', 'ms contract emer', 4], sr2025: ['corp', 'KR', '2025', 'semi', 'env', 'ms contract emer', 4], sr2024: ['corp', 'KR', '2024', 'semi', 'env', 'ms contract emer', 4],
-    nr2022: ['corp', 'KR', '2022', 'semi', '', 'ms', 4], nr2015: ['corp', 'KR', '2015', 'semi', 'env', 'ms', 4], nr2025she: ['corp', 'KR', '2025', 'semi', '', 'training', 4],
-    nrgaon: ['corp', 'KR', '', 'semi', '', 'tech', 4], nrbp2026: ['corp', 'KR', '2026', 'semi', '', 'contract', 4], nrconsult: ['corp', 'KR', '2025', 'semi', '', 'contract', 4],
-    nrThanks0917: ['corp', 'KR', '2026', 'semi', '', 'contract ms', 4], nrWater0910: ['corp', 'KR', '2026', 'semi', 'env', '', 4], nr0609: ['corp', 'KR', '2026', 'semi', '', 'contract', 4],
-    nr0909: ['corp', 'KR', '2026', 'semi', '', 'tech', 4], nrMetal: ['corp', 'KR', '2023', 'semi', '', 'proc', 4], nrDepo: ['corp', 'KR', '2022', 'semi', '', 'proc', 4], nrAld: ['corp', 'KR', '2018', 'semi', '', 'proc', 4],
-    nrScrubber: ['corp', 'KR', '2024', 'semi', 'env', 'tech', 4], nrLowGwp: ['corp', 'KR', '2024', 'semi', 'env', '', 4], nrCmp: ['corp', 'KR', '2022', 'semi', '', 'proc', 4], nrWlp: ['corp', 'KR', '2023', 'semi', '', 'proc', 4],
-    bpshe: ['site', 'KR', '', 'semi', '', 'training contract', 4],
+    /* SK하이닉스 공식(5등급 — 기업 공개자료) */
+    sr2026: ['corp', 'KR', '2026', 'semi', 'env', 'ms contract emer', 5], sr2025: ['corp', 'KR', '2025', 'semi', 'env', 'ms contract emer', 5], sr2024: ['corp', 'KR', '2024', 'semi', 'env', 'ms contract emer', 5],
+    nr2022: ['corp', 'KR', '2022', 'semi', '', 'ms', 5], nr2015: ['corp', 'KR', '2015', 'semi', 'env', 'ms', 5], nr2025she: ['corp', 'KR', '2025', 'semi', '', 'training', 5],
+    nrgaon: ['corp', 'KR', '', 'semi', '', 'tech', 5], nrbp2026: ['corp', 'KR', '2026', 'semi', '', 'contract', 5], nrconsult: ['corp', 'KR', '2025', 'semi', '', 'contract', 5],
+    nrThanks0917: ['corp', 'KR', '2026', 'semi', '', 'contract ms', 5], nrWater0910: ['corp', 'KR', '2026', 'semi', 'env', '', 5], nr0609: ['corp', 'KR', '2026', 'semi', '', 'contract', 5],
+    nr0909: ['corp', 'KR', '2026', 'semi', '', 'tech', 5], nrMetal: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nrDepo: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrAld: ['corp', 'KR', '2018', 'semi', '', 'proc', 5],
+    nrScrubber: ['corp', 'KR', '2024', 'semi', 'env', 'tech', 5], nrLowGwp: ['corp', 'KR', '2024', 'semi', 'env', '', 5], nrCmp: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrWlp: ['corp', 'KR', '2023', 'semi', '', 'proc', 5],
+    bpshe: ['site', 'KR', '', 'semi', '', 'training contract', 5],
     /* 한국 법령·고시·기술기준(1~2등급) */
     lawAct: ['law', 'KR', '2026', 'all', '', 'org ra contract inv training', 1], lawActNext: ['law', 'KR', '2026 2027', 'all', '', 'training', 1],
     lawDecree: ['law', 'KR', '2026', 'all', '', 'org psm contract', 1], lawRule: ['law', 'KR', '2026', 'all', 'health', 'org ra training inv monitor', 1],
@@ -114,8 +111,8 @@ window.SHE = window.SHE || {};
     deGii: ['site', 'DE', '2026', 'all', '', 'org', 1], sgSso: ['site', 'SG', '2026', 'all', '', 'org', 1], auFrl: ['site', 'AU', '2026', 'all', '', 'org', 1],
     caJustice: ['site', 'CA', '2026', 'all', '', 'org', 1], swaModel: ['guide', 'AU', '', 'all', '', 'org', 2],
     /* 타사 공식(4등급) */
-    tsmc2023: ['corp', 'TW', '2023', 'semi', '', 'contract tech', 4], tsmcTsia: ['corp', 'TW', '2017', 'semi', 'health chem rad noise', 'contract', 4],
-    samsung: ['corp', 'KR', '', 'semi', '', 'contract', 4], intelEhs: ['corp', 'US', '', 'semi', '', 'contract', 4]
+    tsmc2023: ['corp', 'TW', '2023', 'semi', '', 'contract tech', 5], tsmcTsia: ['corp', 'TW', '2017', 'semi', 'health chem rad noise', 'contract', 5],
+    samsung: ['corp', 'KR', '2025', 'semi', '', 'ms emer training', 5], samsungSr2025: ['corp', 'KR', '2025', 'semi', '', 'contract ms', 5], intelEhs: ['corp', 'US', '', 'semi', '', 'contract', 5]
   };
   /* 사고를 다룬 출처의 사고 유형(발생 형태) — 질식 판결(질소 질식)·방사선 피폭(기타). 감독 결과(moel0920)는 사고가 아니라 달지 않는다 */
   S.LIB_SRC_A = { scourt2021: 'oxygen', nsscSamsung: 'other' };
@@ -138,13 +135,13 @@ window.SHE = window.SHE || {};
   };
 
   /* ---------- 사고사례(SHE.CASES)의 사고 유형 → 위험 요인 ---------- */
-  S.LIB_CASE_HZ = { fire: 'fire', leak: 'chem gas', contact: 'chem', reg: '', asphyx: 'conf', fall: 'fall', rad: 'rad', shock: 'elec', burn: 'elec', caught: 'mach' };
+  S.LIB_CASE_HZ = { fire: 'fire', leak: 'chem gas', contact: 'chem', reg: '', asphyx: 'conf', fall: 'fall', rad: 'rad', shock: 'elec', arcburn: 'elec', heatburn: 'heat', caught: 'mach', bump: 'mach', hit: 'struck', other: '' };
   /* 정부 재해조사보고서 사례의 업종(보고서에 적힌 범위) */
   S.LIB_CASE_IND = { 'gov-2024-excavator': 'const', 'gov-2024-falls': 'const all', 'gov-2024-elec': 'const', 'gov-2024-forklift': 'mfg logi' };
   /* 사고 유형만으로 못 나누는 위험 요인(차량·건설기계 등)을 더한다 */
   S.LIB_CASE_HZX = { 'gov-2024-excavator': 'vehicle', 'gov-2024-forklift': 'vehicle' };
   /* 사고사례 사고 유형 → 사고 유형(발생 형태) 대분류 */
-  S.LIB_CASE_A = { fire: 'fire', leak: 'toxic', contact: 'toxic', asphyx: 'oxygen', fall: 'fall', rad: 'other', shock: 'elec', burn: 'elec', caught: 'caught' };
+  S.LIB_CASE_A = { fire: 'fire', leak: 'toxic', contact: 'toxic', asphyx: 'oxygen', fall: 'fall', rad: 'other', shock: 'elec', arcburn: 'elec', heatburn: 'temp', caught: 'caught', bump: 'bump', hit: 'hit', other: 'other', reg: '' };
 
   /* ---------- 일본 労働災害事例(data/lib-jp.js) 분류 대응 ----------
      업종 → 산업, 기인물·사고 유형 → 위험 요인, 사고 유형 → 사고 유형(발생 형태), 발생요인(관리·물) → 관리 주제.
@@ -194,7 +191,7 @@ window.SHE = window.SHE || {};
 
   /* ---------- 공식 사이트(SHE.RESOURCES): 나라·등급 (출처 목록과 주소가 같은 곳은 출처 항목 하나로 합친다) ---------- */
   S.LIB_RES = {
-    skhynix: ['KR', 4], newsroom: ['KR', 4], lawgo: ['KR', 1], moel: ['KR', 2], koshaPortal: ['KR', 2], koshaGuide: ['KR', 2], msds: ['KR', 2], nics: ['KR', 2], nfa: ['KR', 2], kgs: ['KR', 2],
+    skhynix: ['KR', 5], newsroom: ['KR', 5], lawgo: ['KR', 1], moel: ['KR', 2], koshaPortal: ['KR', 2], koshaGuide: ['KR', 2], msds: ['KR', 2], nics: ['KR', 2], nfa: ['KR', 2], kgs: ['KR', 2],
     osha1910: ['US', 1], oshaSemi: ['US', 2], hse: ['UK', 2], safekorea: ['KR', 2], nfds: ['KR', 3], kfsi: ['KR', 2], nssc: ['KR', 2], icis: ['KR', 3], gir: ['KR', 3], koshaResearch: ['KR', 3],
     ergPhmsa: ['US', 2], aegl: ['US', 2], pubchem: ['US', 3], euosha: ['EU', 2], jpAnzen: ['JP', 2]
   };

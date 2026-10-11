@@ -89,9 +89,10 @@
   };
 
   const BENCH = [
-    { who: 'Samsung Semiconductor', src: 'samsung',
-      facts: { ko: ['작업중지권(Right to Work Suspension): 2018년 도입, 2021년 1월 협력사·작업자 보상 체계 강화', '2024년 작업중지 4,537건', '협력사 ISO 45001/KOSHA-MS 인증 확대: 2021~2024년 285개사'], en: ['Right to Work Suspension: introduced 2018, compensation for suppliers and workers strengthened Jan 2021', '4,537 work stoppages in 2024', 'Supplier ISO 45001/KOSHA-MS certification: 285 companies in 2021–2024'] },
-      take: { ko: '작업중지를 “건수”로 공개하면 작업중지가 실패가 아니라 정상 행동이 됩니다 → SOP마다 작업중지 기준 배치, 업무판에 작업중지 기록 지표 제안', en: 'Publishing stoppage counts makes stopping normal, not failure → stop-work criteria on every SOP; propose a stop-work log KPI' } },
+    { who: 'Samsung Electronics (Semiconductor)', src: 'samsungSr2025',
+      facts: { ko: ['협력사 작업중지권 제도를 효과적으로 운영하려고 작업중지권 연구회를 두고 개선 제안 활동(보고서 2025 p.50)', '외부 인증이 없는 협력사에 인증 컨설팅·평가, 인증 협력사에 특별교육·사후·갱신 심사 컨설팅, 협력사 위험성평가 전문인력 과정(p.50)', '안전보건경영시스템(ISO 45001 등) 인증 협력사 비율 50 → 51 → 59%(2022~2024, p.66)'], en: ['A Work Stoppage Right Research Group makes improvement suggestions so that the partners’ work stoppage right works effectively (Report 2025 p. 50)', 'Certification consulting and assessment for suppliers without external certification; special training and post/renewal consulting for certified ones; a risk-assessment course for supplier staff (p. 50)', 'Suppliers with a health and safety management system (ISO 45001 etc.): 50 → 51 → 59 % (2022–2024, p. 66)'] },
+      more: { ko: ['반도체 사업장: ISO 45001 기반 안전보건경영시스템을 모든 제조 사업장에서 인증, 모든 사업장에 24시간 자체 소방대·화학물질 누출 대응팀(지속가능경영 화면, 2026-10-11 확인)'], en: ['Semiconductor sites: ISO 45001-based management system certified at all manufacturing sites; in-house fire brigades and chemical spill response teams on duty 24/7 at all sites (sustainability page, checked 2026-10-11)'] }, moreSrc: 'samsung',
+      take: { ko: '작업중지권을 두는 데서 그치지 않고 ‘잘 쓰이는지’를 따로 다룸 → SOP마다 작업중지 기준 배치, 업무판에 작업중지 기록 지표 제안', en: 'Treating the right to stop work as something whose use must be improved, not just granted → stop-work criteria on every SOP; propose a stop-work log KPI' } },
     { who: 'TSMC', src: 'tsmc2023',
       facts: { ko: ['2022년 하루 협력사 출입 5만 1천 명 이상', '디지털 산업안전 교육과 출입 권한·공사 신청 연동', '고위험 작업·구역 AI 위험 식별 — 천장 작업, 탱크로리 충전 구역 모듈 (Fab 15A)', '협력사 ESH 감독자 소통회의, 현장 작업자에게 불안전 작업 중지 권한 부여 요청', '협력사용 ESH Blue Book 수시 개정'], en: ['Over 51,000 contractor entries per day in 2022', 'Digital safety training linked to access rights and work applications', 'AI hazard identification for high-risk work — ceiling work and tanker-filling modules (Fab 15A)', 'ESH supervisor meetings; front-line workers empowered to stop unsafe work', 'Rolling updates to the contractor ESH Blue Book'] },
       /* 사실마다 출처가 다른 항목 — 번호를 문장 끝에 붙인다 */
@@ -189,7 +190,7 @@
         if (t === 'list') S.save('lb.src', {});   /* 찾아온 출처가 필터에 가려지지 않게 */
       }
       const tab = S.tab('src', 'method');
-      const byType = {}; S.SOURCES.forEach((s) => { byType[s.type] = (byType[s.type] || 0) + 1; });
+      const byType = {}, byTier = {}; S.SOURCES.forEach((s) => { byType[s.type] = (byType[s.type] || 0) + 1; const g = S.srcTier(s.id); byTier[g] = (byTier[g] || 0) + 1; });
       const kn = Object.keys(S.KOSHA).length;
       return `
       ${ui.head(T('출처·검증', 'Sources & verification'), T('이 포털의 근거', 'Evidence behind this portal'),
@@ -278,12 +279,14 @@
       ${tab === 'list' ? `
       <section class="panel stack">
         ${S.listbar({ id: 'src', ph: T('출처 검색 — 예: 안전보건규칙, KOSHA, 지속가능경영보고서', 'Search sources — e.g. Standards Rules, KOSHA, sustainability report'), total: S.SOURCES.length,
-          facets: [{ key: 't', label: T('유형', 'Type'), opts: Object.keys(TYPE).filter((k) => byType[k]).map((k) => ({ id: k, label: L(TYPE[k]), n: byType[k] })) }] })}
+          facets: [{ key: 't', label: T('유형', 'Type'), opts: Object.keys(TYPE).filter((k) => byType[k]).map((k) => ({ id: k, label: L(TYPE[k]), n: byType[k] })) },
+            { key: 'g', label: T('출처 등급', 'Tier'), opts: S.TIERS.filter(([v]) => byTier[v]).map(([v, l]) => ({ id: v, label: L(l).split(' — ')[0], n: byTier[v] })) }] })}
+        <p class="xs muted">${T('출처 등급은 포털 전체가 쓰는 한 가지 기준입니다 — ', 'Source tiers are one scale used across the portal — ')}${S.TIERS.filter(([v]) => /\d/.test(v)).map(([, l]) => esc(L(l))).join(' · ')}</p>
         <div class="table-wrap"><table class="data">
-        <thead><tr><th class="n">#</th><th>${T('출처', 'Source')}</th><th>${T('유형', 'Type')}</th><th>${T('확인일', 'Checked')}</th></tr></thead>
-        <tbody>${S.SOURCES.map((s, i) => `<tr id="anchor-${s.id}" data-li="${esc(s.id + ' ' + [].concat(s.title.ko || '', s.title.en || '').join(' '))}" data-f-t="${s.type}" ${sub === s.id ? 'style="background:var(--accent-bg)"' : ''}><td class="n">${i + 1}</td>
+        <thead><tr><th class="n">#</th><th>${T('출처', 'Source')}</th><th>${T('유형', 'Type')}</th><th>${T('등급', 'Tier')}</th><th>${T('확인일', 'Checked')}</th></tr></thead>
+        <tbody>${S.SOURCES.map((s, i) => `<tr id="anchor-${s.id}" data-li="${esc(s.id + ' ' + [].concat(s.title.ko || '', s.title.en || '').join(' '))}" data-f-t="${s.type}" data-f-g="${S.srcTier(s.id)}" ${sub === s.id ? 'style="background:var(--accent-bg)"' : ''}><td class="n">${i + 1}</td>
           <td><a href="${s.url}" target="_blank" rel="noopener">${L(s.title)}</a>${s.note ? `<div class="xs muted">${L(s.note)}</div>` : ''}</td>
-          <td><span class="chip">${L(TYPE[s.type])}</span></td><td class="num nowrap">${s.checked}</td></tr>`).join('')}</tbody>
+          <td><span class="chip">${L(TYPE[s.type])}</span></td><td class="num nowrap">${S.srcTier(s.id)}</td><td class="num nowrap">${s.checked}</td></tr>`).join('')}</tbody>
         </table></div>
         <p class="lb-empty" data-lb-empty hidden>${T('조건에 맞는 출처가 없습니다.', 'No sources match.')}</p>
       </section>` : ''}`;

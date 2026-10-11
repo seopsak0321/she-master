@@ -193,15 +193,15 @@
         <div class="stack" style="gap:4px"><span class="eyebrow">${S.esc(L(c.dateLabel) || c.date)} · ${S.esc(placeOf(c))}</span><h2 style="font-size:calc(22px * var(--fz))">${S.esc(L(c.t))}</h2><span class="small">${S.esc(L(c.impact))}</span></div>
         <div class="row">${typeChips(c)}</div>
       </div>
-      <div class="row small"><span class="tag-off">${T('공식', 'Official')}</span> ${T('정부·법원 등 공식 확인', 'Confirmed by government or court')} <span class="tag-an">${T('분석', 'Analysis')}</span> ${T('공개정보 기반 포털 분석(가설)', 'Portal analysis from public information (hypothesis)')}</div>
+      <div class="row small"><span class="tag-off">${T('공식', 'Official')}</span> ${T('정부·법원 등 공식 확인', 'Confirmed by government or court')} <span class="tag-pr">${T('보도', 'Reported')}</span> ${T('언론 보도만 근거(출처 6등급)', 'Based only on news reports (source tier 6)')} <span class="tag-an">${T('분석', 'Analysis')}</span> ${T('공개정보 기반 포털 분석(가설)', 'Portal analysis from public information (hypothesis)')}</div>
       <div class="grid g2">
-        <div><b class="small">${T('1. 사실관계', '1. Facts')}</b><ul class="facts" style="margin-top:6px">${(c.facts || []).map((f) => `<li>${S.esc(L(f.t))}${S.cite(f.src || [])}</li>`).join('')}</ul></div>
+        <div><b class="small">${T('1. 사실관계', '1. Facts')}</b><ul class="facts" style="margin-top:6px">${(c.facts || []).map((f) => `<li>${S.pressTag(f.src)}${S.esc(L(f.t))}${S.cite(f.src || [])}</li>`).join('')}</ul></div>
         <div><b class="small">${T('공식 확인 사항', 'Official findings')}</b>${(c.officialFindings || []).length ? `<ul class="facts" style="margin-top:6px">${c.officialFindings.map((f) => `<li><span class="tag-off">${T('공식', 'Official')}</span> ${S.esc(L(f.t))}${S.cite(f.src || [])}</li>`).join('')}</ul>` : `<p class="small muted" style="margin-top:6px">${T('공식 원인 조사 결과가 공개되지 않았습니다. 아래 원인분석은 공개 정보에 기반한 가설입니다.', 'No official cause has been published. The analysis below is a hypothesis from public information.')}</p>`}</div>
       </div>
     </section>
     <section class="grid g3">
       <div class="panel span2">${ui.title(T('2. 원인 분석 — 왜-왜 분석(5-Why)', '2. Cause analysis — 5-Why'))}
-        <ol class="why">${(c.why || []).map((w) => `<li><span class="${w.k === 'off' ? 'tag-off' : 'tag-an'}">${w.k === 'off' ? T('공식', 'Official') : T('분석', 'Analysis')}</span> ${S.esc(L(w.t))}</li>`).join('')}</ol>
+        <ol class="why">${(c.why || []).map((w) => `<li><span class="${{ off: 'tag-off', pr: 'tag-pr' }[w.k] || 'tag-an'}">${w.k === 'off' ? T('공식', 'Official') : w.k === 'pr' ? T('보도', 'Reported') : T('분석', 'Analysis')}</span> ${S.esc(L(w.t))}</li>`).join('')}</ol>
         <div class="table-wrap" style="margin-top:12px"><table class="data"><thead><tr><th>4M</th><th>${T('요인', 'Factor')}</th></tr></thead><tbody>
           ${[['man', T('사람 (Man)', 'Man')], ['machine', T('기계·설비 (Machine)', 'Machine')], ['media', T('작업 환경·방법 (Media)', 'Media')], ['management', T('관리 (Management)', 'Management')]].map(([k, l]) => `<tr><td>${l}</td><td class="small">${S.esc(L(m4[k])) || '–'}</td></tr>`).join('')}
         </tbody></table></div>
@@ -270,7 +270,7 @@
       ${cur ? detail(cur) : ''}` : ''}
       ${view === 'timeline' ? `
       <section class="panel" id="anchor-timeline">${ui.title(T('사고 타임라인', 'Incident timeline'), T('분석 사례와 짧은 기록', 'Analysed cases and short records'))}
-        <ol class="timeline">${tl.map((x) => `<li><span class="num">${x.date}</span><span class="chip">${S.esc(placeOf(x))}</span> <span>${S.esc(L(x.t))}${S.cite(x.src)}</span>${x.caseId ? ` <a class="xs" href="#cases/${x.caseId}">${T('분석 보기', 'Open analysis')} →</a>` : ''}</li>`).join('')}</ol>
+        <ol class="timeline">${tl.map((x) => `<li><span class="num">${x.date}</span><span class="chip">${S.esc(placeOf(x))}</span> <span>${S.pressTag(x.src)}${S.esc(L(x.t))}${S.cite(x.src)}</span>${x.caseId ? ` <a class="xs" href="#cases/${x.caseId}">${T('분석 보기', 'Open analysis')} →</a>` : ''}${x.lib ? ` <a class="xs" href="#book/item/${x.lib}">${T('공식 기록', 'Official record')} →</a>` : ''}</li>`).join('')}</ol>
       </section>` : ''}
       ${view === 'selfcheck' ? `
       <section class="panel" id="anchor-selfcheck">${ui.title(T('업계 공통 지적 사항 자가점검', 'Self-check against industry findings'), T('고용노동부 2026 반도체 집중점검 지적 사항으로 우리 사업장을 수평 점검', 'Use MOEL’s 2026 chipmaker findings to check your own sites'))}

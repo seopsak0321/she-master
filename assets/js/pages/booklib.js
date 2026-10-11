@@ -56,7 +56,7 @@
     const hz = []; words(c.types).map((t) => (S.LIB_CASE_HZ || {})[t]).concat((S.LIB_CASE_HZX || {})[c.id]).forEach((v) => words(v).forEach((h) => { if (!hz.includes(h)) hz.push(h); }));
     const ind = (S.LIB_CASE_IND || {})[c.id] || (/^gov-/.test(c.id) ? '' : 'semi');
     const ca = []; words(c.types).forEach((t) => words((S.LIB_CASE_A || {})[t]).forEach((v) => { if (!ca.includes(v)) ca.push(v); }));
-    add({ id: 'x-' + c.id, k: 'case', c: 'KR', y: (c.date || '').slice(0, 4), d: c.date, i: ind, h: hz, a: ca, m: 'inv' + (words(c.types).includes('reg') ? ' contract liab' : ''), tier: c.official ? 3 : 4,
+    add({ id: 'x-' + c.id, k: 'case', c: 'KR', y: (c.date || '').slice(0, 4), d: c.date, i: ind, h: hz, a: ca, m: 'inv' + (words(c.types).includes('reg') ? ' contract liab' : ''), tier: c.official ? 3 : 6,
       title: c.t, sum: sum1([].concat(c.impact ? c.impact.ko : [], c.lesson ? c.lesson.ko : []), [].concat(c.impact ? c.impact.en : [], c.lesson ? c.lesson.en : [])), href: '#cases/' + c.id, src: words(c.src) });
   });
   /* 5) 법령 개정·시행 소식(동향의 ‘법령’) — 포털 화면과 바뀐 조문 출처로 분류 */
