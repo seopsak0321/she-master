@@ -16,7 +16,83 @@
   /* #31(13단계 K1): SK하이닉스 이해를 하위 탭으로 — 기본 정보·제품·사업 현황(data/skh.js) + 기존 안전 체계 + 확장 계획 */
   const K = () => S.SKH || {};
   const won = (m) => { const jo = Math.floor(m / 1e6), eok = Math.round((m % 1e6) / 100); return S.state.lang === 'en' ? `KRW ${(m / 1e6).toFixed(2)} tn` : `${jo ? `${jo}조 ` : ''}${eok ? `${eok.toLocaleString('ko-KR')}억` : ''}원`; };
-  const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['business', T => T('사업 현황', 'Business')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
+  /* #32(13단계 K2): 공정·메모리·HBM 기술·반도체 용어 탭 추가(data/skh-proc.js) */
+  const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['business', T => T('사업 현황', 'Business')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
+  /* 탭 안의 자리로 바로 가는 주소: #company/pc-<공정>·test·pkg → 공정 탭, cells·dram·nand·hbm → 메모리·HBM 탭 */
+  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm'].includes(x) ? 'memtech' : null);
+  const extTag = (ids) => ([].concat(ids || []).some((id) => (S.SKH_EXT || []).includes(id)) ? ` <span class="tag-ext" title="${T('뉴스룸에 실린 외부 전문가 칼럼 — 원문에 SK하이닉스의 공식 입장과 다를 수 있다고 적혀 있음', 'External expert column in the newsroom — the original says it may differ from SK hynix’s official position')}">${T('외부 칼럼', 'External column')}</span>` : '');
+  const nm = (x) => esc(typeof x === 'string' ? x : L(x));
+  const pairs = (rows) => `<div class="table-wrap"><table class="data"><tbody>${rows.map(([k, v]) => `<tr><th scope="row" style="width:26%">${nm(k)}</th><td class="small">${esc(L(v))}</td></tr>`).join('')}</tbody></table></div>`;
+  function tabProcess() {
+    const P = S.SKH_PROC || {}, te = P.test || {}, pk = P.pkg || {};
+    const hz = (ids) => ids.filter((id) => S.PROCESSES.some((p) => p.id === id)).map((id) => `<a class="chip" href="#hazards/${id}">${esc(L(S.PROCESSES.find((p) => p.id === id)))}</a>`).join(' ');
+    return `<section class="panel">${ui.title(T('메모리 반도체가 만들어지는 길', 'How a memory chip is made'), T('웨이퍼에서 출하까지 — SK하이닉스 뉴스룸 공정 해설 원문', 'From wafer to shipment — from SK hynix newsroom process articles'))}
+        <ol class="proc p6 flow">${(P.flow || []).map((f, i) => `<li><span class="row" style="gap:8px;flex-wrap:nowrap"><span class="no">${i + 1}</span><b>${nm(f.t)}</b></span><span class="d">${esc(L(f.d))}${S.cite(f.src)}</span></li>`).join('')}</ol>
+        <ul class="facts" style="margin-top:12px">${(P.flowNotes || []).map((n) => `<li>${esc(L(n.t))}${S.cite(n.src)}${extTag(n.src)}</li>`).join('')}</ul>
+        <div class="grid g4" style="margin-top:10px">${(P.biz || []).map((b) => `<div class="kpi"><span class="k">${nm(b.t)}</span><span class="small">${esc(L(b.d))}</span></div>`).join('')}</div>
+        <p class="xs muted" style="margin-top:8px">${T('반도체 업종 구분', 'Industry roles')}${S.cite('nrBeTest')} · ${T('‘외부 칼럼’은 뉴스룸에 실린 외부 전문가 칼럼(원문 끝에 “SK하이닉스의 공식 입장과는 다를 수 있습니다” 명시)입니다. 회사 고유 기술의 정의와 제품 수치는 회사 보도자료·인터뷰에서만 가져왔고, 칼럼의 비용·처리량 같은 추정치는 넣지 않았습니다.', '“External column” marks expert columns in the newsroom whose originals say they may differ from SK hynix’s official position. Company-technology definitions and product figures come only from company press releases and interviews; columnists’ estimates of cost or throughput are left out.')}</p>
+      </section>
+      <nav class="row" aria-label="${T('공정 바로가기', 'Jump to a step')}">${(P.steps || []).map((s) => `<a class="chip" href="#company/pc-${s.id}">${nm(s.t)}</a>`).join('')}<a class="chip" href="#company/test">${T('테스트', 'Test')}</a><a class="chip" href="#company/pkg">${T('패키지', 'Packaging')}</a></nav>
+      <section class="grid g2">${(P.steps || []).map((s) => `<article class="panel stack" style="gap:8px;align-content:start" id="anchor-pc-${s.id}">
+          <h3 style="font-size:calc(17px * var(--fz))">${nm(s.t)}${S.cite(s.src)}${extTag(s.src)}</h3>
+          <p class="small"><b>${esc(L(s.why))}</b></p>
+          <ul class="facts">${s.how.map((h) => `<li>${esc(L(h))}</li>`).join('')}</ul>
+          ${s.hz.length ? `<div class="small row" style="gap:6px">${T('이 공정의 유해위험 카드', 'Hazard card for this step')} ${hz(s.hz)}</div>` : ''}
+        </article>`).join('')}</section>
+      <section class="panel" id="anchor-test">${ui.title(T('테스트', 'Test'), T('웨이퍼 테스트 → 패키지 테스트, 신뢰성 시험', 'Wafer test → package test, reliability tests'))}
+        <div class="grid g2">
+          <div class="stack" style="gap:6px"><b class="small">${T('웨이퍼 테스트 순서', 'Wafer test, in order')}</b>${pairs(te.wafer || [])}</div>
+          <div class="stack" style="gap:6px"><b class="small">${T('패키지 테스트 순서', 'Package test, in order')}</b>${pairs(te.pkg || [])}
+            <b class="small">${T('테스트 분류', 'Kinds of test')}</b>${pairs(te.kinds || [])}</div>
+        </div>
+        <p class="small" style="margin-top:10px">${esc(L(te.relIntro || ''))}</p>
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('구분', 'Group')}</th><th>${T('시험', 'Tests')}</th><th>${T('무엇을 보나', 'What they check')}</th></tr></thead><tbody>${(te.rel || []).map(([g, n, d]) => `<tr><td class="nowrap"><b>${esc(L(g))}</b></td><td class="small">${esc(n)}</td><td class="small">${esc(L(d))}</td></tr>`).join('')}</tbody></table></div>${S.cite(te.src || [])}
+      </section>
+      <section class="panel stack" id="anchor-pkg">${ui.title(T('패키지', 'Packaging'), T('역할·종류·공정·재료', 'Roles, types, processes and materials'))}
+        <div class="grid g4">${(pk.roles || []).map(([k, v]) => `<div class="kpi"><span class="k">${nm(k)}</span><span class="small">${esc(L(v))}</span></div>`).join('')}</div>
+        <ul class="facts">${(pk.notes || []).map((n) => `<li>${esc(L(n))}</li>`).join('')}</ul>
+        ${(pk.types || []).map((g) => `<b class="small">${esc(L(g.g))}</b>${pairs(g.items)}`).join('')}
+        <b class="small">${T('컨벤셔널 패키지 공정 (서브스트레이트형)', 'Conventional package flow (substrate type)')}</b>${pairs((pk.conv || []).map(([k, v], i) => [`${i + 1}. ${L(k)}`, v]))}
+        <b class="small">${T('웨이퍼 레벨 패키지 공정', 'Wafer-level package processes')}</b>${pairs(pk.wlp || [])}
+        <b class="small">${T('패키지 재료', 'Package materials')}</b>${pairs(pk.mat || [])}
+        <p class="small"><a href="#hazards/wlp">${T('웨이퍼 레벨 패키지의 유해위험 카드', 'Hazard card for wafer-level packaging')} →</a> · <a href="#company/hbm">${T('HBM 적층 공정', 'HBM stacking flow')} →</a></p>
+        <div>${S.cite(pk.src || [])}</div>
+      </section>`;
+  }
+  function tabMem() {
+    const M = S.SKH_MEM || {}, c = M.compare || {}, d = M.dram || {}, n = M.nand || {}, h = M.hbm || {};
+    return `<section class="panel" id="anchor-cells">${ui.title(T('D램과 낸드', 'DRAM and NAND'), T('셀 구조와 성질', 'Cell structure and behaviour'))}
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('항목', 'Item')}</th><th>DRAM</th><th>NAND</th></tr></thead><tbody>${(c.rows || []).map(([k, a, b]) => `<tr><th scope="row">${esc(L(k))}</th><td class="small">${esc(L(a))}</td><td class="small">${esc(L(b))}</td></tr>`).join('')}</tbody></table></div>
+        <p class="xs muted">${S.cite(c.src || [])}${extTag(c.src)} · <a href="#company/products">${T('SK하이닉스 제품 전체 지도', 'SK hynix product map')} →</a></p>
+      </section>
+      <section class="grid g2">
+        <div class="panel" id="anchor-dram">${ui.title(T('D램 공정 세대', 'DRAM process nodes'), '1x → 1c')}
+          <ul class="facts">${(d.facts || []).map((x) => `<li>${esc(L(x))}</li>`).join('')}</ul>${S.cite(d.src || [])}</div>
+        <div class="panel" id="anchor-nand">${ui.title(T('낸드 — 셀당 비트와 4D 낸드', 'NAND — bits per cell and 4D NAND'))}
+          <div class="table-wrap"><table class="data"><thead><tr><th>${T('방식', 'Type')}</th><th class="num">${T('셀당 비트', 'Bits per cell')}</th><th class="num">${T('상태 수', 'States')}</th><th class="num">${T('읽기 판별', 'Read levels')}</th></tr></thead><tbody>${(n.cells || []).map(([k, b, s, r]) => `<tr><td><b>${k}</b></td><td class="num">${b}</td><td class="num">${s}</td><td class="num">${r}</td></tr>`).join('')}</tbody></table></div>
+          <p class="xs muted">${esc(L(n.cellNote || ''))}</p>
+          <div class="stack" style="gap:6px">${(n.tech || []).map((x) => `<div class="small"><b>${nm(x.t)}</b> — ${esc(L(x.d))}</div>`).join('')}</div>${S.cite(n.src || [])}
+        </div>
+      </section>
+      <section class="panel stack" id="anchor-hbm">${ui.title('HBM', T('정의·구조·적층 공정', 'Definition, structure and stacking'))}
+        <p>${esc(L(h.def || ''))}${S.cite(h.defSrc || [])}</p>
+        <p class="small">${esc(L(h.io || ''))}${S.cite(h.ioSrc || [])}</p>
+        <div class="grid g2">${(h.parts || []).map((p) => `<article class="stack" style="gap:6px;align-content:start;border-top:2px solid var(--ink);padding-top:10px"><b>${nm(p.t)}${S.cite(p.src)}${extTag(p.src)}</b><ul class="facts">${p.d.map((x) => `<li>${esc(L(x))}</li>`).join('')}</ul></article>`).join('')}</div>
+      </section>
+      <section class="panel">${ui.title(T('SK하이닉스 HBM 연표', 'SK hynix HBM timeline'), T('날짜는 보도자료·인터뷰 원문', 'Dates from press releases and interviews'))}
+        <ol class="timeline">${(h.timeline || []).map((x) => `<li><span class="num">${esc(x.d)}</span> <span>${esc(L(x.t))}${S.cite(x.src)}</span></li>`).join('')}</ol>
+        <p class="xs muted">${T('수치는 각 발표 시점의 값입니다. 지금 파는 제품의 사양은 ‘제품’ 탭(공식 제품 사이트)을 보세요.', 'Figures are as announced at each date; for current specifications see the Products tab (official product site).')}</p>
+      </section>`;
+  }
+  function tabTerms() {
+    const list = (S.SEMI_TERMS || []).slice().sort((a, b) => L(a.t).localeCompare(L(b.t), S.state.lang === 'en' ? 'en' : 'ko'));
+    const both = (o) => [].concat(o.ko || '', o.en || '').join(' ');
+    return `<section class="panel stack">${ui.title(T('반도체 용어', 'Chip terms'), T(`${list.length}개 — 정의는 모두 뉴스룸 원문에서 확인`, `${list.length} terms — every definition checked in the newsroom originals`))}
+      ${S.listbar({ id: 'semi', ph: T('용어 찾기 — 예: TSV, 식각, 언더필', 'Find a term — e.g. TSV, etching, underfill'), total: list.length })}
+      <dl class="glossary">${list.map((t) => `<div class="term" id="term-${t.id}" data-li="${esc(both(t.t))}"><dt>${esc(L(t.t))}</dt><dd>${esc(L(t.d))}${S.cite(t.src || [])}${extTag(t.src)}</dd></div>`).join('')}</dl>
+      <p class="lb-empty" data-lb-empty hidden>${T('찾는 용어가 없습니다. 안전 용어는 이용 가이드의 용어 사전에 있습니다.', 'No matching term. Safety terms are in the user guide’s glossary.')} <a href="#guide/terms">${T('용어 사전', 'Glossary')} →</a></p>
+    </section>`;
+  }
   function tabProfile() {
     const k = K();
     return `<section class="grid g2">
@@ -82,15 +158,22 @@
   }
   S.pages.company = {
     render(sub) {
-      if (!S.state.refreshing && sub && CO_TABS.some(([id]) => id === sub)) S.save('tab.co', sub);
+      const want = sub && coTabOf(sub);
+      if (!S.state.refreshing && want) S.save('tab.co', want);
       const tab = S.tab('co', 'profile');
-      const body = tab === 'products' ? tabProducts() : tab === 'business' ? tabBusiness() : tab === 'plan' ? tabPlan() : tab === 'safety' ? tabSafety() : tabProfile();
+      const body = tab === 'products' ? tabProducts() : tab === 'process' ? tabProcess() : tab === 'memtech' ? tabMem() : tab === 'business' ? tabBusiness() : tab === 'terms' ? tabTerms() : tab === 'plan' ? tabPlan() : tab === 'safety' ? tabSafety() : tabProfile();
       return `
       ${ui.head(T('회사 이해', 'Company'), T('SK하이닉스 이해', 'Understanding SK hynix'),
-        T('SK하이닉스가 직접 공개한 자료로 회사·제품·사업과 안전 체계를 정리했습니다.', 'The company, its products, its business and its safety system, from material SK hynix itself has published.'),
-        T('근거는 회사의 정기보고서(제79기 반기보고서), 공식 제품 사이트, 지속가능경영보고서(2024~2026)와 뉴스룸입니다. 시장 수치는 회사 보고서가 인용한 조사기관 값으로 표시했습니다.', 'Sources: the company’s regular report (H1, 79th term), its official product site, sustainability reports (2024–2026) and newsroom. Market figures are shown as cited from research firms in the company’s report.'))}
+        T('SK하이닉스가 직접 공개한 자료로 회사·제품·공정·기술·사업과 안전 체계를 정리했습니다.', 'The company, its products, processes, technology, business and safety system, from material SK hynix itself has published.'),
+        T('근거는 회사의 정기보고서(제79기 반기보고서), 공식 제품 사이트, 뉴스룸(보도자료·기술 해설)과 지속가능경영보고서(2024~2026)입니다. 시장 수치는 회사 보고서가 인용한 조사기관 값으로, 뉴스룸의 외부 전문가 칼럼은 ‘외부 칼럼’으로 표시했습니다.', 'Sources: the company’s regular report (H1, 79th term), its official product site, its newsroom (press releases and technical articles) and sustainability reports (2024–2026). Market figures are shown as cited from research firms in the company’s report; expert columns in the newsroom are marked “External column”.'))}
       ${ui.tabs('co', CO_TABS.map(([id, f]) => ({ id, label: f(T) })), tab)}
-      ${body}`;
+      <div id="anchor-${tab}" class="co-body">${body}</div>`;
+    },
+    mount(root) {
+      if (S.tab('co', 'profile') === 'terms') {
+        if (S.state.jump) S.save('lb.semi', {});   /* 검색으로 찾아온 용어가 필터에 가려지지 않게 */
+        S.listFilter(root, 'semi');
+      }
     }
   };
   function tabSafety() {

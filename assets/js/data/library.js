@@ -62,6 +62,17 @@ window.SHE = window.SHE || {};
     nrThanks0917: ['corp', 'KR', '2026', 'semi', '', 'contract ms', 5], nrWater0910: ['corp', 'KR', '2026', 'semi', 'env', '', 5], nr0609: ['corp', 'KR', '2026', 'semi', '', 'contract', 5],
     nr0909: ['corp', 'KR', '2026', 'semi', '', 'tech', 5], nrMetal: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nrDepo: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrAld: ['corp', 'KR', '2018', 'semi', '', 'proc', 5],
     nrScrubber: ['corp', 'KR', '2024', 'semi', 'env', 'tech', 5], nrLowGwp: ['corp', 'KR', '2024', 'semi', 'env', '', 5], nrCmp: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrWlp: ['corp', 'KR', '2023', 'semi', '', 'proc', 5],
+    /* #32(13단계 K2) 공정·패키지·메모리·HBM — 뉴스룸 원문(외부 전문가 칼럼 포함, 출처 제목에 표시) */
+    nrFeOx: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrFePhoto: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrFeEtch: ['corp', 'KR', '2022', 'semi', '', 'proc', 5],
+    nrImplant: ['corp', 'KR', '2018', 'semi', '', 'proc', 5], nrClean: ['corp', 'KR', '2019', 'semi', '', 'proc', 5], nrWafer: ['corp', 'KR', '2017', 'semi', '', 'proc', 5],
+    nrDramNand: ['corp', 'KR', '2019', 'semi', '', 'proc', 5], nrHybrid: ['corp', 'KR', '2026', 'semi', '', 'proc', 5], nrBeTest: ['corp', 'KR', '2022', 'semi', '', 'proc', 5],
+    nrBePkg: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrBeType1: ['corp', 'KR', '2022', 'semi', '', 'proc', 5], nrBeType2: ['corp', 'KR', '2023', 'semi', '', 'proc', 5],
+    nrBeConv: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nrBeWlp1: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nrBeMat1: ['corp', 'KR', '2023', 'semi', '', 'proc', 5],
+    nrBeMat2: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nrBeRel: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nrHbm3e: ['corp', 'KR', '2024', 'semi', '', 'proc', 5],
+    nrHbm3e12: ['corp', 'KR', '2024', 'semi', '', 'proc', 5], nrHbm4s: ['corp', 'KR', '2025', 'semi', '', 'proc', 5], nrHbm4: ['corp', 'KR', '2025', 'semi', '', 'proc', 5],
+    nrHbm4e: ['corp', 'KR', '2026', 'semi', '', 'proc', 5], nrIhbm: ['corp', 'KR', '2026', 'semi', '', 'proc', 5], nrPkgInt: ['corp', 'KR', '2024', 'semi', '', 'proc', 5],
+    nrTsv: ['corp', 'KR', '2026', 'semi', '', 'proc', 5], nr4dNand: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nr1c: ['corp', 'KR', '2024', 'semi', '', 'proc', 5],
+    nrSlc: ['corp', 'KR', '2018', 'semi', '', 'proc', 5],
     bpshe: ['site', 'KR', '', 'semi', '', 'training contract', 5],
     /* 한국 법령·고시·기술기준(1~2등급) */
     lawAct: ['law', 'KR', '2026', 'all', '', 'org ra contract inv training', 1], lawActNext: ['law', 'KR', '2026 2027', 'all', '', 'training', 1],

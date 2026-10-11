@@ -424,7 +424,12 @@ details.req > summary { cursor: pointer; color: var(--muted); font-size: calc(12
 details.req[open] > summary { color: var(--ink); }
 details.req ul { margin-top: 4px; }
 details.req li { padding: 2px 0; }
-@media (min-width: 1101px) { .proc.p5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (min-width: 1101px) { .proc.p5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } .proc.p6 { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+/* #32 SK하이닉스 이해 — 탭 본문(바깥 .wrap과 같은 간격), 공정 흐름 카드(제목+설명), 외부 칼럼 표시 */
+.co-body { display: grid; gap: inherit; grid-template-columns: minmax(0, 1fr); }
+.proc.flow li { flex-direction: column; align-items: flex-start; gap: 4px; }
+.proc.flow li .d { font-weight: 400; color: var(--muted); font-size: calc(12.5px * var(--fz)); line-height: 1.45; }
+.tag-ext { display: inline-block; font-size: calc(11px * var(--fz)); font-weight: 600; border-radius: 4px; padding: 0 6px; white-space: nowrap; color: var(--muted); border: 1px solid var(--line); vertical-align: 1px; }
 details.g-sub { border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--panel); }
 details.g-sub[open] { background: var(--panel-2); }
 details.g-sub > summary { cursor: pointer; padding: 9px 12px; font-weight: 600; font-size: calc(14px * var(--fz)); list-style-position: inside; }

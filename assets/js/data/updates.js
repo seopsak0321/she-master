@@ -5,11 +5,23 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v104';
+SHE.BUILD = 'v105';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 31, v: SHE.BUILD, date: '2026-10-11 21:48', commit: '',
+    { no: 32, v: SHE.BUILD, date: '2026-10-11 22:39', commit: '',
+      t: B('SK하이닉스 이해 확장 2 — 공정·테스트·패키지, 메모리·HBM 기술, 반도체 용어(SK하이닉스 뉴스룸 원문 33편)', 'Understanding SK hynix, part 2 — processes, test and packaging, memory and HBM technology, and chip terms (33 SK hynix newsroom originals)'),
+      add: [
+        B('‘공정’ 탭 — 웨이퍼 → 전공정(FEOL·BEOL) → 웨이퍼 테스트 → 패키지 → 패키지 테스트 흐름, 단위 공정 카드 9개(웨이퍼·산화·포토·식각·증착·이온주입·금속배선·CMP·세정), 테스트(웨이퍼·패키지 순서, JEDEC 신뢰성 시험), 패키지(역할·종류·컨벤셔널 8단계·웨이퍼 레벨·재료). #company/pc-ox·test·pkg 같은 주소로 바로 열기', 'Processes tab — the flow wafer → front end (FEOL, BEOL) → wafer test → packaging → package test; nine unit-process cards (wafer, oxidation, photo, etch, deposition, implantation, metallization, CMP, cleaning); test (wafer and package order, JEDEC reliability tests); packaging (roles, types, the eight conventional steps, wafer level, materials). Direct addresses such as #company/pc-ox, test and pkg'),
+        B('‘메모리·HBM 기술’ 탭 — D램·낸드 셀 비교, D램 공정 세대(1x~1c)와 1c DDR5, 낸드 셀당 비트(SLC~QLC)와 4D 낸드 기술(3-Plug·Sideway Source·All PUC·Advanced CTF·MSC), HBM의 정의·TSV·적층 공정(KGSD)·MR-MUF·2.5D 패키지·하이브리드 본딩·iHBM, HBM 연표 10개(2013~2026.6)', 'Memory & HBM tech tab — DRAM vs NAND cells; DRAM nodes (1x–1c) and 1c DDR5; NAND bits per cell (SLC–QLC) and 4D NAND technology (3-Plug, Sideway Source, All PUC, Advanced CTF, MSC); HBM definition, TSV, the KGSD stacking flow, MR-MUF, 2.5D packaging, hybrid bonding and iHBM; a ten-entry HBM timeline (2013 – June 2026)'),
+        B('‘반도체 용어’ 탭 — 64개, 정의는 모두 뉴스룸 원문에서 확인, 탭 안 검색과 포털 전체 검색으로 찾기', 'Chip terms tab — 64 terms, every definition checked in the newsroom originals, searchable in the tab and from the portal-wide search')
+      ],
+      chg: [
+        B('공정·물질 위험(#hazards)의 공정 카드 10개에 ‘공정 원리’ 연결을 달고, 공정 카드에서도 유해위험 카드로 이어지게 함', 'The ten process-step hazard cards (#hazards) now link to “how the step works”, and the process cards link back to the hazard cards'),
+        B('출처 200 → 228건(뉴스룸 28건). 뉴스룸에 실린 외부 전문가 칼럼(원문에 “SK하이닉스의 공식 입장과는 다를 수 있습니다” 명시)은 ‘외부 칼럼’으로 표시하고 기존 출처 3건(증착·금속배선·ALD) 제목에도 적음. 회사 고유 기술의 정의·제품 수치는 보도자료·인터뷰에서만, 칼럼의 비용·처리량 추정치는 넣지 않음', 'Sources 200 → 228 (28 from the newsroom). Expert columns whose originals say they may differ from SK hynix’s official position are marked “External column”, including three existing sources (deposition, metallization, ALD). Company-technology definitions and product figures come only from press releases and interviews; columnists’ cost and throughput estimates are left out'),
+        B('SK하이닉스 뉴스룸은 패키지 앞 전기 검사를 ‘웨이퍼 테스트’라고 부름 → 계획의 ‘EDS’를 그 용어로. 포털 자체 점검(#qa)이 SK하이닉스 이해 데이터의 출처·공정 카드 연결·용어 id 중복까지 확인. 다음은 #33 장비·소재·공급망(장비 회사 공식 화면)', 'The SK hynix newsroom calls the pre-packaging electrical check “wafer test”, so the plan’s “EDS” now uses that term. The portal self-check (#qa) now also checks sources, process-card links and duplicate term ids in the SK hynix data. Next: #33 equipment, materials and supply chain (toolmakers’ official pages)')
+      ] },
+    { no: 31, v: 'v104', date: '2026-10-11 21:48', commit: 'eda21dd',
       t: B('SK하이닉스 이해 확장 1 — 회사 기본 정보·제품 전체 지도·사업 현황(정기보고서·공식 제품 사이트)', 'Understanding SK hynix, part 1 — company profile, full product map and business overview (regular report and official product site)'),
       add: [
         B('‘SK하이닉스 이해’를 하위 탭으로 개편 — 기본 정보·제품·사업 현황·개요·안전 체계·확장 계획. 주소로 바로 열기(#company/products 등)', '“Understanding SK hynix” split into tabs — profile, products, business, overview and safety, and coming next — each with its own address (#company/products and so on)'),

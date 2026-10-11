@@ -227,6 +227,7 @@
             <p class="xs muted">${T('설비 설계·도입 단계의 기술 권고입니다(KOSHA 기술지원규정). 실제 설비는 제조사 사양과 사내 기준을 함께 확인하세요.', 'Technical recommendations for equipment design and procurement (KOSHA guide). Check maker specifications and in-house rules for real equipment.')}${S.cite('koshaCC65')}</p></details>` : ''}
           <div class="row" style="gap:6px">${S.CHEMICALS.filter((c) => c.procs.includes(p.id)).map((c) => `<button type="button" class="chip" data-chem="${c.id}" title="${S.esc(L(c))}">${c.f}</button>`).join('')}</div>
           ${p.sops.length ? `<div class="small">SOP · ${p.sops.map((id) => `<a href="#sop/${id}">${L(S.SOPS.find((s) => s.id === id).t)}</a>`).join(' · ')}</div>` : ''}
+          ${(() => { const st = ((S.SKH_PROC || {}).steps || []).find((x) => (x.hz || []).includes(p.id)); const to = st ? 'pc-' + st.id : p.id === 'wlp' ? 'pkg' : ''; return to ? `<div class="small"><a href="#company/${to}">${T('공정 원리 — SK하이닉스 이해', 'How the step works — Understanding SK hynix')} →</a></div>` : ''; })()}
         </article>`).join('')}</section>
       <p class="xs muted">${T('OSHA는 “실제 공정은 사업장마다 다르며, 유해위험 목록은 실제 공정의 위험 분석에 근거해야 한다”고 명시합니다. 이 표는 출발점일 뿐입니다.', 'OSHA notes that actual processes vary by facility and a complete hazard inventory must come from analysing the real process. Treat this table as a starting point.')}</p>` : `
       <section class="panel stack">

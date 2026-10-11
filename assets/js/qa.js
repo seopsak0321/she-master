@@ -20,7 +20,10 @@
     const dup = (arr, what) => { const seen = new Set(); arr.forEach((id) => { if (seen.has(id)) add('bad', T('중복 id', 'Duplicate id'), what, id); seen.add(id); }); };
     dup(S.SOURCES.map((s) => s.id), 'SOURCES'); dup(S.SOPS.map((s) => s.id), 'SOPS'); dup(S.CASES.map((c) => c.id), 'CASES'); dup(S.CHEMICALS.map((c) => c.id), 'CHEMICALS');
     /* #29(외부 검토 E12): id를 가진 다른 배열도 — 용어 사전 ‘moc’가 두 번 쓰여 화면 id(term-moc)가 겹친 일이 있었다 */
-    ['GLOSSARY', 'RESOURCES', 'CYCLES', 'PROCESSES', 'CAMPAIGNS', 'TIMELINE', 'NEWS', 'PTW_PRE', 'SAPA_ITEMS'].forEach((k) => { if (Array.isArray(S[k])) dup(S[k].filter((x) => x && x.id).map((x) => x.id), k); });
+    ['GLOSSARY', 'RESOURCES', 'CYCLES', 'PROCESSES', 'CAMPAIGNS', 'TIMELINE', 'NEWS', 'PTW_PRE', 'SAPA_ITEMS', 'SEMI_TERMS'].forEach((k) => { if (Array.isArray(S[k])) dup(S[k].filter((x) => x && x.id).map((x) => x.id), k); });
+    /* #32: SK하이닉스 이해의 공정 카드 id, 외부 칼럼 목록이 출처에 있는지 */
+    if (S.SKH_PROC) dup((S.SKH_PROC.steps || []).map((x) => x.id), 'SKH_PROC.steps');
+    (S.SKH_EXT || []).forEach((id) => { if (!src.has(id)) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_EXT', id); });
     /* #29(외부 검토 E13): 설명문 속 KOSHA GUIDE 옛 번호(2026.1.30 정비 전) — 현행 번호로 쓰고 옛 번호는 ‘구 …’로 병기(같은 항목에 현행 번호가 함께 있으면 대조 설명으로 보고 넘어감) */
     if (S.KOSHA_OLD) { const OLD = Object.keys(S.KOSHA_OLD); const scan = (txt, where, ctx) => { const s = String(txt || ''); OLD.forEach((o) => { const base = o.replace(/-\d{4}$/, ''); const re = new RegExp('(^|[^\\w-])' + base.replace(/-/g, '\\-') + '(-\\d{4})?(?![\\w-])'); const m = s.match(re); if (m && !String(ctx || s).includes(String(S.KOSHA_OLD[o]).replace(/-\d{4}$/, '')) && !/(구|formerly|old)\s*$/.test(s.slice(Math.max(0, m.index - 12), m.index + m[1].length))) add('warn', T('KOSHA 옛 번호', 'Old KOSHA number'), where, o + ' → ' + S.KOSHA_OLD[o]); }); };
       const all = (...bs) => bs.filter(Boolean).map((b) => [].concat(b.ko, b.en).join(' ')).join(' ');
@@ -49,7 +52,9 @@
         else walk(v, path + '.' + k, depth + 1);
       });
     };
-    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    /* #32: 공정 카드의 hz는 포털 유해위험 카드 id */
+    ((S.SKH_PROC || {}).steps || []).forEach((s) => (s.hz || []).forEach((id) => { if (!S.PROCESSES.some((p) => p.id === id)) add('bad', T('없는 공정 카드', 'Unknown process card'), 'SKH_PROC.steps.' + s.id + '.hz', id); }));
     /* SHE 가이드북 — id 중복, 원문 확인 절의 출처·확인일, 한/영 짝, 표의 칸 수, 나라·분야·수준 코드, {{절 id}}·포털 연결 경로, 계획 단계 */
     if (S.BOOK) {
       const ids = [], bad = (what, where, v) => add('bad', T('가이드북 데이터', 'Guidebook data') + ' · ' + what, where, v);
