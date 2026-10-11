@@ -55,6 +55,7 @@ window.SHE = window.SHE || {};
      [유형, 나라, '연도 연도', 산업, '위험 요인', '관리 주제', 등급] — 목록에 없는 출처(언론 기사, 단위 표준 등)는 라이브러리 항목으로 만들지 않는다 */
   S.LIB_SRC = {
     /* SK하이닉스 공식(5등급 — 기업 공개자료) */
+    skhH1_2026: ['corp', 'KR', '2026', 'semi', 'env', 'proc ms', 5], skhProducts: ['corp', 'KR', '2026', 'semi', '', 'proc', 5],
     sr2026: ['corp', 'KR', '2026', 'semi', 'env', 'ms contract emer', 5], sr2025: ['corp', 'KR', '2025', 'semi', 'env', 'ms contract emer', 5], sr2024: ['corp', 'KR', '2024', 'semi', 'env', 'ms contract emer', 5],
     nr2022: ['corp', 'KR', '2022', 'semi', '', 'ms', 5], nr2015: ['corp', 'KR', '2015', 'semi', 'env', 'ms', 5], nr2025she: ['corp', 'KR', '2025', 'semi', '', 'training', 5],
     nrgaon: ['corp', 'KR', '', 'semi', '', 'tech', 5], nrbp2026: ['corp', 'KR', '2026', 'semi', '', 'contract', 5], nrconsult: ['corp', 'KR', '2025', 'semi', '', 'contract', 5],

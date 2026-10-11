@@ -5,11 +5,22 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v103';
+SHE.BUILD = 'v104';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 30, v: SHE.BUILD, date: '2026-10-11 21:36', commit: '',
+    { no: 31, v: SHE.BUILD, date: '2026-10-11 21:48', commit: '',
+      t: B('SK하이닉스 이해 확장 1 — 회사 기본 정보·제품 전체 지도·사업 현황(정기보고서·공식 제품 사이트)', 'Understanding SK hynix, part 1 — company profile, full product map and business overview (regular report and official product site)'),
+      add: [
+        B('‘SK하이닉스 이해’를 하위 탭으로 개편 — 기본 정보·제품·사업 현황·개요·안전 체계·확장 계획. 주소로 바로 열기(#company/products 등)', '“Understanding SK hynix” split into tabs — profile, products, business, overview and safety, and coming next — each with its own address (#company/products and so on)'),
+        B('기본 정보 — 회사의 제79기 반기보고서(2026.8.14 제출)로 정식 명칭·설립(1949 국도건설)과 상호 변경·상장(1996, 000660)·대표이사·최대주주(SK스퀘어 20.50%)·생산기지 4곳과 연구개발법인 3곳·연결 종속회사 57개·CIS 사업의 AI 메모리 전환(2025.3)·지식재산권 22,236건·신용등급, 연혁의 큰 줄기 10개', 'Profile — from the company’s half-year report (filed 14 August 2026): legal name, founding (1949) and name changes, listing (1996, ticker 000660), CEO, largest shareholder (SK Square, 20.50 %), four production bases and three R&D subsidiaries, 57 consolidated subsidiaries, the CIS unit’s conversion to AI memory (March 2025), 22,236 IP rights, credit ratings, and ten milestones'),
+        B('제품 전체 지도 — 공식 제품 사이트 분류 화면 12개: HBM4(24–48GB, 11.0Gbps 이상, 2.8TB/s 이상, 8·12·16단)·HBM3E·HBM3·HBM2E, DDR5·DDR4, LPDDR5T/5X, GDDR7(최대 32Gbps), MRDIMM·RDIMM·SOCAMM2·LPCAMM2 등 모듈, CXL 메모리 CMM-DDR5, 기업용 SSD(PCIe Gen5 PEB000·PS1000 등)·PC용 SSD, UFS 4.0·eMMC, uMCP·eMCP', 'Product map — the official product site’s 12 category pages: HBM4 (24–48 GB, 11.0 Gbps and above, 2.8 TB/s and above, 8/12/16-high), HBM3E, HBM3, HBM2E; DDR5, DDR4; LPDDR5T/5X; GDDR7 (up to 32 Gbps); modules such as MRDIMM, RDIMM, SOCAMM2 and LPCAMM2; CXL memory CMM-DDR5; enterprise SSDs (PCIe Gen5 PEB000, PS1000 and others) and client SSDs; UFS 4.0 and eMMC; uMCP and eMCP'),
+        B('사업 현황 — 실적(2024·2025·2026년 상반기, 분기: 2026년 2분기 매출 79.3조원·영업이익 60.5조원), 회사 보고서가 인용한 세계 시장(2025년 반도체 8,090억 달러·메모리 2,201억 달러)과 점유율(DRAM 2025년 34.8%), 연구개발비와 2026년 개발 실적(LPDDR6 세계 첫 제품 등), 원재료(웨이퍼·기판·PCB)와 공급, 경쟁 요소, 기술 해외 이전 규제·환경 지표', 'Business — results (FY2024, FY2025, H1 2026 and quarters: Q2 2026 revenue KRW 79.3 trillion, operating profit KRW 60.5 trillion), the world market and share as cited in the report (2025: chips US$809 bn, memory US$220.1 bn; DRAM share 34.8 % in 2025), R&D spending and 2026 developments (the first LPDDR6 and more), materials (wafers, substrates, PCBs) and supply, competitive factors, technology-export rules and environmental figures')
+      ],
+      chg: [
+        B('출처 198 → 200건(제79기 반기보고서, 공식 제품 사이트 — 기업 공개자료 5등급). ROADMAP 13단계: 다음은 #32 공정(웨이퍼 → 전공정 8대 공정 → EDS → 패키징·테스트, HBM 적층)', 'Sources 198 → 200 (half-year report and official product site — tier 5 company publications). ROADMAP stage 13: next is #32 processes (wafer → eight front-end steps → EDS → packaging and test; HBM stacking)')
+      ] },
+    { no: 30, v: 'v103', date: '2026-10-11 21:36', commit: 'd9bc175',
       t: B('신뢰성 정비 — 출처 등급 1~6 단일화와 ‘보도’ 표시, 대법원 판결문·공식 화학사고 기록으로 사고사례 바로잡기, 확인되지 않는 타사 수치 삭제', 'Reliability pass — one 1–6 source-tier scale with a “Reported” mark, accident cases corrected from the Supreme Court judgment and official chemical-accident records, and unverifiable peer figures removed'),
       add: [
         B('출처 등급을 포털 전체에서 한 가지 기준으로 — 1 법령·조약·판례, 2 정부·공공기관·정부 간 국제기구, 3 공식 조사보고서·통계·사고 기록, 4 표준기구·업계 단체, 5 기업 공개자료, 6 언론 보도(+ 가이드북 B, 포털 작성 P). 출처 목록에 등급 칸과 등급 필터, 자료 라이브러리·가이드북 신뢰성 절의 표가 같은 정의를 씀. 근거가 언론뿐인 사실·연표·원인 분석에는 ‘보도’ 표시가 자동으로 붙음', 'One source-tier scale across the portal — 1 statutes, treaties and rulings; 2 governments, public bodies and intergovernmental organisations; 3 official reports, statistics and accident records; 4 standards bodies and industry associations; 5 company publications; 6 news reports (plus B guidebook and P portal material). The source list gains a tier column and filter, and the resource library and the guidebook’s reliability section use the same definition. Facts, timeline entries and cause-analysis steps backed only by news reports are marked “Reported” automatically'),
