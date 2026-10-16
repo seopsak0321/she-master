@@ -361,6 +361,105 @@ window.SHE = window.SHE || {};
     t('xlc', 'SLC·MLC·TLC·QLC', 'SLC, MLC, TLC, QLC', '낸드 셀 하나에 저장하는 비트 수 1·2·3·4 — 상태 수 2·4·8·16', 'Bits per NAND cell 1, 2, 3, 4 — states 2, 4, 8, 16', ['nrSlc', 'nr4dNand']),
     t('ctf', 'CTF', 'CTF', '전자를 도체인 플로팅 게이트 대신 부도체(산화막·질화막 복합막)에 저장하는 방식', 'Charge trap flash — storing electrons in an insulating oxide–nitride film instead of a conductive floating gate', ['nr4dNand']),
     t('puc', 'PUC (4D 낸드)', 'PUC (4D NAND)', '셀을 제어하는 주변 회로를 셀 아래에 넣어 면적을 줄이는 구조 — SK하이닉스는 이를 4D 낸드로 이름 붙였다', 'Peripheral circuitry under the cell array to save area — SK hynix calls this 4D NAND', ['nr4dNand']),
-    t('wl', '워드 라인·비트 라인', 'Word line and bit line', '워드 라인은 각 층 셀의 컨트롤 게이트를 묶어 전압을 거는 구조, 비트 라인은 셀에 저장된 전자 수를 읽어 내는 통로', 'The word line ties cell control gates to apply voltage; the bit line reads out the stored charge', ['nr4dNand'])
+    t('wl', '워드 라인·비트 라인', 'Word line and bit line', '워드 라인은 각 층 셀의 컨트롤 게이트를 묶어 전압을 거는 구조, 비트 라인은 셀에 저장된 전자 수를 읽어 내는 통로', 'The word line ties cell control gates to apply voltage; the bit line reads out the stored charge', ['nr4dNand']),
+    /* #33(K3) 장비·소재 */
+    t('scanner', '노광기 (스캐너)', 'Lithography scanner', '마스크 패턴을 빛으로 웨이퍼에 줄여 찍는 장비 — EUV는 반사 거울로 4배 축소하고, 가장 복잡한 층에만 쓰며 나머지 층은 DUV 장비로 찍는다(ASML 설명)', 'The tool that prints the mask pattern onto the wafer with light — EUV shrinks it 4× with mirrors and is used only for the most intricate layers, the rest being printed on DUV tools (ASML)', ['asmlEuv']),
+    t('highna', 'High NA EUV', 'High-NA EUV', 'NA 0.55의 차세대 EUV(ASML EXE) — 기존 EUV(NA 0.33)보다 해상도 8nm, 같은 한 번의 노광으로 1.7배 작은 패턴·2.9배 집적도. SK하이닉스는 2025년 9월 메모리 업계 처음으로 양산용 EXE:5200B를 이천 M16에 들였다', 'Next-generation EUV with NA 0.55 (ASML EXE) — 8 nm resolution, features 1.7× smaller and 2.9× denser in a single exposure than NA 0.33 EUV. SK hynix brought the first production EXE:5200B in the memory industry into Icheon M16 in September 2025', ['asmlExe', 'nrHighNa']),
+    t('track', '트랙 (코터·디벨로퍼)', 'Track (coater/developer)', '감광액 도포와 현상을 노광기와 한 줄로 이어 처리하는 장비', 'The system that coats and develops resist inline with the scanner', ['telProducts']),
+    t('excimer', '엑시머 레이저 가스', 'Excimer laser gas', 'DUV 노광의 짧은 파장 자외선을 만드는 가스 — 성분의 95%가 네온(공기 중 0.00182%뿐인 희귀 자원)', 'The gas that produces the short-wavelength UV for DUV lithography — 95 % neon, a rare resource making up only 0.00182 % of air', ['nrNeon']),
+    t('cryo', '극저온 식각', 'Cryogenic etching', '낮은 온도에서 새 화학 조성으로 고종횡비 구멍을 수직으로 깊게 파는 식각 — 3D 낸드 채널 홀에 쓴다(Lam 설명)', 'Low-temperature etching with new chemistries for deep, vertical high-aspect-ratio holes — used for 3D NAND channel holes (Lam)', ['lamCryo']),
+    t('bevel', '베벨 공정', 'Bevel processing', '웨이퍼 가장자리에 쌓인 잔류물을 없애거나 가장자리를 막으로 보호해 결함을 줄이는 식각·증착', 'Etching or deposition at the wafer edge to remove residues or protect it, cutting defects', ['lamEtch']),
+    t('prober', '웨이퍼 프로버', 'Wafer prober', '웨이퍼를 옮겨 프루브 카드의 탐침에 칩 패드를 맞대 주는 웨이퍼 테스트 장비 — 테스터와 짝을 이룬다', 'The wafer-test tool that brings chip pads into contact with probe-card needles, working with a tester', ['telProducts', 'nrBeTest']),
+    t('ate', '메모리 테스터 (ATE)', 'Memory tester (ATE)', '많은 칩을 동시에 측정하는 자동 테스트 장비 — 메모리는 적은 품종을 대량 생산하므로 병렬 측정 능력이 중요하다', 'Automated test equipment measuring many chips at once — memory is low-mix, high-volume, so parallelism matters', ['advMemTest']),
+    t('mo', '몰리브덴(Mo) 배선', 'Molybdenum (Mo) wiring', '텅스텐보다 저항이 낮아 차세대 낸드 전극 소재로 쓰일 금속 — 전구체로 증착하며, SK하이닉스는 전구체 품질 분석 기술을 높였다', 'A metal with lower resistance than tungsten, set to be a next-generation NAND electrode; deposited from precursors, whose quality analysis SK hynix has advanced', ['nrMatAward25', 'lamCryo']),
+    t('gamma', '1c와 1-gamma', '1c and 1-gamma', '10나노급 D램 6세대를 SK하이닉스는 1c로, 장비 회사 Lam은 1-gamma로 부른다', 'SK hynix calls the sixth 10 nm-class DRAM generation 1c; the toolmaker Lam calls it 1-gamma', ['nr1c', 'lamDram'])
   ];
+
+  /* 7) 장비·소재·공급망 — #33(K3). 장비 회사는 공식 제품 화면·정부 공시(미국 SEC)만, 점유율 같은 자기 평가는 ‘회사 설명’으로 표시.
+     step은 SKH_PROC.steps id(공정 카드에 ‘주요 장비’로 다시 보인다) */
+  SHE.SKH_EQ = {
+    asof: '2026-10-16',
+    map: [
+      { step: 'photo', t: B('노광기 (스캐너)', 'Lithography scanner'), d: B('마스크 패턴을 빛으로 웨이퍼에 줄여 찍는다. EUV는 가장 복잡한 층에만, 나머지 층은 여러 DUV 장비로 찍으며 두 기술이 오랫동안 함께 쓰인다.', 'Prints the mask pattern onto the wafer with light. EUV prints only the most intricate layers, the rest go on DUV tools, and both will be used side by side for years.'),
+        ex: [['ASML', B('EUV — NXE:3800E·NXE:3600D(NA 0.33), High NA EXE:5000·EXE:5200B(NA 0.55) / DUV 액침 — NXT:2150i·2100i·2050i·2000i·1980Fi / 건식 — ArF NXT:1470·XT:1460K, KrF NXT:870B·XT:1060K, i-line XT:400M', 'EUV — NXE:3800E, NXE:3600D (NA 0.33); High NA EXE:5000, EXE:5200B (NA 0.55) / DUV immersion — NXT:2150i, 2100i, 2050i, 2000i, 1980Fi / dry — ArF NXT:1470, XT:1460K; KrF NXT:870B, XT:1060K; i-line XT:400M')]], src: ['asmlEuv', 'asmlDuv'] },
+      { step: 'photo', t: B('트랙 (코터·디벨로퍼)', 'Track (coater/developer)'), d: B('감광액 도포·현상을 노광기와 한 줄로 이어 처리한다.', 'Coats and develops resist inline with the scanner.'),
+        ex: [['TEL', B('CLEAN TRACK LITHIUS Pro DICE(High NA를 포함한 EUV 공정), LITHIUS Pro Z(EUV), LITHIUS Pro AP(패키징). 회사 설명: 코터·디벨로퍼 시장 점유율 90%, High NA 공정은 거의 100%', 'CLEAN TRACK LITHIUS Pro DICE (EUV including High NA), LITHIUS Pro Z (EUV), LITHIUS Pro AP (packaging). Company’s statement: 90 % of the coater/developer market and almost 100 % for High NA')]], src: ['telProducts'] },
+      { step: 'etch', t: B('플라즈마 식각기', 'Plasma etchers'), d: B('도체(트랜지스터·배선)와 절연막을 깎고, 3D 낸드 채널 홀·TSV 같은 깊은 구멍을 판다.', 'Etch conductors (transistors, wiring) and dielectrics, and cut deep holes such as 3D NAND channel holes and TSVs.'),
+        ex: [['Lam Research', B('Akara·Kiyo(도체), Flex(절연막 — ALE·극저온), Vantex(고종횡비 — Sense.i 플랫폼), Lam Cryo 3.0(400단 이상 3D 낸드), Syndion(깊은 식각 — TSV·HBM), Coronus(가장자리). 회사 설명: 모든 주요 메모리 회사가 3D 낸드 채널 홀 식각에 Flex·Vantex를 쓴다', 'Akara, Kiyo (conductor), Flex (dielectric — ALE, cryogenic), Vantex (high aspect ratio — Sense.i), Lam Cryo 3.0 (3D NAND of 400+ layers), Syndion (deep etch — TSV, HBM), Coronus (bevel). Company’s statement: all leading memory makers use Flex and Vantex for 3D NAND channel-hole etch')],
+          ['TEL', B('Tactras·Episode UL(플라즈마), Certas LEAGA(가스 화학 식각). 회사 설명: 건식 식각 점유율 2위', 'Tactras, Episode UL (plasma), Certas LEAGA (gas chemical etch). Company’s statement: second-largest share in dry etch')]], src: ['lamEtch', 'lamCryo', 'telProducts'] },
+      { step: 'dep', t: B('증착 장비', 'Deposition tools'), d: B('절연막·금속막을 화학·물리 방식으로 입힌다 — PECVD·HDP-CVD·ALD·PVD·배치 열처리.', 'Lay insulating and metal films chemically or physically — PECVD, HDP-CVD, ALD, PVD and batch thermal tools.'),
+        ex: [['Lam Research', B('VECTOR(PECVD), Striker(ALD 절연막, HBM), SPEED(HDP-CVD 갭필), ALTUS(텅스텐 ALD·CVD)', 'VECTOR (PECVD), Striker (dielectric ALD, HBM), SPEED (HDP-CVD gap fill), ALTUS (tungsten ALD/CVD)')],
+          ['TEL', B('NT333(세미배치 ALD), Trias e+ Ti/TiN(TiCl₄ CVD), Episode 1·2 DMR(매엽), EXIM·LEXIA-EX(PVD)', 'NT333 (semi-batch ALD), Trias e+ Ti/TiN (TiCl₄ CVD), Episode 1/2 DMR (single wafer), EXIM, LEXIA-EX (PVD)')]], src: ['lamDep', 'telProducts'] },
+      { step: 'ox', t: B('열처리로 (산화·어닐링)', 'Thermal furnaces (oxidation, anneal)'), d: B('300mm 웨이퍼 여러 장을 한꺼번에 가열하는 배치 장비와 낱장을 빠르게 가열하는 급속 열처리(RTP).', 'Batch tools that heat many 300 mm wafers together, and rapid thermal processing (RTP) for single wafers.'),
+        ex: [['TEL', B('TELINDY PLUS·EVAROS·ALPHA-8SE i(배치 열처리), TELINDY PLUS IRad(플라즈마 배치 ALD)', 'TELINDY PLUS, EVAROS, ALPHA-8SE i (batch thermal), TELINDY PLUS IRad (plasma batch ALD)')],
+          ['Applied Materials', B('반도체 장비 사업에 급속 열처리 포함(연차보고서)', 'Rapid thermal processing within its semiconductor systems business (annual report)')]], src: ['telProducts', 'amat10k'] },
+      { step: 'dope', t: B('이온 주입기', 'Ion implanters'), d: B('불순물 이온을 골라 가속해 웨이퍼에 넣는다 — 전류·에너지 영역별 장비.', 'Select and accelerate dopant ions into the wafer — tools for each current and energy range.'),
+        ex: [['Axcelis', B('Purion 계열 — 고전류·중에너지·중전류·고에너지를 한 플랫폼에서, 낱장 처리 최대 시간당 500장, 10nm 이하 공정 대상', 'Purion family — high current, medium energy, medium current and high energy on one platform; single-wafer, up to 500 wafers per hour; for processes at 10 nm or below')],
+          ['Applied Materials', B('반도체 장비 사업에 이온주입 포함(연차보고서)', 'Ion implantation within its semiconductor systems business (annual report)')]], src: ['axcelisPurion', 'amat10k'] },
+      { step: 'metal', t: B('금속 증착·도금', 'Metal deposition and plating'), d: B('텅스텐·몰리브덴으로 구멍을 채우고, 구리 배선은 전해도금(ECD)으로 채운다.', 'Fill holes with tungsten or molybdenum; copper lines are filled by electroplating (ECD).'),
+        ex: [['Lam Research', B('ALTUS(텅스텐), ALTUS Halo(몰리브덴 — D램·3D 낸드), SABRE(구리 다마신 전해도금, HBM)', 'ALTUS (tungsten), ALTUS Halo (molybdenum — DRAM, 3D NAND), SABRE (copper damascene electroplating, HBM)')],
+          ['TEL', B('Trias e+ W(텅스텐), EXIM(PVD)', 'Trias e+ W (tungsten), EXIM (PVD)')]], src: ['lamDep', 'lamDram', 'lamCryo', 'telProducts'] },
+      { step: 'cmp', t: B('CMP 장비', 'CMP tools'), d: B('슬러리와 패드로 웨이퍼를 평탄하게 간다.', 'Planarise the wafer with slurry and pad.'),
+        ex: [['Applied Materials', B('반도체 장비 사업에 CMP 포함(연차보고서). 다른 CMP 장비 회사의 공식 화면은 자동 접속이 막혀 이번에 넣지 않았다', 'CMP within its semiconductor systems business (annual report). Another CMP maker’s official pages refuse automated access, so they are not included this time')]], src: ['amat10k'] },
+      { step: 'clean', t: B('세정 장비', 'Cleaning tools'), d: B('낱장(매엽)·배치 습식, 스크러버, 가장자리(베벨) 세정.', 'Single-wafer and batch wet cleaning, scrubbers and bevel cleaning.'),
+        ex: [['Lam Research', B('EOS(습식, 낮은 결함), DV-Prime·Da Vinci(습식), Coronus(플라즈마 베벨)', 'EOS (wet, low defectivity), DV-Prime, Da Vinci (wet), Coronus (plasma bevel)')],
+          ['TEL', B('CELLESTA-i MD(매엽), EXPEDIUS-i(배치 습식), NS300Z(스크러버), ANTARES(극저온 동역학). 회사 설명: 세정 장비 점유율 2위', 'CELLESTA-i MD (single wafer), EXPEDIUS-i (batch wet), NS300Z (scrubber), ANTARES (cryokinetic). Company’s statement: second-largest share in wafer cleaning')]], src: ['lamClean', 'telProducts'] },
+      { step: '', t: B('계측·검사', 'Metrology and inspection'), d: B('패턴 치수·막 두께·층간 정렬(오버레이)을 재고 결함을 찾아 수율을 지킨다.', 'Measure pattern size, film thickness and layer alignment (overlay) and find defects to protect yield.'),
+        ex: [['KLA', B('3935·3920 EP(광대역 플라즈마 패턴 결함 검사 — 3920 EP는 3D 낸드·D램 전용 알고리즘), eSL10(전자빔 검사), eDR7xxx(전자빔 리뷰), Archer 800(오버레이 계측)', '3935, 3920 EP (broadband plasma patterned-wafer inspection — 3920 EP has 3D NAND and DRAM algorithms), eSL10 (e-beam inspection), eDR7xxx (e-beam review), Archer 800 (overlay metrology)')],
+          ['ASML', B('YieldStar 1385·1390·500(광학 오버레이 계측), HMI eScan 1100(멀티 전자빔 검사)·eScan 600·eP5', 'YieldStar 1385, 1390, 500 (optical overlay metrology), HMI eScan 1100 (multibeam inspection), eScan 600, eP5')]], src: ['klaDefect', 'klaMetro', 'asmlMetro'] },
+      { step: '', t: B('웨이퍼 테스트 장비', 'Wafer test equipment'), d: B('프로버가 칩 패드를 탐침에 맞대고, 테스터가 전기 신호로 검사한다. 번인 장비는 온도·전압 스트레스를 준다.', 'The prober brings chip pads to the needles and the tester checks them electrically; burn-in systems apply temperature and voltage stress.'),
+        ex: [['TEL', B('Prexa(웨이퍼 프로버 — 어드밴스드 패키징용 KGD), Prexa SDP(낱개 칩 프로버 — 발열 큰 소자 KGD), Cellcia(멀티셀 테스트)', 'Prexa (wafer prober — KGD for advanced packaging), Prexa SDP (singulated-die prober — KGD for high-heat devices), Cellcia (multi-cell test)')],
+          ['Advantest', B('메모리 테스터 T5800 계열(T5835·T5830·T5833·T5851)·T5500·T5200, 번인 B6700 계열. 회사 설명: 메모리 양산용으로 병렬 측정 능력이 업계 최고', 'Memory testers T5800 series (T5835, T5830, T5833, T5851), T5500, T5200; burn-in B6700 series. Company’s statement: industry-best parallelism for volume memory production')]], src: ['telProducts', 'advMemTest'] },
+      { step: '', t: B('그라인딩·절단', 'Grinding and dicing'), d: B('웨이퍼 뒷면을 갈고 칩으로 자른다 — 얇은 웨이퍼는 DBG·SDBG(절단 먼저).', 'Grind the wafer back and cut it into dies — thin wafers use DBG or SDBG (dicing first).'),
+        ex: [['DISCO', B('다이싱 쏘·레이저 쏘·그라인더·폴리셔·웨이퍼 마운터·다이 분리기, DBG/SDBG 해법', 'Dicing saws, laser saws, grinders, polishers, wafer mounters and die separators; DBG/SDBG solutions')]], src: ['discoProducts'] },
+      { step: '', t: B('본딩·디본딩 (적층)', 'Bonding and debonding (stacking)'), d: B('얇은 웨이퍼를 캐리어에 임시로 붙였다 떼고(WSS), 웨이퍼끼리 직접 붙인다(하이브리드 본딩).', 'Temporarily bond thin wafers to carriers and release them (WSS), and bond wafers directly (hybrid bonding).'),
+        ex: [['TEL', B('Synapse V·Synapse Z Plus(임시 본딩·디본딩), Synapse Si(퓨전·구리 하이브리드 본딩)', 'Synapse V, Synapse Z Plus (temporary bonding and debonding), Synapse Si (fusion and Cu hybrid bonding)')],
+          ['Lam Research', B('SABRE 3D(패키징 도금), Syndion(TSV 식각)', 'SABRE 3D (packaging plating), Syndion (TSV etch)')]], src: ['telProducts', 'lamPkg'] }
+    ],
+    /* 노광 — ASML 공식 화면(사양은 제품 화면의 숫자) */
+    litho: {
+      rows: [
+        ['TWINSCAN NXE:3800E', 'EUV 13.5nm', '0.33', '13nm', B('≥220장 (30 mJ/cm²)', '≥220 (30 mJ/cm²)'), B('2nm 로직·최선단 D램 양산', 'Volume 2 nm logic and leading-edge DRAM')],
+        ['TWINSCAN EXE:5200B', 'EUV 13.5nm', '0.55', '8nm', B('≥175장 (50 mJ/cm²)', '≥175 (50 mJ/cm²)'), B('2nm 미만 로직·최선단 D램 양산 — High NA 둘째 모델', 'Volume sub-2 nm logic and leading-edge DRAM — second High-NA model')],
+        [B('TWINSCAN NXT:2150i 등', 'TWINSCAN NXT:2150i and others'), B('DUV ArF 액침', 'DUV ArF immersion'), '–', '–', B('최신 NXT 하루 6,000장 넘게', 'Latest NXT over 6,000 per day'), B('첨단 로직·메모리 양산의 주력', 'Workhorse for advanced logic and memory')],
+        ['TWINSCAN NXT:870B', B('DUV KrF 건식', 'DUV KrF dry'), '–', '–', B('시간당 400장', '400 per hour'), B('300mm 웨이퍼, 덜 복잡한 층', '300 mm wafers, less critical layers')]
+      ],
+      head: B(['장비', '빛', 'NA', '해상도', '시간당 웨이퍼', '쓰임'], ['System', 'Light', 'NA', 'Resolution', 'Wafers per hour', 'Use']),
+      facts: [
+        B('EUV 빛: CO₂ 레이저가 빠르게 떨어지는 주석 방울에 펄스를 두 번 쏴서 만든다 — 초당 최대 5만 번.', 'EUV light: a CO₂ laser fires two pulses at a fast-moving tin droplet — up to 50,000 times a second.'),
+        B('EUV는 공기에도 흡수되므로 광원에서 웨이퍼까지 모든 경로가 고진공이고, 렌즈 대신 다층 거울로 마스크 패턴을 4배 줄인다.', 'EUV is absorbed even by air, so the whole path from source to wafer is in high vacuum, and multilayer mirrors instead of lenses shrink the mask pattern 4×.'),
+        B('웨이퍼 스테이지는 노광마다 4분의 1나노미터 안으로 위치를 맞추고 초당 2만 번 확인·조정한다.', 'The wafer stage positions each exposure within a quarter of a nanometre, checking and adjusting 20,000 times a second.'),
+        B('High NA(EXE): NXE보다 이미지 대비 40% 높고, 한 번의 노광으로 1.7배 작은 패턴과 2.9배 높은 트랜지스터 밀도. 첫 High NA 장비는 2023년 12월 납품.', 'High NA (EXE): 40 % more imaging contrast than NXE; in a single exposure, features 1.7× smaller and transistor density 2.9× higher. The first High-NA system was delivered in December 2023.'),
+        B('ASML은 17년 동안 EUV 연구개발에 60억 유로 넘게 투자했고, 광원 기술을 위해 Cymer를 인수했다.', 'ASML invested over €6 billion in EUV R&D over 17 years and acquired Cymer for light-source technology.')
+      ],
+      skh: [
+        { d: '2021-02', t: B('이천 M16 준공 — 회사 최초 EUV 노광 장비 도입, EUV 전용 공간', 'Icheon M16 completed — the company’s first EUV scanners, with dedicated EUV space'), src: ['nrM16'] },
+        { d: '2021', t: B('10나노급 4세대(1a) D램에 EUV 첫 도입, 이후 최첨단 D램에 적용 확대', 'EUV first used for 4th-gen 10 nm-class (1a) DRAM, then extended to leading-edge DRAM'), src: ['nrHighNa', 'nrM16'] },
+        { d: '2024-08', t: B('1c DDR5 개발 — EUV 공정에 신소재 개발·적용', '1c DDR5 developed — new materials developed for the EUV process'), src: ['nr1c'] },
+        { d: '2025-09', t: B('메모리 업계 최초 양산용 High NA EUV(ASML EXE:5200B) 이천 M16 반입 — 기존 EUV 공정 단순화·차세대 메모리 개발 가속 계획', 'First production High-NA EUV in the memory industry (ASML EXE:5200B) moved into Icheon M16 — to simplify EUV processing and speed up next-generation memory'), src: ['nrHighNa'] }
+      ],
+      src: ['asmlEuv', 'asmlNxe', 'asmlExe', 'asmlDuv']
+    },
+    /* 장비 회사가 공시한 사실 — Applied Materials 연차보고서(Form 10-K, FY2025) */
+    amat: {
+      t: B('Applied Materials 반도체 장비 매출의 시장별 비중', 'Applied Materials semiconductor systems revenue by market'),
+      rows: [['FY2025', 67, 26, 7], ['FY2024', 68, 28, 4], ['FY2023', 77, 17, 6]],
+      note: B('파운드리·로직·기타 / D램 / 낸드(%). 회계연도는 10월 마지막 일요일에 끝난다. 사업 범위: 식각·급속 열처리·증착·CMP·계측과 검사·웨이퍼 패키징·이온주입.', 'Foundry, logic and other / DRAM / NAND (%). The fiscal year ends on the last Sunday in October. Scope: etch, rapid thermal processing, deposition, CMP, metrology and inspection, wafer packaging and ion implantation.'),
+      src: ['amat10k']
+    },
+    /* 소재 국산화·공급망 — 회사 보도자료·인터뷰 */
+    mat: [
+      { d: '2022-04', t: B('노광 공정에 국산 네온 첫 도입(협력사 TEMC·포스코) — 10월까지 사용량의 40%. 발표 당시 계획: 2024년 100%, 식각용 크립톤·제논은 2023년 6월까지 국산화', 'Domestic neon first used in lithography (with partners TEMC and POSCO) — 40 % of use by October. Plans at the time: 100 % by 2024, krypton and xenon for etching by June 2023'), src: ['nrNeon'] },
+      { d: '2023', t: B('100% 수입에 의존하던 EUV 감광액(PR) 국산화 — 2021년부터 SK머티리얼즈 퍼포먼스와 협업. 이 경험으로 소재별 위험도를 산출하는 ‘소재 리스크 지수(mRI)’와 협력사와의 고위험 소재 대응 협의체를 운영', 'EUV photoresist, previously 100 % imported, localised — with SK Materials Performance since 2021. The company then built a material Risk Index (mRI) scoring each material and a high-risk-materials council with suppliers'), src: ['nrMatVp'] },
+      { d: '2024', t: B('SiCN CVD 장비·웨이퍼 후면 증착 CVD 장비를 국내 장비사와 함께 개발해 양산에 적용(장비 국산화 공로로 정부 포상)', 'SiCN CVD and wafer-backside CVD tools co-developed with domestic toolmakers and put into production (government award for equipment localisation)'), src: ['nrEquipAward24'] },
+      { d: '2025', t: B('디보란(B₂H₆, 증착)·크립톤(Kr, 식각) 고순도 가스 국산화, 노광용 네온 회수·정제 재활용 기술 확보, 어닐링용 중수소(D₂) 공급선 다변화, 차세대 낸드 전극 소재 몰리브덴(Mo) 전구체 품질 분석 고도화', 'High-purity diborane (B₂H₆, deposition) and krypton (Kr, etch) localised; neon recovery and purification for reuse in lithography; deuterium (D₂) for annealing sourced from more suppliers; better quality analysis of molybdenum (Mo) precursors for next-gen NAND electrodes'), src: ['nrMatAward25'] }
+    ],
+    gas: [
+      ['b2h6', B('디보란', 'Diborane'), B('증착', 'Deposition')], ['', B('크립톤·제논', 'Krypton, xenon'), B('식각', 'Etch')],
+      ['', B('네온', 'Neon'), B('노광 광원(엑시머 레이저 가스의 95%)', 'Lithography light source (95 % of excimer laser gas)')], ['', B('중수소', 'Deuterium'), B('어닐링(손상된 웨이퍼 열처리 복원)', 'Annealing (heat-repair of damaged wafers)')],
+      ['tma', B('트리메틸알루미늄(ALD 전구체)', 'Trimethylaluminium (ALD precursor)'), B('증착(ALD)', 'Deposition (ALD)')], ['w', B('텅스텐', 'Tungsten'), B('금속배선 갭필', 'Metallization gap fill')]
+    ],
+    /* 설비 자산 — 반기보고서 유형자산(연결, 백만원) */
+    ppe: { net: 88889146, mach: 49822399, cip: 20830993, acq: 17595043, acqMach: 6052326, acqCip: 10584315, dep: 7133682, machCost: 158216503, src: ['skhH1_2026'] }
+  };
 })();

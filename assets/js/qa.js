@@ -52,7 +52,10 @@
         else walk(v, path + '.' + k, depth + 1);
       });
     };
-    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS', 'SKH_EQ'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    /* #33: 장비 지도의 공정 id, 소재 표의 물질 id */
+    ((S.SKH_EQ || {}).map || []).forEach((r, i) => { if (r.step && !((S.SKH_PROC || {}).steps || []).some((s) => s.id === r.step)) add('bad', T('없는 공정 카드', 'Unknown process card'), 'SKH_EQ.map[' + i + '].step', r.step); });
+    ((S.SKH_EQ || {}).gas || []).forEach(([id]) => { if (id && !chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), 'SKH_EQ.gas', id); });
     /* #32: 공정 카드의 hz는 포털 유해위험 카드 id */
     ((S.SKH_PROC || {}).steps || []).forEach((s) => (s.hz || []).forEach((id) => { if (!S.PROCESSES.some((p) => p.id === id)) add('bad', T('없는 공정 카드', 'Unknown process card'), 'SKH_PROC.steps.' + s.id + '.hz', id); }));
     /* SHE 가이드북 — id 중복, 원문 확인 절의 출처·확인일, 한/영 짝, 표의 칸 수, 나라·분야·수준 코드, {{절 id}}·포털 연결 경로, 계획 단계 */

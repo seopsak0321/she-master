@@ -5,11 +5,24 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v105';
+SHE.BUILD = 'v106';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 32, v: SHE.BUILD, date: '2026-10-11 22:39', commit: '',
+    { no: 33, v: SHE.BUILD, date: '2026-10-16 21:22', commit: '',
+      t: B('SK하이닉스 이해 확장 3 — 장비·소재: 공정별 장비 지도, ASML 노광 사양과 SK하이닉스 EUV 도입, 소재 국산화, 설비 자산', 'Understanding SK hynix, part 3 — equipment and materials: tools by process, ASML scanner specs and SK hynix’s EUV adoption, materials localisation and equipment assets'),
+      add: [
+        B('‘장비·소재’ 탭 — 공정별 장비 지도 13줄(노광기·트랙·식각·증착·열처리·이온주입·금속·CMP·세정·계측/검사·웨이퍼 테스트·그라인딩/절단·본딩): ASML·TEL·Lam Research·KLA·Axcelis·Advantest·DISCO 공식 제품 화면과 Applied Materials 연차보고서(미국 SEC 제출)로 확인. 점유율 같은 표현은 ‘회사 설명’으로 표시', 'Equipment & materials tab — a 13-row tool map (scanner, track, etch, deposition, thermal, implant, metal, CMP, clean, metrology/inspection, wafer test, grinding/dicing, bonding) checked on official product pages of ASML, TEL, Lam Research, KLA, Axcelis, Advantest and DISCO and Applied Materials’ annual report filed with the US SEC; share claims are marked as each company’s statement'),
+        B('노광 자세히 — ASML NXE:3800E(NA 0.33·13nm·시간당 220장 이상)·EXE:5200B(High NA, NA 0.55·8nm·175장 이상)·DUV 사양, EUV 광원·거울·진공·스테이지, SK하이닉스 EUV 도입(2021 M16·1a D램 → 2025.9 메모리 업계 최초 양산용 High NA)', 'Lithography in depth — ASML NXE:3800E (NA 0.33, 13 nm, ≥220 wafers/hour), EXE:5200B (High NA, NA 0.55, 8 nm, ≥175) and DUV specs; EUV source, mirrors, vacuum and stage; SK hynix EUV adoption (2021 M16 and 1a DRAM → September 2025 first production High NA in memory)'),
+        B('소재 국산화와 공급망 — 네온(2022)·EUV 감광액(2023)·SiCN·후면 증착 CVD 장비(2024)·디보란·크립톤(2025), 네온 재활용·중수소 다변화·몰리브덴 전구체, 소재 리스크 지수(mRI). 소재는 포털 물질 DB와 연결', 'Materials localisation and supply — neon (2022), EUV photoresist (2023), SiCN and backside CVD tools (2024), diborane and krypton (2025); neon recycling, deuterium sourcing, molybdenum precursors; the material Risk Index (mRI). Materials link to the portal substance database'),
+        B('설비 자산 — 유형자산 88조 8,891억원(기계장치 49조 8,224억), 상반기 설비 취득 17조 5,950억원, 감가상각 7조 1,337억원(반기보고서)', 'Equipment assets — PP&E KRW 88.89 trillion (machinery 49.82), H1 additions KRW 17.60 trillion, depreciation KRW 7.13 trillion (half-year report)')
+      ],
+      chg: [
+        B('공정 카드 9개 중 8개에 ‘주요 장비’ 줄, 반도체 용어 64 → 74개(노광기·High NA·트랙·엑시머 레이저 가스·극저온 식각·베벨·프로버·메모리 테스터·몰리브덴·1c와 1-gamma)', 'Eight of the nine process cards gain a “main tools” line; chip terms 64 → 74 (scanner, High NA, track, excimer laser gas, cryogenic etch, bevel, prober, memory tester, molybdenum, 1c vs 1-gamma)'),
+        B('#31에서 비워 둔 ‘2026년 상반기 순이익이 영업이익보다 큰 까닭’ 확인 — 금융수익 82조 9,152억원(금융상품평가이익 63조 1,790억 등)으로 법인세차감전순이익 174조 3,252억원(반기보고서 주석 24)', 'The gap left in #31 resolved: H1 2026 net income exceeded operating profit because finance income was KRW 82.92 trillion (63.18 trillion from gains on financial instruments, among others), lifting profit before tax to KRW 174.33 trillion (half-year report note 24)'),
+        B('#32에서 칼럼 수치라 뺀 ‘노광기 시간당 약 100장’은 공식 사양(220·175장 이상)과 달랐음을 확인. 출처 228 → 252건(장비 회사 18·뉴스룸 6), 자료 라이브러리 5,871 → 5,877건(뉴스룸 6건 — 장비 제품 화면은 안전 자료가 아니어서 출처 목록에만). 다음은 #34 생산 거점·투자', 'Confirmed that the column’s “about 100 wafers an hour”, left out in #32, differs from the official specs (≥220 and ≥175). Sources 228 → 252 (18 toolmaker, 6 newsroom); library 5,871 → 5,877 (the 6 newsroom items — toolmaker product pages stay in the source list only, as they are not safety material). Next: #34 sites and investment')
+      ] },
+    { no: 32, v: 'v105', date: '2026-10-11 22:39', commit: 'df172e1',
       t: B('SK하이닉스 이해 확장 2 — 공정·테스트·패키지, 메모리·HBM 기술, 반도체 용어(SK하이닉스 뉴스룸 원문 33편)', 'Understanding SK hynix, part 2 — processes, test and packaging, memory and HBM technology, and chip terms (33 SK hynix newsroom originals)'),
       add: [
         B('‘공정’ 탭 — 웨이퍼 → 전공정(FEOL·BEOL) → 웨이퍼 테스트 → 패키지 → 패키지 테스트 흐름, 단위 공정 카드 9개(웨이퍼·산화·포토·식각·증착·이온주입·금속배선·CMP·세정), 테스트(웨이퍼·패키지 순서, JEDEC 신뢰성 시험), 패키지(역할·종류·컨벤셔널 8단계·웨이퍼 레벨·재료). #company/pc-ox·test·pkg 같은 주소로 바로 열기', 'Processes tab — the flow wafer → front end (FEOL, BEOL) → wafer test → packaging → package test; nine unit-process cards (wafer, oxidation, photo, etch, deposition, implantation, metallization, CMP, cleaning); test (wafer and package order, JEDEC reliability tests); packaging (roles, types, the eight conventional steps, wafer level, materials). Direct addresses such as #company/pc-ox, test and pkg'),
