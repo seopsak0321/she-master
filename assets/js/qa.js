@@ -32,6 +32,8 @@
       S.SOURCES.forEach((s) => [s.title, s.note].forEach((b) => b && [b.ko, b.en].forEach((x) => scan(x, 'SOURCES ' + s.id, all(s.title, s.note))))); }
     /* #29(외부 검토 E19): 국가법령정보센터 현행 법령 출처는 판 표기에 시행일과 공포 번호를 함께 — 연혁 고정 주소는 제외 */
     S.SOURCES.forEach((s) => { const u = decodeURIComponent(s.url || ''); const t = (s.title && s.title.ko) || ''; if (s.type === 'law' && /law\.go\.kr\/법령\//.test(u) && !/\/\(/.test(u)) { const v = t.match(/\[시행[^\]]*\]/); if (!v || !/제\s*[\d-]+\s*호/.test(v[0])) add('warn', T('법령 판 표기', 'Law version label'), 'SOURCES ' + s.id, v ? v[0] : T('[시행 …] 없음', 'no [시행 …]')); } });
+    /* #34: 같은 뉴스룸 기사를 두 id로 등록하지 않는다(#33에서 M16 준공 기사가 nrm16·nrM16으로 겹쳤던 일). 보고서 화면·법령 주소는 여러 출처가 함께 쓰므로 뉴스룸 기사만 본다 */
+    (() => { const seen = {}; S.SOURCES.forEach((s) => { if (!/^https:\/\/news\.skhynix\.co\.kr\/[^?#]+\/$/.test(s.url || '')) return; if (seen[s.url]) add('bad', T('같은 기사 중복 등록', 'Same article registered twice'), s.id, seen[s.url]); else seen[s.url] = s.id; }); })();
     S.SOURCES.forEach((s) => {
       if (!/^https?:\/\//.test(s.url || '')) add('bad', T('출처 URL', 'Source URL'), s.id, s.url || '–');
       if (!/^\d{4}-\d{2}-\d{2}$/.test(s.checked || '')) add('warn', T('출처 확인일', 'Source date'), s.id, s.checked || '–');
@@ -52,7 +54,7 @@
         else walk(v, path + '.' + k, depth + 1);
       });
     };
-    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS', 'SKH_EQ'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS', 'SKH_EQ', 'SKH_BASE'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
     /* #33: 장비 지도의 공정 id, 소재 표의 물질 id */
     ((S.SKH_EQ || {}).map || []).forEach((r, i) => { if (r.step && !((S.SKH_PROC || {}).steps || []).some((s) => s.id === r.step)) add('bad', T('없는 공정 카드', 'Unknown process card'), 'SKH_EQ.map[' + i + '].step', r.step); });
     ((S.SKH_EQ || {}).gas || []).forEach(([id]) => { if (id && !chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), 'SKH_EQ.gas', id); });

@@ -18,9 +18,9 @@
   const won = (m) => { const jo = Math.floor(m / 1e6), eok = Math.round((m % 1e6) / 100); return S.state.lang === 'en' ? `KRW ${(m / 1e6).toFixed(2)} tn` : `${jo ? `${jo}조 ` : ''}${eok ? `${eok.toLocaleString('ko-KR')}억` : ''}원`; };
   /* #32(13단계 K2): 공정·메모리·HBM 기술·반도체 용어 탭 추가(data/skh-proc.js) */
   /* #33(13단계 K3): 장비·소재 탭(SHE.SKH_EQ) */
-  const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['equip', T => T('장비·소재', 'Equipment & materials')], ['business', T => T('사업 현황', 'Business')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
+  const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['equip', T => T('장비·소재', 'Equipment & materials')], ['base', T => T('거점·투자', 'Sites & investment')], ['business', T => T('사업 현황', 'Business')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
   /* 탭 안의 자리로 바로 가는 주소: #company/pc-<공정>·test·pkg → 공정 탭, cells·dram·nand·hbm → 메모리·HBM 탭, litho·mat·ppe → 장비·소재 탭 */
-  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : null);
+  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : null);
   const extTag = (ids) => ([].concat(ids || []).some((id) => (S.SKH_EXT || []).includes(id)) ? ` <span class="tag-ext" title="${T('뉴스룸에 실린 외부 전문가 칼럼 — 원문에 SK하이닉스의 공식 입장과 다를 수 있다고 적혀 있음', 'External expert column in the newsroom — the original says it may differ from SK hynix’s official position')}">${T('외부 칼럼', 'External column')}</span>` : '');
   const nm = (x) => esc(typeof x === 'string' ? x : L(x));
   const pairs = (rows) => `<div class="table-wrap"><table class="data"><tbody>${rows.map(([k, v]) => `<tr><th scope="row" style="width:26%">${nm(k)}</th><td class="small">${esc(L(v))}</td></tr>`).join('')}</tbody></table></div>`;
@@ -127,6 +127,36 @@
       </section>`;
   }
   const B0 = { ko: [], en: [] };
+  /* #34(13단계 K4): 생산 거점·투자·행정 조치(SHE.SKH_BASE) */
+  function tabBase() {
+    const G = S.SKH_BASE || {};
+    const dl = (d) => esc(String(d || '').replace(/-/g, '.'));
+    return `<section class="panel stack">${ui.title(T('생산 거점 지도', 'Where SK hynix makes chips'), T('반기보고서와 회사 보도자료·FACT 원문', 'Half-year report and company press releases and FACT notes'))}
+        <p class="small">${esc(L(G.running || ''))}${S.cite('skhH1_2026')}</p>
+        <nav class="row" aria-label="${T('거점 바로가기', 'Jump to a site')}">${(G.sites || []).map((s) => `<a class="chip" href="#company/bs-${s.id}">${nm(s.t)}</a>`).join('')}<a class="chip" href="#company/invest">${T('투자 공시', 'Investment filings')}</a><a class="chip" href="#company/sanction">${T('행정 조치', 'Administrative actions')}</a></nav>
+      </section>
+      <section class="grid g2">${(G.sites || []).map((s) => `<article class="panel stack" style="gap:8px;align-content:start" id="anchor-bs-${s.id}">
+          <h3 style="font-size:calc(17px * var(--fz))">${nm(s.t)}</h3>
+          <p class="small"><b>${esc(L(s.role))}</b></p>
+          <ol class="timeline">${s.items.map((x) => `<li><span class="num">${x.d ? dl(x.d) : '–'}</span> <span>${esc(L(x.t))}${S.cite(x.src)}</span></li>`).join('')}</ol>
+          ${s.id === 'icheon' || s.id === 'cheongju' ? `<div class="small"><a href="#sites">${T('사업장 안전 프로필', 'Site safety profile')} →</a></div>` : ''}
+        </article>`).join('')}</section>
+      <section class="panel stack">${ui.title(T('해외·국내 법인 (연결 종속기업)', 'Subsidiaries (consolidated)'), T('반기보고서 종속기업 표의 주요 영업활동', 'Main activity as given in the half-year report’s subsidiary table'))}
+        ${pairs((G.subs || []).map((x) => [x.k, { ko: x.v, en: x.en }]))}
+        <p class="xs muted">${esc(L(G.subsNote || ''))}${S.cite('skhH1_2026')}</p>
+      </section>
+      <section class="panel stack" id="anchor-invest">${ui.title(T('투자 공시·발표', 'Investment filings and announcements'), T('공정공시·신규시설투자·이사회 결의 — 날짜순', 'Fair-disclosure filings, new-facility investments and board decisions — by date'))}
+        <ol class="timeline">${(G.invest || []).map((x) => `<li><span class="num">${dl(x.d)}</span> <span>${esc(L(x.t))}${S.cite(x.src)}</span></li>`).join('')}</ol>
+        <ul class="facts">${(G.investNotes || []).map((n) => `<li>${esc(L(n.t))}${S.cite(n.src)}</li>`).join('')}</ul>
+        <p class="xs muted">${T('금액은 발표 때의 계획이며, 회사는 수요에 맞춰 단계적으로 집행한다고 밝혔습니다. 분기 실적과 설비 자산은 ‘사업 현황’과 ‘장비·소재’ 탭에 있습니다.', 'Amounts are plans as announced; the company says it spends in stages with demand. Quarterly results and equipment assets are in the Business and Equipment & materials tabs.')} <a href="#company/business">${T('분기 실적', 'Quarterly results')} →</a> · <a href="#company/ppe">${T('설비 자산', 'Equipment assets')} →</a></p>
+      </section>
+      <section class="panel stack" id="anchor-sanction">${ui.title(T('안전·환경 행정 조치 (회사 공시)', 'Safety and environmental administrative actions (company filing)'), T('반기보고서 ‘제재 등과 관련된 사항’, 2024~2026년 6월', 'Half-year report, “sanctions”, 2024 – June 2026'))}
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('날짜', 'Date')}</th><th>${T('기관', 'Authority')}</th><th>${T('조치', 'Action')}</th><th>${T('사유', 'Reason')}</th><th>${T('회사 조치', 'Company response')}</th></tr></thead><tbody>
+          ${(G.sanctions || []).map((x) => `<tr><td class="nowrap">${dl(x.d)}</td><td class="small">${esc(L(x.org))}</td><td class="small">${esc(L(x.act))}</td><td class="small">${esc(L(x.why))}</td><td class="small">${esc(L(x.fix))}</td></tr>`).join('')}
+        </tbody></table></div>
+        <p class="xs muted">${esc(L(G.sanctionsNote || ''))}${S.cite(G.src || [])} · <a href="#cases/cj-2026-gasroom">${T('청주 가스룸 사고 사례', 'Cheongju gas-room case')} →</a></p>
+      </section>`;
+  }
   function tabTerms() {
     const list = (S.SEMI_TERMS || []).slice().sort((a, b) => L(a.t).localeCompare(L(b.t), S.state.lang === 'en' ? 'en' : 'ko'));
     const both = (o) => [].concat(o.ko || '', o.en || '').join(' ');
@@ -204,7 +234,7 @@
       const want = sub && coTabOf(sub);
       if (!S.state.refreshing && want) S.save('tab.co', want);
       const tab = S.tab('co', 'profile');
-      const body = tab === 'products' ? tabProducts() : tab === 'process' ? tabProcess() : tab === 'memtech' ? tabMem() : tab === 'equip' ? tabEquip() : tab === 'business' ? tabBusiness() : tab === 'terms' ? tabTerms() : tab === 'plan' ? tabPlan() : tab === 'safety' ? tabSafety() : tabProfile();
+      const body = tab === 'products' ? tabProducts() : tab === 'process' ? tabProcess() : tab === 'memtech' ? tabMem() : tab === 'equip' ? tabEquip() : tab === 'base' ? tabBase() : tab === 'business' ? tabBusiness() : tab === 'terms' ? tabTerms() : tab === 'plan' ? tabPlan() : tab === 'safety' ? tabSafety() : tabProfile();
       return `
       ${ui.head(T('회사 이해', 'Company'), T('SK하이닉스 이해', 'Understanding SK hynix'),
         T('SK하이닉스가 직접 공개한 자료로 회사·제품·공정·기술·사업과 안전 체계를 정리했습니다.', 'The company, its products, processes, technology, business and safety system, from material SK hynix itself has published.'),

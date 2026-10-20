@@ -40,24 +40,33 @@ window.SHE = window.SHE || {};
     ],
     /* 3) 실적 — 반기보고서 III.1·II.7(연결, 백만원 → 조·억원) */
     results: {
-      unit: B('연결 기준, 원문 단위 백만원', 'Consolidated; original unit KRW million'),
+      unit: B('연결 기준 — 연간과 2025년 2분기·2026년 1·2분기는 반기보고서(백만원), 나머지 분기는 실적 보도자료(억원)', 'Consolidated — years and Q2 2025, Q1–Q2 2026 from the half-year report (KRW million); other quarters from results releases (KRW 100 million)'),
       years: [
         { p: B('2024년(제77기)', 'FY2024'), rev: 66192960, op: 23467319, ni: 19796902 },
         { p: B('2025년(제78기)', 'FY2025'), rev: 97146675, op: 47206319, ni: 42947902 },
         { p: B('2026년 상반기(제79기 반기)', 'H1 2026'), rev: 131895033, op: 98152891, ni: 134268502 }
       ],
+      /* #34: 10개 분기 — 실적 보도자료의 억원 값은 ×100 해 백만원으로(표시는 조·억) */
       quarters: [
+        { p: B('2024년 1분기', 'Q1 2024'), rev: 12429600, op: 2886000, ni: 1917000 },
+        { p: B('2024년 2분기', 'Q2 2024'), rev: 16423300, op: 5468500, ni: 4120000 },
+        { p: B('2024년 3분기', 'Q3 2024'), rev: 17573100, op: 7030000, ni: 5753400 },
+        { p: B('2024년 4분기', 'Q4 2024'), rev: 19767000, op: 8082800, ni: 8006500 },
+        { p: B('2025년 1분기', 'Q1 2025'), rev: 17639100, op: 7440500, ni: 8108200 },
         { p: B('2025년 2분기', 'Q2 2025'), rev: 22231952, op: 9212851, ni: 6996216 },
+        { p: B('2025년 3분기', 'Q3 2025'), rev: 24448900, op: 11383400, ni: 12597500 },
+        { p: B('2025년 4분기', 'Q4 2025'), rev: 32826700, op: 19169600, ni: 15246000 },
         { p: B('2026년 1분기', 'Q1 2026'), rev: 52576287, op: 37610283, ni: 40345909 },
         { p: B('2026년 2분기', 'Q2 2026'), rev: 79318746, op: 60542608, ni: 93922593 }
       ],
       notes: [
+        B('HBM 비중: 2024년 3분기 D램 매출의 30%, 4분기 40% 이상(실적 보도자료). 2025년 3분기 분기 영업이익이 처음 10조 원, 2026년 1분기 분기 매출이 처음 50조 원을 넘었다', 'HBM share: 30 % of DRAM revenue in Q3 2024 and over 40 % in Q4 (results releases). Quarterly operating profit first passed KRW 10 trillion in Q3 2025, and quarterly revenue first passed 50 trillion in Q1 2026'),
         B('2026년 2분기 매출은 전 분기 대비 51%, 전년 동기 대비 257% 늘어 역대 최대, 영업이익률 76%로 영업이익·영업이익률 모두 분기 최대(회사 설명)', 'Q2 2026 revenue rose 51 % quarter on quarter and 257 % year on year to a record; operating margin was 76 %, a record for both operating profit and margin (company’s statement)'),
         B('2026년 2분기 DRAM은 HBM3E와 AI향 서버 DRAM 중심으로 출하량 소폭 증가·평균판매가격(ASP) 30% 중반 상승, NAND는 출하량 10% 중반 증가·ASP 50% 중반 상승(전 분기 대비)', 'Q2 2026: DRAM shipments up slightly, led by HBM3E and AI server DRAM, with ASP up in the mid-30s %; NAND shipments up in the mid-teens % and ASP up in the mid-50s % (quarter on quarter)'),
         B('2026년 상반기 당기순이익(134조 2,685억원)이 영업이익(98조 1,529억원)보다 큰 까닭: 금융수익 82조 9,152억원(금융상품평가이익 63조 1,790억·배당금수익 13조 9,796억·외환차이 5조 805억·이자수익 4,933억)에서 금융비용 6조 6,644억원을 뺀 순금융수익이 76조 2,508억원이어서 법인세차감전순이익이 174조 3,252억원이 됨(연결 주석 24 금융수익 및 금융비용)', 'Why H1 2026 net income (KRW 134.27 trillion) exceeds operating profit (KRW 98.15 trillion): finance income of KRW 82.92 trillion (gains on financial instruments 63.18, dividends 13.98, FX 5.08, interest 0.49) less finance costs of KRW 6.66 trillion left net finance income of KRW 76.25 trillion, so profit before tax reached KRW 174.33 trillion (consolidated note 24, finance income and costs)'),
         B('2026년 상반기 말 자산총계 348조 8,622억원, 유형자산 장부가액 88조 8,891억원, 상반기 유형자산 취득(설비 투자) 17조 5,950억원', 'Total assets KRW 348.86 trillion at end-H1 2026; property, plant and equipment KRW 88.89 trillion; H1 capital spending (PP&E acquired) KRW 17.60 trillion')
       ],
-      src: [R]
+      src: [R, 'nrRes24q1', 'nrRes24q2', 'nrRes24q3', 'nrRes24', 'nrRes25q1', 'nrRes25q2', 'nrRes25q3', 'nrRes25', 'nrRes26q1', 'nr0729']
     },
     /* 4) 연구개발 — 반기보고서 II.6 */
     rnd: {
@@ -161,9 +170,101 @@ window.SHE = window.SHE || {};
     plan: [
       { no: '#32 ✔', t: B('공정·메모리·HBM 기술·반도체 용어 탭 공개 — 웨이퍼부터 전공정 단위 공정 9개, 웨이퍼·패키지 테스트와 신뢰성 시험, 패키지 종류·공정·재료, D램·낸드 구조와 4D 낸드, HBM(TSV·KGSD·MR-MUF·2.5D·하이브리드 본딩·iHBM)과 연표, 용어 64개', 'Processes, memory and HBM technology and chip terms published — wafer and nine front-end unit processes; wafer and package test and reliability; package types, flows and materials; DRAM and NAND structure and 4D NAND; HBM (TSV, KGSD, MR-MUF, 2.5D, hybrid bonding, iHBM) with a timeline; 64 terms') },
       { no: '#33 ✔', t: B('장비·소재 탭 공개 — 공정별 장비 지도 13줄(ASML·TEL·Lam·KLA·Applied Materials·Axcelis·Advantest·DISCO 공식 자료), ASML 노광 사양과 SK하이닉스 EUV·High NA 도입, 소재 국산화(네온·EUV 감광액·디보란·크립톤)와 설비 자산, 순이익>영업이익 까닭(금융수익) 확인', 'Equipment & materials published — 13-row tool map (official material from ASML, TEL, Lam, KLA, Applied Materials, Axcelis, Advantest, DISCO), ASML scanner specs and SK hynix EUV and High-NA adoption, materials localisation (neon, EUV resist, diborane, krypton) and equipment assets; why net income exceeded operating profit (finance income) confirmed') },
-      { no: '#34', t: B('생산 거점·투자·로드맵 — 반기보고서 종속회사 상세표로 생산기지 4곳·연구개발법인 3곳 이름 확인, 이천(M14·M16)·청주(M15·M15X·P&T7)·중국(우시·다롄·충칭)·용인 클러스터·미국 인디애나, 회사 투자 설명(FACT), 분기 실적 추이', 'Sites, investment and roadmap — names of the four production bases and three R&D subsidiaries from the half-year report’s subsidiary table; Icheon (M14, M16), Cheongju (M15, M15X, P&T7), China (Wuxi, Dalian, Chongqing), the Yongin cluster and Indiana; the company’s investment explainers (FACT); quarterly results') },
-      { no: '#35', t: B('세계 반도체 시장 — WSTS 전망, 삼성전자·마이크론·TSMC·엔비디아·ASML 등 기업 비교, 각국 정책', 'Global market — WSTS forecasts; Samsung, Micron, TSMC, NVIDIA, ASML and others compared; national policies') },
+      { no: '#34 ✔', t: B('거점·투자 탭 공개 — 이천·청주·용인·서남권·중국 3곳·미국 인디애나 거점별 연혁, 종속기업 영업활동, 투자 공시 9건(총 1,100조 원 중장기 계획 포함), 회사가 공시한 안전·환경 행정 조치 13건. 분기 실적을 10개 분기로, 청주 가스룸 사례를 회사 공시로 보강', 'Sites & investment published — histories for Icheon, Cheongju, Yongin, the southwest, three China sites and Indiana; subsidiaries by activity; nine investment filings (including the KRW 1,100 trillion long-term plan); 13 safety and environmental actions the company disclosed. Results extended to ten quarters; the Cheongju gas-room case strengthened from the company filing') },
+      { no: '#35', t: B('세계 반도체 시장 — WSTS 시장 전망(공식 보도자료), 메모리 경쟁사(삼성전자·마이크론)와 장비·파운드리·AI 칩 기업(ASML·Applied Materials·Lam·TEL·KLA·TSMC·엔비디아)의 연차보고서 핵심 수치, 지역별 매출(한국 비중), 각국 반도체 정책(미국 CHIPS Act 등 정부 원문)', 'Global market — WSTS forecasts (official releases); key annual-report figures for memory rivals (Samsung, Micron) and toolmakers, foundry and AI-chip firms (ASML, Applied Materials, Lam, TEL, KLA, TSMC, NVIDIA); revenue by region (Korea’s share); national chip policies (US CHIPS Act and others, government texts)') },
       { no: '#36', t: B('반도체 현장 × AI — SK하이닉스가 공개한 AI 활용, AI 메모리 수요', 'Semiconductor sites × AI — AI uses SK hynix has disclosed; AI memory demand') }
     ]
+  };
+
+  /* 8) 생산 거점·투자·행정 조치 — #34(K4). 반기보고서(공시)와 뉴스룸 보도자료·FACT 원문만. 계획은 발표 시점의 계획으로 적는다 */
+  SHE.SKH_BASE = {
+    asof: '2026-10-17',
+    running: B('반기보고서(연결 주석 1): 이천·청주와 중국 우시·충칭·다롄에서 생산공장을 가동한다. 미국 인디애나는 건설 중', 'Half-year report (consolidated note 1): production plants operate in Icheon and Cheongju and in Wuxi, Chongqing and Dalian in China; Indiana in the US is under construction'),
+    sites: [
+      { id: 'icheon', t: B('이천 (본사)', 'Icheon (HQ)'), role: B('본사·R&D와 첨단 공정의 중심, D램 팹', 'Headquarters, centre of R&D and leading-edge processes; DRAM fabs'), items: [
+        { d: '2014~', t: B('2014년부터 46조 원을 들여 국내에 새 팹 3곳(이천 M14, 청주 M15, 이천 M16)을 짓는 ‘미래비전’ — 2015년 M14 건설로 시작', 'The “Future Vision”: KRW 46 trillion from 2014 for three new domestic fabs (Icheon M14, Cheongju M15, Icheon M16), starting with M14 in 2015'), src: ['nrM15xPlan', 'nrM15x'] },
+        { d: '2021-02', t: B('M16 준공 — 3.5조 원·25개월, D램 주력, 회사 최대 생산시설, 회사 최초 EUV', 'M16 completed — KRW 3.5 trillion over 25 months, mainly DRAM, the company’s largest fab, its first EUV'), src: ['nrm16'] },
+        { d: '2025-09', t: B('M16에 메모리 업계 최초 양산용 High NA EUV(EXE:5200B) 반입', 'First production High-NA EUV in the memory industry (EXE:5200B) moved into M16'), src: ['nrHighNa'] },
+        { d: '2026-06', t: B('회사 설명: 이천은 앞으로도 R&D와 첨단 공정을 이끄는 본사이자 중심 거점', 'Company statement: Icheon remains the HQ and core site leading R&D and leading-edge processes'), src: ['nrFact05'] }
+      ] },
+      { id: 'cheongju', t: B('청주', 'Cheongju'), role: B('낸드(M11·M12·M15), D램·HBM(M15X), 어드밴스드 패키징(P&T7), 낸드 신규(M17)', 'NAND (M11, M12, M15), DRAM and HBM (M15X), advanced packaging (P&T7), new NAND (M17)'), items: [
+        { d: '2018-10', t: B('M15 준공 — 낸드플래시 팹', 'M15 completed — NAND flash fab'), src: ['nrm15'] },
+        { d: '2022-09', t: B('M15X 건설 계획 — 청주 테크노폴리스 약 6만㎡, 복층(M11·M12를 합한 규모), 5년간 15조 원(공정공시)', 'M15X plan — about 60,000 m² in Cheongju Technopolis, two storeys (the size of M11 and M12 combined), KRW 15 trillion over five years (fair-disclosure filing)'), src: ['nrM15xPlan', 'skhH1_2026'] },
+        { d: '2024-04', t: B('M15X를 D램 생산기지로 결정 — 건설비 약 5.3조 원, 장기적으로 20조 원 이상. TSV 캐파를 늘리는 M15와 인접해 HBM 생산에 유리', 'M15X chosen as a DRAM base — about KRW 5.3 trillion to build, over 20 trillion in the long run; next to M15, where TSV capacity is growing, which suits HBM'), src: ['nrM15x'] },
+        { d: '2025-10', t: B('M15X 클린룸 오픈 — 이후 장비 순차 셋업', 'M15X cleanroom opened — tools then set up in stages'), src: ['nrFact02'] },
+        { d: '2026-04', t: B('P&T7 착수 — HBM 등 어드밴스드 패키징 전용, 테크노폴리스 7만 평, 약 19조 원, 2027년 말 완공 목표', 'P&T7 started — dedicated to advanced packaging such as HBM; 70,000 pyeong in Technopolis; about KRW 19 trillion; completion targeted for end-2027'), src: ['nrFact02', 'skhH1_2026'] },
+        { d: '2026-08', t: B('M17 결정 — 낸드 팹, 연면적 20.6만 평, 19.1조 원, 2027.2 착공·2028.12 첫 클린룸(투자 2031.4까지)', 'M17 approved — NAND fab, 206,000 pyeong of floor area, KRW 19.1 trillion; construction February 2027, first cleanroom December 2028 (spending to April 2031)'), src: ['nrY2M17'] }
+      ] },
+      { id: 'yongin', t: B('용인 클러스터 (건설 중)', 'Yongin cluster (under construction)'), role: B('HBM 등 차세대 D램 생산 거점, 팹 4기', 'Next-generation DRAM including HBM; four fabs'), items: [
+        { d: '', t: B('용인시 처인구 원삼면 415만㎡(약 126만 평) — SK하이닉스 팹 약 60만 평, 소부장 협력화단지 14만 평, 인프라 12만 평', '4.15 million m² (about 1.26 million pyeong) in Wonsam-myeon, Cheoin-gu — about 600,000 pyeong for SK hynix fabs, 140,000 for suppliers, 120,000 for infrastructure'), src: ['nrYongin'] },
+        { d: '2025-02', t: B('1기 팹(Y1) 착공(2.21 건축 허가)', 'Fab 1 (Y1) construction began (building permit 21 February)'), src: ['nrYongin'] },
+        { d: '2026-02', t: B('Y1 신규시설투자 약 21.6조 원 추가(2030.12까지) — 2024.7의 약 9.4조 원을 합쳐 약 31조 원, 골조 2개·클린룸 6개, 첫 클린룸 2027.5 → 2027.2로 앞당김', 'A further KRW 21.6 trillion for Y1 (to December 2030) — about 31 trillion with the 9.4 trillion of July 2024; two shells and six cleanrooms; first cleanroom brought forward from May to February 2027'), src: ['nrFact04', 'skhH1_2026'] },
+        { d: '2026-06', t: B('2033년까지 4번째 팹 건설 완료 목표(당초 2045년), 클러스터에 총 600조 원(설비·장비는 수요에 맞춰 단계 투자)', 'Target: fourth fab built by 2033 (originally 2045); KRW 600 trillion for the cluster in all (equipment added in stages with demand)'), src: ['nrFact05', 'skhH1_2026'] },
+        { d: '2026-08', t: B('Y2 결정 — D램, 연면적 34.1만 평, 35.2조 원, 2027.7 착공·2029.6 첫 클린룸(투자 2031.10까지). 1단계 전력·용수 인프라 공정률 99%', 'Y2 approved — DRAM, 341,000 pyeong, KRW 35.2 trillion; construction July 2027, first cleanroom June 2029 (spending to October 2031). Phase-1 power and water 99 % complete'), src: ['nrY2M17'] }
+      ] },
+      { id: 'sw', t: B('서남권 클러스터 (계획)', 'Southwest cluster (planned)'), role: B('메모리 전공정 중심의 새 생산 거점', 'A new production base centred on memory front-end'), items: [
+        { d: '2026-06', t: B('400조 원을 단계 투자해 새 클러스터 조성 계획 — 부지·인프라(전력·용수)가 핵심 기준, 세부 입지는 관계 기관과 협의해 확정 예정', 'Plan to build a new cluster with KRW 400 trillion in stages — land and infrastructure (power, water) are the key criteria; the exact site will be fixed with the authorities'), src: ['nrFact05', 'nrFact06', 'skhH1_2026'] }
+      ] },
+      { id: 'wuxi', t: B('중국 우시', 'Wuxi, China'), role: B('반도체 제조 법인 SK hynix Semiconductor (China) Ltd.', 'Manufacturing subsidiary SK hynix Semiconductor (China) Ltd.'), items: [
+        { d: '2004', t: B('우시에 처음 진출', 'First entered Wuxi'), src: ['nrDalian'] },
+        { d: '2025-10', t: B('우시시 생태환경국 과태료 26.4만 위안 — 폐수처리장 스크러버 물순환 펌프 불량으로 오염물 배출 → 스크러버 개선·예비 스크러버 추가', 'Wuxi environment bureau fine of RMB 264,000 — pollutants released when a wastewater-plant scrubber’s water pump failed → scrubber upgrades and a standby scrubber'), src: ['skhH1_2026'] }
+      ] },
+      { id: 'dalian', t: B('중국 다롄', 'Dalian, China'), role: B('반도체 제조 법인 SK hynix Semiconductor (Dalian) — 인텔 낸드 팹', 'Manufacturing subsidiary SK hynix Semiconductor (Dalian) — the former Intel NAND fab'), items: [
+        { d: '2021-01', t: B('다롄시와 MOU — 인텔 낸드 팹 이전 지원·지역 신규 투자', 'MOU with Dalian — support for the Intel NAND fab transfer and new local investment'), src: ['nrDalian'] },
+        { d: '2021-12', t: B('인텔 낸드 사업 1단계 인수 — 다롄 팹 인수(2025.3 최종 완료)', 'First stage of the Intel NAND acquisition — Dalian fab acquired (final completion March 2025)'), src: ['skhH1_2026'] }
+      ] },
+      { id: 'chongqing', t: B('중국 충칭', 'Chongqing, China'), role: B('후공정(패키지·테스트) 법인 SK hynix Semiconductor (Chongqing)', 'Back-end (package and test) subsidiary SK hynix Semiconductor (Chongqing)'), items: [
+        { d: '2014-09', t: B('후공정 생산법인 준공 — 2013.7 착공, 2014.7 양산, 대지 28만㎡, 2억 5천만 달러, 당시 모바일용 낸드', 'Back-end subsidiary completed — construction July 2013, volume production July 2014; 280,000 m² site; US$250 million; mobile NAND at the time'), src: ['nrChongqing'] }
+      ] },
+      { id: 'indiana', t: B('미국 인디애나 웨스트라피엣 (건설 중)', 'West Lafayette, Indiana, US (under construction)'), role: B('HBM 어드밴스드 패키징·테스트 — SK hynix Semiconductor West Lafayette LLC(2024.8 설립)', 'HBM advanced packaging and test — SK hynix Semiconductor West Lafayette LLC (set up August 2024)'), items: [
+        { d: '2024-04', t: B('인디애나주와 투자협약 — 38억 7천만 달러(약 5.2조 원), 퍼듀대와 R&D 협력', 'Investment agreement with Indiana — US$3.87 billion (about KRW 5.2 trillion); R&D with Purdue'), src: ['nrIndiana24'] },
+        { d: '2026-08', t: B('기공식 — 40억 달러 이상, 2028.10 클린룸 완공·2029년 하반기 차세대 HBM 양산. 한국에서 만든 웨이퍼를 들여와 패키징·테스트해 미국 고객에게 공급', 'Groundbreaking — over US$4 billion; cleanroom October 2028, next-generation HBM in volume from H2 2029; wafers made in Korea are packaged and tested there for US customers'), src: ['nrIndiana26'] },
+        { d: '2026-06', t: B('미국 상무부 DFA 이행·대출 상환을 위한 지급보증 1,028백만 달러(반기보고서)', 'Guarantee of US$1,028 million for the US Commerce Department DFA and loan repayment (half-year report)'), src: ['skhH1_2026'] }
+      ] }
+    ],
+    /* 반기보고서 연결 종속기업 표의 ‘주요 영업활동’ 그대로 */
+    subs: [
+      { k: B('반도체 제조', 'Semiconductor manufacturing'), v: 'SK hynix Semiconductor (China) · SK hynix Semiconductor (Dalian) · SK hynix Semiconductor (Chongqing) · SK hynix Semiconductor West Lafayette · 에스케이파워텍(SK keyfoundry 자회사)', en: 'SK hynix Semiconductor (China), (Dalian), (Chongqing), SK hynix Semiconductor West Lafayette, SK Powertech (a SK keyfoundry subsidiary)' },
+      { k: B('반도체 판매·생산', 'Semiconductor sales and production'), v: '에스케이키파운드리', en: 'SK keyfoundry' },
+      { k: B('반도체 연구개발', 'Semiconductor R&D'), v: 'SK hynix memory solutions Taiwan · Poland · America, 에스케이하이닉스시스템아이씨(연구개발 및 서비스), Solidigm 계열 연구개발 법인(캐나다·멕시코·폴란드·상하이·미국 등)', en: 'SK hynix memory solutions Taiwan, Poland and America; SK hynix system ic (R&D and services); Solidigm-group R&D entities (Canada, Mexico, Poland, Shanghai, US and others)' },
+      { k: B('반도체 판매', 'Semiconductor sales'), v: '미국·독일·싱가포르·홍콩·영국·대만·일본·인도·중국(우시) 판매 법인과 Solidigm 계열 판매 법인', en: 'Sales subsidiaries in the US, Germany, Singapore, Hong Kong, the UK, Taiwan, Japan, India and China (Wuxi), plus Solidigm-group sales entities' }
+    ],
+    subsNote: B('회사 개요의 ‘생산기지 4곳·연구개발법인 3곳’이 이 표의 어느 법인인지는 보고서가 이름으로 짚지 않아, 표의 영업활동 그대로 묶어 보여 줍니다(2026.6.30, 연결 종속기업 57곳).', 'The report does not say by name which entities are the “four production bases and three R&D subsidiaries” in its overview, so they are grouped here by the activity the table gives (30 June 2026; 57 consolidated subsidiaries).'),
+    /* 투자 공시·발표 — 공정공시·신규시설투자·이사회 */
+    invest: [
+      { d: '2022-09-06', t: B('청주 M15X 건설 — 5년간 약 15조 원', 'Cheongju M15X — about KRW 15 trillion over five years'), src: ['skhH1_2026', 'nrM15xPlan'] },
+      { d: '2024-04-04', t: B('미국 인디애나 어드밴스드 패키징 — 38억 7천만 달러', 'Indiana advanced packaging — US$3.87 billion'), src: ['nrIndiana24'] },
+      { d: '2024-04-24', t: B('M15X를 D램 생산기지로 — 건설비 약 5.3조 원, 장기 20조 원 이상', 'M15X as a DRAM base — about KRW 5.3 trillion to build, over 20 trillion in the long run'), src: ['nrM15x', 'skhH1_2026'] },
+      { d: '2024-07-26', t: B('용인 1기 팹 건설 — 약 9.4조 원(신규시설투자)', 'Yongin Fab 1 — about KRW 9.4 trillion (new facility investment)'), src: ['skhH1_2026', 'nrFact04'] },
+      { d: '2026-02-25', t: B('용인 1기 팹 Phase 2~6 — 약 21.6조 원 추가, 1기 팹 합계 약 31조 원', 'Yongin Fab 1 phases 2–6 — about KRW 21.6 trillion more, about 31 trillion for Fab 1'), src: ['skhH1_2026', 'nrFact04'] },
+      { d: '2026-04-22', t: B('청주 P&T7 — 약 19조 원(공정공시)', 'Cheongju P&T7 — about KRW 19 trillion (fair-disclosure filing)'), src: ['skhH1_2026', 'nrFact02'] },
+      { d: '2026-06-29', t: B('중장기 투자 전략 — 용인 600조·청주 100조·서남권 400조, 총 1,100조 원(공정공시)', 'Mid- to long-term strategy — Yongin 600, Cheongju 100, southwest 400: KRW 1,100 trillion (fair-disclosure filing)'), src: ['skhH1_2026', 'nrFact05'] },
+      { d: '2026-08-07', t: B('용인 Y2 35.2조 원·청주 M17 19.1조 원 — 54조 원(이사회)', 'Yongin Y2 KRW 35.2 trillion and Cheongju M17 19.1 trillion — 54 trillion (board)'), src: ['nrY2M17'] },
+      { d: '2026-08-27', t: B('인디애나 기공식 — 40억 달러 이상', 'Indiana groundbreaking — over US$4 billion'), src: ['nrIndiana26'] }
+    ],
+    investNotes: [
+      { t: B('클린룸 1만 평 기준 투자비는 2019년 용인 클러스터 발표 때 약 7.5조 원이었고, 2025년 10월 오픈한 청주 M15X는 약 20조 원 수준이다.', 'Investment per 10,000 pyeong of cleanroom was about KRW 7.5 trillion when the Yongin cluster was announced in 2019, and about 20 trillion for Cheongju M15X, opened in October 2025.'), src: ['nrFact01'] },
+      { t: B('용인 투자비가 120조 원(2019)에서 600조 원으로 커진 까닭: 용적률이 법적 상한의 1.4배까지 완화돼 클린룸이 넓어졌고, 건설비가 1.4배 올랐으며, 장비 대수와 미세화에 따른 장비 비용이 늘었다(장비 비용은 별도).', 'Why Yongin grew from KRW 120 trillion (2019) to 600 trillion: the floor-area ratio was eased to 1.4× the legal cap, enlarging cleanrooms; construction costs rose 1.4×; and more, costlier tools are needed as processes shrink (tools counted separately).'), src: ['nrFact01', 'nrFact04'] },
+      { t: B('HBM은 TSV를 넣느라 다이가 커져 웨이퍼 한 장에서 나오는 칩 수가 적다 — 같은 용량에 일반 D램보다 웨이퍼가 더 필요하고, 회사는 같은 생산량에 캐파가 최소 2배 이상 든다고 설명한다.', 'HBM dies are larger because of TSVs, so fewer come from each wafer — the same capacity needs more wafers than standard DRAM, and the company says it takes at least twice the capacity for the same output.'), src: ['nrFact05', 'nrM15x'] },
+      { t: B('투자 원칙: 한 번에 집행하지 않고 수요 가시성에 맞춰 단계적으로, 재원은 영업이익의 현금흐름을 바탕으로 시점에 맞춰 조달(CapEx Discipline).', 'Principle: not spent at once but in stages as demand becomes visible, funded mainly from operating cash flow as needed (CapEx discipline).'), src: ['nrFact05'] }
+    ],
+    /* 행정 제재·조치 — 반기보고서 XI.3(회사 공시, 2024~2026.6) */
+    sanctions: [
+      { d: '2024-10-21', org: B('금강유역환경청', 'Geum River Basin Env. Office'), act: B('경고·과태료 480만 원', 'Warning, KRW 4.8 m fine'), why: B('청주 특별점검(2024.9.13)에서 화학물질관리법 위반', 'Chemical Substances Control Act breaches found at Cheongju (13 Sep 2024)'), fix: B('유해화학물질 취급 도급신고 대상 확대·신고 이행', 'More subcontracted hazardous-chemical jobs reported')},
+      { d: '2024-12-24', org: B('고용노동부', 'MOEL'), act: B('과태료 480만 원', 'KRW 4.8 m fine'), why: B('M10 초순수(UPW) 시설 PSM 점검 — 공정안전보고서 미이행, 염산 탱크 MSDS 미부착', 'PSM inspection of the M10 ultrapure-water plant — PSM report not implemented, no MSDS on the HCl tank'), fix: B('시설 개선·다른 시설로 수평전개', 'Fixed and applied across other facilities') },
+      { d: '2025-08-25', org: B('한강유역환경청', 'Han River Basin Env. Office'), act: B('과태료(160만 원 납부)', 'Fine (KRW 1.6 m paid)'), why: B('배출구 TMS 설치 기간 자가측정 미이행', 'Self-monitoring skipped while a stack TMS was installed'), fix: B('자가측정 검증 체계', 'Self-monitoring verification') },
+      { d: '2025-10-09', org: B('우시시 생태환경국', 'Wuxi Ecology & Environment Bureau'), act: B('과태료 26.4만 위안', 'RMB 264,000 fine'), why: B('폐수처리장 스크러버 펌프 불량으로 오염물 배출', 'Pollutants released when a scrubber pump failed'), fix: B('스크러버 개선·예비 스크러버 추가', 'Scrubber upgrades, standby unit') },
+      { d: '2025-11-28', org: B('경기도(이천소방서)', 'Gyeonggi (Icheon Fire Station)'), act: B('과태료(80만 원 납부)', 'Fine (KRW 0.8 m paid)'), why: B('소방계획서·업무수행기록표 작성 미흡', 'Fire-safety plan and duty records incomplete'), fix: B('특정소방대상물 120곳별 문서 작성', 'Documents written for each of 120 fire-protected buildings') },
+      { d: '2026-03-17', org: B('충북권 중대산업사고예방센터', 'Chungbuk Major Accident Prevention Center'), act: B('과태료(728만 원 납부)', 'Fine (KRW 7.28 m paid)'), why: B('사고사례 교육·신입 대상 PSM/MSDS 교육 일부 누락', 'Some accident-case and new-starter PSM/MSDS training missed'), fix: B('인사 변동 데이터로 법정교육 누락 관리', 'Statutory training tracked against staff changes') },
+      { d: '2026-05-15', org: B('경기도(이천소방서)', 'Gyeonggi (Icheon Fire Station)'), act: B('과태료(80만 원 납부)', 'Fine (KRW 0.8 m paid)'), why: B('방화문 파손 등 피난·방화시설 관리 미흡', 'Damaged fire doors and other escape/fire-separation lapses'), fix: B('방화문 점검 주기 확대, 자동폐쇄장치 변경·개방 경보 검토', 'More frequent fire-door checks; new closers and open-door alarms considered') },
+      { d: '2026', org: B('경기도(이천소방서)', 'Gyeonggi (Icheon Fire Station)'), act: B('과태료(400만 원 납부)', 'Fine (KRW 4 m paid)'), why: B('불시점검 — 위험물 지정수량 배수 변경 미실시', 'Spot check — change in hazardous-material quantity multiple not notified'), fix: B('위험물 취급수량 관리 표준화·전산화', 'Hazmat quantities standardised and computerised') },
+      { d: '2026-06-04', org: B('금강유역환경청', 'Geum River Basin Env. Office'), act: B('사고 설비 가동중지·수시검사 명령, 6.18 개선명령', 'Shut-down and inspection order; improvement order on 18 Jun'), why: B('6.1 M15 6층 가스룸 불소배관 패시베이션 작업 중 화재·미량 불소 누출(인명·환경 피해 없음)', 'Fire and trace F₂ release during F₂-line passivation, M15 6F gas room, 1 Jun (no injuries or environmental harm)'), fix: B('가동중지 이행, 사고 설비 철거·신규 배관, 패시베이션 작업 방법 개선', 'Shut down; damaged equipment to be removed and new piping; passivation method improved') },
+      { d: '2026-06-12', org: B('대전지방고용노동청', 'Daejeon Regional Labour Office'), act: B('작업중지 권고(산안법 제51조)', 'Work-stop recommendation (OSH Act Art. 51)'), why: B('청주사업장 2026년 사고 5건', 'Five accidents at Cheongju in 2026'), fix: B('F2 패시베이션 작업 중지 유지(재발방지대책 승인 때까지), 10개 분야 재발방지대책 제출', 'F₂ passivation kept stopped until prevention measures are approved; measures in ten areas submitted') },
+      { d: '2026-06-17', org: B('금강유역환경청', 'Geum River Basin Env. Office'), act: B('사고 설비 가동중지·수시검사 명령, 6.30 개선명령', 'Shut-down and inspection order; improvement order on 30 Jun'), why: B('6.12 M15X 2층 가스룸 같은 작업 중 화재·미량 불소 누출(1명 다리 1도 화상)', 'Fire and trace F₂ release in the same job, M15X 2F gas room, 12 Jun (one first-degree leg burn)'), fix: B('가동중지 이행, 사고 설비 철거·신규 배관, 패시베이션 작업 방법 개선', 'Shut down; equipment to be removed and new piping; passivation method improved') },
+      { d: '2026-06-18', org: B('한강유역환경청', 'Han River Basin Env. Office'), act: B('경고', 'Warning'), why: B('도급인 의무 위반 — 협력사의 질산 취급 작업 중 부분 보호복을 입은 작업자 무릎에 질산 노출', 'Principal’s duty breached — nitric acid reached a contractor worker’s knee through partial protective clothing'), fix: B('사고대비물질 취급 작업 보호복 기준 재수립', 'PPE rules for accident-prone substances reset') },
+      { d: '2026-06-29', org: B('금강유역환경청', 'Geum River Basin Env. Office'), act: B('수시검사 명령', 'Inspection order'), why: B('정부 특별점검에서 청주 3캠퍼스 폐수처리장 약품 탱크·펌프 주변 누출 흔적', 'Leak traces around chemical tanks and pumps at the Campus 3 wastewater plant found in a special inspection'), fix: B('7.6 수시검사 완료, 주 1회 자체점검', 'Inspection done on 6 Jul; weekly self-checks') }
+    ],
+    sanctionsNote: B('회사가 반기보고서 ‘제재 등과 관련된 사항’에 적은 행정 조치입니다(수사·사법기관 제재와 한국거래소 제재는 해당 없음). 같은 기간 고용노동부 감독 결과(위반 119건 등)는 사고 사례와 사업장 화면에 따로 있습니다.', 'Administrative actions the company lists under “sanctions” in its half-year report (none from investigative or judicial bodies or the exchange). The MOEL inspection results for the same period (119 violations and more) are in the incident case and site pages.'),
+    src: ['skhH1_2026']
   };
 })();

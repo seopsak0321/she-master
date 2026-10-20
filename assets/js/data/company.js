@@ -127,7 +127,9 @@ SHE.SITES = {
       { t: { ko: '이천 소방방재팀 — 지역 사회적기업 대상 안전 프로보노 (2024)', en: 'Icheon Fire & Disaster team — safety pro bono for local social enterprises (2024)' }, src: 'sr2024' },
       { t: { ko: 'ISO 45001 유효기간 ~2027.01.16', en: 'ISO 45001 valid to 2027-01-16' }, src: 'sr2026' },
       { t: { ko: '2026 고용노동부 점검: 질산 폐액 노동자 접촉 재해와 관련해 도급승인 작업의 작업절차서 미준수로 도급승인 취소, 시정지시 39건·과태료 8건(2,770만원)', en: '2026 MOEL inspection: subcontract approval revoked for not following the approved procedure (a worker contacted nitric-acid waste); 39 corrective orders and 8 fines (KRW 27.7 m)' }, src: 'moel0920' },
-      { t: { ko: '협력업체 안전보건 상생협력 행사를 이천 SUPEX센터에서 분기 정례로 개최 (2026.6.8)', en: 'Quarterly partner safety event held at the Icheon SUPEX Center (8 Jun 2026)' }, src: 'nr0609' }
+      { t: { ko: '협력업체 안전보건 상생협력 행사를 이천 SUPEX센터에서 분기 정례로 개최 (2026.6.8)', en: 'Quarterly partner safety event held at the Icheon SUPEX Center (8 Jun 2026)' }, src: 'nr0609' },
+      { t: { ko: '회사 공시(반기보고서): 이천소방서 과태료 3건 — 소방계획서·업무수행기록표 작성 미흡(2025.11), 방화문 등 피난·방화시설 관리 미흡(2026.5), 위험물 지정수량 배수 변경 미실시(2026) → 소방대상물별 문서 작성, 방화문 점검 주기 확대, 위험물 수량 관리 전산화', en: 'Company filing (half-year report): three Icheon Fire Station fines — incomplete fire-safety plan and duty records (Nov 2025), poor upkeep of fire doors and escape/fire separation (May 2026), hazmat quantity multiple not notified (2026) → documents per building, more frequent fire-door checks, computerised hazmat quantities' }, src: 'skhH1_2026' },
+      { t: { ko: '회사 설명(2026.6): 이천은 앞으로도 R&D와 첨단 공정을 이끄는 본사이자 중심 거점', en: 'Company statement (Jun 2026): Icheon remains the HQ and core site for R&D and leading-edge processes' }, src: 'nrFact05' }
     ],
     focus: [
       { ko: '운영 Fab의 유지보수(PM)·라인 개방 작업 비중이 커서, 반응 부산물·잔류가스 관리와 LOTO가 핵심입니다.', en: 'Operating fabs mean frequent maintenance and line-breaking, so reaction by-products, residual gas and LOTO are central.' },
@@ -137,7 +139,7 @@ SHE.SITES = {
   },
   cheongju: {
     name: { ko: '청주', en: 'Cheongju' },
-    lead: { ko: '낸드플래시 Fab M15, DRAM 생산기지 M15X, 어드밴스드 패키징 Fab P&T7(건설 중)이 모인 AI 메모리 거점입니다.', en: 'AI-memory hub with the M15 NAND fab, the M15X DRAM fab and the P&T7 advanced-packaging fab under construction.' },
+    lead: { ko: '낸드 Fab(M11·M12·M15, M17 건설 예정), DRAM 생산기지 M15X, 어드밴스드 패키징 Fab P&T7(건설 중)이 모인 AI 메모리 거점입니다.', en: 'AI-memory hub with NAND fabs (M11, M12, M15; M17 planned), the M15X DRAM fab and the P&T7 advanced-packaging fab under construction.' },
     facts: [
       { t: { ko: 'M15 — 2018.10.4 준공한 낸드플래시 생산 Fab (건축면적 6만㎡, 길이 339m·폭 172m·높이 71m)', en: 'M15 — NAND flash fab completed 4 Oct 2018 (60,000 m² footprint; 339 m × 172 m × 71 m high)' }, src: 'nrm15' },
       { t: { ko: 'M15X Fab 2025년 10월 말 오픈 (약 20조 원 규모 DRAM 생산기지)', en: 'M15X fab opened end-Oct 2025 (≈ KRW 20 trillion DRAM base)' }, src: 'sr2026' },
@@ -149,7 +151,9 @@ SHE.SITES = {
       { t: { ko: '물 스트레스 ‘High’ 지역 — 2023년부터 하수 재이용수 공급', en: 'High water-stress area — reclaimed sewage water supplied since 2023' }, src: 'sr2026' },
       { t: { ko: 'ISO 45001 유효기간 ~2027.01.16', en: 'ISO 45001 valid to 2027-01-16' }, src: 'sr2026' },
       { t: { ko: '2026.6 가스룸 누출·화재 사고 2건(6.1·6.12) — 고용노동부는 공정안전보고서 부적정 이행(사전점검 미실시, 허가 없이 가스 작업 개시)에 따른 사고로 확인', en: 'Two gas-room release/fire events in June 2026 (1 & 12 Jun) — MOEL found they resulted from improper PSM implementation (pre-checks skipped, gas work without a permit)' }, src: 'moel0920' },
-      { t: { ko: '2026 고용노동부 감독: 산업안전보건법 위반 119건 (사법처리 28, 과태료 84건 약 3,200만원, 시정조치 7)', en: '2026 MOEL inspection: 119 OSH Act violations (28 prosecutions, 84 fines ≈ KRW 32 m, 7 corrective orders)' }, src: 'moel0920' }
+      { t: { ko: '2026 고용노동부 감독: 산업안전보건법 위반 119건 (사법처리 28, 과태료 84건 약 3,200만원, 시정조치 7)', en: '2026 MOEL inspection: 119 OSH Act violations (28 prosecutions, 84 fines ≈ KRW 32 m, 7 corrective orders)' }, src: 'moel0920' },
+      { t: { ko: '회사 공시(반기보고서): 두 사고는 가스룸 불소배관 패시베이션 작업 중 배관 안 이물질과 불소가스의 반응(추정)으로 난 화재·미량 누출 — 금강유역환경청 가동중지명령 2건(6.4 M15, 6.17 M15X)·개선명령, 대전지방고용노동청 작업중지 권고(6.12, 청주 2026년 사고 5건) → F2 패시베이션 작업 중지, 10개 분야 재발방지대책 제출', en: 'Company filing (half-year report): both events were fires with trace releases during fluorine-line passivation in gas rooms, presumed from debris reacting with fluorine — two shut-down orders (4 Jun M15, 17 Jun M15X) and improvement orders from the environmental office, and a work-stop recommendation from the labour office (12 Jun, five 2026 accidents at Cheongju) → F₂ passivation stopped, measures in ten areas submitted' }, src: 'skhH1_2026' },
+      { t: { ko: 'M17 낸드 Fab 건설 결정(2026.8.7 이사회) — 19.1조 원, 연면적 20.6만 평, 2027.2 착공·2028.12 첫 클린룸. 청주 생산기지에 중장기 100조 원 투자 계획', en: 'M17 NAND fab approved (board, 7 Aug 2026) — KRW 19.1 trillion, 206,000 pyeong, construction Feb 2027, first cleanroom Dec 2028; KRW 100 trillion planned for Cheongju over the long term' }, src: ['nrY2M17', 'nrFact05'] }
     ],
     focus: [
       { ko: '2026년 사고의 공식 원인은 “허가 없이 시작된 가스 작업”과 “공정안전보고서 사전점검 미실시”입니다. 가스 작업은 허가·점검 완료 전 공급이 열리지 않게 하는 물리적 장치와 이행 감사가 우선입니다.', en: 'The official cause of the 2026 events was gas work started without a permit and PSM pre-checks skipped. Physical interlocks that keep gas supply closed until permits and checks are complete, plus audits, come first.' },

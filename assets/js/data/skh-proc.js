@@ -433,8 +433,8 @@ window.SHE = window.SHE || {};
         B('ASML은 17년 동안 EUV 연구개발에 60억 유로 넘게 투자했고, 광원 기술을 위해 Cymer를 인수했다.', 'ASML invested over €6 billion in EUV R&D over 17 years and acquired Cymer for light-source technology.')
       ],
       skh: [
-        { d: '2021-02', t: B('이천 M16 준공 — 회사 최초 EUV 노광 장비 도입, EUV 전용 공간', 'Icheon M16 completed — the company’s first EUV scanners, with dedicated EUV space'), src: ['nrM16'] },
-        { d: '2021', t: B('10나노급 4세대(1a) D램에 EUV 첫 도입, 이후 최첨단 D램에 적용 확대', 'EUV first used for 4th-gen 10 nm-class (1a) DRAM, then extended to leading-edge DRAM'), src: ['nrHighNa', 'nrM16'] },
+        { d: '2021-02', t: B('이천 M16 준공 — 회사 최초 EUV 노광 장비 도입, EUV 전용 공간', 'Icheon M16 completed — the company’s first EUV scanners, with dedicated EUV space'), src: ['nrm16'] },
+        { d: '2021', t: B('10나노급 4세대(1a) D램에 EUV 첫 도입, 이후 최첨단 D램에 적용 확대', 'EUV first used for 4th-gen 10 nm-class (1a) DRAM, then extended to leading-edge DRAM'), src: ['nrHighNa', 'nrm16'] },
         { d: '2024-08', t: B('1c DDR5 개발 — EUV 공정에 신소재 개발·적용', '1c DDR5 developed — new materials developed for the EUV process'), src: ['nr1c'] },
         { d: '2025-09', t: B('메모리 업계 최초 양산용 High NA EUV(ASML EXE:5200B) 이천 M16 반입 — 기존 EUV 공정 단순화·차세대 메모리 개발 가속 계획', 'First production High-NA EUV in the memory industry (ASML EXE:5200B) moved into Icheon M16 — to simplify EUV processing and speed up next-generation memory'), src: ['nrHighNa'] }
       ],

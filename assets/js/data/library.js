@@ -74,7 +74,7 @@ window.SHE = window.SHE || {};
     nrTsv: ['corp', 'KR', '2026', 'semi', '', 'proc', 5], nr4dNand: ['corp', 'KR', '2023', 'semi', '', 'proc', 5], nr1c: ['corp', 'KR', '2024', 'semi', '', 'proc', 5],
     nrSlc: ['corp', 'KR', '2018', 'semi', '', 'proc', 5],
     /* #33(13단계 K3) 장비·소재 — 뉴스룸만(장비 회사 제품 화면은 안전 자료가 아니어서 출처 목록에만 둔다) */
-    nrHighNa: ['corp', 'KR', '2025', 'semi', '', 'proc', 5], nrM16: ['corp', 'KR', '2021', 'semi', '', 'proc', 5], nrNeon: ['corp', 'KR', '2022', 'semi', 'gas', 'proc', 5],
+    nrHighNa: ['corp', 'KR', '2025', 'semi', '', 'proc', 5], nrm16: ['corp', 'KR', '2021', 'semi', '', 'proc', 5], nrNeon: ['corp', 'KR', '2022', 'semi', 'gas', 'proc', 5],
     nrMatVp: ['corp', 'KR', '2024', 'semi', '', 'proc', 5], nrEquipAward24: ['corp', 'KR', '2024', 'semi', '', 'proc', 5], nrMatAward25: ['corp', 'KR', '2025', 'semi', 'gas', 'proc', 5],
     bpshe: ['site', 'KR', '', 'semi', '', 'training contract', 5],
     /* 한국 법령·고시·기술기준(1~2등급) */

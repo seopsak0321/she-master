@@ -5,11 +5,23 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v106';
+SHE.BUILD = 'v107';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 33, v: SHE.BUILD, date: '2026-10-16 21:22', commit: '',
+    { no: 34, v: SHE.BUILD, date: '2026-10-20 19:21', commit: '',
+      t: B('SK하이닉스 이해 확장 4 — 거점·투자: 국내외 생산 거점 8곳의 연혁, 투자 공시, 회사가 공시한 안전·환경 행정 조치, 10개 분기 실적', 'Understanding SK hynix, part 4 — sites and investment: histories of eight production sites, investment filings, the safety and environmental actions the company disclosed, and ten quarters of results'),
+      add: [
+        B('‘거점·투자’ 탭 — 이천(본사·M16·High NA)·청주(M15·M15X·P&T7·M17)·용인(Y1·Y2, 팹 4기)·서남권(계획)·중국 우시·다롄·충칭·미국 인디애나(건설 중) 거점별 연혁. 반기보고서(연결 주석 1)의 가동 현황과 뉴스룸 보도자료·FACT 원문만 쓰고, 계획은 발표 시점의 계획으로 표시. #company/bs-cheongju 같은 주소로 바로 열기', 'Sites & investment tab — histories for Icheon (HQ, M16, High NA), Cheongju (M15, M15X, P&T7, M17), Yongin (Y1, Y2; four fabs), the southwest (planned), Wuxi, Dalian and Chongqing in China and Indiana in the US (under construction). Only the half-year report (consolidated note 1) and newsroom releases and FACT pieces are used; plans are shown as plans as announced. Direct addresses such as #company/bs-cheongju'),
+        B('종속기업 영업활동(2026.6.30 연결 종속기업 57곳, 보고서의 ‘주요 영업활동’ 그대로), 투자 공시·발표 9건(2022.9 M15X 15조 원 ~ 2026.8 인디애나 기공식, 2026.6 중장기 1,100조 원 계획 포함)과 투자비가 커진 까닭(회사 설명)', 'Subsidiaries by activity (57 consolidated subsidiaries at 30 June 2026, as the report words their main activity); nine investment filings and announcements (from M15X, KRW 15 trillion, in September 2022 to the Indiana groundbreaking in August 2026, including the KRW 1,100 trillion long-term plan of June 2026) and why the costs grew (company explanation)'),
+        B('행정 조치 13건 — 반기보고서 ‘제재 등과 관련된 사항’에 회사가 적은 2024.10~2026.6 환경청·고용노동부·소방서·중국 우시시 조치와 회사의 개선 내용(표: 날짜·기관·조치·사유·회사 조치)', 'Thirteen administrative actions — those the company lists under “sanctions” in its half-year report, October 2024 – June 2026, from environment offices, MOEL, fire stations and Wuxi, with the company’s fixes (table: date, authority, action, reason, company response)')
+      ],
+      chg: [
+        B('사업 현황의 분기 실적을 3개 → 10개 분기(2024년 1분기 ~ 2026년 2분기)로. 분기 합계가 연간·반기 실적과 맞는지 확인. 2025년 2분기·2026년 1·2분기는 반기보고서(백만원), 나머지는 실적 보도자료(억원)', 'Quarterly results in the business tab go from three to ten quarters (Q1 2024 – Q2 2026); the quarters were checked to add up to the annual and half-year totals. Q2 2025 and Q1–Q2 2026 come from the half-year report (KRW million), the rest from results releases (KRW 100 million)'),
+        B('청주 가스룸 불소 누출 사례(#cases/cj-2026-gasroom)를 회사 공시로 보강 — 6.1 M15·6.12 M15X 패시베이션 작업 중 화재, 환경청 가동중지·개선명령, 고용노동부 작업중지 권고(사고 5건), 3캠퍼스 폐수처리장 수시검사 명령. 보도와 공시가 다른 점은 따로 적음. 사업장 화면의 이천·청주에도 반영', 'The Cheongju gas-room fluorine case (#cases/cj-2026-gasroom) strengthened from the company filing — fires during passivation at M15 (1 June) and M15X (12 June), environment-office shut-down and improvement orders, MOEL’s work-stop recommendation (five accidents), and an inspection order for the Campus 3 wastewater plant; differences between press reports and the filing are noted. Icheon and Cheongju on the sites page updated too'),
+        B('출처 252 → 273건(뉴스룸 보도자료·FACT 22건). 같은 기사가 두 번 등록된 2건(M16 준공·2026년 2분기 실적)을 하나로 합치고, 포털 자체 점검(#qa)에 ‘같은 기사 중복 등록’ 검사를 추가. 투자·실적 자료는 안전 자료가 아니어서 자료 라이브러리(5,877건)에는 넣지 않음. 다음은 #35 세계 반도체 시장', 'Sources 252 → 273 (22 newsroom releases and FACT pieces). Two articles registered twice (M16 completion, Q2 2026 results) were merged, and the portal self-check (#qa) now flags the same article registered twice. Investment and results material stays out of the library (5,877), as it is not safety material. Next: #35 the global chip market')
+      ] },
+    { no: 33, v: 'v106', date: '2026-10-16 21:22', commit: 'fe38fb2',
       t: B('SK하이닉스 이해 확장 3 — 장비·소재: 공정별 장비 지도, ASML 노광 사양과 SK하이닉스 EUV 도입, 소재 국산화, 설비 자산', 'Understanding SK hynix, part 3 — equipment and materials: tools by process, ASML scanner specs and SK hynix’s EUV adoption, materials localisation and equipment assets'),
       add: [
         B('‘장비·소재’ 탭 — 공정별 장비 지도 13줄(노광기·트랙·식각·증착·열처리·이온주입·금속·CMP·세정·계측/검사·웨이퍼 테스트·그라인딩/절단·본딩): ASML·TEL·Lam Research·KLA·Axcelis·Advantest·DISCO 공식 제품 화면과 Applied Materials 연차보고서(미국 SEC 제출)로 확인. 점유율 같은 표현은 ‘회사 설명’으로 표시', 'Equipment & materials tab — a 13-row tool map (scanner, track, etch, deposition, thermal, implant, metal, CMP, clean, metrology/inspection, wafer test, grinding/dicing, bonding) checked on official product pages of ASML, TEL, Lam Research, KLA, Axcelis, Advantest and DISCO and Applied Materials’ annual report filed with the US SEC; share claims are marked as each company’s statement'),
