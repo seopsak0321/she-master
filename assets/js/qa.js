@@ -54,7 +54,10 @@
         else walk(v, path + '.' + k, depth + 1);
       });
     };
-    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS', 'SKH_EQ', 'SKH_BASE'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    ['SOPS', 'CASES', 'NEWS', 'PROCESSES', 'CYCLES', 'GUIDES', 'GLOSSARY', 'RESOURCES', 'CHEMICALS', 'PTW_CHECKS', 'LAWCHECK', 'TIMELINE', 'CAMPAIGNS', 'BOOK', 'LIB_ITEMS', 'SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS', 'SKH_EQ', 'SKH_BASE', 'SKH_MKT'].forEach((k) => { if (S[k]) walk(S[k], k, 0); });
+    /* #35: 장비 회사 한국 비중 표의 출처(배열 7번째 칸)와 기업 표의 통화 */
+    ((S.SKH_MKT || {}).korea || []).forEach((r, i) => { if (!src.has(r[6])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.korea.' + i, r[6]); });
+    ((S.SKH_MKT || {}).firms || []).forEach((f) => { if (!['KRW', 'USD', 'EUR', 'TWD', 'JPY'].includes(f.cur)) add('bad', T('통화 코드', 'Currency code'), 'SKH_MKT.firms.' + f.id, f.cur || '–'); });
     /* #33: 장비 지도의 공정 id, 소재 표의 물질 id */
     ((S.SKH_EQ || {}).map || []).forEach((r, i) => { if (r.step && !((S.SKH_PROC || {}).steps || []).some((s) => s.id === r.step)) add('bad', T('없는 공정 카드', 'Unknown process card'), 'SKH_EQ.map[' + i + '].step', r.step); });
     ((S.SKH_EQ || {}).gas || []).forEach(([id]) => { if (id && !chems.has(id)) add('bad', T('없는 물질 id', 'Unknown substance id'), 'SKH_EQ.gas', id); });

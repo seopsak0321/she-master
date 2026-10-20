@@ -17,10 +17,10 @@
   const K = () => S.SKH || {};
   const won = (m) => { const jo = Math.floor(m / 1e6), eok = Math.round((m % 1e6) / 100); return S.state.lang === 'en' ? `KRW ${(m / 1e6).toFixed(2)} tn` : `${jo ? `${jo}조 ` : ''}${eok ? `${eok.toLocaleString('ko-KR')}억` : ''}원`; };
   /* #32(13단계 K2): 공정·메모리·HBM 기술·반도체 용어 탭 추가(data/skh-proc.js) */
-  /* #33(13단계 K3): 장비·소재 탭(SHE.SKH_EQ) */
-  const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['equip', T => T('장비·소재', 'Equipment & materials')], ['base', T => T('거점·투자', 'Sites & investment')], ['business', T => T('사업 현황', 'Business')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
-  /* 탭 안의 자리로 바로 가는 주소: #company/pc-<공정>·test·pkg → 공정 탭, cells·dram·nand·hbm → 메모리·HBM 탭, litho·mat·ppe → 장비·소재 탭 */
-  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : null);
+  /* #33(13단계 K3): 장비·소재 탭(SHE.SKH_EQ) · #35(K5): 세계 시장 탭(SHE.SKH_MKT) */
+  const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['equip', T => T('장비·소재', 'Equipment & materials')], ['base', T => T('거점·투자', 'Sites & investment')], ['business', T => T('사업 현황', 'Business')], ['market', T => T('세계 시장', 'World market')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
+  /* 탭 안의 자리로 바로 가는 주소: #company/pc-<공정>·test·pkg → 공정 탭, cells·dram·nand·hbm → 메모리·HBM 탭, litho·mat·ppe → 장비·소재 탭, mk-<칸> → 세계 시장 탭 */
+  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : /^mk-/.test(x) ? 'market' : null);
   const extTag = (ids) => ([].concat(ids || []).some((id) => (S.SKH_EXT || []).includes(id)) ? ` <span class="tag-ext" title="${T('뉴스룸에 실린 외부 전문가 칼럼 — 원문에 SK하이닉스의 공식 입장과 다를 수 있다고 적혀 있음', 'External expert column in the newsroom — the original says it may differ from SK hynix’s official position')}">${T('외부 칼럼', 'External column')}</span>` : '');
   const nm = (x) => esc(typeof x === 'string' ? x : L(x));
   const pairs = (rows) => `<div class="table-wrap"><table class="data"><tbody>${rows.map(([k, v]) => `<tr><th scope="row" style="width:26%">${nm(k)}</th><td class="small">${esc(L(v))}</td></tr>`).join('')}</tbody></table></div>`;
@@ -133,7 +133,7 @@
     const dl = (d) => esc(String(d || '').replace(/-/g, '.'));
     return `<section class="panel stack">${ui.title(T('생산 거점 지도', 'Where SK hynix makes chips'), T('반기보고서와 회사 보도자료·FACT 원문', 'Half-year report and company press releases and FACT notes'))}
         <p class="small">${esc(L(G.running || ''))}${S.cite('skhH1_2026')}</p>
-        <nav class="row" aria-label="${T('거점 바로가기', 'Jump to a site')}">${(G.sites || []).map((s) => `<a class="chip" href="#company/bs-${s.id}">${nm(s.t)}</a>`).join('')}<a class="chip" href="#company/invest">${T('투자 공시', 'Investment filings')}</a><a class="chip" href="#company/sanction">${T('행정 조치', 'Administrative actions')}</a></nav>
+        <nav class="row" aria-label="${T('거점 바로가기', 'Jump to a site')}">${(G.sites || []).map((s) => `<a class="chip" href="#company/bs-${s.id}">${nm(s.t)}</a>`).join('')}<a class="chip" href="#company/invest">${T('투자 공시', 'Investment filings')}</a><a class="chip" href="#company/sanction">${T('행정 조치', 'Administrative actions')}</a><a class="chip" href="#company/mk-policy">${T('각국 반도체 정책', 'National chip policies')}</a></nav>
       </section>
       <section class="grid g2">${(G.sites || []).map((s) => `<article class="panel stack" style="gap:8px;align-content:start" id="anchor-bs-${s.id}">
           <h3 style="font-size:calc(17px * var(--fz))">${nm(s.t)}</h3>
@@ -155,6 +155,60 @@
           ${(G.sanctions || []).map((x) => `<tr><td class="nowrap">${dl(x.d)}</td><td class="small">${esc(L(x.org))}</td><td class="small">${esc(L(x.act))}</td><td class="small">${esc(L(x.why))}</td><td class="small">${esc(L(x.fix))}</td></tr>`).join('')}
         </tbody></table></div>
         <p class="xs muted">${esc(L(G.sanctionsNote || ''))}${S.cite(G.src || [])} · <a href="#cases/cj-2026-gasroom">${T('청주 가스룸 사고 사례', 'Cheongju gas-room case')} →</a></p>
+      </section>`;
+  }
+  /* #35(13단계 K5): 세계 반도체 시장(SHE.SKH_MKT) — 금액은 각 회사 보고 통화 그대로(백만 단위) */
+  const CUR = { KRW: ['KRW ', '원'], USD: ['US$', '달러'], EUR: ['€', '유로'], TWD: ['NT$', '대만달러'], JPY: ['¥', '엔'] };
+  const money = (m, cur) => {
+    if (m == null) return '–';
+    if (cur === 'KRW') return won(m);
+    const [sym, ko] = CUR[cur] || ['', ''];
+    if (S.state.lang === 'en') return m >= 1e6 ? `${sym}${(m / 1e6).toFixed(2)} tn` : `${sym}${(m / 1e3).toFixed(1)} bn`;
+    const eok = Math.round(m / 100), jo = Math.floor(eok / 1e4), rest = eok % 1e4;
+    return `${jo ? `${jo}조 ` : ''}${rest ? `${rest.toLocaleString('ko-KR')}억 ` : ''}${ko}`;
+  };
+  function tabMarket() {
+    const M = S.SKH_MKT || {}, W = M.wsts || {}, en = S.state.lang === 'en';
+    const usd = (m) => money(m, 'USD');
+    const pct = (g) => `${g > 0 ? '+' : ''}${g.toFixed(1)}%`;
+    const sk = ((K().results || {}).years || [])[1] || {};
+    const firms = (M.firms || []).map((f) => (f.id === 'skh' ? Object.assign({}, f, { rev: sk.rev, op: sk.op, ni: sk.ni }) : f));
+    const yearBars = (W.years || []).map(([y, m]) => ({ label: `<span class="mono">${y}</span>`, v: en ? m / 1e3 : m / 100, tone: y === 2025 ? 'hi' : '' }))
+      .concat((W.fc || []).map(([y, m, g]) => ({ label: `<span class="mono">${y}</span> ${T('전망', 'forecast')}`, v: en ? m / 1e3 : m / 100, note: pct(g) })));
+    return `<section class="panel stack" id="anchor-mk-wsts">${ui.title(T('세계 반도체 시장 규모', 'Size of the world chip market'), T('WSTS(세계반도체무역통계기구) — 반도체 회사들이 만든 비영리 통계 기구의 공식 발표', 'WSTS (World Semiconductor Trade Statistics) — official releases of the non-profit statistics body formed by chip companies'))}
+        <nav class="row" aria-label="${T('세계 시장 바로가기', 'Jump within world market')}"><a class="chip" href="#company/mk-wsts">${T('시장 규모', 'Market size')}</a><a class="chip" href="#company/mk-firms">${T('기업 비교', 'Companies')}</a><a class="chip" href="#company/mk-kr">${T('장비 회사의 한국 매출', 'Toolmakers’ Korean sales')}</a><a class="chip" href="#company/mk-policy">${T('각국 정책', 'Policies')}</a></nav>
+        <div class="grid g2">
+          <div class="stack" style="gap:8px">${ui.bars(yearBars, { caption: T('연간 세계 매출(실적 2015~2025, 전망 2026·2027)', 'World sales by year (actual 2015–2025, forecast 2026–2027)'), unit: T('억 달러', 'US$ bn'), fmt: (x) => (en ? x.toLocaleString('en', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : Math.round(x).toLocaleString('ko-KR')), aria: T('연간 세계 반도체 매출', 'World semiconductor sales by year') })}
+            <p class="xs muted">${T('실적은 Historical Billings Report(2026년 8월 자료)의 연간 합계, 전망은 2026년 봄 전망(6월 2일).', 'Actuals are the yearly totals in the Historical Billings Report (August 2026 data); forecasts are from the Spring 2026 forecast (2 June).')}${S.cite(W.src || [])}</p></div>
+          <div class="stack" style="gap:8px">
+            <div class="table-wrap"><table class="data"><thead><tr><th>${T('2025년 제품별', '2025 by product')}</th><th class="num">${T('매출', 'Sales')}</th><th class="num">${T('전년 대비', 'YoY')}</th></tr></thead><tbody>${(W.products || []).map(([k, m, g]) => `<tr><td>${nm(k)}</td><td class="num">${usd(m)}</td><td class="num">${pct(g)}</td></tr>`).join('')}</tbody></table></div>
+            <div class="table-wrap"><table class="data"><thead><tr><th>${T('지역', 'Region')}</th><th class="num">${T('2025년', '2025')}</th><th class="num">${T('2025 증가', '2025 growth')}</th><th class="num">${T('2026 전망 증가', '2026 forecast growth')}</th></tr></thead><tbody>${(W.regions || []).map(([k, m, g, f]) => `<tr><td>${nm(k)}</td><td class="num">${usd(m)}</td><td class="num">${pct(g)}</td><td class="num">${pct(f)}</td></tr>`).join('')}</tbody></table></div>
+            <div class="table-wrap"><table class="data"><thead><tr><th>${T('전망', 'Forecast')}</th><th class="num">${T('세계', 'World')}</th><th class="num">${T('메모리', 'Memory')}</th><th class="num">${T('로직', 'Logic')}</th></tr></thead><tbody>${(W.fc || []).map(([y, m, g, mm, mg, lm, lg]) => `<tr><td class="mono">${y}</td><td class="num">${usd(m)} <span class="xs muted">${pct(g)}</span></td><td class="num">${usd(mm)} <span class="xs muted">${pct(mg)}</span></td><td class="num">${usd(lm)} <span class="xs muted">${pct(lg)}</span></td></tr>`).join('')}</tbody></table></div>${S.cite('wstsSpring26')}
+          </div>
+        </div>
+        <ul class="facts">${(W.notes || []).map((n) => `<li>${esc(L(n.t))}${S.cite(n.src)}</li>`).join('')}</ul>
+        <p class="xs muted">${T('제품·지역 구분은 WSTS 분류를 따릅니다. 회사 보고서가 인용한 조사기관의 메모리 시장·점유율 값은 ‘사업 현황’ 탭에 있습니다.', 'Products and regions follow the WSTS classes. Memory market and share figures that the company’s report cites from research firms are in the Business tab.')} <a href="#company/business">${T('사업 현황', 'Business')} →</a></p>
+      </section>
+      <section class="panel stack" id="anchor-mk-firms">${ui.title(T('반도체 기업 비교 — 최근 회계연도', 'Chip companies compared — latest fiscal year'), T('각 회사가 미국 SEC에 낸 연차보고서(10-K·20-F)와 회사 IR의 감사 재무제표·결산 자료', 'Annual reports filed with the US SEC (10-K, 20-F) and audited statements and results material on company IR sites'))}
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('회사', 'Company')}</th><th>${T('나라·분야', 'Country, field')}</th><th>${T('회계연도', 'Fiscal year')}</th><th class="num">${T('매출', 'Revenue')}</th><th class="num">${T('영업이익', 'Operating profit')}</th><th class="num">${T('순이익', 'Net income')}</th><th class="num">${T('영업이익률', 'Op. margin')}</th></tr></thead><tbody>
+          ${firms.map((f) => `<tr><td class="nowrap"><b>${nm(f.n)}</b>${S.cite(f.src)}</td><td class="small">${nm(f.c)} · ${esc(L(f.role))}</td><td class="small">${esc(L(f.fy))}</td><td class="num">${money(f.rev, f.cur)}</td><td class="num">${money(f.op, f.cur)}</td><td class="num">${money(f.ni, f.cur)}</td><td class="num">${f.rev && f.op != null ? `${(f.op / f.rev * 100).toFixed(1)}%` : '–'}</td></tr>${f.note ? `<tr><td></td><td colspan="6" class="xs muted">${esc(L(f.note))}</td></tr>` : ''}`).join('')}
+        </tbody></table></div>
+        <p class="xs muted">${T('금액은 각 회사가 보고한 통화 그대로이고 환율로 바꾸지 않았습니다. 회계연도가 회사마다 다르고(마이크론 2026년 9월, 램리서치·KLA 2026년 6월, 도쿄일렉트론 2026년 3월, 엔비디아 2026년 1월 결산 등), SK하이닉스와 삼성전자는 2025년 1~12월입니다. 영업이익률은 표의 두 값으로 포털이 계산했고, ‘–’는 그 보고서에 해당 줄이 없거나 부문 값을 공시하지 않은 것입니다.', 'Amounts are in each company’s reporting currency, not converted. Fiscal years differ (Micron to September 2026, Lam and KLA to June 2026, Tokyo Electron to March 2026, NVIDIA to January 2026), while SK hynix and Samsung report January–December 2025. Operating margin is computed by the portal from the two figures; “–” means the report has no such line or the segment figure is not disclosed.')}</p>
+        <b class="small">${T('다른 회사의 공시에 나오는 SK하이닉스', 'SK hynix in other companies’ filings')}</b>
+        <ul class="facts">${(M.links || []).map((x) => `<li>${esc(L(x.t))}${S.cite(x.src)}</li>`).join('')}</ul>
+      </section>
+      <section class="panel stack" id="anchor-mk-kr">${ui.title(T('장비 회사 매출 가운데 한국', 'Korea in toolmakers’ revenue'), T('각 회사 연차보고서의 지역별 매출', 'Revenue by region in each company’s annual report'))}
+        ${ui.bars((M.korea || []).map(([n, fy, v, prev, , calc]) => ({ label: `${esc(n)} <span class="xs muted">${esc(fy)}</span>`, v, note: [prev != null ? T(`전년 ${prev}%`, `prior year ${prev} %`) : '', calc ? T('포털 계산', 'portal calc.') : ''].filter(Boolean).join(' · ') })), { unit: '%', fmt: (x) => { const r = (M.korea || []).find((k) => k[2] === x); return x.toFixed(r ? r[7] : 1); }, max: 30, aria: T('장비 회사 매출 중 한국 비중', 'Korea’s share of toolmakers’ revenue') })}
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('회사', 'Company')}</th><th>${T('기준', 'Basis')}</th></tr></thead><tbody>${(M.korea || []).map(([n, , , , b, , s]) => `<tr><td class="nowrap">${esc(n)}${S.cite(s)}</td><td class="small">${esc(L(b))}</td></tr>`).join('')}</tbody></table></div>
+        <p class="xs muted">${esc(L(M.koreaNote || ''))} <a href="#company/equip">${T('공정별 장비 지도', 'Tool map by process')} →</a></p>
+      </section>
+      <section class="panel stack" id="anchor-mk-policy">${ui.title(T('각국 반도체 정책', 'National chip policies'), T('법령 원문 — 국가법령정보센터·미국 govinfo·EUR-Lex', 'Statute texts — Korea’s law portal, US govinfo, EUR-Lex'))}
+        <div class="grid g2">${(M.policy || []).map((p) => `<article class="stack" style="gap:6px;align-content:start" id="anchor-mk-${p.id}">
+          <h3 style="font-size:calc(16px * var(--fz))"><span class="chip">${nm(p.c)}</span> ${esc(L(p.t))}${S.cite(p.src)}</h3>
+          <p class="xs muted">${esc(L(p.d))}</p>
+          <ul class="facts">${p.items.map((x) => `<li>${esc(L(x))}</li>`).join('')}</ul>
+        </article>`).join('')}</div>
+        <p class="xs muted">${esc(L(M.policyNote || ''))}${S.cite('skhH1_2026')} · <a href="#company/bs-indiana">${T('인디애나 거점', 'Indiana site')} →</a> · <a href="#company/invest">${T('투자 공시', 'Investment filings')} →</a></p>
       </section>`;
   }
   function tabTerms() {
@@ -206,7 +260,7 @@
           <div class="table-wrap" style="margin-top:10px"><table class="data"><thead><tr><th>${T('연도', 'Year')}</th><th>${T('반도체', 'All chips')}</th><th>${T('메모리', 'Memory')}</th><th>DRAM</th><th>NAND</th></tr></thead><tbody>${(mk.growth || []).map((x) => `<tr><td>${x.y}</td><td class="num">${x.all}</td><td class="num">${x.mem}</td><td class="small">${esc(L(x.dram))}</td><td class="small">${esc(L(x.nand))}</td></tr>`).join('')}</tbody></table></div>
           <div class="table-wrap" style="margin-top:10px"><table class="data"><thead><tr><th>${T('SK하이닉스 점유율(매출액 기준)', 'SK hynix share (by revenue)')}</th><th>DRAM</th><th>NAND</th></tr></thead><tbody>${(mk.share || []).map((x) => `<tr><td>${esc(typeof x.p === 'string' ? x.p : L(x.p))}</td><td class="num">${x.dram}</td><td class="num">${x.nand}</td></tr>`).join('')}</tbody></table></div>
           <p class="small">${esc(L(mk.export || ''))}</p>
-          <p class="xs muted">${esc(L(mk.cite || ''))}${S.cite(mk.src || [])}</p>
+          <p class="xs muted">${esc(L(mk.cite || ''))}${S.cite(mk.src || [])} · <a href="#company/mk-wsts">${T('WSTS 세계 시장 통계', 'WSTS world market statistics')} →</a></p>
         </div>
       </section>
       <section class="grid g2">
@@ -226,7 +280,7 @@
   function tabPlan() {
     return `<section class="panel">${ui.title(T('SK하이닉스·반도체 이해 — 확장 계획', 'Understanding SK hynix and the chip industry — what comes next'), T('AI 해커톤 준비(13단계). 모두 공식 자료로만', 'For the AI hackathon (stage 13); official sources only'))}
         <ol class="proc">${(K().plan || []).map((p) => `<li><span class="no">${esc(p.no)}</span>${esc(L(p.t))}</li>`).join('')}</ol>
-        <p class="xs muted">${T('각 업데이트에서 원문을 확인한 내용만 탭으로 공개합니다. 출처 등급은 회사 공개자료 5, 정부·국제기구 2, 공식 통계 3입니다.', 'Each update publishes only what has been checked against originals. Source tiers: company publications 5, governments and international bodies 2, official statistics 3.')}</p>
+        <p class="xs muted">${T('각 업데이트에서 원문을 확인한 내용만 탭으로 공개합니다. 출처 등급은 법령 원문 1, 정부·국제기구 2, 공식 통계 3, 업계 단체(WSTS 등) 4, 회사 공개자료 5입니다.', 'Each update publishes only what has been checked against originals. Source tiers: statute texts 1, governments and international bodies 2, official statistics 3, industry bodies (such as WSTS) 4, company publications 5.')}</p>
       </section>`;
   }
   S.pages.company = {
@@ -234,11 +288,11 @@
       const want = sub && coTabOf(sub);
       if (!S.state.refreshing && want) S.save('tab.co', want);
       const tab = S.tab('co', 'profile');
-      const body = tab === 'products' ? tabProducts() : tab === 'process' ? tabProcess() : tab === 'memtech' ? tabMem() : tab === 'equip' ? tabEquip() : tab === 'base' ? tabBase() : tab === 'business' ? tabBusiness() : tab === 'terms' ? tabTerms() : tab === 'plan' ? tabPlan() : tab === 'safety' ? tabSafety() : tabProfile();
+      const body = tab === 'products' ? tabProducts() : tab === 'process' ? tabProcess() : tab === 'memtech' ? tabMem() : tab === 'equip' ? tabEquip() : tab === 'base' ? tabBase() : tab === 'business' ? tabBusiness() : tab === 'market' ? tabMarket() : tab === 'terms' ? tabTerms() : tab === 'plan' ? tabPlan() : tab === 'safety' ? tabSafety() : tabProfile();
       return `
       ${ui.head(T('회사 이해', 'Company'), T('SK하이닉스 이해', 'Understanding SK hynix'),
         T('SK하이닉스가 직접 공개한 자료로 회사·제품·공정·기술·사업과 안전 체계를 정리했습니다.', 'The company, its products, processes, technology, business and safety system, from material SK hynix itself has published.'),
-        T('근거는 회사의 정기보고서(제79기 반기보고서), 공식 제품 사이트, 뉴스룸(보도자료·기술 해설)과 지속가능경영보고서(2024~2026)입니다. 시장 수치는 회사 보고서가 인용한 조사기관 값으로, 뉴스룸의 외부 전문가 칼럼은 ‘외부 칼럼’으로 표시했습니다.', 'Sources: the company’s regular report (H1, 79th term), its official product site, its newsroom (press releases and technical articles) and sustainability reports (2024–2026). Market figures are shown as cited from research firms in the company’s report; expert columns in the newsroom are marked “External column”.'))}
+        T('근거는 회사의 정기보고서(제79기 반기보고서), 공식 제품 사이트, 뉴스룸(보도자료·기술 해설)과 지속가능경영보고서(2024~2026)입니다. 시장 수치는 회사 보고서가 인용한 조사기관 값으로, 뉴스룸의 외부 전문가 칼럼은 ‘외부 칼럼’으로 표시했습니다. ‘세계 시장’ 탭은 WSTS 공식 발표, 각 회사의 연차보고서(미국 SEC 제출·IR), 각국 법령 원문입니다.', 'Sources: the company’s regular report (H1, 79th term), its official product site, its newsroom (press releases and technical articles) and sustainability reports (2024–2026). Market figures are shown as cited from research firms in the company’s report; expert columns in the newsroom are marked “External column”. The World market tab uses WSTS releases, companies’ annual reports (US SEC filings and IR) and statute texts.'))}
       ${ui.tabs('co', CO_TABS.map(([id, f]) => ({ id, label: f(T) })), tab)}
       <div id="anchor-${tab}" class="co-body">${body}</div>`;
     },

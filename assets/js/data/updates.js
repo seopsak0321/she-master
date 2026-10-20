@@ -5,11 +5,23 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v107';
+SHE.BUILD = 'v108';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 34, v: SHE.BUILD, date: '2026-10-20 19:21', commit: '',
+    { no: 35, v: SHE.BUILD, date: '2026-10-20 20:13', commit: '',
+      t: B('SK하이닉스 이해 확장 5 — 세계 시장: WSTS 시장 통계·전망, 반도체 기업 10곳의 최근 연차 실적, 장비 회사의 한국 매출, 한국·미국·EU 반도체 정책(법령 원문)', 'Understanding SK hynix, part 5 — world market: WSTS statistics and forecasts, latest annual results of ten chip companies, toolmakers’ Korean sales, and Korean, US and EU chip policy (statute texts)'),
+      add: [
+        B('‘세계 시장’ 탭 — WSTS 연간 세계 매출 2015~2025년(2025년 7,956억 달러, +26.2%)과 2026년 봄 전망(1조 5,112억 달러, 메모리 +249.5%)·2027년 전망, 2025년 제품·지역별 표, 2분기 실적을 넣은 계산(새 전망이 아님을 표시), 메모리 비중 28.9% → 53.2%(포털 계산)', 'World market tab — WSTS yearly world sales 2015–2025 (US$795.6 bn in 2025, +26.2 %), the Spring 2026 forecast (US$1,511.2 bn, memory +249.5 %) and 2027, 2025 by product and region, the Q2-actuals calculation (marked as not a new forecast), and memory’s share 28.9 % → 53.2 % (portal calculation)'),
+        B('기업 비교 — SK하이닉스·삼성전자 DS·마이크론·TSMC·엔비디아·ASML·Applied Materials·램리서치·도쿄일렉트론·KLA의 최근 회계연도 매출·영업이익·순이익(미국 SEC 연차보고서, 삼성전자 감사 재무제표 주석, 도쿄일렉트론 결산 자료). 보고 통화 그대로, 회계연도 차이 표시. 엔비디아(메모리 구매처)·램리서치(주요 고객)·마이크론(경쟁사) 공시에 나오는 SK하이닉스', 'Companies — latest fiscal-year revenue, operating profit and net income of SK hynix, Samsung DS, Micron, TSMC, NVIDIA, ASML, Applied Materials, Lam, Tokyo Electron and KLA (US SEC annual reports, Samsung’s audited notes, Tokyo Electron’s results). Reporting currencies kept and fiscal-year differences shown. SK hynix as it appears in NVIDIA (memory supplier), Lam (main customer) and Micron (competitor) filings'),
+        B('장비 회사 매출 가운데 한국 — ASML 25.0%·도쿄일렉트론 22.2%·Applied Materials 19.8%·램리서치 19%·KLA 13.5%(기준이 다른 점과 포털 계산 표시)', 'Korea in toolmakers’ revenue — ASML 25.0 %, Tokyo Electron 22.2 %, Applied Materials 19.8 %, Lam 19 %, KLA 13.5 % (differing bases and portal calculations marked)'),
+        B('각국 정책(법령 원문) — 한국 반도체산업 경쟁력 강화 및 지원에 관한 특별법(2026.8.11 시행: 클러스터·기반시설 지원·예타 특례·인허가 신속처리·특별회계), 조세특례제한법 제24조(반도체 시설 투자 대기업 20%·중소 30%), 미국 CHIPS and Science Act(500억 달러, §48D 25% → Public Law 119-21로 35%), EU 반도체법(Regulation 2023/1781)', 'Policies (statute texts) — Korea’s Semiconductor Special Act (in force 11 Aug 2026: clusters, infrastructure support, feasibility-study exceptions, fast-track permits, special account), Restriction of Special Taxation Act Art. 24 (chip facility investment 20 % for large firms, 30 % for SMEs), the US CHIPS and Science Act (US$50 bn; §48D 25 % → 35 % under Public Law 119-21) and the EU Chips Act (Regulation 2023/1781)')
+      ],
+      chg: [
+        B('출처 273 → 291건(WSTS 4·기업 연차보고서 9·법령 5). WSTS는 반도체 회사들의 통계 기구라 출처 등급 4(업계 단체)로 — 출처 하나에 등급을 따로 적을 수 있게 함. Applied Materials 10-K 출처에 한국 매출 추가. 사업 현황·거점·투자 탭에서 세계 시장 탭으로 연결', 'Sources 273 → 291 (4 WSTS, 9 company annual reports, 5 statutes). WSTS, a statistics body of chip companies, is tier 4 (industry body) — a source can now carry its own tier. Korean revenue added to the Applied Materials 10-K source. The Business and Sites tabs link to the new tab'),
+        B('넣지 않은 것: 유료 조사(Gartner 등)의 점유율, 환율로 바꾼 금액, 원문에 없는 EU ‘세계 점유율 20%’ 목표, 확인하지 못한 SK하이닉스 미국 보조금 액수, 2026년 월별 WSTS 값(보도자료 상반기 합과 달라서). SEC 문서 서버의 요청 한도 안내 때는 기다렸다 천천히 읽음. 다음은 #36 반도체 현장 × AI', 'Left out: paid research shares (Gartner etc.), currency-converted amounts, an EU “20 % world share” goal not in the regulation, SK hynix’s US award amount (not confirmed), and 2026 monthly WSTS figures (they differ from the release’s H1 total). When the SEC server showed its rate-limit notice we waited and read slowly. Next: #36 chip sites × AI')
+      ] },
+    { no: 34, v: 'v107', date: '2026-10-20 19:21', commit: '26b63f5',
       t: B('SK하이닉스 이해 확장 4 — 거점·투자: 국내외 생산 거점 8곳의 연혁, 투자 공시, 회사가 공시한 안전·환경 행정 조치, 10개 분기 실적', 'Understanding SK hynix, part 4 — sites and investment: histories of eight production sites, investment filings, the safety and environmental actions the company disclosed, and ten quarters of results'),
       add: [
         B('‘거점·투자’ 탭 — 이천(본사·M16·High NA)·청주(M15·M15X·P&T7·M17)·용인(Y1·Y2, 팹 4기)·서남권(계획)·중국 우시·다롄·충칭·미국 인디애나(건설 중) 거점별 연혁. 반기보고서(연결 주석 1)의 가동 현황과 뉴스룸 보도자료·FACT 원문만 쓰고, 계획은 발표 시점의 계획으로 표시. #company/bs-cheongju 같은 주소로 바로 열기', 'Sites & investment tab — histories for Icheon (HQ, M16, High NA), Cheongju (M15, M15X, P&T7, M17), Yongin (Y1, Y2; four fabs), the southwest (planned), Wuxi, Dalian and Chongqing in China and Indiana in the US (under construction). Only the half-year report (consolidated note 1) and newsroom releases and FACT pieces are used; plans are shown as plans as announced. Direct addresses such as #company/bs-cheongju'),
