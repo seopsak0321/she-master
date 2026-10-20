@@ -5,11 +5,22 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v108';
+SHE.BUILD = 'v109';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 35, v: SHE.BUILD, date: '2026-10-20 20:13', commit: '',
+    { no: 36, v: SHE.BUILD, date: '2026-10-20 20:39', commit: '',
+      t: B('SK하이닉스 이해 확장 6 — 반도체 × AI: AI 메모리, 제조 현장의 AI, 안전 분야 AI와 일본·대만 반도체 정책(법령 원문)', 'Understanding SK hynix, part 6 — chips × AI: AI memory, AI in the fab, AI for safety, plus Japanese and Taiwanese chip policy (statute texts)'),
+      add: [
+        B('‘반도체 × AI’ 탭 — AI 메모리: 메모리 월과 HBM의 역할, 학습에서 추론으로 넓어지는 수요(회사 설명), HBM이 D램 매출의 30%(2024년 3분기)·40% 이상(4분기), 엔비디아 연차보고서의 메모리 구매처(SK Hynix·Micron·Samsung), 엔비디아와 장기 기술 파트너십(2026.6)', 'Chips × AI tab — AI memory: the memory wall and HBM’s role, demand widening from training to inference (company explanation), HBM at 30 % (Q3 2024) and over 40 % (Q4) of DRAM revenue, NVIDIA’s annual report naming its memory suppliers (SK Hynix, Micron, Samsung), and the long-term partnership with NVIDIA (June 2026)'),
+        B('제조 현장의 AI(날짜순, 뉴스룸 보도자료·회사 글) — 가상 계측 Panoptes VM(2022.12, 박막 증착 산포 21.5% 개선), DT 조직 성과(HBM 스마트팩토리 병목 공정 생산성 31%·문제 공정 수율 21%, EUV 공동 운영 가동률 30% — 회사 설명), 유틸리티 에너지 AI(외기 공조 자율 운전 14% 등), 생성형 AI GaiA(장비 보전·로그 분석 에이전트), 가상 계측 논문(2026.2), 디지털 트윈·자율 팹과 AI 협업 방식은 ‘계획·방향’으로 표시', 'AI in the fab (by date, newsroom releases and company articles) — Panoptes VM virtual metrology (Dec 2022, deposition variation down 21.5 %), DT results (HBM smart factory: bottleneck productivity +31 %, problem-step yield +21 %; shared EUV operation uptime +30 % — company statements), utility energy AI (autonomous outside-air conditioning −14 % and more), the GaiA generative-AI platform (equipment-maintenance and log-analysis agents), virtual-metrology papers (Feb 2026); digital twin, autonomous fab and new AI-collaboration ways are marked “Plan”'),
+        B('안전 분야 AI·로봇 — 회사 안전 프로그램(4족 보행 로봇, Safety Vision AI, LLM 안전문서, KOROS 표준, VLM 드론 계획)을 한곳에, 포털 SDX 모듈로 연결', 'AI and robots for safety — the company’s safety programmes (quadruped robots, Safety Vision AI, LLM safety documents, the KOROS standard, planned VLM drones) in one place, linked to the portal SDX module'),
+        B('세계 시장 탭의 각국 정책에 일본·대만 추가 — 일본 특정고도정보통신기술 촉진법(반도체 생산시설 계획 인정·NEDO 조성금, 2022.3.1 시행), 정보처리 촉진법 개정(첨단 반도체 지정·공모 선정·2025~2030 기술채, 2025.8.4 시행), 대만 산업혁신조례 제10조의2(R&D 25%·첨단 공정 설비 5% 세액공제, 2023~2029, 환경·노동 법률 중대 위반이 없을 것)', 'Japan and Taiwan added to the World market tab’s policies — Japan’s Specified Advanced ICT Act (fab plan certification and NEDO grants, from 1 Mar 2022), the amended Information Processing Act (designated leading-edge chips, public selection, FY2025–2030 technology bonds, from 4 Aug 2025), and Taiwan’s Industrial Innovation Act Art. 10-2 (25 % R&D and 5 % advanced-equipment credits, 2023–2029, requiring no serious environmental or labour violations)')
+      ],
+      chg: [
+        B('출처 291 → 302건(뉴스룸 8·법령 3). 확장 계획에 #37 ‘13단계 갱신’(3분기 실적·WSTS 가을 전망이 나오는 대로). 넣지 않은 것: 외부 업체(가우스랩스·엔비디아)의 제품 홍보 문구, 원문에 기준(공정·기간)이 없는 수치, 대학 강연·외부 칼럼의 AI 전망', 'Sources 291 → 302 (8 newsroom, 3 statutes). The plan gains #37 “stage 13 refresh” (as Q3 results and the WSTS autumn forecast come out). Left out: vendor marketing (Gauss Labs, NVIDIA), figures whose original gives no basis (step, period), and AI outlooks from university talks or external columns')
+      ] },
+    { no: 35, v: 'v108', date: '2026-10-20 20:13', commit: 'a25c376',
       t: B('SK하이닉스 이해 확장 5 — 세계 시장: WSTS 시장 통계·전망, 반도체 기업 10곳의 최근 연차 실적, 장비 회사의 한국 매출, 한국·미국·EU 반도체 정책(법령 원문)', 'Understanding SK hynix, part 5 — world market: WSTS statistics and forecasts, latest annual results of ten chip companies, toolmakers’ Korean sales, and Korean, US and EU chip policy (statute texts)'),
       add: [
         B('‘세계 시장’ 탭 — WSTS 연간 세계 매출 2015~2025년(2025년 7,956억 달러, +26.2%)과 2026년 봄 전망(1조 5,112억 달러, 메모리 +249.5%)·2027년 전망, 2025년 제품·지역별 표, 2분기 실적을 넣은 계산(새 전망이 아님을 표시), 메모리 비중 28.9% → 53.2%(포털 계산)', 'World market tab — WSTS yearly world sales 2015–2025 (US$795.6 bn in 2025, +26.2 %), the Spring 2026 forecast (US$1,511.2 bn, memory +249.5 %) and 2027, 2025 by product and region, the Q2-actuals calculation (marked as not a new forecast), and memory’s share 28.9 % → 53.2 % (portal calculation)'),

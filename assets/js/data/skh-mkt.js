@@ -1,4 +1,4 @@
-/* SK하이닉스 이해 — 세계 반도체 시장 (13단계 K5, 업데이트 #35, 2026-10-20)
+/* SK하이닉스 이해 — 세계 반도체 시장 (13단계 K5, 업데이트 #35, 2026-10-20) + 반도체 현장 × AI·일본·대만 정책 (K6, #36)
    출처: WSTS 보도자료·Historical Billings Report(시장), 각 회사가 미국 SEC에 낸 연차보고서(10-K·20-F)와 회사 IR의 감사 재무제표·결산 자료(기업),
    국가법령정보센터·govinfo·EUR-Lex 법령 원문(정책). 확인 노트 she-tools/skh/k5_notes.md.
    규칙: 금액은 각 회사 보고 통화 그대로(환율로 바꾸지 않음), 회계연도가 회사마다 다르다는 것을 함께 적는다.
@@ -90,8 +90,54 @@ window.SHE = window.SHE || {};
           B('Chips for Europe Initiative 설치', 'Sets up the Chips for Europe Initiative'),
           B('공급 안정에 기여하는 ‘최초’ 시설 — 통합 생산 시설·개방형 EU 파운드리 — 인정·지원 기준', 'Criteria to recognise and support first-of-a-kind facilities — integrated production facilities and open EU foundries — that add to security of supply'),
           B('회원국·집행위원회가 반도체 부문을 감시하고 공급 부족 위기를 예방·대응하는 조정 체계', 'A Member State–Commission mechanism to monitor the sector and prevent and respond to shortages')
-        ], src: ['euChipsAct'] }
+        ], src: ['euChipsAct'] },
+      /* #36: 일본(e-Gov 법령 API 원문)·대만(전국법규자료고) */
+      { id: 'jp-5g', c: B('일본', 'Japan'), t: B('특정고도정보통신기술활용시스템 개발공급·도입 촉진법 — 반도체 생산시설 지원', 'Act on Specified Advanced ICT Systems — support for chip fabs'), d: B('반도체 조항: 2021.12.24 공포 · 2022.3.1 시행', 'Chip provisions: promulgated 24 Dec 2021 · in force 1 Mar 2022'),
+        items: [
+          B('특정반도체 생산시설 정비 등 계획을 주무대신이 인정 — 일정 기간 이상 계속 생산, 수급이 빠듯할 때 증산·생산능력 투자, 기술 정보 관리 체제가 요건(제11조)', 'The competent minister certifies specified-semiconductor production-facility plans — requiring continued production for a set period, more output and capacity investment when supply is tight, and control of technical information (Art. 11)'),
+          B('인정받은 사업자에게 신에너지·산업기술종합개발기구(NEDO)가 조성금을 주고, 대출 금융기관에 이자 보급금을 지급(제29조)', 'NEDO pays grants to certified companies and interest subsidies to lending banks (Art. 29)')
+        ], src: ['jp5gAct'] },
+      { id: 'jp-ipa', c: B('일본', 'Japan'), t: B('정보처리 촉진법 개정 — 첨단 반도체 양산 지원', 'Act on the Promotion of Information Processing, amended — support for leading-edge chip production'), d: B('2025.5.14 공포 · 2025.8.4 시행', 'Promulgated 14 May 2025 · in force 4 Aug 2025'),
+        items: [
+          B('경제산업대신이 ‘매우 많은 정보를 매우 빠르게 처리하는’ 반도체 가운데 국내에서 안정적으로 생산되지 않는 것을 지정(제61조)', 'METI designates chips that process very large amounts of information at very high speed and are not stably produced in Japan (Art. 61)'),
+          B('공모로 실시계획을 받아 심사·평가한 뒤 가장 적절한 사업자를 선정사업자로 선정(제63~65조)', 'A public call for implementation plans; after review and evaluation the most suitable company is selected (Arts. 63–65)'),
+          B('2025~2030회계연도에 ‘첨단반도체·인공지능 관련 기술채’를 발행해 선정사업자 지원·첨단 반도체 생산시설·AI 계산 기반 등에 쓸 수 있음(제69조)', 'Advanced-semiconductor and AI technology bonds may be issued in FY2025–2030 to fund the selected company, leading-edge chip facilities and AI computing (Art. 69)')
+        ], src: ['jpIpaAct'] },
+      { id: 'tw-innov', c: B('대만', 'Taiwan'), t: B('產業創新條例(산업혁신조례) 제10조의2', 'Statute for Industrial Innovation, Art. 10-2'), d: B('2023.1.19 신설 · 2023.1.1~2029.12.31 적용', 'Added 19 Jan 2023 · applies 1 Jan 2023 – 31 Dec 2029'),
+        items: [
+          B('대만 안에서 기술 혁신을 하고 국제 공급망의 핵심 위치에 있는 회사: 첨단 혁신 R&D 지출의 25%를 영리사업소득세에서 공제(그해 세액의 30% 한도)', 'Companies innovating in Taiwan and holding a key place in global supply chains: 25 % of forward-looking R&D credited against corporate income tax (up to 30 % of the year’s tax)'),
+          B('같은 요건의 회사가 첨단 공정에 쓸 새 기계·설비를 일정 규모 이상 사면 그 5% 공제(30% 한도), 두 공제를 합쳐 그해 세액의 50% 한도', 'Such companies buying new advanced-process equipment above a set scale get 5 % (30 % cap); the two credits together are capped at 50 % of the year’s tax'),
+          B('조건: R&D 규모·매출 대비 비율, 유효세율(2023년 12%, 2024년부터 15%), 최근 3년 안에 환경보호·노동·식품안전위생 법률을 중대하게 위반한 일이 없을 것', 'Conditions: R&D scale and ratio to sales; effective tax rate (12 % in 2023, 15 % from 2024); no serious violation of environmental, labour or food-safety laws in the past three years')
+        ], src: ['twInnovAct'] }
     ],
-    policyNote: B('SK하이닉스 미국 법인(인디애나)은 미국 상무부와의 직접 지원 협약(DFA) 이행과 대출 상환에 대해 회사가 1,028백만 달러를 보증하고 있습니다(반기보고서). 지원 금액은 회사 공시·뉴스룸에서 확인하지 못해 넣지 않았습니다. 일본·대만 정책은 다음에 원문으로 확인합니다.', 'SK hynix guarantees US$1,028 million for its Indiana subsidiary’s direct funding agreement (DFA) with the US Commerce Department and loan repayment (half-year report). The award amount itself could not be confirmed in company filings or the newsroom, so it is left out. Japanese and Taiwanese policies are to be checked against originals next.')
+    policyNote: B('SK하이닉스 미국 법인(인디애나)은 미국 상무부와의 직접 지원 협약(DFA) 이행과 대출 상환에 대해 회사가 1,028백만 달러를 보증하고 있습니다(반기보고서). 지원 금액은 회사 공시·뉴스룸에서 확인하지 못해 넣지 않았습니다. 일본은 e-Gov 법령 원문, 대만은 법무부 전국법규자료고 원문(2026.10.8 정리분)입니다.', 'SK hynix guarantees US$1,028 million for its Indiana subsidiary’s direct funding agreement (DFA) with the US Commerce Department and loan repayment (half-year report). The award amount itself could not be confirmed in company filings or the newsroom, so it is left out. Japan from e-Gov statute texts; Taiwan from the Ministry of Justice database (compiled to 8 Oct 2026).')
+  };
+
+  /* 반도체 현장 × AI (13단계 K6, 업데이트 #36) — SK하이닉스 뉴스룸 보도자료·회사 글(임원·담당자 인터뷰 포함)과 다른 회사 연차보고서.
+     인터뷰 속 수치는 ‘회사 설명’으로, 앞으로 할 일은 plan:true로 표시한다. 안전 분야 AI는 회사 안전 프로그램(SHE.COMPANY.programs의 sdx)을 그대로 쓴다. */
+  SHE.SKH_AI = {
+    mem: [
+      { t: B('AI 성능은 연산만으로 정해지지 않고 메모리 대역폭·용량·전력 효율·지연시간이 함께 좌우합니다. 프로세서의 연산 속도와 메모리의 데이터 공급 속도 사이 격차를 ‘메모리 월’이라 부르고, HBM은 D램을 수직으로 쌓아 AI 가속기 가까이에서 높은 대역폭을 공급하는 기술입니다(회사 설명).', 'AI performance depends not only on compute but on memory bandwidth, capacity, power efficiency and latency. The gap between processor speed and memory supply is the “memory wall”; HBM stacks DRAM vertically to feed high bandwidth right next to AI accelerators (company explanation).'), src: ['nrAiMem5'] },
+      { t: B('수요는 학습에서 추론·서비스·산업 전반으로 넓어지며, HBM뿐 아니라 서버 메모리(AI-DRAM)와 고용량 스토리지(AI-NAND)로 이어진다는 것이 회사의 ‘풀 스택 AI 메모리’ 설명입니다.', 'Demand is spreading from training to inference, services and industry, reaching server memory (AI-DRAM) and high-capacity storage (AI-NAND) as well as HBM — the company’s “full-stack AI memory” explanation.'), src: ['nrAiMem5'] },
+      { t: B('SK하이닉스 D램 매출에서 HBM이 2024년 3분기 30%, 4분기 40% 이상이었습니다(실적 보도자료).', 'HBM was 30 % of SK hynix DRAM revenue in Q3 2024 and over 40 % in Q4 (results releases).'), src: ['nrRes24q3', 'nrRes24'] },
+      { t: B('엔비디아 FY2026: 데이터센터 매출 1,937억 달러(전체의 약 90%), “메모리는 SK Hynix, Micron, Samsung에서 구매”(연차보고서).', 'NVIDIA FY2026: data-centre revenue US$193.7 bn (about 90 % of the total); “we purchase memory from SK Hynix, Micron and Samsung” (annual report).'), src: ['nvda10k26'] },
+      { t: B('2026.6 엔비디아와 장기 기술 파트너십 — 차세대 메모리 공동 개발, 첨단 메모리의 긴 개발 주기를 고려한 안정 공급.', 'June 2026 multi-year partnership with NVIDIA — co-developing next-generation memory and stable supply over long development cycles.'), src: ['nrNvPartner'] },
+      { t: B('WSTS는 2026년 메모리 시장이 249.5% 커질 것으로 전망하며 AI 인프라·HBM·가속 컴퓨팅 수요를 주된 이유로 들었습니다.', 'WSTS forecasts the memory market to grow 249.5 % in 2026, citing AI infrastructure, HBM and accelerated computing.'), src: ['wstsSpring26'] }
+    ],
+    /* 제조 현장의 AI — 날짜순 */
+    fab: [
+      { d: '2017', t: B('국내 제조업 최초로 데이터 사이언스 조직 출범(회사 설명)', 'Data-science organisation set up — first in Korean manufacturing (company statement)'), src: ['nrGaia'] },
+      { d: '2022-12', t: B('가상 계측 AI ‘Panoptes VM’(가우스랩스) 양산 팹 도입 — 장비 센서 데이터(압력·온도·가스 주입량 등)로 계측하지 않은 웨이퍼의 막 두께·굴절률을 예측. 박막 증착 공정에서 APC와 연동해 공정 산포 평균 21.5% 개선, 수율 향상', 'Virtual-metrology AI Panoptes VM (Gauss Labs) in production fabs — predicts film thickness and refractive index for unmeasured wafers from tool sensor data (pressure, temperature, gas flow and more). In thin-film deposition, linked to APC: process variation down 21.5 % on average, yield up'), src: ['nrPanoptes'] },
+      { d: '2024', t: B('AI 전환(AIX) 전문 팀 구성', 'AI-transformation (AIX) team formed'), src: ['nrGaia'] },
+      { d: '2025-04', t: B('DT 조직 성과(회사 설명) — HBM용 스마트팩토리(전·후공정 연계 생산 계획, 저진동 반송 제어)로 병목 공정 생산성 31%·문제 공정 수율 21% 개선, AI 결함 이미지 분석, 장비 유지보수 자동화, 모든 웨이퍼를 보는 AI 가상 계측, EUV 장비를 여러 라인·연구 조직·해외 법인이 함께 쓰는 운영으로 가동률 30% 향상', 'DT results (company statement) — an HBM smart factory (front/back-end linked planning, low-vibration transport) raising bottleneck productivity 31 % and problem-step yield 21 %; AI defect-image analysis; automated tool maintenance; AI virtual metrology covering every wafer; shared global operation of EUV tools across lines, R&D and overseas sites raising uptime 30 %'), src: ['nrDtAward25'] },
+      { d: '2025-07', t: B('유틸리티 설비 AI·DT — 외기 공조(OAC) 머신러닝 자율 운전 14%, 폐열 회수 머신러닝 모델 5.8%, 냉동기 운전 가이드 4.7%(+M14 3.8%) 에너지 절감', 'AI/DT for utilities — machine-learning autonomous outside-air conditioning 14 %, ML waste-heat recovery 5.8 %, chiller operating guides 4.7 % (+3.8 % at M14) energy savings'), src: ['nrAiDtEnergy'] },
+      { d: '2025-07', t: B('생성형 AI 플랫폼 GaiA — 장비 보전 에이전트(장비 이상·조치 기록 Inform Note 학습, 이력 요약·조치 가이드), EDA 스크립트, 로그 분석(SSD 스펙 관련 불량 분석 시간 20% 이상 단축), Global Insight. 8월 사내 LLM Chat 베타', 'Generative-AI platform GaiA — equipment-maintenance agent (learns Inform Notes on tool problems and fixes; history summaries and repair guides), EDA scripts, log analysis (spec-related SSD failure analysis over 20 % faster), Global Insight; in-house LLM Chat beta from August'), src: ['nrGaia', 'nrGaiaAgent'] },
+      { d: '2026-02', t: B('가상 계측 논문 2편(SPIE) — 장비 간 성능 차이를 찾아 이상을 일찍 탐지·진단, 포토 공정 오버레이 예측의 근거를 설명하는 GRACE(2025년부터 현장 적용)', 'Two virtual-metrology papers (SPIE) — finding tool-to-tool differences for early anomaly detection, and GRACE, which explains photo overlay predictions (in use since 2025)'), src: ['nrSpie26'] },
+      { d: '2026-06', t: B('엔비디아와 반도체 설계·제조 AI — TCAD·계산 리소그래피 시뮬레이션 가속, 실제 팹을 3차원 가상 공간에 옮긴 디지털 트윈, 자율 이동 로봇(AMR) 등 운영 최적화. 목표는 완전 자율 팹 운영', 'With NVIDIA, AI for chip design and manufacturing — faster TCAD and computational-lithography simulation, a 3D digital twin of the fab, optimised operation of autonomous mobile robots and other assets; aiming at fully autonomous fab operation'), src: ['nrNvPartner'], plan: true },
+      { d: '2026-09', t: B('양산 현장의 표준업무절차(SOP)를 바탕으로 AI와 함께 일하는 방식을 다시 설계 — 라인 이상 때 AI가 데이터를 분석해 원인·대응을 제시하고 사람은 최종 판단, GaiA로 팹 생산 운영 준비(미래포럼 발표)', 'Redesigning work with AI on top of production SOPs — when a line goes wrong AI analyses the data and proposes causes and actions while people make the final call; preparing GaiA for fab operation (Future Forum)'), src: ['nr0909'], plan: true }
+    ],
+    notes: [
+      B('수치는 회사가 보도자료와 담당 임원·구성원 인터뷰에서 밝힌 것으로, 어느 공정·기간 기준인지 원문에 적힌 범위에서만 옮겼습니다. 외부 업체(가우스랩스·엔비디아)의 제품 설명은 넣지 않았습니다.', 'Figures are those the company gave in press releases and interviews with its executives and staff, copied only to the extent the originals say which step or period they cover. Vendor product claims (Gauss Labs, NVIDIA) are left out.')
+    ]
   };
 })();
