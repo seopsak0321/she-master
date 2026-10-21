@@ -20,7 +20,7 @@
   /* #33(13단계 K3): 장비·소재 탭(SHE.SKH_EQ) · #35(K5): 세계 시장 탭(SHE.SKH_MKT) */
   const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['equip', T => T('장비·소재', 'Equipment & materials')], ['base', T => T('거점·투자', 'Sites & investment')], ['business', T => T('사업 현황', 'Business')], ['market', T => T('세계 시장', 'World market')], ['ai', T => T('반도체 × AI', 'Chips × AI')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
   /* 탭 안의 자리로 바로 가는 주소: #company/pc-<공정>·test·pkg → 공정 탭, cells·dram·nand·hbm → 메모리·HBM 탭, litho·mat·ppe → 장비·소재 탭, mk-<칸> → 세계 시장 탭 */
-  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : /^mk-/.test(x) ? 'market' : /^ai-/.test(x) ? 'ai' : null);
+  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm', 'roadmap'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : /^mk-/.test(x) ? 'market' : /^ai-/.test(x) ? 'ai' : null);
   const extTag = (ids) => ([].concat(ids || []).some((id) => (S.SKH_EXT || []).includes(id)) ? ` <span class="tag-ext" title="${T('뉴스룸에 실린 외부 전문가 칼럼 — 원문에 SK하이닉스의 공식 입장과 다를 수 있다고 적혀 있음', 'External expert column in the newsroom — the original says it may differ from SK hynix’s official position')}">${T('외부 칼럼', 'External column')}</span>` : '');
   const nm = (x) => esc(typeof x === 'string' ? x : L(x));
   const pairs = (rows) => `<div class="table-wrap"><table class="data"><tbody>${rows.map(([k, v]) => `<tr><th scope="row" style="width:26%">${nm(k)}</th><td class="small">${esc(L(v))}</td></tr>`).join('')}</tbody></table></div>`;
@@ -84,6 +84,12 @@
       <section class="panel">${ui.title(T('SK하이닉스 HBM 연표', 'SK hynix HBM timeline'), T('날짜는 보도자료·인터뷰 원문', 'Dates from press releases and interviews'))}
         <ol class="timeline">${(h.timeline || []).map((x) => `<li><span class="num">${esc(x.d)}</span> <span>${esc(L(x.t))}${S.cite(x.src)}</span></li>`).join('')}</ol>
         <p class="xs muted">${T('수치는 각 발표 시점의 값입니다. 지금 파는 제품의 사양은 ‘제품’ 탭(공식 제품 사이트)을 보세요.', 'Figures are as announced at each date; for current specifications see the Products tab (official product site).')}</p>
+      </section>
+      <section class="panel stack" id="anchor-roadmap">${ui.title(T('HBM 다음 — 차세대 메모리·시스템 로드맵', 'After HBM — next-generation memory and system roadmap'), T('회사가 발표한 것만, 단계는 원문 표현대로', 'Only what the company has announced; stages as the originals put them'))}
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('기술', 'Technology')}</th><th>${T('단계', 'Stage')}</th><th>${T('발표', 'Announced')}</th><th>${T('무엇인가', 'What it is')}</th></tr></thead><tbody>
+          ${(M.road || []).map((r) => `<tr><td class="nowrap"><b>${nm(r.t)}</b></td><td class="small">${esc(L(r.st))}</td><td class="nowrap small">${esc(String(r.d).replace(/-/g, '.'))}</td><td class="small">${esc(L(r.what))}${S.cite(r.src)}</td></tr>`).join('')}
+        </tbody></table></div>
+        <p class="xs muted">${T('‘전시’·‘시연’·‘연구’는 아직 양산 제품이 아니라는 뜻입니다. 계획 시점은 발표 때의 계획입니다. HBM과 AI 가속기의 관계는 ‘반도체 × AI’ 탭에 있습니다.', '“Exhibited”, “demonstrated” and “research” mean not yet a volume product. Planned dates are as announced. How HBM relates to AI accelerators is in the Chips × AI tab.')} <a href="#company/ai-mem">${T('AI 메모리', 'AI memory')} →</a></p>
       </section>`;
   }
   function tabEquip() {
@@ -194,6 +200,11 @@
           ${firms.map((f) => `<tr><td class="nowrap"><b>${nm(f.n)}</b>${S.cite(f.src)}</td><td class="small">${nm(f.c)} · ${esc(L(f.role))}</td><td class="small">${esc(L(f.fy))}</td><td class="num">${money(f.rev, f.cur)}</td><td class="num">${money(f.op, f.cur)}</td><td class="num">${money(f.ni, f.cur)}</td><td class="num">${f.rev && f.op != null ? `${(f.op / f.rev * 100).toFixed(1)}%` : '–'}</td></tr>${f.note ? `<tr><td></td><td colspan="6" class="xs muted">${esc(L(f.note))}</td></tr>` : ''}`).join('')}
         </tbody></table></div>
         <p class="xs muted">${T('금액은 각 회사가 보고한 통화 그대로이고 환율로 바꾸지 않았습니다. 회계연도가 회사마다 다르고(마이크론 2026년 9월, 램리서치·KLA 2026년 6월, 도쿄일렉트론 2026년 3월, 엔비디아 2026년 1월 결산 등), SK하이닉스와 삼성전자는 2025년 1~12월입니다. 영업이익률은 표의 두 값으로 포털이 계산했고, ‘–’는 그 보고서에 해당 줄이 없거나 부문 값을 공시하지 않은 것입니다.', 'Amounts are in each company’s reporting currency, not converted. Fiscal years differ (Micron to September 2026, Lam and KLA to June 2026, Tokyo Electron to March 2026, NVIDIA to January 2026), while SK hynix and Samsung report January–December 2025. Operating margin is computed by the portal from the two figures; “–” means the report has no such line or the segment figure is not disclosed.')}</p>
+        ${(() => { const Q = M.latest || {}; return (Q.rows || []).length ? `<b class="small" id="anchor-mk-latest">${T(`최근 분기 — ${Q.asof} 갱신`, `Latest quarter — refreshed ${Q.asof}`)}</b>
+        <div class="table-wrap"><table class="data"><thead><tr><th>${T('회사', 'Company')}</th><th>${T('기간', 'Period')}</th><th class="num">${T('매출', 'Revenue')}</th><th class="num">${T('전년 같은 분기 대비', 'YoY')}</th><th class="num">${T('영업이익', 'Operating profit')}</th><th class="num">${T('순이익', 'Net income')}</th></tr></thead><tbody>
+          ${Q.rows.map((f) => `<tr><td class="nowrap"><b>${esc(f.n)}</b>${S.cite(f.src)}</td><td class="small">${esc(L(f.p))}</td><td class="num">${money(f.rev, f.cur)}</td><td class="num">${f.yoy != null ? `+${f.yoy}%` : '–'}</td><td class="num">${money(f.op, f.cur)}</td><td class="num">${money(f.ni, f.cur)}</td></tr><tr><td></td><td colspan="5" class="xs muted">${esc(L(f.note))}</td></tr>`).join('')}
+        </tbody></table></div>
+        <p class="xs muted">${esc(L(Q.note || ''))}</p>` : ''; })()}
         <b class="small">${T('다른 회사의 공시에 나오는 SK하이닉스', 'SK hynix in other companies’ filings')}</b>
         <ul class="facts">${(M.links || []).map((x) => `<li>${esc(L(x.t))}${S.cite(x.src)}</li>`).join('')}</ul>
       </section>

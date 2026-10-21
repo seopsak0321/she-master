@@ -46,6 +46,17 @@ window.SHE = window.SHE || {};
       { id: 'tel', n: 'Tokyo Electron', c: B('일본', 'Japan'), role: B('코터/디벨로퍼·식각·증착·세정 장비', 'Coater/developer, etch, deposition, clean'), fy: B('FY2026 (2025.4~2026.3)', 'FY2026 (Apr 2025 – Mar 2026)'), cur: 'JPY', rev: 2443533, op: 624936, ni: 574454, src: ['tel26'] },
       { id: 'kla', n: 'KLA', c: B('미국', 'US'), role: B('결함 검사·계측', 'Inspection and metrology'), fy: B('FY2026 (~2026.6.30)', 'FY2026 (to 30 Jun 2026)'), cur: 'USD', rev: 13579.5, op: null, ni: 4830.8, src: ['kla10k26'] }
     ],
+    /* 2-1) 최근 분기 — #37 갱신(2026.10.21). 발표가 나온 회사만, 금액은 백만(보고 통화) */
+    latest: {
+      asof: '2026-10-21',
+      rows: [
+        { n: 'TSMC', p: B('2026년 3분기 (7~9월)', 'Q3 2026 (Jul–Sep)'), cur: 'TWD', rev: 1494243, op: 876445, ni: 763064, yoy: 50.9,
+          note: B('웨이퍼 매출 중 2nm 8%·3nm 33%·5nm 28%·7nm 10%(7nm 이하 79%). 4분기 매출 전망 523억~543억 달러. 이사회 승인 전 수치', 'Wafer revenue: 2 nm 8 %, 3 nm 33 %, 5 nm 28 %, 7 nm 10 % (79 % at 7 nm and below). Q4 revenue guidance US$52.3–54.3 bn. Not yet board-approved'), src: ['tsmc3q26'] },
+        { n: 'ASML', p: B('2026년 3분기', 'Q3 2026'), cur: 'EUR', rev: 11662, op: null, ni: 4960, yoy: null,
+          note: B('분기 최대 순매출, 매출총이익률 57.5%, 신규 노광 시스템 113대(2분기 86대). 2026년 순매출 440억~450억 유로 예상. 현재 계획한 2027·2028년 공급으로는 수요를 다 맞추지 못할 것으로 보고 2028년 생산능력을 더 늘리는 방안을 검토(회사 설명)', 'Record net sales, gross margin 57.5 %, 113 new lithography systems (86 in Q2). 2026 net sales expected at €44–45 bn. Supply as now planned for 2027–2028 is not expected to fully meet demand, so further 2028 capacity is being studied (company statement)'), src: ['asml3q26'] }
+      ],
+      note: B('SK하이닉스·삼성전자의 2026년 3분기 실적은 이 갱신 때(10.21) 아직 발표 전이라 넣지 않았습니다. 발표가 나오면 다음 갱신에서 사업 현황 탭과 함께 바꿉니다.', 'SK hynix’s and Samsung’s Q3 2026 results were not yet out at this refresh (21 Oct), so they are not included; they will be added with the Business tab at the next refresh.')
+    },
     /* 3) 장비 회사 매출 중 한국 — [회사, 회계연도, 비중(%), 전년, 기준, 포털 계산 여부, 출처, 원문 소수 자릿수] */
     korea: [
       ['ASML', '2025', 25.0, 22.7, B('한국 고객 매출', 'Customers in South Korea'), false, 'asml20f25', 1],

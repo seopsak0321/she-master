@@ -5,11 +5,20 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v109';
+SHE.BUILD = 'v110';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 36, v: SHE.BUILD, date: '2026-10-20 20:39', commit: '',
+    { no: 37, v: SHE.BUILD, date: '2026-10-21 09:37', commit: '',
+      t: B('SK하이닉스 이해 갱신 1차 — ‘HBM 다음’ 차세대 메모리 로드맵과 TSMC·ASML 2026년 3분기', 'Understanding SK hynix, refresh 1 — the “after HBM” memory roadmap and TSMC and ASML Q3 2026'),
+      add: [
+        B('메모리·HBM 기술 탭에 ‘HBM 다음 — 차세대 메모리·시스템 로드맵’(#company/roadmap) — HBF 첫 표준(최대 512GB·약 0.4~3.0TB/s·UCIe), 375단 4D 낸드(2027년 초 eSSD 양산 계획), 321단 QLC, LPDDR6, CMM-DDR5 2세대(CXL 3.2·256GB·80GB/s), CMM-Ax(메모리 안 연산), MARS(메모리 중심 AI 랙), 192GB SOCAMM2·256GB 3DS RDIMM, CPO(광 연결 로드맵 논문). 단계는 원문 표현대로(표준 공개·개발 중·전시·시연·연구)', 'Memory & HBM tab gains “After HBM — next-generation memory and system roadmap” (#company/roadmap) — the first HBF standard (up to 512 GB, about 0.4–3.0 TB/s, UCIe), 375-layer 4D NAND (eSSD production planned early 2027), 321-layer QLC, LPDDR6, CMM-DDR5 gen 2 (CXL 3.2, 256 GB, 80 GB/s), CMM-Ax (compute in memory), MARS (memory-centric AI rack), 192 GB SOCAMM2 and 256 GB 3DS RDIMM, CPO (optical-interconnect roadmap paper); stages as the originals put them (standard published, in development, exhibited, demonstrated, research)'),
+        B('세계 시장 탭에 ‘최근 분기’(#company/mk-latest) — TSMC 2026년 3분기 매출 1조 4,942억 대만달러(+50.9%)·2nm가 웨이퍼 매출의 8%·4분기 전망, ASML 3분기 순매출 117억 유로(분기 최대)·신규 노광 시스템 113대·2027~2028년 공급이 수요를 다 맞추지 못할 것이라는 회사 설명(미국 SEC 6-K)', 'World market tab gains “Latest quarter” (#company/mk-latest) — TSMC Q3 2026 revenue NT$1,494.2 bn (+50.9 %), 2 nm at 8 % of wafer revenue, Q4 guidance; ASML Q3 net sales €11.7 bn (a record), 113 new lithography systems, and the company’s view that 2027–2028 supply will not fully meet demand (US SEC 6-K)')
+      ],
+      chg: [
+        B('SK하이닉스·삼성전자 3분기 실적은 아직 발표 전이라 넣지 않고 ‘다음 갱신’으로 적음. 출처 302 → 307건(뉴스룸 3·6-K 2). 확장 계획에 #38 갱신 2차. TSMC 3분기 수치는 이사회 승인 전이라고 함께 표시', 'SK hynix and Samsung Q3 results are not out yet, so they are left for the next refresh. Sources 302 → 307 (3 newsroom, 2 6-K). The plan gains #38 refresh 2. TSMC Q3 figures are marked as not yet board-approved')
+      ] },
+    { no: 36, v: 'v109', date: '2026-10-20 20:39', commit: 'c513bf7',
       t: B('SK하이닉스 이해 확장 6 — 반도체 × AI: AI 메모리, 제조 현장의 AI, 안전 분야 AI와 일본·대만 반도체 정책(법령 원문)', 'Understanding SK hynix, part 6 — chips × AI: AI memory, AI in the fab, AI for safety, plus Japanese and Taiwanese chip policy (statute texts)'),
       add: [
         B('‘반도체 × AI’ 탭 — AI 메모리: 메모리 월과 HBM의 역할, 학습에서 추론으로 넓어지는 수요(회사 설명), HBM이 D램 매출의 30%(2024년 3분기)·40% 이상(4분기), 엔비디아 연차보고서의 메모리 구매처(SK Hynix·Micron·Samsung), 엔비디아와 장기 기술 파트너십(2026.6)', 'Chips × AI tab — AI memory: the memory wall and HBM’s role, demand widening from training to inference (company explanation), HBM at 30 % (Q3 2024) and over 40 % (Q4) of DRAM revenue, NVIDIA’s annual report naming its memory suppliers (SK Hynix, Micron, Samsung), and the long-term partnership with NVIDIA (June 2026)'),
