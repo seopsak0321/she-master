@@ -5,11 +5,20 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v111';
+SHE.BUILD = 'v112';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 38, v: SHE.BUILD, date: '2026-10-23 20:56', commit: '',
+    { no: 39, v: SHE.BUILD, date: '2026-10-23 21:09', commit: '',
+      t: B('SK하이닉스 이해 — 회사 공식 설명(FACT) 12건 정리와 관련 화면 보강', 'Understanding SK hynix — the twelve company FACT statements, with related pages updated'),
+      add: [
+        B('기본 정보 탭에 ‘회사 공식 설명 — FACT 시리즈’(#company/facts) — 뉴스룸에 회사가 직접 낸 설명·입장 12건(2025.12~2026.10: 공장 투자비, P&T7, AI Company 설립, 용인 투자비, 중장기 1,100조, 서남권, 충청권 100조, 협력사 상생, 나스닥 ADR 상장, 보도 2건에 대한 입장, 솔리다임 IPO 검토 중단)을 날짜·주제·요지로, 관련 화면 연결. 보도에 대한 입장은 보도 내용이 아니라 회사 입장만', 'Profile tab gains “Company statements — the FACT series” (#company/facts) — twelve explanations and positions the company published in its newsroom (Dec 2025 – Oct 2026: fab costs, P&T7, the AI Company, Yongin investment, the KRW 1,100 tn plan, the southwest, KRW 100 tn in Cheongju, supplier co-prosperity, the Nasdaq ADR listing, two responses to press reports, the halted Solidigm IPO review) by date, topic and gist, linked to related pages; for press reports only the company’s position is given'),
+        B('회사 안전 제도 표에 ‘협력사 성장 주기 맞춤형 상생 모델’ — 5년간 1조 4천억 원, SHE 관리 등 협력사 컨설팅을 2~3차 협력사까지 확대, 공정 실증 환경 ‘트리니티 팹’ 2027년 개방, 대금 10일 이내 지급(FACT 08)', 'The company safety-programme table gains the “supplier growth-cycle co-prosperity model” — KRW 1.4 tn over five years, consulting including SHE management extended to 2nd- and 3rd-tier suppliers, the Trinity Fab test line opening in 2027, payment within 10 days (FACT 08)')
+      ],
+      chg: [
+        B('청주 거점 연혁에 충청권 투자 계획(청주 100조 원 — M17 80조·P&T7 등 20조, M17 2029년 상반기 가동 목표), 제조 현장의 AI에 제19회 반도체의 날 포상 공적(전사 AX 조직·자율 운영 팹 전환, 극저온 공정·장비 제어, AI 스케줄러 특허 무상 양도). 출처 308 → 316건. SK하이닉스·삼성전자 3분기 실적은 아직 발표 전 — 확장 계획 #40으로', 'Cheongju history gains the Chungcheong plan (KRW 100 tn — 80 for M17, 20 for P&T7 and more; M17 operation targeted H1 2029); AI in the fab gains the 19th Semiconductor Day citations (company-wide AX organisation and autonomous fab, cryogenic process and tool control, an AI scheduler patent given free). Sources 308 → 316. SK hynix and Samsung Q3 results still not out — moved to plan #40')
+      ] },
+    { no: 38, v: 'v111', date: '2026-10-23 20:56', commit: '4429212',
       t: B('SK하이닉스 이해 갱신 2차 — 제조 AI·차세대 메모리 용어 22개, 램리서치 9월 분기', 'Understanding SK hynix, refresh 2 — 22 manufacturing-AI and next-generation memory terms, Lam’s September quarter'),
       add: [
         B('반도체 용어 74 → 96개 — 계측·가상 계측·APC·산포·데이터 드리프트·TTTM·연산 패터닝·디지털 트윈(SK하이닉스 정의)·AI 에이전트·에이전틱 AI·RAG·Inform Note·VLM·메모리 월·KV 캐시·CXL·풀드 메모리·SOCAMM·HBF·UCIe·인터커넥트·CPO. 정의는 #36·#37에서 읽은 뉴스룸 원문 각주 그대로, 용어마다 출처', 'Chip terms 74 → 96 — metrology, virtual metrology, APC, process variation, data drift, TTTM, computational patterning, digital twin (SK hynix’s definition), AI agent, agentic AI, RAG, Inform Note, VLM, memory wall, KV cache, CXL, pooled memory, SOCAMM, HBF, UCIe, interconnect, CPO — definitions from the newsroom footnotes read in #36 and #37, each with its source'),

@@ -20,7 +20,7 @@
   /* #33(13단계 K3): 장비·소재 탭(SHE.SKH_EQ) · #35(K5): 세계 시장 탭(SHE.SKH_MKT) */
   const CO_TABS = [['profile', T => T('기본 정보', 'Profile')], ['products', T => T('제품', 'Products')], ['process', T => T('공정', 'Processes')], ['memtech', T => T('메모리·HBM 기술', 'Memory & HBM tech')], ['equip', T => T('장비·소재', 'Equipment & materials')], ['base', T => T('거점·투자', 'Sites & investment')], ['business', T => T('사업 현황', 'Business')], ['market', T => T('세계 시장', 'World market')], ['ai', T => T('반도체 × AI', 'Chips × AI')], ['terms', T => T('반도체 용어', 'Chip terms')], ['safety', T => T('개요·안전 체계', 'Overview & safety')], ['plan', T => T('확장 계획', 'Coming next')]];
   /* 탭 안의 자리로 바로 가는 주소: #company/pc-<공정>·test·pkg → 공정 탭, cells·dram·nand·hbm → 메모리·HBM 탭, litho·mat·ppe → 장비·소재 탭, mk-<칸> → 세계 시장 탭 */
-  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm', 'roadmap'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : /^mk-/.test(x) ? 'market' : /^ai-/.test(x) ? 'ai' : null);
+  const coTabOf = (x) => (CO_TABS.some(([id]) => id === x) ? x : /^pc-/.test(x) || x === 'test' || x === 'pkg' ? 'process' : ['cells', 'dram', 'nand', 'hbm', 'roadmap'].includes(x) ? 'memtech' : ['litho', 'mat', 'ppe'].includes(x) ? 'equip' : /^bs-/.test(x) || x === 'invest' || x === 'sanction' ? 'base' : /^mk-/.test(x) ? 'market' : /^ai-/.test(x) ? 'ai' : x === 'facts' ? 'profile' : null);
   const extTag = (ids) => ([].concat(ids || []).some((id) => (S.SKH_EXT || []).includes(id)) ? ` <span class="tag-ext" title="${T('뉴스룸에 실린 외부 전문가 칼럼 — 원문에 SK하이닉스의 공식 입장과 다를 수 있다고 적혀 있음', 'External expert column in the newsroom — the original says it may differ from SK hynix’s official position')}">${T('외부 칼럼', 'External column')}</span>` : '');
   const nm = (x) => esc(typeof x === 'string' ? x : L(x));
   const pairs = (rows) => `<div class="table-wrap"><table class="data"><tbody>${rows.map(([k, v]) => `<tr><th scope="row" style="width:26%">${nm(k)}</th><td class="small">${esc(L(v))}</td></tr>`).join('')}</tbody></table></div>`;
@@ -261,6 +261,12 @@
         <div class="panel">${ui.title(T('연혁의 큰 줄기', 'Milestones'), T('같은 보고서의 ‘회사의 연혁’', 'From the report’s company history'))}
           <ol class="timeline">${(k.history || []).map((h) => `<li><span class="num">${esc(h.d)}</span> <span>${esc(L(h.t))}</span></li>`).join('')}</ol>${S.cite('skhH1_2026')}
         </div>
+      </section>
+      <section class="panel stack" id="anchor-facts">${ui.title(T('회사 공식 설명 — FACT 시리즈', 'Company statements — the FACT series'), T(`뉴스룸에 회사가 직접 낸 설명·입장 ${(k.facts || []).length}건, 날짜순`, `${(k.facts || []).length} explanations and positions the company itself published in its newsroom, by date`))}
+        <div class="table-wrap"><table class="data"><thead><tr><th>No.</th><th>${T('날짜', 'Date')}</th><th>${T('주제', 'Topic')}</th><th>${T('요지', 'Gist')}</th></tr></thead><tbody>
+          ${(k.facts || []).map((f) => `<tr><td class="mono">${esc(f.no)}</td><td class="nowrap small">${esc(f.d.replace(/-/g, '.'))}</td><td class="small"><b>${esc(L(f.t))}</b>${f.go ? ` <a href="${f.go}" class="xs">${T('관련 화면', 'Related')} →</a>` : ''}</td><td class="small">${esc(L(f.k))}${S.cite(f.src)}</td></tr>`).join('')}
+        </tbody></table></div>
+        <p class="xs muted">${T('언론 보도에 대한 입장(10·11번)은 보도 내용이 아니라 회사가 밝힌 입장만 옮겼습니다. 금액·일정은 발표 때의 계획입니다.', 'For the responses to press reports (10 and 11) only the company’s stated position is given, not the reports’ content. Amounts and dates are plans as announced.')}</p>
       </section>`;
   }
   function tabProducts() {
