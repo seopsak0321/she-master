@@ -5,11 +5,20 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v112';
+SHE.BUILD = 'v113';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 39, v: SHE.BUILD, date: '2026-10-23 21:09', commit: '',
+    { no: 40, v: SHE.BUILD, date: '2026-10-23 21:26', commit: '',
+      t: B('SK하이닉스 이해 — 무엇을 팔고 어디에 파나: 제품별·지역별 매출과 회사별 미국 매출 비중', 'Understanding SK hynix — what it sells and where: revenue by product and region, and the US share by company'),
+      add: [
+        B('사업 현황 탭에 ‘무엇을 팔고, 어디에 파나’(#company/mix) — 반기보고서 연결 주석 21의 제품별(D램·낸드·기타)·지역별(미국·중국·아시아·유럽·국내) 매출을 2026년 2분기·상반기·2025년 상반기로. 2026년 상반기 D램 74.0%·낸드 25.4%, 미국 64.1%·중국 24.6%(비중은 포털 계산). 보고서가 지역 구분 기준을 적지 않았다는 점도 표시', 'Business tab gains “What it sells and where” (#company/mix) — revenue by product (DRAM, NAND, other) and region (US, China, Asia, Europe, Korea) from half-year note 21 for Q2 2026, H1 2026 and H1 2025. H1 2026: DRAM 74.0 %, NAND 25.4 %; US 64.1 %, China 24.6 % (shares computed by the portal); the report’s unstated regional basis is noted'),
+        B('세계 시장 탭에 ‘미국(북미) 매출 비중 — 회사별 공시 기준’(#company/mk-us) — TSMC 75%·엔비디아 69%·마이크론 68.6%·SK하이닉스 64.1%·KLA 13.0%·램리서치 7%와 각 기준(고객 본사·출하지·고객 시설). 반도체를 파는 회사와 장비 회사의 집계 차이를 설명', 'World market tab gains “US (North America) share of revenue — each company’s basis” (#company/mk-us) — TSMC 75 %, NVIDIA 69 %, Micron 68.6 %, SK hynix 64.1 %, KLA 13.0 %, Lam 7 %, with each basis (customer HQ, ship-to, customer facility) and why chip sellers and toolmakers differ')
+      ],
+      chg: [
+        B('#qa가 제품별·지역별 표의 행 합계와 합계 칸이 같은지, 미국 비중 표의 출처를 확인. 2026년 3분기 실적은 아직 발표 전 — 확장 계획 #41로. 출처 수는 그대로(316건, 반기보고서와 기존 연차보고서 사용)', '#qa checks that product and regional rows add up to the totals and that the US-share table’s sources exist. Q3 2026 results still not out — plan #41. Source count unchanged (316; the half-year report and existing annual reports)')
+      ] },
+    { no: 39, v: 'v112', date: '2026-10-23 21:09', commit: 'ba5e525',
       t: B('SK하이닉스 이해 — 회사 공식 설명(FACT) 12건 정리와 관련 화면 보강', 'Understanding SK hynix — the twelve company FACT statements, with related pages updated'),
       add: [
         B('기본 정보 탭에 ‘회사 공식 설명 — FACT 시리즈’(#company/facts) — 뉴스룸에 회사가 직접 낸 설명·입장 12건(2025.12~2026.10: 공장 투자비, P&T7, AI Company 설립, 용인 투자비, 중장기 1,100조, 서남권, 충청권 100조, 협력사 상생, 나스닥 ADR 상장, 보도 2건에 대한 입장, 솔리다임 IPO 검토 중단)을 날짜·주제·요지로, 관련 화면 연결. 보도에 대한 입장은 보도 내용이 아니라 회사 입장만', 'Profile tab gains “Company statements — the FACT series” (#company/facts) — twelve explanations and positions the company published in its newsroom (Dec 2025 – Oct 2026: fab costs, P&T7, the AI Company, Yongin investment, the KRW 1,100 tn plan, the southwest, KRW 100 tn in Cheongju, supplier co-prosperity, the Nasdaq ADR listing, two responses to press reports, the halted Solidigm IPO review) by date, topic and gist, linked to related pages; for press reports only the company’s position is given'),

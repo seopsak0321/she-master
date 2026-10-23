@@ -66,7 +66,18 @@ window.SHE = window.SHE || {};
         B('2026년 상반기 당기순이익(134조 2,685억원)이 영업이익(98조 1,529억원)보다 큰 까닭: 금융수익 82조 9,152억원(금융상품평가이익 63조 1,790억·배당금수익 13조 9,796억·외환차이 5조 805억·이자수익 4,933억)에서 금융비용 6조 6,644억원을 뺀 순금융수익이 76조 2,508억원이어서 법인세차감전순이익이 174조 3,252억원이 됨(연결 주석 24 금융수익 및 금융비용)', 'Why H1 2026 net income (KRW 134.27 trillion) exceeds operating profit (KRW 98.15 trillion): finance income of KRW 82.92 trillion (gains on financial instruments 63.18, dividends 13.98, FX 5.08, interest 0.49) less finance costs of KRW 6.66 trillion left net finance income of KRW 76.25 trillion, so profit before tax reached KRW 174.33 trillion (consolidated note 24, finance income and costs)'),
         B('2026년 상반기 말 자산총계 348조 8,622억원, 유형자산 장부가액 88조 8,891억원, 상반기 유형자산 취득(설비 투자) 17조 5,950억원', 'Total assets KRW 348.86 trillion at end-H1 2026; property, plant and equipment KRW 88.89 trillion; H1 capital spending (PP&E acquired) KRW 17.60 trillion')
       ],
-      src: [R, 'nrRes24q1', 'nrRes24q2', 'nrRes24q3', 'nrRes24', 'nrRes25q1', 'nrRes25q2', 'nrRes25q3', 'nrRes25', 'nrRes26q1', 'nr0729']
+      src: [R, 'nrRes24q1', 'nrRes24q2', 'nrRes24q3', 'nrRes24', 'nrRes25q1', 'nrRes25q2', 'nrRes25q3', 'nrRes25', 'nrRes26q1', 'nr0729'],
+      /* #40: 반기보고서 연결 주석 21 매출액 — 제품별·지역별(백만원). 비중은 포털 계산 */
+      mix: {
+        head: B(['구분', '2026년 2분기', '2026년 상반기', '2025년 상반기'], ['Line', 'Q2 2026', 'H1 2026', 'H1 2025']),
+        rows: [[B('D램', 'DRAM'), 56982743, 97641379, 31160860], [B('낸드 플래시', 'NAND flash'), 21959898, 33534133, 7956641], [B('기타', 'Other'), 376105, 719521, 753592]],
+        total: [79318746, 131895033, 39871093]
+      },
+      region: {
+        rows: [[B('미국', 'US'), 50565618, 84564776, 27834440], [B('중국', 'China'), 19681698, 32478276, 7365002], [B('아시아(중국 제외)', 'Asia (excl. China)'), 6913940, 11387227, 2997489], [B('유럽', 'Europe'), 1675649, 2804146, 823537], [B('국내', 'Korea'), 481841, 660608, 850625]],
+        total: [79318746, 131895033, 39871093]
+      },
+      mixNote: B('반기보고서 연결재무제표 주석 21(매출액)의 ‘품목별’·‘지역별’ 구분 표입니다. 보고서는 이 표의 지역을 무엇(고객 위치·출하지 등) 기준으로 나눴는지 적지 않았습니다. 비중은 표의 금액으로 포털이 계산했습니다.', 'From the product and regional breakdowns in note 21 (revenue) of the half-year consolidated statements. The report does not say what basis (customer location, ship-to, etc.) the regions use. Shares are computed by the portal from the amounts.')
     },
     /* 4) 연구개발 — 반기보고서 II.6 */
     rnd: {
@@ -191,7 +202,8 @@ window.SHE = window.SHE || {};
       { no: '#37 ✔', t: B('갱신 1차 — 세계 시장 탭에 TSMC·ASML 2026년 3분기(10.14~15 공시), 메모리·HBM 탭에 ‘HBM 다음’ 로드맵(HBF 표준·375단 낸드·CXL CMM·CMM-Ax·MARS·SOCAMM2·CPO 등 회사 발표, 단계 표시)', 'Refresh 1 — TSMC and ASML Q3 2026 (filed 14–15 Oct) in the World market tab; an “after HBM” roadmap in the Memory & HBM tab (HBF standard, 375-layer NAND, CXL CMM, CMM-Ax, MARS, SOCAMM2, CPO and more, with stages)') },
       { no: '#38 ✔', t: B('갱신 2차 — 세계 시장 탭 최근 분기에 램리서치 9월 분기(10.21 공시), 반도체 용어 74 → 96개(가상 계측·APC·TTTM·디지털 트윈·에이전틱 AI·KV 캐시·CXL·HBF·UCIe·CPO 등 — 뉴스룸 원문 각주의 정의)', 'Refresh 2 — Lam’s September quarter (filed 21 Oct) in the World market tab; chip terms 74 → 96 (virtual metrology, APC, TTTM, digital twin, agentic AI, KV cache, CXL, HBF, UCIe, CPO and more — definitions from newsroom footnotes)') },
       { no: '#39 ✔', t: B('회사 공식 설명(FACT) 12건 정리 — 기본 정보 탭에 날짜·주제·요지, 관련 화면 연결. 청주 거점(충청권 100조 계획), 협력사 상생 모델(SHE 컨설팅 2~3차 확대), 제조 현장의 AI(반도체의 날 포상 공적) 보강', 'Twelve company FACT statements — date, topic and gist in the Profile tab with links. Added to Cheongju (KRW 100 tn plan), the supplier co-prosperity model (SHE consulting to 2nd/3rd tiers) and AI in the fab (Semiconductor Day citations)') },
-      { no: '#40', t: B('갱신 3차 — SK하이닉스·삼성전자 2026년 3분기 실적(발표 후), KLA 분기 공시, WSTS 가을 전망(11~12월). 사업 현황 분기 표와 세계 시장 탭을 새 원문으로', 'Refresh 3 — SK hynix and Samsung Q3 2026 results (once out), KLA’s quarterly filing, the WSTS autumn forecast (Nov–Dec); update the Business quarterly table and the World market tab') }
+      { no: '#40 ✔', t: B('무엇을 팔고 어디에 파나 — 사업 현황에 제품별(D램·낸드)·지역별 매출(반기보고서 주석 21, 2026년 2분기·상반기·전년 상반기), 세계 시장에 회사별 미국(북미) 매출 비중과 기준 비교', 'What it sells and where — revenue by product (DRAM, NAND) and region in Business (half-year report note 21; Q2 2026, H1 2026, H1 2025); US (North America) revenue share by company with each basis in World market') },
+      { no: '#41', t: B('갱신 3차 — SK하이닉스·삼성전자 2026년 3분기 실적(발표 후), KLA 분기 공시, WSTS 가을 전망(11~12월). 사업 현황 분기 표와 세계 시장 탭을 새 원문으로', 'Refresh 3 — SK hynix and Samsung Q3 2026 results (once out), KLA’s quarterly filing, the WSTS autumn forecast (Nov–Dec); update the Business quarterly table and the World market tab') }
     ]
   };
 

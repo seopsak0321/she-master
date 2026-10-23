@@ -67,6 +67,16 @@ window.SHE = window.SHE || {};
       ['Lam Research', 'FY2026', 19, 22, B('제품 출하·서비스 제공 고객 시설 위치', 'Location of the customer facilities shipped to or served'), false, 'lam10k26', 0],
       ['KLA', 'FY2026', 13.5, 11.9, B('출하지', 'Ship-to location'), false, 'kla10k26', 1]
     ],
+    /* 3-1) 미국(북미) 매출 비중 — #40. [회사, 기간, 비중(%), 기준, 포털 계산 여부, 출처, 소수 자릿수] */
+    us: [
+      ['TSMC', '2025', 75, B('고객 본사 소재지 — 북미', 'Customer headquarters — North America'), false, 'tsmc20f25', 0],
+      ['NVIDIA', 'FY2026', 69, B('고객 본사 소재지 — 미국 밖 본사 고객 31%의 나머지', 'Customer headquarters — the remainder after 31 % from customers headquartered outside the US'), true, 'nvda10k26', 0],
+      ['Micron', 'FY2026', 68.6, B('고객 본사 소재지 — 미국 913억 2,300만 ÷ 1,331억 8,800만 달러', 'Customer headquarters — US$91.32 bn ÷ US$133.19 bn'), true, 'micron10k26', 1],
+      ['SK hynix', B('2026년 상반기', 'H1 2026'), 64.1, B('반기보고서 지역별 매출 — 84조 5,648억 ÷ 131조 8,950억 원(지역 기준은 보고서에 없음)', 'Half-year report revenue by region — KRW 84.56 tn ÷ 131.90 tn (basis not stated)'), true, 'skhH1_2026', 1],
+      ['KLA', 'FY2026', 13.0, B('출하지 — 북미', 'Ship-to — North America'), false, 'kla10k26', 1],
+      ['Lam Research', 'FY2026', 7, B('출하·서비스 고객 시설 위치 — 미국', 'Customer facility shipped to or served — US'), false, 'lam10k26', 0]
+    ],
+    usNote: B('반도체를 파는 회사들은 미국 비중이 크게 나오고(TSMC·엔비디아·마이크론은 고객 본사 기준, SK하이닉스는 기준 미기재), 장비 회사(KLA·램리서치)는 장비가 들어가는 고객 시설·출하지로 집계해 미국 비중이 작게 나옵니다. 회사마다 기준이 달라 같은 잣대의 순위가 아니며, 각 회사가 공시한 기준을 그대로 옮겼습니다.', 'Chip sellers show large US shares (TSMC, NVIDIA and Micron by customer headquarters; SK hynix does not state its basis), while toolmakers (KLA, Lam) count the customer facility or ship-to location, so their US share is small. Bases differ by company, so this is not a like-for-like ranking; each company’s stated basis is kept.'),
     koreaNote: B('보고서는 한국 매출이 어느 고객에게서 나왔는지 밝히지 않습니다. 기준(고객 소재지·출하지)이 회사마다 달라 비중을 그대로 견주기보다 흐름을 보는 데 쓰세요.', 'The reports do not say which customers the Korean revenue came from. Bases differ (customer location vs ship-to), so read the shares as a trend rather than a strict comparison.'),
     /* 4) 다른 회사의 공시에 나오는 SK하이닉스 */
     links: [
