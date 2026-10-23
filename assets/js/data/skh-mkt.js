@@ -48,14 +48,16 @@ window.SHE = window.SHE || {};
     ],
     /* 2-1) 최근 분기 — #37 갱신(2026.10.21). 발표가 나온 회사만, 금액은 백만(보고 통화) */
     latest: {
-      asof: '2026-10-21',
+      asof: '2026-10-23',
       rows: [
+        { n: 'Lam Research', p: B('2026년 9월 분기 (회계연도 2027년 1분기)', 'Quarter to Sep 2026 (fiscal Q1 2027)'), cur: 'USD', rev: 8219.4, op: 3283.7, ni: 2753.1, yoy: 54.4, yoyCalc: true,
+          note: B('영업이익률 40.0%, 분기 매출·이익 최대(회사 설명). 지역 중국 35%·한국 20%·대만 18%. 12월 분기 매출 전망 86억 달러 ± 4억 달러. 전년 같은 분기 대비는 1년 전 분기 매출(53억 2,417만 달러)로 포털이 계산', 'Operating margin 40.0 %, record revenue and profit (company statement). China 35 %, Korea 20 %, Taiwan 18 %. December-quarter guidance US$8.6 bn ± 0.4 bn. YoY computed by the portal from the year-earlier quarter (US$5,324.2 m)'), src: ['lam8k1026'] },
         { n: 'TSMC', p: B('2026년 3분기 (7~9월)', 'Q3 2026 (Jul–Sep)'), cur: 'TWD', rev: 1494243, op: 876445, ni: 763064, yoy: 50.9,
           note: B('웨이퍼 매출 중 2nm 8%·3nm 33%·5nm 28%·7nm 10%(7nm 이하 79%). 4분기 매출 전망 523억~543억 달러. 이사회 승인 전 수치', 'Wafer revenue: 2 nm 8 %, 3 nm 33 %, 5 nm 28 %, 7 nm 10 % (79 % at 7 nm and below). Q4 revenue guidance US$52.3–54.3 bn. Not yet board-approved'), src: ['tsmc3q26'] },
         { n: 'ASML', p: B('2026년 3분기', 'Q3 2026'), cur: 'EUR', rev: 11662, op: null, ni: 4960, yoy: null,
           note: B('분기 최대 순매출, 매출총이익률 57.5%, 신규 노광 시스템 113대(2분기 86대). 2026년 순매출 440억~450억 유로 예상. 현재 계획한 2027·2028년 공급으로는 수요를 다 맞추지 못할 것으로 보고 2028년 생산능력을 더 늘리는 방안을 검토(회사 설명)', 'Record net sales, gross margin 57.5 %, 113 new lithography systems (86 in Q2). 2026 net sales expected at €44–45 bn. Supply as now planned for 2027–2028 is not expected to fully meet demand, so further 2028 capacity is being studied (company statement)'), src: ['asml3q26'] }
       ],
-      note: B('SK하이닉스·삼성전자의 2026년 3분기 실적은 이 갱신 때(10.21) 아직 발표 전이라 넣지 않았습니다. 발표가 나오면 다음 갱신에서 사업 현황 탭과 함께 바꿉니다.', 'SK hynix’s and Samsung’s Q3 2026 results were not yet out at this refresh (21 Oct), so they are not included; they will be added with the Business tab at the next refresh.')
+      note: B('SK하이닉스·삼성전자의 2026년 3분기 실적은 이 갱신 때(10.23) 아직 발표 전이라 넣지 않았습니다. 발표가 나오면 다음 갱신에서 사업 현황 탭과 함께 바꿉니다.', 'SK hynix’s and Samsung’s Q3 2026 results were not yet out at this refresh (23 Oct), so they are not included; they will be added with the Business tab at the next refresh.')
     },
     /* 3) 장비 회사 매출 중 한국 — [회사, 회계연도, 비중(%), 전년, 기준, 포털 계산 여부, 출처, 원문 소수 자릿수] */
     korea: [

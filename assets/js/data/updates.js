@@ -5,11 +5,20 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v110';
+SHE.BUILD = 'v111';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 37, v: SHE.BUILD, date: '2026-10-21 09:37', commit: '',
+    { no: 38, v: SHE.BUILD, date: '2026-10-23 20:56', commit: '',
+      t: B('SK하이닉스 이해 갱신 2차 — 제조 AI·차세대 메모리 용어 22개, 램리서치 9월 분기', 'Understanding SK hynix, refresh 2 — 22 manufacturing-AI and next-generation memory terms, Lam’s September quarter'),
+      add: [
+        B('반도체 용어 74 → 96개 — 계측·가상 계측·APC·산포·데이터 드리프트·TTTM·연산 패터닝·디지털 트윈(SK하이닉스 정의)·AI 에이전트·에이전틱 AI·RAG·Inform Note·VLM·메모리 월·KV 캐시·CXL·풀드 메모리·SOCAMM·HBF·UCIe·인터커넥트·CPO. 정의는 #36·#37에서 읽은 뉴스룸 원문 각주 그대로, 용어마다 출처', 'Chip terms 74 → 96 — metrology, virtual metrology, APC, process variation, data drift, TTTM, computational patterning, digital twin (SK hynix’s definition), AI agent, agentic AI, RAG, Inform Note, VLM, memory wall, KV cache, CXL, pooled memory, SOCAMM, HBF, UCIe, interconnect, CPO — definitions from the newsroom footnotes read in #36 and #37, each with its source'),
+        B('세계 시장 탭 최근 분기에 램리서치 2026년 9월 분기(10.21 공시) — 매출 82억 1,942만 달러(1년 전 분기 대비 +54.4%, 포털 계산), 영업이익률 40.0%, 한국 매출 20%, 12월 분기 전망 86억 달러 ± 4억', 'Lam’s September 2026 quarter (filed 21 Oct) in the World market tab’s latest quarter — revenue US$8,219.4 m (+54.4 % on the year-earlier quarter, portal calculation), operating margin 40.0 %, Korea 20 % of revenue, December-quarter guidance US$8.6 bn ± 0.4 bn')
+      ],
+      chg: [
+        B('SK하이닉스·삼성전자 3분기 실적은 10.23 현재도 발표 전 — 확장 계획 #39(갱신 3차)로. 출처 307 → 308건. ‘최근 분기’ 표에서 포털이 계산한 증가율에 ‘계산’ 표시', 'SK hynix and Samsung Q3 results still not out on 23 Oct — moved to plan #39 (refresh 3). Sources 307 → 308. Growth rates computed by the portal are marked “calc.” in the latest-quarter table')
+      ] },
+    { no: 37, v: 'v110', date: '2026-10-21 09:37', commit: 'd73ca16',
       t: B('SK하이닉스 이해 갱신 1차 — ‘HBM 다음’ 차세대 메모리 로드맵과 TSMC·ASML 2026년 3분기', 'Understanding SK hynix, refresh 1 — the “after HBM” memory roadmap and TSMC and ASML Q3 2026'),
       add: [
         B('메모리·HBM 기술 탭에 ‘HBM 다음 — 차세대 메모리·시스템 로드맵’(#company/roadmap) — HBF 첫 표준(최대 512GB·약 0.4~3.0TB/s·UCIe), 375단 4D 낸드(2027년 초 eSSD 양산 계획), 321단 QLC, LPDDR6, CMM-DDR5 2세대(CXL 3.2·256GB·80GB/s), CMM-Ax(메모리 안 연산), MARS(메모리 중심 AI 랙), 192GB SOCAMM2·256GB 3DS RDIMM, CPO(광 연결 로드맵 논문). 단계는 원문 표현대로(표준 공개·개발 중·전시·시연·연구)', 'Memory & HBM tab gains “After HBM — next-generation memory and system roadmap” (#company/roadmap) — the first HBF standard (up to 512 GB, about 0.4–3.0 TB/s, UCIe), 375-layer 4D NAND (eSSD production planned early 2027), 321-layer QLC, LPDDR6, CMM-DDR5 gen 2 (CXL 3.2, 256 GB, 80 GB/s), CMM-Ax (compute in memory), MARS (memory-centric AI rack), 192 GB SOCAMM2 and 256 GB 3DS RDIMM, CPO (optical-interconnect roadmap paper); stages as the originals put them (standard published, in development, exhibited, demonstrated, research)'),
