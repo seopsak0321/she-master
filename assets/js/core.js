@@ -406,8 +406,8 @@
       ? S.T(`<b>개인 포트폴리오</b>(제작 ${who()}) · SK하이닉스 공식 시스템 아님 · <b>예시</b>는 가상 데이터`,
         `<b>Personal portfolio</b> (by ${who()}) · not an official SK hynix system · <b>Example</b> = fictional`)
       : S.T(
-        `<b>개인 포트폴리오</b>(제작 ${who()}) · SK하이닉스 공식 시스템이 아닙니다. 회사 정보는 공개자료(지속가능경영보고서·뉴스룸)만 사용했고, 수치 기준은 법령 원문으로 확인했습니다. <b>예시</b> 표시는 가상 데이터입니다.`,
-        `<b>Personal portfolio</b> (by ${who()}) · not an official SK hynix system. Company facts come only from public sources (sustainability reports, newsroom); thresholds were checked against the original statutes. Items marked <b>Example</b> are fictional.`) + (S.isPhone() ? ` ${viewLink()}` : '');
+        `<b>개인 포트폴리오</b>(제작 ${who()}) · SK하이닉스 공식 시스템이 아닙니다. 회사 정보는 공개자료(지속가능경영보고서·반기보고서·뉴스룸 등 회사 공식 자료)만 사용했고, 수치 기준은 법령 원문으로 확인했습니다. <b>예시</b> 표시는 가상 데이터입니다.`,
+        `<b>Personal portfolio</b> (by ${who()}) · not an official SK hynix system. Company facts come only from public sources (official company material such as sustainability reports, the half-year report and the newsroom); thresholds were checked against the original statutes. Items marked <b>Example</b> are fictional.`) + (S.isPhone() ? ` ${viewLink()}` : '');
     const sites = [['common', S.T('공통', 'All')], ['icheon', S.T('이천', 'Icheon')], ['cheongju', S.T('청주', 'Cheongju')]];
     const siteBtns = sites.map(([id, l]) => `<button type="button" data-site="${id}" aria-pressed="${S.state.site === id}">${l}</button>`).join('');
     document.getElementById('siteSeg').innerHTML = siteBtns;

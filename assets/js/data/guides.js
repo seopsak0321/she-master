@@ -396,13 +396,13 @@ window.SHE = window.SHE || {};
     },
 
     company: {
-      what: B('SK하이닉스가 어떤 회사이고 어떻게 일하는지를 회사가 직접 공개한 지속가능경영보고서(2024·2025·2026)와 뉴스룸만으로 정리한 페이지입니다. 포털의 기능은 모두 이 이해에서 출발합니다.',
-        'What SK hynix is and how it works, drawn only from its own sustainability reports (2024–2026) and newsroom. Every portal feature starts from here.'),
-      when: B(['면접·보고 전에 회사 개요, 브랜드, 안전 거버넌스를 정리할 때', '회사 문화(SKMS, VWBE 등)를 안전 업무 방식과 연결해 볼 때'],
-        ['Before an interview or report, to summarise the company, brand and safety governance', 'To connect company culture (SKMS, VWBE…) with how safety work is done']),
-      steps: B(['‘회사 개요’와 ‘회사 BI’로 사업과 브랜드 방향을 봅니다.', '‘안전보건 거버넌스’와 ‘회사가 공개한 안전 제도·시스템’으로 조직과 제도를 확인합니다.', '‘문화를 포털 설계로’에서 회사 방식이 포털 기능에 어떻게 반영됐는지 봅니다.'],
-        ['Read the overview and brand identity for the business and brand direction.', 'Check organisation and programmes under safety governance and disclosed programmes.', '“From culture to portal design” shows how the company’s ways shaped portal features.']),
-      tips: B(['세부 내용이 공개되지 않은 제도(예: Golden Rules 항목)는 임의로 채우지 않았습니다.'], ['Programmes whose details are not public (e.g. the Golden Rules items) are not filled in.']),
+      what: B('SK하이닉스가 어떤 회사이고 어떻게 일하는지를 회사 공식 자료(지속가능경영보고서 3개년·반기보고서·뉴스룸·제품 사이트)로 정리하고, 세계 시장·장비·AI는 WSTS·정부 통계·각 회사 공시로 보탠 페이지입니다. 12개 탭으로 나뉩니다.',
+        'What SK hynix is and how it works, from official company material (three years of sustainability reports, the half-year report, the newsroom and the product site), with the world market, equipment and AI added from WSTS, government statistics and company filings. Split into 12 tabs.'),
+      when: B(['면접·보고 전에 회사 개요, 제품, 실적, 안전 거버넌스를 정리할 때', '반도체 공정·메모리 기술·시장 흐름을 출처와 함께 확인할 때', '회사 문화(SKMS, VWBE 등)를 안전 업무 방식과 연결해 볼 때'],
+        ['Before an interview or report, to summarise the company, products, results and safety governance', 'To check chip processes, memory technology and market trends with their sources', 'To connect company culture (SKMS, VWBE…) with how safety work is done']),
+      steps: B(['‘기본 정보’·‘제품’·‘사업 현황’으로 회사와 실적을 봅니다.', '‘공정’·‘메모리·HBM 기술’·‘장비·소재’·‘반도체 용어’로 기술을 익힙니다.', '‘세계 시장’·‘반도체 × AI’로 업계 흐름을, ‘개요·안전 체계’로 안전 조직과 제도를 확인합니다.'],
+        ['Read Profile, Products and Business for the company and its results.', 'Learn the technology under Processes, Memory & HBM tech, Equipment & materials and Chip terms.', 'Follow the industry under World market and Chips × AI, and check the safety organisation and programmes under Overview & safety.']),
+      tips: B(['세부 내용이 공개되지 않은 제도(예: Golden Rules 항목)는 임의로 채우지 않았습니다.', '금액은 보고 통화 그대로 적었고, 포털이 계산한 값에는 ‘포털 계산’이라고 표시했습니다.'], ['Programmes whose details are not public (e.g. the Golden Rules items) are not filled in.', 'Amounts stay in the reporting currency, and values the portal worked out are marked “portal calc.”.']),
       related: ['sites', 'bench', 'sources']
     },
 

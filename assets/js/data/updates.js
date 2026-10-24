@@ -5,11 +5,24 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v114';
+SHE.BUILD = 'v115';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 41, v: SHE.BUILD, date: '2026-10-24 10:16', commit: '',
+    { no: 42, v: SHE.BUILD, date: '2026-10-24 10:49', commit: '',
+      t: B('SK하이닉스 이해 — 13단계 전체 점검: 원문 재대조·링크·화면 확인과 고침', 'Understanding SK hynix — stage 13 full check: originals re-matched, links and screens checked, fixes'),
+      add: [
+        B('#qa 상시 점검 4종(13단계 데이터 전체) — 한/영 짝, 출처가 있는 목록에서 출처 빠진 항목, 연표 날짜 순서(연도만 적은 항목은 제외), 분기 합 = 연간·반기 실적(보도자료 억원 반올림 오차까지)', 'Four standing #qa checks over all stage-13 data — KO/EN pairs, items missing a source in sourced lists, timeline date order (year-only items skipped), and quarters adding up to annual and half-year results (within the rounding of releases in KRW 100 mn)')
+      ],
+      chg: [
+        B('점검 결과 — 실적·시장 수치 164개를 저장한 원문(WSTS 엑셀·PDF, SEC XBRL, 삼성 감사 주석, TEL 결산, 산업통상부 PDF, 반기보고서, 분기 실적 비교표)과 스크립트로 다시 대조해 불일치 0. 확인일 2026-10-11 이후 출처 153개 링크 모두 열림. 12개 탭 × 한국어·영어 × PC·휴대폰에서 가로 넘침·영어 화면 한글 섞임 0. 화면 안 주소 205개·바로가기 39개·출처 id 149개 모두 연결', 'Results — 164 results and market figures re-matched by script against the saved originals (WSTS spreadsheets and PDFs, SEC XBRL, Samsung audit notes, TEL results, trade-ministry PDFs, the half-year report, quarterly comparison tables) with no mismatch; all 153 sources checked since 2026-10-11 open; no overflow or Hangul in English across 12 tabs × two languages × PC and phone; all 205 in-page links, 39 deep links and 149 source ids resolve'),
+        B('출처·검증의 ‘검증 방법’을 지금 쓰는 출처에 맞춤 — 회사 공식 자료(지속가능경영보고서 3개년·반기보고서·뉴스룸·제품 사이트), 시장·타사는 WSTS·정부 통계·각사 공시 원문, #42 대조 결과. ‘한계’에 스크립트로 다시 대조하지 못한 항목을 밝힘. 유형 타일 설명, 상단 안내문, 회사 화면 사용 안내(12개 탭)도 맞춤', 'Sources & verification “How facts were checked” now matches the sources in use — official company material (three years of sustainability reports, the half-year report, newsroom, product site), market and peer figures from WSTS, government statistics and company filings, and the #42 results; “Limits” names what the script did not re-match. Type tiles, the top notice and the company page guide (12 tabs) updated too')
+      ],
+      fix: [
+        B('연표 날짜 순서 — 인디애나 거점(2026-06 보증이 2026-08 착공 뒤에 있던 것), ‘HBM 다음’ 로드맵을 날짜순으로(LPDDR6는 원문대로 ‘2026 상반기’). 제재 표의 위험물 건은 보고서 표에 날짜가 없어 연도만 적었다고 주석에 밝힘', 'Timeline order — Indiana (the 2026-06 guarantee sat after the 2026-08 groundbreaking) and the “after HBM” roadmap sorted by date (LPDDR6 shown as “H1 2026” as in the original); the sanctions note now says the hazardous-material case has only a year because the report’s table gives no date'),
+        B('확장 계획 영어 문구에 있던 WSTS 가을 전망 시기(확인되지 않은 값) 삭제. 계획: #42 점검 ✔, 3분기 실적 등 갱신 3차는 #43(발표 후)', 'Removed an unverified WSTS autumn-forecast timing from the plan’s English text. Plan: #42 check ✔; refresh 3 with Q3 results moves to #43 (once out)')
+      ] },
+    { no: 41, v: 'v114', date: '2026-10-24 10:16', commit: 'de779c4',
       t: B('SK하이닉스 이해 — 한국 반도체 수출 2026년 월별(산업통상부 수출입 동향)', 'Understanding SK hynix — Korea’s semiconductor exports by month in 2026 (Ministry of Trade and Industry)'),
       add: [
         B('세계 시장 탭에 ‘한국 반도체 수출 — 2026년 월별’(#company/mk-krexp) — 산업통상부 월간 ‘수출입 동향’ 보도자료 9건(1~9월)의 반도체 수출과 전년 같은 달 대비 증감, 총수출과 반도체 비중(포털 계산), 메모리 고정가격(DDR5 16Gb·NAND 128Gb). 9월 반도체 603.0억 달러(+262.8%)로 단일 품목 첫 600억 달러, 상반기 1,924억 달러가 2025년 연간(1,734억)을 넘음', 'World market tab gains “Korea’s semiconductor exports — 2026 by month” (#company/mk-krexp) — chip exports and year-on-year change from nine monthly trade releases (Jan–Sep), total exports and the chip share (portal calculation), memory fixed prices (DDR5 16 Gb, NAND 128 Gb). September: US$60.30 bn (+262.8 %), the first single item above US$60 bn; H1 US$192.4 bn already above the 2025 full year (US$173.4 bn)')

@@ -87,7 +87,7 @@
       </section>
       <section class="panel stack" id="anchor-roadmap">${ui.title(T('HBM 다음 — 차세대 메모리·시스템 로드맵', 'After HBM — next-generation memory and system roadmap'), T('회사가 발표한 것만, 단계는 원문 표현대로', 'Only what the company has announced; stages as the originals put them'))}
         <div class="table-wrap"><table class="data"><thead><tr><th>${T('기술', 'Technology')}</th><th>${T('단계', 'Stage')}</th><th>${T('발표', 'Announced')}</th><th>${T('무엇인가', 'What it is')}</th></tr></thead><tbody>
-          ${(M.road || []).map((r) => `<tr><td class="nowrap"><b>${nm(r.t)}</b></td><td class="small">${esc(L(r.st))}</td><td class="nowrap small">${esc(String(r.d).replace(/-/g, '.'))}</td><td class="small">${esc(L(r.what))}${S.cite(r.src)}</td></tr>`).join('')}
+          ${(M.road || []).map((r) => `<tr><td class="nowrap"><b>${nm(r.t)}</b></td><td class="small">${esc(L(r.st))}</td><td class="nowrap small">${r.dl ? esc(L(r.dl)) : esc(String(r.d).replace(/-/g, '.'))}</td><td class="small">${esc(L(r.what))}${S.cite(r.src)}</td></tr>`).join('')}
         </tbody></table></div>
         <p class="xs muted">${T('‘전시’·‘시연’·‘연구’는 아직 양산 제품이 아니라는 뜻입니다. 계획 시점은 발표 때의 계획입니다. HBM과 AI 가속기의 관계는 ‘반도체 × AI’ 탭에 있습니다.', '“Exhibited”, “demonstrated” and “research” mean not yet a volume product. Planned dates are as announced. How HBM relates to AI accelerators is in the Chips × AI tab.')} <a href="#company/ai-mem">${T('AI 메모리', 'AI memory')} →</a></p>
       </section>`;
@@ -547,17 +547,19 @@
         { id: 'lawcheck', label: T('법령 변경 점검', 'Law-change check') }], tab)}
       ${tab === 'method' ? `
       <section class="tiles" aria-label="${T('출처 유형별 건수', 'Sources by type')}">
-        <div class="tile info"><span class="t">${T('법령·고시', 'Statutes & notices')}</span><span class="n">${byType.law || 0}<small>${T('건', '')}</small></span><span class="d">${T('국가법령정보센터 원문', 'Original text, National Law Information Center')}</span></div>
+        <div class="tile info"><span class="t">${T('법령·고시', 'Statutes & notices')}</span><span class="n">${byType.law || 0}<small>${T('건', '')}</small></span><span class="d">${T('국가법령정보센터·각국 공식 법령 DB 원문', 'Original text, National Law Information Center and official national law databases')}</span></div>
         <div class="tile info"><span class="t">${T('공공기관', 'Public agencies')}</span><span class="n">${byType.gov || 0}<small>${T('건', '')}</small></span><span class="d">${T('고용노동부·공단·소방청 등', 'MOEL, KOSHA, fire agency and others')}</span></div>
-        <div class="tile info"><span class="t">${T('SK하이닉스 공식', 'SK hynix official')}</span><span class="n">${byType.sk || 0}<small>${T('건', '')}</small></span><span class="d">${T('지속가능경영보고서·뉴스룸', 'Sustainability reports, newsroom')}</span></div>
-        <div class="tile info"><span class="t">${T('해외·국제·기타', 'Foreign, international, other')}</span><span class="n">${S.SOURCES.length - (byType.law || 0) - (byType.gov || 0) - (byType.sk || 0)}<small>${T('건', '')}</small></span><span class="d">${T('OSHA·NIOSH·ILO, 타사 공식, 법원, 언론(보조)', 'OSHA, NIOSH, ILO, peers, courts, press (supplementary)')}</span></div>
+        <div class="tile info"><span class="t">${T('SK하이닉스 공식', 'SK hynix official')}</span><span class="n">${byType.sk || 0}<small>${T('건', '')}</small></span><span class="d">${T('지속가능경영보고서·반기보고서·뉴스룸·제품 사이트', 'Sustainability reports, half-year report, newsroom, product site')}</span></div>
+        <div class="tile info"><span class="t">${T('해외·국제·기타', 'Foreign, international, other')}</span><span class="n">${S.SOURCES.length - (byType.law || 0) - (byType.gov || 0) - (byType.sk || 0)}<small>${T('건', '')}</small></span><span class="d">${T('OSHA·NIOSH·ILO·WSTS, 타사 공식 공시, 법원, 언론(보조)', 'OSHA, NIOSH, ILO, WSTS, peer filings, courts, press (supplementary)')}</span></div>
       </section>
       <section class="grid g2">
         <div class="panel">${ui.title(T('검증 방법', 'How facts were checked'))}
           <ul class="facts">
             <li>${T('법령 수치(적정공기·소음·고온·조도·교육시간·도급 주기·소방 점검)는 국가법령정보센터 원문 조문을 직접 확인했습니다.', 'Statutory values (acceptable air, noise, heat, illumination, training hours, subcontract cycles, fire inspections) were read in the original articles on the National Law Information Center.')}</li>
             <li>${T('화학물질 노출기준은 고시 출력본의 별표 표 이미지와 한 줄씩 대조했습니다.', 'Chemical exposure limits were matched line by line against the annex tables of the official notice.')}</li>
-            <li>${T('SK하이닉스 정보는 회사 지속가능경영보고서 3개년 원문과 뉴스룸에서만 가져왔습니다.', 'SK hynix facts come only from three years of its sustainability reports and its newsroom.')}</li>
+            <li>${T('SK하이닉스 정보는 회사 공식 자료(지속가능경영보고서 3개년·반기보고서·뉴스룸·제품 사이트)에서만 가져왔습니다.', 'SK hynix facts come only from official company material (three years of sustainability reports, the half-year report, the newsroom and the product site).')}</li>
+            <li>${T('시장·타사 수치는 WSTS, 정부 통계, 각 회사의 공시·IR 원문에서 가져왔고 금액은 보고 통화 그대로 적었습니다.', 'Market and peer figures come from WSTS, government statistics and each company’s own filings or IR material, with amounts kept in the reporting currency.')}</li>
+            <li>${T('2026-10-24 점검(#42)에서 실적·시장 수치 164개를 원문(XBRL·PDF·엑셀)과 스크립트로 다시 대조했고(불일치 0), 확인일이 2026-10-11 이후인 출처 153개의 링크가 열리는지 확인했습니다.', 'In the 2026-10-24 check (#42), 164 results and market figures were re-matched by script against the originals (XBRL, PDF, spreadsheets) with no mismatch, and the links of the 153 sources checked since 2026-10-11 were confirmed to open.')}</li>
             <li>${T('법령은 매월 ‘법령 변경 점검’ 탭의 순서로 현행본과 대조합니다.', 'Laws are compared with the current text every month, following the “Law-change check” tab.')}</li>
             <li>${T('수정할 때마다 ', 'After every edit the ')}<a href="#qa">${T('포털 자체 점검', 'portal self-check')}</a>${T('으로 전 페이지·한영·화면 폭을 자동 점검합니다.', ' renders every page in both languages at three widths.')}</li>
           </ul></div>
@@ -567,6 +569,7 @@
             <li>${T('KOSHA GUIDE는 법적 강제 기준이 아닌 기술적 권고입니다. 수치·절 번호를 옮긴 지침(안전작업허가·가스감지경보기·혼합가스·세안설비·밀폐공간 등)은 원문 PDF로 확인했고, 나머지는 번호·명칭·공표일을 확인했습니다.', 'KOSHA Guides are technical recommendations, not binding law. Guides whose values or clause numbers are quoted (permits, gas detectors, gas mixtures, eyewash, confined spaces and others) were read in the original PDF; the rest were checked for number, title and date.')}</li>
             <li>${T('법령은 개정될 수 있으므로 실제 적용 전 최신본을 확인해야 합니다.', 'Laws change, so confirm the current text before real use.')}</li>
             <li>${T('언론 출처는 회사 공식 자료로 확인되지 않는 경우에만 보조로 썼습니다.', 'Press sources are used only as a supplement where no official source exists.')}</li>
+            <li>${T('일부 수치(TSMC 연차·최근 분기, ASML·램리서치 최근 분기, 램리서치·KLA 지역 비중)와 정책·용어·AI 설명은 작성할 때 원문을 읽어 확인했고, 스크립트 재대조 대상은 아닙니다.', 'Some figures (TSMC’s annual and latest quarter, ASML’s and Lam’s latest quarters, Lam’s and KLA’s regional shares) and the policy, term and AI explanations were checked by reading the originals when written; they are not part of the scripted re-match.')}</li>
           </ul></div>
       </section>
       <p class="small">${T('업무에 자주 쓰는 공식 사이트는 ', 'The official sites most useful day to day are curated in the ')}<a href="#resources">${T('안전 정보 자료실', 'resource library')}</a>${T('에 가나다·유형·주제별로 따로 정리했습니다.', ', by name, type and subject.')}</p>` : ''}

@@ -58,6 +58,22 @@
     /* #35: 장비 회사 한국 비중 표의 출처(배열 7번째 칸)와 기업 표의 통화 */
     ((S.SKH_MKT || {}).korea || []).forEach((r, i) => { if (!src.has(r[6])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.korea.' + i, r[6]); });
     ((S.SKH_MKT || {}).us || []).forEach((r, i) => { if (!src.has(r[5])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.us.' + i, r[5]); });
+    /* #42(13단계 점검): ① 한/영 짝 ② 출처가 있는 목록에서 출처 빠진 항목 ③ 연표 날짜 순서(연도만 적은 항목은 비교 제외) ④ 분기 합 = 연간·반기 실적(보도자료 억원 반올림 오차 300백만원까지) */
+    (() => { const seenQ = new WeakSet();
+      const isB = (o) => o && typeof o === 'object' && !Array.isArray(o) && 'ko' in o && 'en' in o && Object.keys(o).length === 2;
+      const blank = (v) => v == null || (typeof v === 'string' && !v.trim()) || (Array.isArray(v) && !v.length);
+      const look = (o, p) => { if (!o || typeof o !== 'object' || seenQ.has(o)) return; seenQ.add(o);
+        if (isB(o)) { if (blank(o.ko) || blank(o.en)) add('bad', T('한/영 짝 빠짐', 'Missing KO/EN half'), p, ''); return; }
+        if (Array.isArray(o)) { const ob = o.filter((x) => x && typeof x === 'object' && !Array.isArray(x));
+          if (ob.length > 1 && ob.some((x) => 'src' in x)) ob.forEach((x) => { if (blank(x.src)) add('bad', T('출처 없는 항목', 'Item without source'), p + '.' + o.indexOf(x), ''); });
+          if (ob.length > 1 && ob.every((x) => typeof x.d === 'string')) { const ds = ob.map((x) => x.d).filter(Boolean); for (let i = 1; i < ds.length; i++) if (ds[i] < ds[i - 1] && !ds[i - 1].startsWith(ds[i])) add('warn', T('연표 날짜 순서', 'Timeline order'), p, ds[i - 1] + ' > ' + ds[i]); }
+          o.forEach((v, i) => look(v, p + '.' + i)); return; }
+        Object.keys(o).forEach((k) => look(o[k], p + '.' + k)); };
+      ['SKH', 'SKH_PROC', 'SKH_MEM', 'SEMI_TERMS', 'SKH_EQ', 'SKH_BASE', 'SKH_MKT', 'SKH_AI'].forEach((k) => look(S[k], k));
+      const R = (S.SKH || {}).results || {}, sums = {};
+      (R.quarters || []).forEach((q) => { const y = (/^(\d{4})/.exec(q.p.ko) || [])[1]; if (!y) return; sums[y] = sums[y] || { n: 0, rev: 0, op: 0, ni: 0 }; sums[y].n++; ['rev', 'op', 'ni'].forEach((k) => { sums[y][k] += q[k]; }); });
+      (R.years || []).forEach((yr) => { const y = (/^(\d{4})/.exec(yr.p.ko) || [])[1], s = sums[y], need = /상반기/.test(yr.p.ko) ? 2 : 4; if (!s || s.n !== need) return;
+        ['rev', 'op', 'ni'].forEach((k) => { if (Math.abs(s[k] - yr[k]) > 300) add('bad', T('분기 합 ≠ 기간 실적', 'Quarters do not add up'), 'SKH.results ' + y + ' ' + k, s[k] + ' / ' + yr[k]); }); }); })();
     /* #41: 한국 반도체 수출 표 — 월별 출처, 고정가격 배열 길이 */
     (() => { const X = (S.SKH_MKT || {}).krExp; if (!X) return; X.months.forEach((r) => { if (!src.has(r[5])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.krExp.' + r[0], r[5]); }); ['ddr5', 'nand'].forEach((k) => { if ((X.price[k] || []).length !== X.months.length) add('bad', T('월 수와 가격 수가 다름', 'Price count ≠ months'), 'SKH_MKT.krExp.price.' + k, (X.price[k] || []).length); }); })();
     /* #40: 사업 현황 제품별·지역별 표는 행 합계가 합계 칸과 같아야 함 */

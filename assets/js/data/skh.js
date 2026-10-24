@@ -204,7 +204,8 @@ window.SHE = window.SHE || {};
       { no: '#39 ✔', t: B('회사 공식 설명(FACT) 12건 정리 — 기본 정보 탭에 날짜·주제·요지, 관련 화면 연결. 청주 거점(충청권 100조 계획), 협력사 상생 모델(SHE 컨설팅 2~3차 확대), 제조 현장의 AI(반도체의 날 포상 공적) 보강', 'Twelve company FACT statements — date, topic and gist in the Profile tab with links. Added to Cheongju (KRW 100 tn plan), the supplier co-prosperity model (SHE consulting to 2nd/3rd tiers) and AI in the fab (Semiconductor Day citations)') },
       { no: '#40 ✔', t: B('무엇을 팔고 어디에 파나 — 사업 현황에 제품별(D램·낸드)·지역별 매출(반기보고서 주석 21, 2026년 2분기·상반기·전년 상반기), 세계 시장에 회사별 미국(북미) 매출 비중과 기준 비교', 'What it sells and where — revenue by product (DRAM, NAND) and region in Business (half-year report note 21; Q2 2026, H1 2026, H1 2025); US (North America) revenue share by company with each basis in World market') },
       { no: '#41 ✔', t: B('한국 반도체 수출 — 세계 시장 탭에 산업통상부 월간 ‘수출입 동향’ 2026년 1~9월(반도체 수출·전년 대비·총수출 비중·메모리 고정가격)', 'Korea’s chip exports — Ministry of Trade and Industry monthly trade releases for Jan–Sep 2026 in the World market tab (chip exports, YoY, share of total, memory fixed prices)') },
-      { no: '#42', t: B('갱신 3차 — SK하이닉스·삼성전자 2026년 3분기 실적(발표 후), KLA 분기 공시, 10월 수출입 동향(보도자료 게시 후), WSTS 가을 전망. 사업 현황·세계 시장 탭을 새 원문으로', 'Refresh 3 — SK hynix and Samsung Q3 2026 results (once out), KLA’s quarterly filing, October trade (once released), the WSTS autumn forecast (Nov–Dec); update the Business and World market tabs') }
+      { no: '#42 ✔', t: B('13단계 전체 점검 — 실적·시장 수치 164개를 원문과 스크립트로 다시 대조(불일치 0), 출처 링크 153개 확인, 연표 날짜 순서·한영 짝·출처 누락·분기 합 자동 점검 추가', 'Stage 13 full check — 164 results and market figures re-matched by script against the originals (no mismatch), 153 source links confirmed, automatic checks added for timeline order, KO/EN pairs, missing sources and quarter sums') },
+      { no: '#43', t: B('갱신 3차 — SK하이닉스·삼성전자 2026년 3분기 실적(발표 후), KLA 분기 공시, 10월 수출입 동향(보도자료 게시 후), WSTS 가을 전망(발표 후). 사업 현황·세계 시장 탭을 새 원문으로', 'Refresh 3 — SK hynix and Samsung Q3 2026 results (once out), KLA’s quarterly filing, October trade (once released), the WSTS autumn forecast (once out); update the Business and World market tabs') }
     ]
   };
 
@@ -251,8 +252,8 @@ window.SHE = window.SHE || {};
       ] },
       { id: 'indiana', t: B('미국 인디애나 웨스트라피엣 (건설 중)', 'West Lafayette, Indiana, US (under construction)'), role: B('HBM 어드밴스드 패키징·테스트 — SK hynix Semiconductor West Lafayette LLC(2024.8 설립)', 'HBM advanced packaging and test — SK hynix Semiconductor West Lafayette LLC (set up August 2024)'), items: [
         { d: '2024-04', t: B('인디애나주와 투자협약 — 38억 7천만 달러(약 5.2조 원), 퍼듀대와 R&D 협력', 'Investment agreement with Indiana — US$3.87 billion (about KRW 5.2 trillion); R&D with Purdue'), src: ['nrIndiana24'] },
-        { d: '2026-08', t: B('기공식 — 40억 달러 이상, 2028.10 클린룸 완공·2029년 하반기 차세대 HBM 양산. 한국에서 만든 웨이퍼를 들여와 패키징·테스트해 미국 고객에게 공급', 'Groundbreaking — over US$4 billion; cleanroom October 2028, next-generation HBM in volume from H2 2029; wafers made in Korea are packaged and tested there for US customers'), src: ['nrIndiana26'] },
-        { d: '2026-06', t: B('미국 상무부 DFA 이행·대출 상환을 위한 지급보증 1,028백만 달러(반기보고서)', 'Guarantee of US$1,028 million for the US Commerce Department DFA and loan repayment (half-year report)'), src: ['skhH1_2026'] }
+        { d: '2026-06', t: B('미국 상무부 DFA 이행·대출 상환을 위한 지급보증 1,028백만 달러(반기보고서, 6.30 기준)', 'Guarantee of US$1,028 million for the US Commerce Department DFA and loan repayment (half-year report, as of 30 June)'), src: ['skhH1_2026'] },
+        { d: '2026-08', t: B('기공식 — 40억 달러 이상, 2028.10 클린룸 완공·2029년 하반기 차세대 HBM 양산. 한국에서 만든 웨이퍼를 들여와 패키징·테스트해 미국 고객에게 공급', 'Groundbreaking — over US$4 billion; cleanroom October 2028, next-generation HBM in volume from H2 2029; wafers made in Korea are packaged and tested there for US customers'), src: ['nrIndiana26'] }
       ] }
     ],
     /* 반기보고서 연결 종속기업 표의 ‘주요 영업활동’ 그대로 */
@@ -297,7 +298,7 @@ window.SHE = window.SHE || {};
       { d: '2026-06-18', org: B('한강유역환경청', 'Han River Basin Env. Office'), act: B('경고', 'Warning'), why: B('도급인 의무 위반 — 협력사의 질산 취급 작업 중 부분 보호복을 입은 작업자 무릎에 질산 노출', 'Principal’s duty breached — nitric acid reached a contractor worker’s knee through partial protective clothing'), fix: B('사고대비물질 취급 작업 보호복 기준 재수립', 'PPE rules for accident-prone substances reset') },
       { d: '2026-06-29', org: B('금강유역환경청', 'Geum River Basin Env. Office'), act: B('수시검사 명령', 'Inspection order'), why: B('정부 특별점검에서 청주 3캠퍼스 폐수처리장 약품 탱크·펌프 주변 누출 흔적', 'Leak traces around chemical tanks and pumps at the Campus 3 wastewater plant found in a special inspection'), fix: B('7.6 수시검사 완료, 주 1회 자체점검', 'Inspection done on 6 Jul; weekly self-checks') }
     ],
-    sanctionsNote: B('회사가 반기보고서 ‘제재 등과 관련된 사항’에 적은 행정 조치입니다(수사·사법기관 제재와 한국거래소 제재는 해당 없음). 같은 기간 고용노동부 감독 결과(위반 119건 등)는 사고 사례와 사업장 화면에 따로 있습니다.', 'Administrative actions the company lists under “sanctions” in its half-year report (none from investigative or judicial bodies or the exchange). The MOEL inspection results for the same period (119 violations and more) are in the incident case and site pages.'),
+    sanctionsNote: B('회사가 반기보고서 ‘제재 등과 관련된 사항’에 적은 행정 조치입니다(수사·사법기관 제재와 한국거래소 제재는 해당 없음). 위험물 지정수량 배수 변경 미실시 건은 보고서 표에 날짜가 없어 연도만 적었습니다. 같은 기간 고용노동부 감독 결과(위반 119건 등)는 사고 사례와 사업장 화면에 따로 있습니다.', 'Administrative actions the company lists under “sanctions” in its half-year report (none from investigative or judicial bodies or the exchange). The report’s table gives no date for the hazardous-material quantity case, so only the year is shown. The MOEL inspection results for the same period (119 violations and more) are in the incident case and site pages.'),
     src: ['skhH1_2026']
   };
 })();
