@@ -243,9 +243,28 @@
     const dl = (d) => esc(String(d || '').replace(/-/g, '.'));
     const planTag = ` <span class="chip">${T('계획·방향', 'Plan')}</span>`;
     const sdx = (C.programs || []).filter((p) => p.area === 'sdx').slice().sort((a, b) => String(a.year).localeCompare(String(b.year)));
-    return `<section class="panel stack" id="anchor-ai-mem">${ui.title(T('AI 메모리 — HBM과 AI 가속기', 'AI memory — HBM and AI accelerators'), T('회사 설명·실적 보도자료, 엔비디아 연차보고서, WSTS', 'Company explanations and results releases, NVIDIA’s annual report, WSTS'))}
-        <nav class="row" aria-label="${T('반도체 × AI 바로가기', 'Jump within Chips × AI')}"><a class="chip" href="#company/ai-mem">${T('AI 메모리', 'AI memory')}</a><a class="chip" href="#company/ai-fab">${T('제조 현장의 AI', 'AI in the fab')}</a><a class="chip" href="#company/ai-safety">${T('안전 분야 AI', 'AI for safety')}</a></nav>
-        <ul class="facts">${(A.mem || []).map((x) => `<li>${esc(L(x.t))}${S.cite(x.src)}</li>`).join('')}</ul>
+    const I = A.infra;
+    const facts = (xs) => `<ul class="facts">${(xs || []).map((x) => `<li>${esc(L(x.t))}${S.cite(x.src)}</li>`).join('')}</ul>`;
+    const nav = `<nav class="row" aria-label="${T('반도체 × AI 바로가기', 'Jump within Chips × AI')}">${I ? `<a class="chip" href="#company/ai-infra">${T('AI 인프라', 'AI infrastructure')}</a>` : ''}<a class="chip" href="#company/ai-mem">${T('AI 메모리', 'AI memory')}</a><a class="chip" href="#company/ai-fab">${T('제조 현장의 AI', 'AI in the fab')}</a><a class="chip" href="#company/ai-safety">${T('안전 분야 AI', 'AI for safety')}</a></nav>`;
+    /* #43: AI 인프라(SKH_AI.infra) — 뉴스룸 연재의 회사 설명만 */
+    const infra = I ? `<section class="panel stack" id="anchor-ai-infra">${ui.title(T('AI 인프라 — 데이터센터를 하나의 시스템으로', 'AI infrastructure — the data centre as one system'), T('SK하이닉스 뉴스룸 연재 ‘AI Infrastructure Insight’ 1~4편(2026.8~10) — 회사 설명', 'SK hynix newsroom series “AI Infrastructure Insight”, parts 1–4 (Aug–Oct 2026) — company explanation'))}
+        ${nav}
+        <b class="small">${T('AI 데이터센터의 핵심 요소 다섯 가지', 'Five building blocks of an AI data centre')}${S.cite('nrAiInfra1')}</b>
+        <ol class="proc p5 flow">${(I.parts || []).map((p, i) => `<li><span class="row" style="gap:8px;flex-wrap:nowrap"><span class="no">${i + 1}</span><b>${esc(L(p.k))}</b></span><span class="d">${esc(L(p.d))}</span></li>`).join('')}</ol>
+        <div class="grid g2">
+          <div class="stack" style="gap:6px;align-content:start"><b class="small">${T('설계 단위가 커진다 — 서버 → 랙 → 클러스터 → 데이터센터', 'The design unit grows — server → rack → cluster → data centre')}${S.cite(['nrAiInfra1', 'nrAiInfra4'])}</b>
+            <ul class="facts">${(I.units || []).map((u) => `<li><b>${esc(L(u.k))}</b> — ${esc(L(u.d))}</li>`).join('')}</ul></div>
+          <div class="stack" style="gap:6px;align-content:start"><b class="small">${T('병목은 연산 장치 밖에서도 생긴다', 'Bottlenecks outside the processor')}</b>${facts(I.neck)}</div>
+          <div class="stack" style="gap:6px;align-content:start"><b class="small">${T('전력·냉각이 성능과 확장의 조건', 'Power and cooling as conditions for performance and growth')}</b>${facts(I.power)}</div>
+          <div class="stack" style="gap:6px;align-content:start"><b class="small">${T('공동 설계와 메모리 회사의 역할', 'Co-design and the memory maker’s role')}</b>${facts(I.codesign)}</div>
+        </div>
+        <p class="xs muted">${esc(L(I.note || ''))}</p>
+        <p class="small"><a href="#company/terms">${T('용어(가속기 활용률·전력당 성능·공동 설계 등)', 'Terms (accelerator utilisation, performance per watt, co-design and more)')} →</a> · <a href="#company/hbm">${T('HBM 구조', 'HBM structure')} →</a> · <a href="#company/roadmap">${T('‘HBM 다음’ 로드맵(CXL·CPO 등)', '“After HBM” roadmap (CXL, CPO and more)')} →</a></p>
+      </section>
+      ` : '';
+    return `${infra}<section class="panel stack" id="anchor-ai-mem">${ui.title(T('AI 메모리 — HBM과 AI 가속기', 'AI memory — HBM and AI accelerators'), T('회사 설명·실적 보도자료, 엔비디아 연차보고서, WSTS', 'Company explanations and results releases, NVIDIA’s annual report, WSTS'))}
+        ${I ? '' : nav}
+        ${facts(A.mem)}
         <p class="small"><a href="#company/hbm">${T('HBM 구조·적층 공정', 'HBM structure and stacking')} →</a> · <a href="#company/mk-firms">${T('엔비디아·마이크론 등 기업 비교', 'NVIDIA, Micron and others compared')} →</a> · <a href="#company/mk-wsts">${T('세계 시장', 'World market')} →</a></p>
       </section>
       <section class="panel stack" id="anchor-ai-fab">${ui.title(T('제조 현장의 AI', 'AI in the fab'), T('SK하이닉스가 공개한 사례 — 날짜순', 'Cases SK hynix has published — by date'))}

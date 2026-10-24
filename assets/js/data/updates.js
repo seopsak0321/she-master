@@ -5,11 +5,22 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v115';
+SHE.BUILD = 'v116';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 42, v: SHE.BUILD, date: '2026-10-24 10:49', commit: '',
+    { no: 43, v: SHE.BUILD, date: '2026-10-24 15:17', commit: '',
+      t: B('SK하이닉스 이해 — AI 인프라(데이터센터 구조·병목·전력·냉각·공동 설계)와 마이크론·엔비디아 최근 분기', 'Understanding SK hynix — AI infrastructure (data-centre structure, bottlenecks, power, cooling, co-design) and the latest Micron and NVIDIA quarters'),
+      add: [
+        B('반도체 × AI 탭 맨 앞에 ‘AI 인프라 — 데이터센터를 하나의 시스템으로’(#company/ai-infra) — SK하이닉스 뉴스룸 연재 ‘AI Infrastructure Insight’ 1~4편(2026.8.10~10.22)의 회사 설명: 핵심 요소 5개(컴퓨트·메모리·스토리지·네트워크·전력·냉각), 설계 단위(서버 → 랙 → 클러스터 → 데이터센터), 연산 장치 밖의 병목(메모리 대역폭·스토리지·네트워크)과 대응, 전력·냉각(열 제거와 배출, 액체·칩 인접 냉각, 전력당 성능), 공동 설계와 OCP·JEDEC 공통 기준, 커스텀 HBM(베이스 다이)', 'Chips × AI now opens with “AI infrastructure — the data centre as one system” (#company/ai-infra) — the company’s explanations in its four-part newsroom series “AI Infrastructure Insight” (10 Aug – 22 Oct 2026): five building blocks (compute, memory, storage, network, power and cooling), design units (server → rack → cluster → data centre), bottlenecks outside the processor (memory bandwidth, storage, network) and responses, power and cooling (removing and rejecting heat, liquid and near-junction cooling, performance per watt), co-design with OCP and JEDEC common standards, and custom HBM (base die)'),
+        B('반도체 용어 96 → 117개 — 같은 연재의 각주 정의 21개(컴퓨트·AI 가속기·GPU·peak FLOPS·모델 파라미터·병목·가속기 활용률·체크포인트·지연시간·랙·클러스터·랙 스케일 시스템·전력 밀도·피크 수요·가속 서버·액체 냉각·칩 인접 냉각·전력당 성능·공동 설계·베이스 다이·OCP)', 'Chip terms 96 → 117 — 21 footnote definitions from the same series (compute, AI accelerator, GPU, peak FLOPS, model parameter, bottleneck, accelerator utilisation, checkpoint, latency, rack, cluster, rack-scale system, power density, peak demand, accelerated server, liquid cooling, near-junction cooling, performance per watt, co-design, base die, OCP)'),
+        B('세계 시장 ‘최근 분기’에 마이크론 회계 2026년 4분기(2026.5.29~9.3: 매출 542억 2,900만 달러, 영업이익률 80.7%, 사업부별 매출)와 엔비디아 회계 2027년 2분기(2026.4.27~7.26: 매출 962억 2,100만 달러 +106%, 데이터센터 890억 달러) — SEC 8-K 보도자료, 다음 분기 회사 전망은 ‘회사 전망’으로', 'World market “Latest quarter” gains Micron fiscal Q4 2026 (29 May – 3 Sep 2026: revenue US$54,229 m, operating margin 80.7 %, revenue by business unit) and NVIDIA fiscal Q2 2027 (27 Apr – 26 Jul 2026: revenue US$96,221 m, +106 %; data centre US$89.0 bn) — SEC 8-K releases, with next-quarter guidance labelled as company guidance')
+      ],
+      chg: [
+        B('연재가 인용한 조사기관·국제기구·다른 회사 수치(시장 규모·전력 소비 전망·설문 결과 등)는 원 출처를 직접 확인하지 못해 넣지 않음(IEA 화면은 사람 확인 단계라 열지 않음). 두 회사 분기 값은 SEC XBRL로 기계 대조(엔비디아 10-Q 3개월, 마이크론 10-K 연간 − 10-Q 누계) — 원문 대조 172개 불일치 0. 마이크론 전년 같은 분기 대비(+379.3%)는 포털 계산이며 53주 회계연도라 기간 길이가 다름을 표시. 출처 325 → 331건', 'Figures the series cites from research firms, international bodies and other companies (market size, power-use projections, survey results) are left out because the original sources could not be checked directly (the IEA page shows a human check, so it was not opened). Both companies’ quarters were machine-checked in SEC XBRL (NVIDIA 10-Q three months; Micron 10-K full year minus 10-Q year to date) — 172 figures re-matched with no mismatch. Micron’s YoY (+379.3 %) is a portal calculation, noted as covering periods of different length in a 53-week year. Sources 325 → 331'),
+        B('SK하이닉스·삼성전자 3분기 실적, KLA 9월 분기는 10.24 기준 아직 발표 전 — 확장 계획 #44(갱신 3차)로', 'SK hynix and Samsung Q3 results and KLA’s September quarter not yet out on 24 Oct — moved to plan #44 (refresh 3)')
+      ] },
+    { no: 42, v: 'v115', date: '2026-10-24 10:49', commit: 'a97679e',
       t: B('SK하이닉스 이해 — 13단계 전체 점검: 원문 재대조·링크·화면 확인과 고침', 'Understanding SK hynix — stage 13 full check: originals re-matched, links and screens checked, fixes'),
       add: [
         B('#qa 상시 점검 4종(13단계 데이터 전체) — 한/영 짝, 출처가 있는 목록에서 출처 빠진 항목, 연표 날짜 순서(연도만 적은 항목은 제외), 분기 합 = 연간·반기 실적(보도자료 억원 반올림 오차까지)', 'Four standing #qa checks over all stage-13 data — KO/EN pairs, items missing a source in sourced lists, timeline date order (year-only items skipped), and quarters adding up to annual and half-year results (within the rounding of releases in KRW 100 mn)')
