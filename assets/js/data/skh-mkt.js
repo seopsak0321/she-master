@@ -59,6 +59,17 @@ window.SHE = window.SHE || {};
       ],
       note: B('SK하이닉스·삼성전자의 2026년 3분기 실적은 이 갱신 때(10.23) 아직 발표 전이라 넣지 않았습니다. 발표가 나오면 다음 갱신에서 사업 현황 탭과 함께 바꿉니다.', 'SK hynix’s and Samsung’s Q3 2026 results were not yet out at this refresh (23 Oct), so they are not included; they will be added with the Business tab at the next refresh.')
     },
+    /* 2-2) 한국 반도체 수출 — #41. 산업통상부 ‘수출입 동향’(첨부 PDF 본문). [월, 반도체(억 달러), 전년 같은 달 대비 %, 총수출(억 달러), %, 출처] */
+    krExp: {
+      months: [[1, 205.4, 102.7, 658.5, 33.9, 'motieExp2601'], [2, 251.6, 160.8, 674.5, 29.0, 'motieExp2602'], [3, 328.3, 151.4, 861.3, 48.3, 'motieExp2603'], [4, 319.0, 173.5, 858.9, 48.0, 'motieExp2604'], [5, 371.6, 169.4, 877.5, 53.2, 'motieExp2605'], [6, 448.2, 199.5, 1022.5, 70.9, 'motieExp2606'], [7, 410.1, 178.8, 988.9, 62.8, 'motieExp2607'], [8, 466.5, 209.0, 982.5, 68.7, 'motieExp2608'], [9, 603.0, 262.8, 1209.4, 83.5, 'motieExp2609']],
+      /* 메모리 고정가격(달러) — 각 월 보도자료의 ‘메모리 고정가격 추이’. 같은 달이 여러 보도자료에 나오면 가장 늦은 보도자료 값 */
+      price: { ddr5: [28.5, 30.0, 31.0, 35.0, 37.5, 40.0, 45.0, 46.5, 48.0], nand: [9.46, 12.67, 17.7, 24.2, 26.5, 28.8, 30.1, 30.5, 30.6] },
+      notes: [
+        { t: B('상반기 반도체 수출 1,924억 달러(+162.6%)는 2025년 연간 실적(1,734억 달러)을 이미 넘었습니다. 1~9월 총수출은 8,145억 달러(+56.8%).', 'H1 semiconductor exports of US$192.4 bn (+162.6 %) already exceeded the 2025 full year (US$173.4 bn). Total exports for Jan–Sep were US$814.5 bn (+56.8 %).'), src: ['motieExp2606', 'motieExp2609'] },
+        { t: B('정부는 증가 이유로 AI 서버 수요와 하이퍼스케일러·빅테크의 설비투자, 메모리 고정가격 상승을 들었습니다. 5월에는 메모리반도체 321억 달러(+255%)·시스템반도체 45억 달러(+6%), D램 186억(+369.8%)·낸드 17억(+206.8%)이었습니다.', 'The ministry cites AI-server demand, hyperscaler and big-tech capex and rising memory fixed prices. In May memory chips were US$32.1 bn (+255 %) and system chips US$4.5 bn (+6 %); DRAM 18.6 bn (+369.8 %), NAND 1.7 bn (+206.8 %).'), src: ['motieExp2601', 'motieExp2605', 'motieExp2608'] },
+        { t: B('메모리 고정가격 DDR5 16Gb는 1년 전(2025.1) 3.75달러에서 2026.1 28.5달러(+661%)로 오른 뒤 9월 48.0달러가 됐습니다. 6월 보도자료의 같은 그래프에는 출처로 Trendforce가 적혀 있습니다.', 'The DDR5 16 Gb fixed price rose from US$3.75 a year earlier (Jan 2025) to US$28.5 in Jan 2026 (+661 %), then to US$48.0 in September. The June release labels the chart’s source as Trendforce.'), src: ['motieExp2601', 'motieExp2606', 'motieExp2609'] }
+      ]
+    },
     /* 3) 장비 회사 매출 중 한국 — [회사, 회계연도, 비중(%), 전년, 기준, 포털 계산 여부, 출처, 원문 소수 자릿수] */
     korea: [
       ['ASML', '2025', 25.0, 22.7, B('한국 고객 매출', 'Customers in South Korea'), false, 'asml20f25', 1],

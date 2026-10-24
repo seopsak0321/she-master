@@ -5,11 +5,19 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v113';
+SHE.BUILD = 'v114';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 40, v: SHE.BUILD, date: '2026-10-23 21:26', commit: '',
+    { no: 41, v: SHE.BUILD, date: '2026-10-24 10:16', commit: '',
+      t: B('SK하이닉스 이해 — 한국 반도체 수출 2026년 월별(산업통상부 수출입 동향)', 'Understanding SK hynix — Korea’s semiconductor exports by month in 2026 (Ministry of Trade and Industry)'),
+      add: [
+        B('세계 시장 탭에 ‘한국 반도체 수출 — 2026년 월별’(#company/mk-krexp) — 산업통상부 월간 ‘수출입 동향’ 보도자료 9건(1~9월)의 반도체 수출과 전년 같은 달 대비 증감, 총수출과 반도체 비중(포털 계산), 메모리 고정가격(DDR5 16Gb·NAND 128Gb). 9월 반도체 603.0억 달러(+262.8%)로 단일 품목 첫 600억 달러, 상반기 1,924억 달러가 2025년 연간(1,734억)을 넘음', 'World market tab gains “Korea’s semiconductor exports — 2026 by month” (#company/mk-krexp) — chip exports and year-on-year change from nine monthly trade releases (Jan–Sep), total exports and the chip share (portal calculation), memory fixed prices (DDR5 16 Gb, NAND 128 Gb). September: US$60.30 bn (+262.8 %), the first single item above US$60 bn; H1 US$192.4 bn already above the 2025 full year (US$173.4 bn)')
+      ],
+      chg: [
+        B('보도자료 본문이 첨부 PDF에만 있는 달은 PDF로 확인(1~8월). 고정가격은 가장 늦은 보도자료의 값을 쓰고 4월 DDR5가 보도자료마다 다른 점(35.0/35.5)을 표시. #qa가 월별 출처와 가격 칸 수를 확인. 출처 316 → 325건(정부 보도자료 9). 확장 계획 #42(3분기 실적·10월 수출입 동향)', 'Months whose text is only in the attached PDF were checked in the PDF (Jan–Aug). Fixed prices use the latest release, and the April DDR5 difference between releases (35.0 / 35.5) is noted. #qa checks monthly sources and price counts. Sources 316 → 325 (9 government releases). Plan #42 (Q3 results, October trade)')
+      ] },
+    { no: 40, v: 'v113', date: '2026-10-23 21:26', commit: '411c40c',
       t: B('SK하이닉스 이해 — 무엇을 팔고 어디에 파나: 제품별·지역별 매출과 회사별 미국 매출 비중', 'Understanding SK hynix — what it sells and where: revenue by product and region, and the US share by company'),
       add: [
         B('사업 현황 탭에 ‘무엇을 팔고, 어디에 파나’(#company/mix) — 반기보고서 연결 주석 21의 제품별(D램·낸드·기타)·지역별(미국·중국·아시아·유럽·국내) 매출을 2026년 2분기·상반기·2025년 상반기로. 2026년 상반기 D램 74.0%·낸드 25.4%, 미국 64.1%·중국 24.6%(비중은 포털 계산). 보고서가 지역 구분 기준을 적지 않았다는 점도 표시', 'Business tab gains “What it sells and where” (#company/mix) — revenue by product (DRAM, NAND, other) and region (US, China, Asia, Europe, Korea) from half-year note 21 for Q2 2026, H1 2026 and H1 2025. H1 2026: DRAM 74.0 %, NAND 25.4 %; US 64.1 %, China 24.6 % (shares computed by the portal); the report’s unstated regional basis is noted'),

@@ -58,6 +58,8 @@
     /* #35: 장비 회사 한국 비중 표의 출처(배열 7번째 칸)와 기업 표의 통화 */
     ((S.SKH_MKT || {}).korea || []).forEach((r, i) => { if (!src.has(r[6])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.korea.' + i, r[6]); });
     ((S.SKH_MKT || {}).us || []).forEach((r, i) => { if (!src.has(r[5])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.us.' + i, r[5]); });
+    /* #41: 한국 반도체 수출 표 — 월별 출처, 고정가격 배열 길이 */
+    (() => { const X = (S.SKH_MKT || {}).krExp; if (!X) return; X.months.forEach((r) => { if (!src.has(r[5])) add('bad', T('없는 출처 id', 'Unknown source id'), 'SKH_MKT.krExp.' + r[0], r[5]); }); ['ddr5', 'nand'].forEach((k) => { if ((X.price[k] || []).length !== X.months.length) add('bad', T('월 수와 가격 수가 다름', 'Price count ≠ months'), 'SKH_MKT.krExp.price.' + k, (X.price[k] || []).length); }); })();
     /* #40: 사업 현황 제품별·지역별 표는 행 합계가 합계 칸과 같아야 함 */
     (() => { const res = (S.SKH || {}).results || {}; ['mix', 'region'].forEach((k) => { const o = res[k]; if (!o) return; (o.total || []).forEach((tot, i) => { const s = o.rows.reduce((a, r) => a + r[i + 1], 0); if (s !== tot) add('bad', T('합계 불일치', 'Total mismatch'), 'SKH.results.' + k + '.' + i, s + ' ≠ ' + tot); }); }); })();
     ((S.SKH_MKT || {}).firms || []).concat(((S.SKH_MKT || {}).latest || {}).rows || []).forEach((f) => { if (!['KRW', 'USD', 'EUR', 'TWD', 'JPY'].includes(f.cur)) add('bad', T('통화 코드', 'Currency code'), 'SKH_MKT.' + (f.id || f.n), f.cur || '–'); });
