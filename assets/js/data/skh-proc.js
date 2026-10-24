@@ -429,7 +429,17 @@ window.SHE = window.SHE || {};
     t('perfw', '전력당 성능 (Performance per Watt)', 'Performance per watt', '일정한 전력으로 얼마나 많은 연산이나 작업을 처리할 수 있는지 나타내는 효율 지표', 'An efficiency measure of how much computation or work a given amount of power delivers', ['nrAiInfra3']),
     t('codesign', '공동 설계 (Co-design)', 'Co-design', '서로 다른 기술이나 시스템의 요구 조건을 개발 초기부터 고려해 전체 시스템 관점에서 최적화하는 설계 방식', 'A way of designing that considers the requirements of different technologies or systems from the start and optimises for the system as a whole', ['nrAiInfra4']),
     t('basedie', '베이스 다이 (Base Die)', 'Base die', 'HBM에서 적층된 D램 칩 아래에 있으며 데이터 입출력 등을 맡는 칩', 'In HBM, the chip under the stacked DRAM dies that handles data input/output and other functions', ['nrAiInfra4']),
-    t('ocp', 'OCP (Open Compute Project)', 'OCP (Open Compute Project)', '데이터센터 하드웨어와 인프라의 개방형 설계와 표준을 개발하고 공유하는 글로벌 협력 커뮤니티', 'A global community that develops and shares open designs and standards for data-centre hardware and infrastructure', ['nrAiInfra4'])
+    t('ocp', 'OCP (Open Compute Project)', 'OCP (Open Compute Project)', '데이터센터 하드웨어와 인프라의 개방형 설계와 표준을 개발하고 공유하는 글로벌 협력 커뮤니티', 'A global community that develops and shares open designs and standards for data-centre hardware and infrastructure', ['nrAiInfra4']),
+    /* #44: 뉴스룸 ‘SK하이닉스 JOB리포트’ 각주 정의 */
+    t('wip', 'WIP (Work in Process)', 'WIP (work in process)', '공정에 투입되어 완성되기 전 단계에 있는 반제품, 또는 공정 사이에서 대기 중인 물량', 'Partly finished product that has entered the process but is not yet complete, or material waiting between steps', ['nrJob4']),
+    t('capa', 'Capa (생산 능력)', 'Capa (capacity)', '특정 장비나 제조 라인이 일정 시간 동안 처리하거나 생산해 낼 수 있는 최대 작업량', 'The maximum work a tool or line can process or produce in a given time', ['nrJob4']),
+    t('tat', 'TAT (Turn Around Time)', 'TAT (turnaround time)', '웨이퍼가 팹에 투입된 시점부터 모든 공정을 거쳐 완제품으로 나오기까지 걸리는 총 소요 시간', 'The total time from a wafer entering the fab to coming out as finished product after every step', ['nrJob4']),
+    t('scm', 'SCM (공급망 관리)', 'SCM (supply chain management)', '원자재 구매부터 최종 고객에게 제품이 전달되기까지의 전체 물류 흐름을 최적화하는 시스템', 'A system that optimises the whole flow from buying raw materials to delivering products to the final customer', ['nrJob4']),
+    t('pqi', 'PQI (생산품질혁신)', 'PQI (Production Quality Innovation)', 'Production Quality Innovation의 약자로 생산품질혁신 — 품질보증 조직의 팀 이름(FAB PQI팀)에 쓰임', 'Short for Production Quality Innovation — used in a QA team name (FAB PQI team)', ['nrJob5']),
+    t('pim', 'PIM (Processing-In-Memory)', 'PIM (processing-in-memory)', '메모리에 프로세서의 연산 기능을 더해 메모리와 프로세서 사이의 데이터 병목을 해소하고 속도 성능을 크게 높이는 차세대 메모리', 'Next-generation memory that adds processor computing to memory, easing the data bottleneck between memory and processor and greatly raising speed', ['nrJob3']),
+    t('customhbm', '커스텀 HBM', 'Custom HBM', '고객의 AI 시스템과 워크로드 특성에 맞춰 인터페이스와 기능 등을 최적화해 성능과 전력 효율을 극대화하는 맞춤형 HBM — 표준 규격에서 일부 벗어나는 영역이 있음', 'HBM tailored to a customer’s AI system and workloads, with interface and functions optimised for performance and power efficiency — parts of it depart from the standard', ['nrJob3', 'nrJob2']),
+    t('mtm', 'More than Moore', 'More than Moore', '미세화로 성능을 높이는 ‘무어의 법칙’의 한계를 넘어, 첨단 패키징과 이종 집적 등 다양한 기술로 성능을 높이는 기술 패러다임', 'A paradigm of raising performance beyond Moore’s-law scaling through advanced packaging, heterogeneous integration and other technologies', ['nrJob2']),
+    t('compiler', '컴파일러', 'Compiler', '개발자가 작성한 프로그래밍 언어(소스 코드)를 컴퓨터나 반도체 칩이 직접 이해하고 실행할 수 있는 기계어로 번역하는 시스템 소프트웨어', 'System software that translates source code written by developers into machine code a computer or chip can run directly', ['nrJob3'])
   ];
 
   /* 7) 장비·소재·공급망 — #33(K3). 장비 회사는 공식 제품 화면·정부 공시(미국 SEC)만, 점유율 같은 자기 평가는 ‘회사 설명’으로 표시.

@@ -5,11 +5,22 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v116';
+SHE.BUILD = 'v117';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 43, v: SHE.BUILD, date: '2026-10-24 15:17', commit: '',
+    { no: 44, v: SHE.BUILD, date: '2026-10-24 21:26', commit: '',
+      t: B('SK하이닉스 이해 — 직무로 본 현장의 과제와 AI, 회사 환경 발표', 'Understanding SK hynix — problems on the ground by job and AI, plus company environmental announcements'),
+      add: [
+        B('반도체 × AI 탭에 ‘현장의 과제 — 직무로 본 SK하이닉스’(#company/ai-jobs) — 뉴스룸 ‘SK하이닉스 JOB리포트’ 1~5편(2026.5~10)에서 기반기술·PKG개발·System Architecture & Software Solution·양산관리·품질보증의 하는 일, 세부 직무, 구성원이 꼽은 현장의 과제·고민(미세화로 어려워진 계측, 마스크 결함 관리 수작업, 고객 일정과 한정된 자원, 부서 간 데이터 해석 차이, 한정된 인력으로 수많은 공정 변수 통제 등)과 AI·데이터 활용(마스크 관리 AI 자동화, 결함 분류 자동화, 장비 이상·병목 사전 예측, AI 리스크 사전 진단·자동 판정 구축 중)', 'Chips × AI gains “Problems on the ground — SK hynix by job” (#company/ai-jobs) — from the newsroom’s five JOB Reports (May–Oct 2026): what fundamental technology, package development, system architecture and software, production management and quality assurance do, their sub-roles, the problems staff named (metrology made harder by scaling, manual mask-defect handling, customer schedules and limited resources, departments reading data differently, controlling countless process variables with limited staff and more) and how AI and data are used (AI automation of mask management, automatic defect classification, predicting tool faults and bottlenecks, building AI risk diagnosis and automatic judgement)'),
+        B('반도체 용어 117 → 126개 — 같은 글의 각주 정의 9개(WIP·Capa·TAT·SCM·PQI·PIM·커스텀 HBM·More than Moore·컴파일러)', 'Chip terms 117 → 126 — nine footnote definitions from the same reports (WIP, Capa, TAT, SCM, PQI, PIM, custom HBM, More than Moore, compiler)'),
+        B('환경 법정 의무 → 온실가스·배출권 탭에 ‘SK하이닉스 환경 대응 — 회사 발표’ — 2050 넷제로·RE100, 워터프리 스크러버, 해외 생산 사업장 재생에너지 100%(2022년부터), 전과정평가 HyLCA·카본 트러스트 탄소발자국 인증(2024, 10종 중 6종 저탄소), 2025 CDP 코리아 어워즈, 워터 포지티브(양양 남대천 노후 보 개선 2026~2037)', 'Environmental duties → GHG and emissions trading tab gains “SK hynix environmental action — company announcements”: 2050 net zero and RE100, water-free scrubbers, 100 % renewable power at overseas fabs since 2022, HyLCA life-cycle assessment and Carbon Trust footprint certification (2024: 6 of 10 products low-carbon), the 2025 CDP Korea Awards, and Water Positive (Namdaecheon weir improvement, 2026–2037)')
+      ],
+      chg: [
+        B('JOB리포트는 뉴스룸이 대학생 앰버서더와 함께 구성원을 인터뷰한 회사 글(외부 칼럼 표시 없음) — 구성원이 설명한 내용만 옮기고 이름은 적지 않음. 환경 발표는 법정 보고 수치가 아니라 회사 설명으로 표시. 출처 331 → 338건(뉴스룸 7)', 'The JOB Reports are company articles in which the newsroom and student ambassadors interviewed staff (no external-column label); only what staff explained is used, without names. Environmental items are labelled company statements, not statutory figures. Sources 331 → 338 (7 newsroom)'),
+        B('SK하이닉스·삼성전자 3분기 실적, KLA 9월 분기는 10.24 밤 기준 아직 발표 전 — 확장 계획 #45(갱신 3차)로', 'SK hynix and Samsung Q3 results and KLA’s September quarter still not out on the night of 24 Oct — moved to plan #45 (refresh 3)')
+      ] },
+    { no: 43, v: 'v116', date: '2026-10-24 15:17', commit: 'bfaa267',
       t: B('SK하이닉스 이해 — AI 인프라(데이터센터 구조·병목·전력·냉각·공동 설계)와 마이크론·엔비디아 최근 분기', 'Understanding SK hynix — AI infrastructure (data-centre structure, bottlenecks, power, cooling, co-design) and the latest Micron and NVIDIA quarters'),
       add: [
         B('반도체 × AI 탭 맨 앞에 ‘AI 인프라 — 데이터센터를 하나의 시스템으로’(#company/ai-infra) — SK하이닉스 뉴스룸 연재 ‘AI Infrastructure Insight’ 1~4편(2026.8.10~10.22)의 회사 설명: 핵심 요소 5개(컴퓨트·메모리·스토리지·네트워크·전력·냉각), 설계 단위(서버 → 랙 → 클러스터 → 데이터센터), 연산 장치 밖의 병목(메모리 대역폭·스토리지·네트워크)과 대응, 전력·냉각(열 제거와 배출, 액체·칩 인접 냉각, 전력당 성능), 공동 설계와 OCP·JEDEC 공통 기준, 커스텀 HBM(베이스 다이)', 'Chips × AI now opens with “AI infrastructure — the data centre as one system” (#company/ai-infra) — the company’s explanations in its four-part newsroom series “AI Infrastructure Insight” (10 Aug – 22 Oct 2026): five building blocks (compute, memory, storage, network, power and cooling), design units (server → rack → cluster → data centre), bottlenecks outside the processor (memory bandwidth, storage, network) and responses, power and cooling (removing and rejecting heat, liquid and near-junction cooling, performance per watt), co-design with OCP and JEDEC common standards, and custom HBM (base die)'),

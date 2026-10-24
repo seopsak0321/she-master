@@ -245,7 +245,7 @@
     const sdx = (C.programs || []).filter((p) => p.area === 'sdx').slice().sort((a, b) => String(a.year).localeCompare(String(b.year)));
     const I = A.infra;
     const facts = (xs) => `<ul class="facts">${(xs || []).map((x) => `<li>${esc(L(x.t))}${S.cite(x.src)}</li>`).join('')}</ul>`;
-    const nav = `<nav class="row" aria-label="${T('반도체 × AI 바로가기', 'Jump within Chips × AI')}">${I ? `<a class="chip" href="#company/ai-infra">${T('AI 인프라', 'AI infrastructure')}</a>` : ''}<a class="chip" href="#company/ai-mem">${T('AI 메모리', 'AI memory')}</a><a class="chip" href="#company/ai-fab">${T('제조 현장의 AI', 'AI in the fab')}</a><a class="chip" href="#company/ai-safety">${T('안전 분야 AI', 'AI for safety')}</a></nav>`;
+    const nav = `<nav class="row" aria-label="${T('반도체 × AI 바로가기', 'Jump within Chips × AI')}">${I ? `<a class="chip" href="#company/ai-infra">${T('AI 인프라', 'AI infrastructure')}</a>` : ''}<a class="chip" href="#company/ai-mem">${T('AI 메모리', 'AI memory')}</a><a class="chip" href="#company/ai-fab">${T('제조 현장의 AI', 'AI in the fab')}</a>${(A.jobs || []).length ? `<a class="chip" href="#company/ai-jobs">${T('직무로 본 현장', 'The fab by job')}</a>` : ''}<a class="chip" href="#company/ai-safety">${T('안전 분야 AI', 'AI for safety')}</a></nav>`;
     /* #43: AI 인프라(SKH_AI.infra) — 뉴스룸 연재의 회사 설명만 */
     const infra = I ? `<section class="panel stack" id="anchor-ai-infra">${ui.title(T('AI 인프라 — 데이터센터를 하나의 시스템으로', 'AI infrastructure — the data centre as one system'), T('SK하이닉스 뉴스룸 연재 ‘AI Infrastructure Insight’ 1~4편(2026.8~10) — 회사 설명', 'SK hynix newsroom series “AI Infrastructure Insight”, parts 1–4 (Aug–Oct 2026) — company explanation'))}
         ${nav}
@@ -272,6 +272,16 @@
         <ul class="facts">${(A.notes || []).map((n) => `<li class="xs muted">${esc(L(n))}</li>`).join('')}</ul>
         <p class="small"><a href="#company/pc-dep">${T('증착 공정', 'Deposition step')} →</a> · <a href="#company/litho">${T('노광 장비(EUV)', 'Lithography tools (EUV)')} →</a> · <a href="#company/hbm">${T('HBM', 'HBM')} →</a></p>
       </section>
+      ${(A.jobs || []).length ? `<section class="panel stack" id="anchor-ai-jobs">${ui.title(T('현장의 과제 — 직무로 본 SK하이닉스', 'Problems on the ground — SK hynix by job'), T('뉴스룸 ‘SK하이닉스 JOB리포트’ 1~5편(2026.5~10) — 구성원 인터뷰의 설명', 'Newsroom “SK hynix JOB Report”, parts 1–5 (May–Oct 2026) — as explained by staff in interviews'))}
+        <div class="grid g2">${A.jobs.map((j) => `<article class="stack" style="gap:6px;align-content:start" id="anchor-ai-job-${j.id}">
+          <h3 style="font-size:calc(16px * var(--fz))">${esc(L(j.k))} <span class="xs muted">${dl(j.d)}</span>${S.cite(j.src)}</h3>
+          <p class="small">${esc(L(j.role))}</p>
+          <b class="xs">${T('세부 직무', 'Sub-roles')}</b><ul class="facts">${j.subs.map((x) => `<li class="small">${esc(L(x))}</li>`).join('')}</ul>
+          <b class="xs">${T('구성원이 꼽은 현장의 과제·고민', 'Problems staff named')}</b><ul class="facts">${j.worry.map((x) => `<li class="small">${esc(L(x))}</li>`).join('')}</ul>
+          ${(j.ai || []).length ? `<b class="xs">${T('AI·데이터 활용', 'AI and data')}</b><ul class="facts">${j.ai.map((x) => `<li class="small">${esc(L(x))}</li>`).join('')}</ul>` : ''}
+        </article>`).join('')}</div>
+        <p class="xs muted">${T('뉴스룸이 대학생 앰버서더와 함께 구성원을 인터뷰한 직무 소개 글에서, 회사 구성원이 설명한 내용만 옮겼습니다. 구성원 이름은 적지 않았습니다.', 'Taken only from what company staff explained in job features where the newsroom and student ambassadors interviewed them; staff names are left out.')} <a href="#company/terms">${T('용어(WIP·Capa·TAT·PIM 등)', 'Terms (WIP, Capa, TAT, PIM and more)')} →</a> · <a href="#company/process">${T('공정', 'Processes')} →</a></p>
+      </section>` : ''}
       <section class="panel stack" id="anchor-ai-safety">${ui.title(T('안전 분야 AI·로봇', 'AI and robots for safety'), T('회사 지속가능경영보고서·뉴스룸의 안전 프로그램', 'Safety programmes from the company’s sustainability reports and newsroom'))}
         <ol class="timeline">${sdx.map((p) => `<li><span class="num">${esc(String(p.year))}</span> <span><b>${nm(p.t)}</b> — ${esc(L(p.d))}${S.cite(p.src)}</span></li>`).join('')}</ol>
         <p class="small"><a href="#sdx">${T('포털 SDX 모듈(순찰 이벤트·과제)', 'Portal SDX module (patrol events, pipeline)')} →</a> · <a href="#company/safety">${T('회사 안전 체계', 'Company safety system')} →</a></p>

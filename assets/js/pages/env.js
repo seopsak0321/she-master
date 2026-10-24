@@ -382,7 +382,11 @@
           <li>${T('제3자 검증: 대상기간 2025.1.1~12.31, 배출권거래제 대상 국내 모든 사업장의 Scope 1&2 배출량은 합리적 보증 — 기준에 ‘온실가스 배출권거래제의 배출량 보고 및 인증에 관한 지침’ 포함 (p.127)', 'Third-party verification: 1 Jan–31 Dec 2025; Scope 1&2 at all domestic sites under emissions trading at reasonable assurance, against criteria including the national ETS reporting and verification guideline (p.127)')}</li>
         </ul>
         <p class="xs muted">${T('p.102 표는 GWP AR5 적용, 데이터 수집 범위 이천·청주·분당·서울(거점오피스)·우시·충칭입니다. 해외 사업장과 NF₃가 들어 있어 법정 배출권거래제의 범위(국내 사업장, NF₃ 제외)와 같지 않습니다. 합계는 보고서 값 그대로이며, 가스별 값의 반올림 때문에 더한 값과 몇 톤 다를 수 있습니다.', 'The p.102 table uses AR5 GWPs and covers Icheon, Cheongju, Bundang, Seoul (hub office), Wuxi and Chongqing. It includes overseas sites and NF₃, so it is not the statutory ETS scope (domestic sites, NF₃ excluded). Totals are as reported and may differ by a few tonnes from the sum of the rounded values.')}${S.cite('sr2026')}</p>
-      </section>`;
+      </section>
+      ${(S.ENV_SK.news || []).length ? `<section class="panel stack" id="anchor-env-sknews">${ui.title(T('SK하이닉스 환경 대응 — 회사 발표', 'SK hynix environmental action — company announcements'), T('뉴스룸 2026.4~5 · 회사 설명', 'Newsroom, Apr–May 2026 · company statements'))}
+        <ul class="facts">${S.ENV_SK.news.map((x) => `<li>${esc(L(x.t))}${S.cite(x.src)}</li>`).join('')}</ul>
+        <p class="xs muted">${T('회사가 뉴스룸에 밝힌 내용이며 법정 보고 수치가 아닙니다. 위 표의 보고서 수치와 기준·범위가 같은지는 기사에 적혀 있지 않습니다.', 'These are the company’s newsroom statements, not statutory figures; the articles do not say whether their basis and scope match the report figures above.')}</p>
+      </section>` : ''}`;
   }
 
   const TABS = { ip: () => T('통합환경관리', 'Integrated management'), pollut: () => T('특정 유해물질', 'Specified pollutants'), waste: () => T('지정폐기물', 'Designated waste'), prtr: () => T('배출량조사', 'Release survey'), erp: () => T('배출저감계획서', 'Emission-reduction plans'), ghg: () => T('온실가스·배출권', 'GHG & emissions trading') };

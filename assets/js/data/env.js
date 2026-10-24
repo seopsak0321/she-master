@@ -79,6 +79,15 @@ window.SHE = window.SHE || {};
     waste: { gen: [254961, 223038, 237402, 257585], rate: [98.1, 98.5, 98.9, 98.9] },
     zwtl: B('폐기물 매립 제로(ZWTL) 인증 — 이천·청주·우시 Platinum, 충칭 Gold (2025, p.38)', 'Zero Waste to Landfill — Icheon, Cheongju and Wuxi Platinum, Chongqing Gold (2025, p.38)'),
     gas: B('PRISM 2030 목표 ‘공정가스 배출량 40% 감축’(2020 기준) — 2025년 52% 감축, 스크러버 처리 효율 95% 유지 (p.18)', 'PRISM 2030 goal “cut process-gas emissions 40 %” (vs 2020) — 52 % cut in 2025, with 95 % scrubber efficiency (p.18)'),
+    /* #44: 회사 환경 발표 — 뉴스룸 ‘지구의 날’(2026.4.22)·‘워터 포지티브’(2026.5.8). 회사 설명이며 제품 전력 효율 수치는 제품 화면 소관이라 넣지 않음 */
+    news: [
+      { t: B('2050 넷제로(순배출 제로)와 RE100 이행을 선언했고, ESG 전략 프레임워크 PRISM으로 관리', 'Committed to 2050 net zero and RE100, managed through the PRISM ESG strategy framework'), src: ['nrEarthDay26'] },
+      { t: B('워터프리 스크러버 — 많은 물을 쓰던 공정 온실가스 처리를 물 없이 하는 체계를 갖춰 온실가스 배출과 용수 사용을 함께 줄이고, 수처리 시스템으로 용수 재이용률을 높여 취수량을 줄임', 'Water-free scrubbers — process greenhouse gases, once treated with a lot of water, are now abated without water, cutting both emissions and water use; advanced water treatment raises reuse and lowers intake'), src: ['nrEarthDay26'] },
+      { t: B('해외 생산 사업장은 2022년부터 사용 전력의 100%를 재생에너지로 전환, 국내 사업장은 재생에너지 조달 비중을 늘리는 중', 'Overseas fabs have used 100 % renewable electricity since 2022; Korean sites are raising their renewable share'), src: ['nrEarthDay26'] },
+      { t: B('전과정평가(LCA) 시스템 HyLCA로 원료 채취부터 제조·출하·운송까지 탄소 배출량을 분석. 2024년 카본 트러스트에서 대표 제품 10종의 탄소발자국 인증, 그중 6종은 저탄소 제품 인증', 'The HyLCA life-cycle assessment system analyses carbon from raw materials through manufacturing, shipment and transport; in 2024 the Carbon Trust certified the footprints of 10 flagship products, 6 of them as low-carbon'), src: ['nrEarthDay26'] },
+      { t: B('2025 CDP 코리아 어워즈 — 기후변화 부문 13년 연속 명예의 전당(국내 기업 최장), 물 경영 부문 4년 연속 최우수상(회사 발표)', '2025 CDP Korea Awards — climate change Hall of Fame for 13 years running (longest of any Korean company) and the top award in water management 4 years running (company announcement)'), src: ['nrEarthDay26'] },
+      { t: B('워터 포지티브(사용한 물보다 많은 양을 자연으로 돌려보낸다는 개념) — 2026.5.7 기후에너지환경부·강원특별자치도·양양군·한국수자원공사·한국환경공단과 업무협약, 양양 남대천 노후 보를 개선해 연어 회귀길과 수생태계 연속성을 복원(2026~2037)', 'Water Positive (returning more water to nature than is used) — MOU of 7 May 2026 with the climate and environment ministry, Gangwon Province, Yangyang County, K-water and the Korea Environment Corporation to improve old weirs on the Namdaecheon and restore the salmon run and river continuity (2026–2037)'), src: ['nrWaterPos26'] }
+    ],
     tech: B('공정가스 분해 때 생기는 질소산화물(NOx)·불화수소(HF)를 처리하는 De-NOx, 암모니아(NH₃)를 처리하는 De-NH₃ 시스템, 챔버 대신 베이 단위로 온실가스를 처리해 NOx 생성을 줄이는 베이형 PFC 스크러버 (p.39)', 'De-NOx systems for the NOx and HF formed when process gases are abated, De-NH₃ for ammonia, and bay-level PFC scrubbers that run cooler than per-chamber units and so form less NOx (p.39)')
   };
   /* 화학물질 배출저감계획서 — 화학물질관리법 제11조의2, 시행규칙 제5조의2, 화학물질안전원고시 제2025-18호(시행 2025.8.7) 본문·부칙·별표1 (src: lawCca, lawCcaRule, nicsErp)
