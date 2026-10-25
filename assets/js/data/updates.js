@@ -5,11 +5,23 @@
    - SHE.BUILD는 빌드 스크립트(bump.py)가 올리며, 맨 위(최신) 업데이트의 버전으로 쓴다.
      다음 업데이트를 시작할 때 맨 위 항목의 v를 그때 번호로 고정하고 commit·시각을 적은 뒤, 새 항목을 맨 위에 v: SHE.BUILD로 추가한다. */
 window.SHE = window.SHE || {};
-SHE.BUILD = 'v117';
+SHE.BUILD = 'v118';
 (function () {
   const B = (ko, en) => ({ ko, en });
   SHE.UPDATES = [
-    { no: 44, v: SHE.BUILD, date: '2026-10-24 21:26', commit: '',
+    { no: 45, v: SHE.BUILD, date: '2026-10-25 12:49', commit: '',
+      t: B('SK하이닉스 이해 — 삼성전자 3분기 잠정실적 정정, 3분기 실적 발표 일정 확정', 'Understanding SK hynix — Samsung preliminary Q3 correction and confirmed Q3 results dates'),
+      add: [
+        B('세계 시장 ‘최근 분기’에 삼성전자 2026년 3분기 잠정실적(전사 연결, DART 공정공시 10.8) — 매출 195.00조 원(전년 같은 분기 대비 +126.59%), 영업이익 107.40조 원. ‘잠정’ 표시, 기업 비교의 DS 부문 값과 기준이 다름을 적음', 'World market “Latest quarter” gains Samsung’s preliminary Q3 2026 (company-wide, DART fair disclosure of 8 Oct): revenue KRW 195.00 tn (+126.59 % YoY), operating profit KRW 107.40 tn — marked preliminary, noting it differs from the DS-division basis used in the company table'),
+        B('3분기 실적 발표 일정 — SK하이닉스 2026.10.28 09:00, 삼성전자 10.29 10:00(각 회사의 DART 기업설명회 개최 안내공시). 확장 계획 #46(갱신 3차)에 날짜로', 'Q3 results dates — SK hynix 28 Oct 2026 at 09:00 and Samsung 29 Oct at 10:00 (each company’s DART notice of its IR event); plan #46 (refresh 3) now carries the dates')
+      ],
+      fix: [
+        B('#41~#44 동안 ‘삼성전자 3분기 실적은 아직 발표 전’으로 적었으나, 확정 실적만 발표 전이고 잠정실적은 10.8에 이미 공시돼 있었음 — 최근 분기 주석을 고치고 잠정치를 넣음. 앞으로 실적 갱신은 공식 발표 일정(DART·각사 IR)을 먼저 확인해 날짜로 계획', 'During #41–#44 the site said Samsung’s Q3 results were not yet out, but only the final results were; the preliminary figures had been disclosed on 8 Oct — the latest-quarter note is corrected and the preliminary figures added. Results refreshes will now be planned by the official dates (DART, company IR) checked first')
+      ],
+      chg: [
+        B('점검 — 원문 대조 178개 불일치 0(삼성전자 잠정실적 6개 추가, DART 본문 저장본과 대조), 확인일 2026-10-11 이후 출처 169건 링크 모두 열림(SEC 문서 12건·EUR-Lex·Safe Work Australia는 브라우저). 출처 338 → 341건(DART 공시 3)', 'Checks — 178 figures re-matched with no mismatch (6 added for Samsung’s preliminary results, against the saved DART text); all 169 sources checked since 2026-10-11 open (12 SEC documents, EUR-Lex and Safe Work Australia in the browser). Sources 338 → 341 (3 DART disclosures)')
+      ] },
+    { no: 44, v: 'v117', date: '2026-10-24 21:27', commit: '4cc6242',
       t: B('SK하이닉스 이해 — 직무로 본 현장의 과제와 AI, 회사 환경 발표', 'Understanding SK hynix — problems on the ground by job and AI, plus company environmental announcements'),
       add: [
         B('반도체 × AI 탭에 ‘현장의 과제 — 직무로 본 SK하이닉스’(#company/ai-jobs) — 뉴스룸 ‘SK하이닉스 JOB리포트’ 1~5편(2026.5~10)에서 기반기술·PKG개발·System Architecture & Software Solution·양산관리·품질보증의 하는 일, 세부 직무, 구성원이 꼽은 현장의 과제·고민(미세화로 어려워진 계측, 마스크 결함 관리 수작업, 고객 일정과 한정된 자원, 부서 간 데이터 해석 차이, 한정된 인력으로 수많은 공정 변수 통제 등)과 AI·데이터 활용(마스크 관리 AI 자동화, 결함 분류 자동화, 장비 이상·병목 사전 예측, AI 리스크 사전 진단·자동 판정 구축 중)', 'Chips × AI gains “Problems on the ground — SK hynix by job” (#company/ai-jobs) — from the newsroom’s five JOB Reports (May–Oct 2026): what fundamental technology, package development, system architecture and software, production management and quality assurance do, their sub-roles, the problems staff named (metrology made harder by scaling, manual mask-defect handling, customer schedules and limited resources, departments reading data differently, controlling countless process variables with limited staff and more) and how AI and data are used (AI automation of mask management, automatic defect classification, predicting tool faults and bottlenecks, building AI risk diagnosis and automatic judgement)'),
